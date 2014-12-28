@@ -34,10 +34,7 @@ resource.setrlimit(resource.RLIMIT_RSS, (-1, -1))
 resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 
 # Set of engines that get build.
-KnownEngines = [builders.MozillaInbound(),
-                builders.V8(),
-                builders.Nitro()
-               ]
+KnownEngines = [builders.V8()]
 Engines, NumUpdated = builders.build(KnownEngines, not options.noupdate, options.force)
 
 # No updates. Report to server and wait 60 seconds, before moving on

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$datafolder = "/home/h4writer/data/";
+$datafolder = "/home/user/work/awfy/website/data/";
 
 include "internals.php";
 
@@ -20,9 +20,6 @@ if (!preg_match("/^[a-zA-Z0-9-. ]*$/i", $name))
 
 $file = $datafolder.$name;
 if (!file_exists($file)) {
-	if (!has_permissions())
-		fault();
-
 	$file = $datafolder."auth-".$name;
 	if (!file_exists($file))
 		fault();

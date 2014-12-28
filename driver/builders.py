@@ -132,11 +132,11 @@ class V8(Engine):
         self.hardfp = (utils.config.has_option('main', 'flags')) and \
                        ("hardfp" in utils.config.get('main', 'flags'))
         self.modes = [{
-                        'mode': 'v8',
-                        'args': None
+                        'mode': 'v8-crankshaft',
+                        'args': ['--noturbo-asm']
                       }, {
                         'mode': 'v8-turbofan',
-                        'args': ['--turbo-filter=*', '--turbo-asm'] 
+                        'args': ['--turbo-asm']
                       }]
 
     def build(self):
@@ -157,18 +157,18 @@ class V8(Engine):
             env['CPP_host'] = self.cpp_host
         if self.link_host is not None:
             env['LINK_host'] = self.link_host
-        env["GYP_DEFINES"] = "clang=1"
+        env["GYP_DEFINES"] = "clang=0"
 
-        Run(['make', 'builddeps', '-j3'], env)
+        Run(['make', 'builddeps', '-j16'], env)
         if self.cpu == 'x64':
-            Run(['make', 'x64.release', '-j3'], env)
+            Run(['make', 'x64.release', '-j16'], env)
         elif self.cpu == 'arm':
             if self.hardfp:
                 Run(['make', 'arm.release', 'hardfp=on', 'i18nsupport=off', '-j3'], env)
             else:
                 Run(['make', 'arm.release', 'i18nsupport=off', '-j3'], env)
         elif self.cpu == 'x86':
-            Run(['make', 'ia32.release', '-j3'], env)
+            Run(['make', 'ia32.release', '-j16'], env)
   
     def shell(self):
         if self.cpu == 'x64':

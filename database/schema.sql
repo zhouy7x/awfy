@@ -82,6 +82,7 @@ CREATE TABLE `awfy_suite` (
   `description` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `better_direction` int(11) DEFAULT NULL,
   `sort_order` int(11) NOT NULL,
+  `visible` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
@@ -106,15 +107,15 @@ CREATE TABLE IF NOT EXISTS `awfy_suite_version` (
 -- Dumping data for table `awfy_suite`
 --
 
-INSERT INTO `awfy_suite` (`id`, `name`, `description`, `better_direction`, `sort_order`) VALUES
-(1, 'ss', 'SunSpider', -1, 10),
-(2, 'v8', 'V8 (SS harness)', -1, 0),
-(3, 'v8real', 'V8 Benchmark', 1, 0),
-(4, 'kraken', 'Kraken', -1, 30),
-(5, 'misc', 'Assorted tests', -1, 40),
-(6, 'octane', 'Octane', 1, 50),
-(7, 'asmjs-ubench', 'asm.js µbench', -1, 60),
-(8, 'asmjs-apps', 'asm.js apps', -1, 70);
+INSERT INTO `awfy_suite` (`id`, `name`, `description`, `better_direction`, `sort_order`, `visible`) VALUES
+(1, 'ss', 'SunSpider', -1, 10, 1),
+(2, 'v8', 'V8 (SS harness)', -1, 0, 1),
+(3, 'v8real', 'V8 Benchmark', 1, 0, 1),
+(4, 'kraken', 'Kraken', -1, 30, 1),
+(5, 'misc', 'Assorted tests', -1, 40, 1),
+(6, 'octane', 'Octane', 1, 50, 1),
+(7, 'asmjs-ubench', 'asm.js µbench', -1, 60, 1),
+(8, 'asmjs-apps', 'asm.js apps', -1, 70, 1);
 
 -- --------------------------------------------------------
 
@@ -174,7 +175,7 @@ CREATE TABLE `awfy_breakdown` (
   `score` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `build_id` (`build_id`),
-  KEY `suite_test_id` (`suite_test_id`),
+  KEY `suite_test_id` (`suite_test_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -241,6 +242,7 @@ CREATE TABLE `awfy_run` (
   `stamp` int(10) unsigned NOT NULL,
   `status` int(11) NOT NULL,
   `error` mediumtext NOT NULL,
+  `finish_stamp` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `machine` (`machine`),
   KEY `status` (`status`)

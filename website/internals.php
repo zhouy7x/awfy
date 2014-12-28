@@ -3,11 +3,14 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-session_start();
+if(!isset($_SESSION))
+{
+  session_start();
+}
 
 function init_database()
 {
-    mysql_connect("localhost", "***", "***") or die("ERROR: " . mysql_error());
+    mysql_connect("localhost", "root", "abc123") or die("ERROR: " . mysql_error());
     mysql_select_db("dvander") or die("ERROR: " . mysql_error());
 }
 

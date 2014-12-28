@@ -1,2 +1,2 @@
 #!/bin/bash
-/usr/bin/python /home/awfy/arewefastyet/server/monitor.py
+/usr/bin/python /home/user/work/awfy/server/monitor.py

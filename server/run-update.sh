@@ -7,6 +7,6 @@ then
 fi
 
 touch /tmp/awfy-lock
-/usr/bin/python /home/awfy/arewefastyet/server/update.py
+/usr/bin/python /home/user/work/awfy/server/update.py
 rm /tmp/awfy-lock
 

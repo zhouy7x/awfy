@@ -31,10 +31,9 @@ do
 		echo "/tmp/awfy lock in place"
 		sleep 10
 	else
-		cd /Users/mozilla/awfy/ia32/driver
-		python dostuff.py --config=awfy-x86.config
-		cd /Users/mozilla/awfy/x64/driver
+		cd /home/user/work/awfy/driver
 		python dostuff.py --config=awfy-x64.config
+		#python dostuff.py --config=awfy-x64-slm.config
 	fi
 done
 rm /tmp/awfy-daemon

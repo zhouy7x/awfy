@@ -178,12 +178,64 @@ class Assorted(SunSpiderBased):
     def __init__(self):
         super(Assorted, self).__init__('misc', '0.1', 'misc', 3)
 
+class Embenchen(Benchmark):
+    def __init__(self):
+        super(Embenchen, self).__init__('embenchen', '0.0.2', 'embenchen')
+
+    def benchmark(self, shell, env, args):
+        full_args = [utils.PythonName, 'harness.py', shell, '--'] + args
+        print(' '.join(full_args))
+
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+        return self.parse(output)
+
+    def parse(self, output):
+        total = 0.0
+        tests = []
+        for line in output.splitlines():
+            m = re.search("(.+) - (\d+(\.\d+)?)", line)
+            if not m:
+                continue
+            name = m.group(1)
+            score = m.group(2)
+            total += float(score)
+            tests.append({ 'name': name, 'time': score })
+        tests.append({ 'name': '__total__', 'time': total })
+        return tests
+
+class JetStream(Benchmark):
+    def __init__(self):
+        super(JetStream, self).__init__('jetstream', '1.0.1', 'jetstream-asmjs')
+
+    def benchmark(self, shell, env, args):
+        full_args = [utils.PythonName, 'harness.py', shell, '--'] + args
+        print(' '.join(full_args))
+
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+        return self.parse(output)
+
+    def parse(self, output):
+        total = 0.0
+        tests = []
+        for line in output.splitlines():
+            m = re.search("(.+) - (\d+(\.\d+)?)", line)
+            if not m:
+                continue
+            name = m.group(1)
+            score = m.group(2)
+            total += float(score)
+            tests.append({ 'name': name, 'time': score })
+        tests.append({ 'name': '__total__', 'time': total })
+        return tests
+
 Benchmarks = [AsmJSApps(),
               AsmJSMicro(),
               SunSpider(),
               Kraken(),
               Assorted(),
               Octane(),
+              Embenchen(),
+              JetStream(),
              ]
 
 def run(submit, native, modes):

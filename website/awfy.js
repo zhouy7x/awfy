@@ -5,7 +5,7 @@
 "use strict";
 var AWFY = { };
 
-AWFY.DEFAULT_MACHINE_ID = 28;
+AWFY.DEFAULT_MACHINE_ID = 1;
 AWFY.refreshTime = 60 * 5;
 AWFY.machineId = 0;
 AWFY.hasLegend = false;
@@ -24,7 +24,7 @@ AWFY.request = function (files, callback) {
               window.location.host;
     if (url[url.length - 1] != '/')
         url += '/';
-    url += 'data.php?file=';
+    url += 'awfy/data.php?file=';
 
     var count = 0;
     var received = new Array(files.length);
@@ -172,8 +172,8 @@ AWFY.drawLegend = function () {
             continue;
         if (AWFY.machineId != 14 && modename == 16)
             continue;
-        if (!mode.used)
-            continue;
+        //if (!mode.used)
+        //    continue;
         modes.push(mode);
     }
 
