@@ -15,7 +15,7 @@ if (!isset($_GET["file"]))
 $name = $_GET["file"];
 if (substr($name, 0, 4) == "auth")
 	fault();
-if (!preg_match("/^[a-zA-Z0-9-. ]*$/i", $name))
+if (!preg_match("/^[a-zA-Z0-9-. _]*$/i", $name))
 	fault();
 
 $file = $datafolder.$name;
