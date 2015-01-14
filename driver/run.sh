@@ -16,7 +16,7 @@
 #     (wait for it to confirm that it's no longer running)
 #     ctrl a+d
 
-PATH=/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
+PATH=$HOME/bin/depot_tools:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
 if [ -e /tmp/awfy-daemon ]
 then
   echo "Already running"
@@ -29,10 +29,13 @@ do
 	if [ -e /tmp/awfy ]
 	then
 		echo "/tmp/awfy lock in place"
-		sleep 10
+		sleep 30m
 	else
 		cd /home/user/work/awfy/driver
 		python dostuff.py --config=awfy-x64.config
+                pushd ../server
+                bash ./run-update.sh
+                popd
 		#python dostuff.py --config=awfy-x64-slm.config
 	fi
 done

@@ -159,7 +159,7 @@ class V8(Engine):
             env['LINK_host'] = self.link_host
         env["GYP_DEFINES"] = "clang=0"
 
-        Run(['make', 'builddeps', '-j16'], env)
+        Run(['gclient', 'sync', '-j16'], env)
         if self.cpu == 'x64':
             Run(['make', 'x64.release', '-j16'], env)
         elif self.cpu == 'arm':
