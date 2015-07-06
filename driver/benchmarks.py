@@ -228,14 +228,207 @@ class JetStream(Benchmark):
         tests.append({ 'name': '__total__', 'time': total })
         return tests
 
-Benchmarks = [AsmJSApps(),
-              AsmJSMicro(),
-              SunSpider(),
-              Kraken(),
-              Assorted(),
-              Octane(),
-              Embenchen(),
-              JetStream(),
+class BrowserMark(Benchmark):
+    def __init__(self):
+        super(BrowserMark, self).__init__('browsermark', '2.1', 'bm2.1-js')
+
+    def benchmark(self, shell, env, args):
+        full_args = [shell]
+        if args:
+            full_args.extend(args)
+        full_args.append('runbm.js')
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        lines = output.splitlines()
+
+        total = 0.0
+        for x in lines:
+            m = re.search("^(\w+): (.+) score: (\d+(\.\d+)?)", x)
+            if not m:
+                continue
+            name = m.group(1)
+            score = m.group(3)
+            tests.append({ 'name': name, 'time': score})
+            print(score + '    - ' + name)
+            total += float(score);
+
+        tests.append({ 'name': "__total__", 'time': total})
+
+        return tests
+
+class VellamoSurfWaxBinder(Benchmark):
+    def __init__(self):
+        super(VellamoSurfWaxBinder, self).__init__('VellamoSurfWaxBinder', '3.0',
+                'Vellamo')
+
+    def benchmark(self, shell, env, args):
+        full_args = [shell]
+        if args:
+            full_args.extend(args)
+        full_args.append('Vellamo_SurfWaxBinder_JS.js')
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        lines = output.splitlines()
+
+        total = 0.0
+        for x in lines:
+            m = re.search("^(\w+) (\d+(\.\d+)?)", x)
+            if not m:
+                continue
+            name = m.group(1)
+            score = m.group(2)
+            tests.append({ 'name': name, 'time': score})
+            print(score + '    - ' + name)
+            total += float(score);
+
+        tests.append({ 'name': "__total__", 'time': total})
+
+        return tests
+
+class VellamoKruptein(Benchmark):
+    def __init__(self):
+        super(VellamoKruptein, self).__init__('VellamoKruptein', '3.0',
+                'Vellamo')
+
+    def benchmark(self, shell, env, args):
+        full_args = [shell]
+        if args:
+            full_args.extend(args)
+        full_args.append('Vellamo_Kruptein_d8.js')
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        lines = output.splitlines()
+
+        for x in lines:
+            m = re.search("^(\w+) (\d+(\.\d+)?)", x)
+            if not m:
+                continue
+            name = m.group(1)
+            score = m.group(2)
+            
+            if name == "vscore":
+                name = "__total__"
+            tests.append({ 'name': name, 'time': score})
+
+        return tests
+
+class VellamoDeepCrossfader(Benchmark):
+    def __init__(self):
+        super(VellamoDeepCrossfader, self).__init__('VellamoDeepCrossfader', '3.0',
+                'Vellamo')
+
+    def benchmark(self, shell, env, args):
+        full_args = [shell]
+        if args:
+            full_args.extend(args)
+        full_args.append('DeepCrossfader.js')
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        lines = output.splitlines()
+
+        for x in lines:
+            m = re.search("^(\w+): (\d+(\.\d+)?)ms", x)
+            if not m:
+                continue
+            name = m.group(1)
+            score = m.group(2)
+            
+            if name == "total":
+                name = "__total__"
+            tests.append({ 'name': name, 'time': score})
+
+        return tests
+
+class WebXPRTStock(Benchmark):
+    def __init__(self):
+        super(WebXPRTStock, self).__init__('WebXPRTStock', '2013',
+                'WebXPRT2013')
+
+    def benchmark(self, shell, env, args):
+        full_args = [shell]
+        if args:
+            full_args.extend(args)
+        full_args.append('WebXPRT2013-stockslibrary-d8.js')
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        lines = output.splitlines()
+
+        cnt = 0
+        total = 0.0
+        for x in lines:
+            m = re.search("(\d+(\.\d+)?)", x)
+            if not m:
+                continue
+            cnt = cnt + 1
+            score = m.group(1)
+            tests.append({ 'name': cnt, 'time': score})
+            total += float(score)
+
+        tests.append({ 'name': '__total__', 'time': total})
+
+        return tests
+
+class WebXPRTStorage(Benchmark):
+    def __init__(self):
+        super(WebXPRTStorage, self).__init__('WebXPRTStorage', '2013',
+                'WebXPRT2013')
+
+    def benchmark(self, shell, env, args):
+        full_args = [shell]
+        if args:
+            full_args.extend(args)
+        full_args.append('WebXPRT2013-StorageNotes-d8.js')
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        lines = output.splitlines()
+
+        cnt = 0
+        total = 0.0
+        for x in lines:
+            m = re.search("(\d+(\.\d+)?)", x)
+            if not m:
+                continue
+            cnt = cnt + 1
+            score = m.group(1)
+            tests.append({ 'name': cnt, 'time': score})
+            total += float(score)
+
+        tests.append({ 'name': '__total__', 'time': total})
+
+        return tests
+
+Benchmarks = [#AsmJSApps(),
+              #AsmJSMicro(),
+              #SunSpider(),
+              #Kraken(),
+              #Assorted(),
+              #Octane(),
+              #Embenchen(),
+              #JetStream(),
+              BrowserMark(),
+              VellamoSurfWaxBinder(),
+              VellamoKruptein(),
+              VellamoDeepCrossfader(),
+              WebXPRTStock(),
+              WebXPRTStorage(),
              ]
 
 def run(submit, native, modes):
