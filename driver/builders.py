@@ -61,6 +61,9 @@ class Engine(object):
     def env(self):
         return None
 
+    def libpaths(self):
+        return []
+
 class Nitro(Engine):
     def __init__(self):
         super(Nitro, self).__init__()
@@ -127,16 +130,25 @@ class V8(Engine):
         self.cc_host = utils.config_get_default('v8', 'cc_host', None)
         self.cpp_host = utils.config_get_default('v8', 'cpp_host', None)
         self.link_host = utils.config_get_default('v8', 'link_host', None)
+        self.ar = utils.config_get_default('v8', 'ar', None)
+
         self.args = ['--expose-gc']
         self.important = True
         self.hardfp = (utils.config.has_option('main', 'flags')) and \
                        ("hardfp" in utils.config.get('main', 'flags'))
+        cpu_mode = ''
+        if self.cpu == 'x86':
+            cpu_mode = '-x86'
+        elif self.cpu == 'arm':
+            cpu_mode = '-arm'
+
         self.modes = [{
-                        'mode': 'v8-crankshaft',
-                        'args': ['--noturbo-asm']
+                        'mode': 'v8-crankshaft' + cpu_mode,
+                        'args': None
                       }, {
-                        'mode': 'v8-turbofan',
-                        'args': ['--turbo-asm']
+                        'mode': 'v8-turbofan' + cpu_mode,
+                        'args': ['--turbo']
+                         #['--turbo_filter=\"*\"']
                       }]
 
     def build(self):
@@ -157,18 +169,29 @@ class V8(Engine):
             env['CPP_host'] = self.cpp_host
         if self.link_host is not None:
             env['LINK_host'] = self.link_host
-        env["GYP_DEFINES"] = "clang=0"
+        if self.ar is not None:
+            env['AR'] = self.ar
 
-        Run(['gclient', 'sync', '-j16'], env)
+        if self.cpu != 'arm':
+            env["GYP_DEFINES"] = "clang=1"
+
+        Run(['gclient', 'sync', '-j8'], env)
         if self.cpu == 'x64':
-            Run(['make', 'x64.release', '-j16'], env)
+            Run(['make', 'x64.release', '-j8'], env)
         elif self.cpu == 'arm':
+            make_cmd = ['make', '-j8', 'arm.release',
+                    'armv7=true',
+                    'armfloatabi=hard',
+                    'disassembler=on',
+                    'CC=\"arm-linux-gnueabihf-gcc\"',
+                    'AR=\"arm-linux-gnueabihf-ar\"',
+                    'CXX=\"arm-linux-gnueabihf-g++\"',
+                    'LINK=\"arm-linux-gnueabihf-g++\"']
             if self.hardfp:
-                Run(['make', 'arm.release', 'hardfp=on', 'i18nsupport=off', '-j3'], env)
-            else:
-                Run(['make', 'arm.release', 'i18nsupport=off', '-j3'], env)
+                make_cmd.append('hardfp=on')
+            Run(make_cmd, env)
         elif self.cpu == 'x86':
-            Run(['make', 'ia32.release', '-j16'], env)
+            Run(['make', 'ia32.release', '-j8'], env)
   
     def shell(self):
         if self.cpu == 'x64':
@@ -177,6 +200,21 @@ class V8(Engine):
             return os.path.join('out', 'arm.release', 'd8')
         elif self.cpu == 'x86':
             return os.path.join('out', 'ia32.release', 'd8')
+
+    def libpaths(self):
+        if self.cpu == 'x64':
+            p1 = os.path.join('out', 'x64.release', 'natives_blob.bin')
+            p2 = os.path.join('out', 'x64.release', 'snapshot_blob.bin')
+            return [p1, p2]
+        elif self.cpu == 'arm':
+            p1 = os.path.join('out', 'arm.release', 'natives_blob.bin')
+            p2 = os.path.join('out', 'arm.release', 'snapshot_blob.bin')
+            return [p1, p2]
+        elif self.cpu == 'x86':
+            p1 = os.path.join('out', 'x86.release', 'natives_blob.bin')
+            p2 = os.path.join('out', 'x86.release', 'snapshot_blob.bin')
+            return [p1, p2]
+
 
 class Mozilla(Engine):
     def __init__(self, source):
