@@ -47,14 +47,14 @@ class RemoteSlave(Slave):
             self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
             self.pushRemote(shell, rshell, follow=True)
             
-            print "rshell:" + rshell;
 
             libpaths = engine.libpaths()
             for libp in libpaths:
                 llib = os.path.join(utils.RepoPath, engine.source, libp)
                 rlib = os.path.join(self.RepoPath, engine.source, libp)
-                self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
-                self.pushRemote(llib, rlib, follow=True)
+                if os.path.isfile(llib):
+                    self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
+                    self.pushRemote(llib, rlib, follow=True)
 
     def benchmark(self, submit, native, modes):
         fd = open("state.p", "wb")

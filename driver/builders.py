@@ -9,6 +9,7 @@ import utils
 import puller
 import platform
 import subprocess
+import traceback
 from utils import Run
 
 class Engine(object):
@@ -136,20 +137,22 @@ class V8(Engine):
         self.important = True
         self.hardfp = (utils.config.has_option('main', 'flags')) and \
                        ("hardfp" in utils.config.get('main', 'flags'))
-        cpu_mode = ''
+
+        if self.cpu == 'x64':
+            cpu_mode = '-x64'
         if self.cpu == 'x86':
             cpu_mode = '-x86'
         elif self.cpu == 'arm':
             cpu_mode = '-arm'
 
         self.modes = [{
-                        'mode': 'v8-crankshaft' + cpu_mode,
+                        'mode': 'v8-default' + cpu_mode,
                         'args': None
                       }, {
                         'mode': 'v8-turbofan' + cpu_mode,
                         'args': ['--turbo']
-                         #['--turbo_filter=\"*\"']
                       }]
+#        self.modes = [{'mode': 'v8-temp-test', 'args': None}]
 
     def build(self):
         env = os.environ.copy()
@@ -202,19 +205,18 @@ class V8(Engine):
             return os.path.join('out', 'ia32.release', 'd8')
 
     def libpaths(self):
+        p1, p2 = '', ''
         if self.cpu == 'x64':
             p1 = os.path.join('out', 'x64.release', 'natives_blob.bin')
             p2 = os.path.join('out', 'x64.release', 'snapshot_blob.bin')
-            return [p1, p2]
         elif self.cpu == 'arm':
             p1 = os.path.join('out', 'arm.release', 'natives_blob.bin')
             p2 = os.path.join('out', 'arm.release', 'snapshot_blob.bin')
-            return [p1, p2]
         elif self.cpu == 'x86':
-            p1 = os.path.join('out', 'x86.release', 'natives_blob.bin')
-            p2 = os.path.join('out', 'x86.release', 'snapshot_blob.bin')
-            return [p1, p2]
+            p1 = os.path.join('out', 'ia32.release', 'natives_blob.bin')
+            p2 = os.path.join('out', 'ia32.release', 'snapshot_blob.bin')
 
+        return [p1, p2]
 
 class Mozilla(Engine):
     def __init__(self, source):
@@ -296,6 +298,7 @@ def build(engines, updateRepo=True, forceBuild=False, rev=None):
         except Exception as err:
             print('Build failed!')
             print(err)
+            traceback.print_exc(file=sys.stdout)
             continue
         if engine.cset == None:
             continue
