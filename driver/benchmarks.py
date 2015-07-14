@@ -11,6 +11,7 @@ import StringIO
 import subprocess
 import signal
 import pickle
+import time
 
 import ConfigParser
 import submitter
@@ -37,7 +38,10 @@ class Benchmark(object):
             try:
                 tests = None
                 print('Running ' + self.version + ' under ' + mode.shell + ' ' + ' '.join(mode.args))
+                beginTime = time.time()
                 tests = self.benchmark(mode.shell, mode.env, mode.args)
+                passTime = time.time() - beginTime
+                print('Suite-Time ' + self.version + ':'), passTime
             except Exception as e:
                 print('Failed to run ' + self.version + '!')
                 print("Exception: " +  repr(e))
@@ -126,6 +130,11 @@ class Octane(Benchmark):
 
         return tests
 
+class OctaneV1(Octane):
+    def __init__(self):
+        super(Octane, self).__init__('octane', '1.0', 'octane1')
+
+ 
 class SunSpiderBased(Benchmark):
     def __init__(self, suite, version, folder, runs):
         super(SunSpiderBased, self).__init__(suite, version, folder)
@@ -261,14 +270,13 @@ class BrowserMark(Benchmark):
 
 class VellamoSurfWaxBinder(Benchmark):
     def __init__(self):
-        super(VellamoSurfWaxBinder, self).__init__('VellamoSurfWaxBinder', '3.0',
-                'Vellamo')
+        super(VellamoSurfWaxBinder, self).__init__('VellamoSurfWaxBinder', '3.1', 'Vellamo')
 
     def benchmark(self, shell, env, args):
         full_args = [shell]
         if args:
             full_args.extend(args)
-        full_args.append('Vellamo_SurfWaxBinder_JS.js')
+        full_args.append('Vellamo3.1_SurfWaxBinder_d8.js')
 
         print(os.getcwd())
         output = utils.RunTimedCheckOutput(full_args, env=env)
@@ -293,14 +301,14 @@ class VellamoSurfWaxBinder(Benchmark):
 
 class VellamoKruptein(Benchmark):
     def __init__(self):
-        super(VellamoKruptein, self).__init__('VellamoKruptein', '3.0',
+        super(VellamoKruptein, self).__init__('VellamoKruptein', '3.1',
                 'Vellamo')
 
     def benchmark(self, shell, env, args):
         full_args = [shell]
         if args:
             full_args.extend(args)
-        full_args.append('Vellamo_Kruptein_d8.js')
+        full_args.append('Vellamo3.1_Kruptein_d8.js')
 
         print(os.getcwd())
         output = utils.RunTimedCheckOutput(full_args, env=env)
@@ -417,16 +425,17 @@ class WebXPRTStorage(Benchmark):
 
 Benchmarks = [#AsmJSApps(),
               #AsmJSMicro(),
-              #SunSpider(),
-              #Kraken(),
+              SunSpider(),
+              Kraken(),
               #Assorted(),
-              #Octane(),
-              #Embenchen(),
-              #JetStream(),
+              OctaneV1(),
+              Octane(),
+              Embenchen(),
+              JetStream(),
               BrowserMark(),
               VellamoSurfWaxBinder(),
               VellamoKruptein(),
-              VellamoDeepCrossfader(),
+              #VellamoDeepCrossfader(),
               WebXPRTStock(),
               WebXPRTStorage(),
              ]
