@@ -16,7 +16,7 @@
 #     (wait for it to confirm that it's no longer running)
 #     ctrl a+d
 
-PATH=$HOME/bin/depot_tools:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
+#PATH=$HOME/bin/depot_tools:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
 if [ -e /tmp/awfy-daemon ]
 then
   echo "Already running"
@@ -24,6 +24,8 @@ then
 fi
 
 touch /tmp/awfy-daemon
+
+count=0
 while :
 do
 	if [ -e /tmp/awfy ]
@@ -44,6 +46,15 @@ do
                       git reset --hard $i
   		      pushd /home/user/work/awfy/driver
   		      python dostuff.py -f -n --config=awfy-x64.config
+                      python dostuff.py -f -n --config=awfy-x86.config
+
+                      count=`expr $count + 1`
+                      count=`expr $count % 5`
+                      if [ "$count" = "1" ]
+                      then
+                        python dostuff.py -f -n --config=awfy-arm.config
+                      fi
+
                       popd
                       pushd /home/user/work/awfy/server
                       bash ./run-update.sh
