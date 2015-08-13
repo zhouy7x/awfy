@@ -221,7 +221,7 @@ Display.prototype.draw = function () {
     options.xaxis = {  };
     options.yaxis = { };
     options.grid = { hoverable: true, clickable: true };
-    options.selection = { mode: 'x' }
+    options.selection = { mode: 'xy' }
 
     // Aggregate view starts from 0. We space things out when zooming in.
     if (this.graph.aggregate && this.awfy.type != 'overview')
