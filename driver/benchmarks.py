@@ -16,6 +16,9 @@ import time
 import ConfigParser
 import submitter
 import utils
+import socket
+import chromiumclient
+import pserver
 
 class Benchmark(object):
     def __init__(self, suite, version, folder):
@@ -29,6 +32,8 @@ class Benchmark(object):
 
     def omit(self, mode):
         if mode.name == 'noasmjs':
+            return True
+        if 'ContentShell' in mode.name:
             return True
 
     def _run(self, submit, native, modes):
@@ -132,7 +137,7 @@ class Octane(Benchmark):
 
 class OctaneV1(Octane):
     def __init__(self):
-        super(Octane, self).__init__('octane', '1.0', 'octane1')
+        super(Octane, self).__init__('octane1', '1.0', 'octane1')
 
  
 class SunSpiderBased(Benchmark):
@@ -192,6 +197,10 @@ class Embenchen(Benchmark):
         super(Embenchen, self).__init__('embenchen', '0.0.2', 'embenchen')
 
     def benchmark(self, shell, env, args):
+        # Only run turbofan
+        if '--turbo' not in args:
+            return None
+
         full_args = [utils.PythonName, 'harness.py', shell, '--'] + args
         print(' '.join(full_args))
 
@@ -423,6 +432,76 @@ class WebXPRTStorage(Benchmark):
 
         return tests
 
+class ContentShellBased(Benchmark):
+    def __init__(self, suite, version, folder):
+        super(ContentShellBased, self).__init__(suite, version, folder)
+
+    def omit(self, mode):
+        if 'ContentShell' not in mode.name:
+            return True
+
+    def webscore(self, shell, env, args, url, timeout=600):
+        full_args = []
+        if args:
+            full_args.extend(args)
+        full_args.append('--no-sandbox')
+        full_args.append(url)
+
+        # There should be a selfname.js file contain a getmyname function
+        #f = open('selfname.js', 'w')
+        #f.write('function getmyname(){')
+        #f.write('return "' + pserver.getMyName() + '"}')
+        #f.close()
+
+        #nameserver_cmd = [utils.PythonName, '-m', 'SimpleHTTPServer', '8080']
+
+        #phttpserver = subprocess.Popen(nameserver_cmd, env = env)
+        #pcontentshell = subprocess.Popen(full_args, env = env)
+        chromiumclient.startChromium(args=full_args) 
+
+        try:
+            data = pserver.getTestDataBySocket(timeout=timeout)
+        except socket.timeout:
+            print "CONTENT SHELL TEST TIME OUT!"
+            data = ''
+        finally:
+            #phttpserver.kill()
+            #pcontentshell.kill()
+            chromiumclient.stopChromium()
+
+        return data
+
+class BmDom(ContentShellBased):
+    def __init__(self):
+        super(BmDom, self).__init__('browsermark1', '2.1',
+                'contentshell-bm')
+
+    def benchmark(self, shell, env, args):
+        url = '' 
+
+        # read test url
+        f = open('dom2.1', 'r')
+        url = f.read()
+        f.close()
+
+        output = self.webscore(shell, env, args, url)
+
+        tests = []
+        lines = output.splitlines()
+
+        for x in lines:
+            parts = x.split(':')
+            name = parts[0]
+            score = parts[1]
+
+            print(name + '    - ' + score) 
+            if name == 'overall':
+                name = '__total__'
+
+            tests.append({ 'name': name, 'time': score})
+
+        return tests
+
 Benchmarks = [#AsmJSApps(),
               #AsmJSMicro(),
               SunSpider(),
@@ -438,6 +517,7 @@ Benchmarks = [#AsmJSApps(),
               #VellamoDeepCrossfader(),
               WebXPRTStock(),
               WebXPRTStorage(),
+              BmDom(),
              ]
 
 def run(submit, native, modes):

@@ -12,6 +12,8 @@ import subprocess
 import traceback
 from utils import Run
 
+import synctroubles
+
 class Engine(object):
     def __init__(self):
         self.cpu = utils.config.get('main', 'cpu')
@@ -64,6 +66,7 @@ class Engine(object):
 
     def libpaths(self):
         return []
+
 
 class Nitro(Engine):
     def __init__(self):
@@ -178,7 +181,14 @@ class V8(Engine):
         if self.cpu != 'arm':
             env["GYP_DEFINES"] = "clang=1"
 
-        Run(['gclient', 'sync', '-j8'], env)
+        try:
+            Run(['gclient', 'sync', '-j8'], env)
+        except subprocess.CalledProcessError as e:
+            if synctroubles.fetchGsFileByHttp(e.output, utils.RepoPath):
+                Run(['gclient', 'sync', '-j8'], env)
+            else:
+                raise e
+
         if self.cpu == 'x64':
             Run(['make', 'x64.release', '-j8'], env)
         elif self.cpu == 'arm':
@@ -216,7 +226,122 @@ class V8(Engine):
             p1 = os.path.join('out', 'ia32.release', 'natives_blob.bin')
             p2 = os.path.join('out', 'ia32.release', 'snapshot_blob.bin')
 
-        return [p1, p2]
+        return [{"path" : p1, "exclude" : []},
+                {"path" : p2, "exclude" : []}
+               ]
+
+class ContentShell(Engine):
+    def __init__(self):
+        super(ContentShell, self).__init__()
+        self.puller = 'git'
+        self.source = utils.config.get('contentshell', 'source')
+
+        self.args = []
+        self.important = True
+
+        if self.cpu == 'x64':
+            cpu_mode = '-x64'
+        elif self.cpu == 'x86':
+            cpu_mode = '-x86'
+        elif self.cpu == 'arm':
+            cpu_mode = '-arm'
+
+        self.modes = [{
+                        'mode': 'ContentShell' + cpu_mode,
+                        'args': None
+                      }]
+#        self.modes = [{'mode': 'ContentShell-temp-test', 'args': None}]
+
+    def build(self):
+        env = os.environ.copy()
+        
+        if self.cpu == 'x86':
+            env["GYP_DEFINES"] = "target_arch=ia32"
+        elif self.cpu == 'x64':
+            env["GYP_DEFINES"] = "target_arch=x64"
+        elif self.cpu == 'arm':
+            env["GYP_DEFINES"] = "target_arch=arm"
+            env["GYP_CROSSCOMPILE"] = "1"
+
+        with utils.FolderChanger('../'):
+            syncAgain = True
+            while (syncAgain):
+                syncAgain = False
+                try:
+                    Run(['gclient', 'sync', '-j8'], env)
+                except subprocess.CalledProcessError as e:
+                    if synctroubles.fetchGsFileByHttp(e.output, utils.RepoPath):
+                        syncAgain = True
+                    else:
+                        raise e
+
+        Run(['ninja', '-C', 'out/Release', 'content_shell'], env)
+  
+    def shell(self):
+        return os.path.join('out', 'Release', 'content_shell')
+
+    def libpaths(self):
+        p = os.path.join('out', 'Release/')
+        return [{'path' : p, 'exclude' : ['obj', 'gen']}]
+
+class JerryScript(Engine):
+    def __init__(self):
+        super(JerryScript, self).__init__()
+        self.puller = 'git'
+        self.source = utils.config.get('jerryscript', 'source')
+
+        self.args = []
+        self.important = True
+
+        if self.cpu == 'x64':
+            cpu_mode = '-x64'
+        elif self.cpu == 'x86':
+            cpu_mode = '-x86'
+        elif self.cpu == 'arm':
+            cpu_mode = '-arm'
+
+        self.modes = [{
+                        'mode': 'JerryScript' + cpu_mode,
+                        'args': None
+                      }]
+
+    def build(self):
+        env = os.environ.copy()
+
+        Run(['make', 'release.linux'], env)
+
+    def shell(self):
+        return os.path.join('build', 'bin', 'release.linux', 'jerry')
+
+class IoTjs(Engine):
+    def __init__(self):
+        super(IoTjs, self).__init__()
+        self.puller = 'git'
+        self.source = utils.config.get('iotjs', 'source')
+
+        self.args = []
+        self.important = True
+
+        if self.cpu == 'x64':
+            cpu_mode = '-x64'
+        elif self.cpu == 'x86':
+            cpu_mode = '-x86'
+        elif self.cpu == 'arm':
+            cpu_mode = '-arm'
+
+        self.modes = [{
+                        'mode': 'IoTjs' + cpu_mode,
+                        'args': None
+                      }]
+
+    def build(self):
+        env = os.environ.copy()
+
+        Run(['tools/build.py', '--target-arch=x86_64', '--buildtype=release'], env)
+
+    def shell(self):
+        return os.path.join('build', 'x86_64-linux', 'release', 'iotjs', 'iotjs')
+
 
 class Mozilla(Engine):
     def __init__(self, source):

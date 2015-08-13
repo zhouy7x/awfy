@@ -50,11 +50,11 @@ class RemoteSlave(Slave):
 
             libpaths = engine.libpaths()
             for libp in libpaths:
-                llib = os.path.join(utils.RepoPath, engine.source, libp)
-                rlib = os.path.join(self.RepoPath, engine.source, libp)
-                if os.path.isfile(llib):
+                llib = os.path.join(utils.RepoPath, engine.source, libp['path'])
+                rlib = os.path.join(self.RepoPath, engine.source, libp['path'])
+                if os.path.isfile(llib) or os.path.isdir(llib):
                     self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
-                    self.pushRemote(llib, rlib, follow=True)
+                    self.pushRemote(llib, rlib, follow=True, excludes=libp['exclude'])
 
     def benchmark(self, submit, native, modes):
         fd = open("state.p", "wb")
@@ -91,12 +91,19 @@ class RemoteSlave(Slave):
         else:
             utils.Run(fullcmd)
         
-    def pushRemote(self, file_loc, file_remote, follow = False):
+    def pushRemote(self, file_loc, file_remote, follow = False, excludes = []):
         rsync_flags = "-aP"
         # if they asked us to follow symlinks, then add '-L' into the arguments.
         if follow:
             rsync_flags += "L"
-        utils.Run(["rsync", rsync_flags, file_loc, self.HostName + ":" + file_remote])
+
+        sync_cmd = ["rsync", rsync_flags]
+        for exclude in excludes:
+            sync_cmd.append("--exclude"+"="+exclude)
+
+        sync_cmd += [file_loc, self.HostName + ":" + file_remote]
+        utils.Run(sync_cmd)
+        #utils.Run(["rsync", rsync_flags, file_loc, self.HostName + ":" + file_remote])
         
     def synchronize(self):
         if self.delayed:

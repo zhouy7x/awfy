@@ -34,7 +34,13 @@ resource.setrlimit(resource.RLIMIT_RSS, (-1, -1))
 resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 
 # Set of engines that get build.
-KnownEngines = [builders.V8()]
+KnownEngines = []
+
+if utils.config.has_section('v8'):
+    KnownEngines.append(builders.V8())
+if utils.config.has_section('contentshell'):
+    KnownEngines.append(builders.ContentShell())
+
 Engines, NumUpdated = builders.build(KnownEngines, not options.noupdate, options.force)
 
 # No updates. Report to server and wait 60 seconds, before moving on
