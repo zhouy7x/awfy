@@ -502,6 +502,38 @@ class BmDom(ContentShellBased):
 
         return tests
 
+class BmScalable(ContentShellBased):
+    def __init__(self):
+        super(BmScalable, self).__init__('browsermark2', '2.1',
+                'contentshell-bm')
+
+    def benchmark(self, shell, env, args):
+        url = ''
+
+        # read test url
+        f = open('scalable_solutions2.1', 'r')
+        url = f.read()
+        f.close()
+
+        output = self.webscore(shell, env, args, url)
+
+        tests = []
+        lines = output.splitlines()
+
+        for x in lines:
+            parts = x.split(':')
+            name = parts[0]
+            score = parts[1]
+
+            print(name + '    - ' + score)
+            if name == 'overall':
+                name = '__total__'
+
+            tests.append({ 'name': name, 'time': score})
+
+        return tests
+
+
 Benchmarks = [#AsmJSApps(),
               #AsmJSMicro(),
               SunSpider(),
