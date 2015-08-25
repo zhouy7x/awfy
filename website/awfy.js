@@ -540,11 +540,17 @@ AWFY.showOverview = function () {
     this.subtest = null
     this.start = null
     this.end = null
+    /*
     this.panes = [$('#ss-graph'),
                   $('#kraken-graph'),
                   $('#octane-graph')
                  ];
+    */
 
+    // add every graph
+    $(".graph").each(function() {
+        AWFY.panes.push($(this));
+    });
     this.request(['aggregate-' + this.machineId], this.computeAggregate.bind(this));
     this.lastRefresh = Date.now();
 }
