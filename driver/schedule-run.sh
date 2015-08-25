@@ -82,6 +82,7 @@ do
         v8find=`git show $i | grep -P "^\+\s+.v8_revision."`
         if [[ -n $v8find ]]; then
           echo $i
+          git reset --hard $i
           pushd /home/user/work/awfy/driver
           python dostuff.py -f -n --config=awfy-contentshell.config
           popd
