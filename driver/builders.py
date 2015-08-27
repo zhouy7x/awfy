@@ -265,12 +265,13 @@ class ContentShell(Engine):
 
         with utils.FolderChanger('../'):
             syncAgain = True
+            sourcePath = os.path.join(utils.RepoPath, self.source)
             while (syncAgain):
                 syncAgain = False
                 try:
                     Run(['gclient', 'sync', '-j8'], env)
                 except subprocess.CalledProcessError as e:
-                    if synctroubles.fetchGsFileByHttp(e.output, utils.RepoPath):
+                    if synctroubles.fetchGsFileByHttp(e.output, sourcePath):
                         syncAgain = True
                     else:
                         raise e
