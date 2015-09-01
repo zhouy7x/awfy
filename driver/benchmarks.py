@@ -550,6 +550,7 @@ Benchmarks = [#AsmJSApps(),
               WebXPRTStock(),
               WebXPRTStorage(),
               BmDom(),
+              BmScalable(),
              ]
 
 def run(submit, native, modes):

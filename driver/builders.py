@@ -141,6 +141,8 @@ class V8(Engine):
         self.hardfp = (utils.config.has_option('main', 'flags')) and \
                        ("hardfp" in utils.config.get('main', 'flags'))
 
+        self.optisize = utils.config_get_default('v8', 'optisize', None)
+
         if self.cpu == 'x64':
             cpu_mode = '-x64'
         if self.cpu == 'x86':
@@ -155,7 +157,13 @@ class V8(Engine):
                         'mode': 'v8-turbofan' + cpu_mode,
                         'args': ['--turbo']
                       }]
-#        self.modes = [{'mode': 'v8-temp-test', 'args': None}]
+
+        # optisize if configured
+        if self.optisize:
+            self.modes.append({
+                            'mode': 'v8-optisize' + cpu_mode,
+                            'args': ['--optimize-for-size']
+                          })
 
     def build(self):
         env = os.environ.copy()
@@ -181,10 +189,11 @@ class V8(Engine):
         if self.cpu != 'arm':
             env["GYP_DEFINES"] = "clang=1"
 
+        #sourcePath = os.path.join(utils.RepoPath, self.source)
         try:
             Run(['gclient', 'sync', '-j8'], env)
         except subprocess.CalledProcessError as e:
-            if synctroubles.fetchGsFileByHttp(e.output, utils.RepoPath):
+            if synctroubles.fetchGsFileByHttp(e.output, ''):
                 Run(['gclient', 'sync', '-j8'], env)
             else:
                 raise e
@@ -265,13 +274,13 @@ class ContentShell(Engine):
 
         with utils.FolderChanger('../'):
             syncAgain = True
-            sourcePath = os.path.join(utils.RepoPath, self.source)
+            #sourcePath = os.path.join(utils.RepoPath, self.source)
             while (syncAgain):
                 syncAgain = False
                 try:
                     Run(['gclient', 'sync', '-j8'], env)
                 except subprocess.CalledProcessError as e:
-                    if synctroubles.fetchGsFileByHttp(e.output, sourcePath):
+                    if synctroubles.fetchGsFileByHttp(e.output, ''):
                         syncAgain = True
                     else:
                         raise e
