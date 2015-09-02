@@ -530,7 +530,7 @@ class JerrySimple(Benchmark):
                 'JerryTest')
  
     def omit(self, mode):
-        if 'JerryScript' not in mode.name and 'IotJs' not in mode.name:
+        if 'JerryScript' not in mode.name and 'IoTjs' not in mode.name:
             return True
 
     def benchmark(self, shell, env, args):

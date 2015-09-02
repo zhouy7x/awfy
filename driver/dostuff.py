@@ -40,6 +40,11 @@ if utils.config.has_section('v8'):
     KnownEngines.append(builders.V8())
 if utils.config.has_section('contentshell'):
     KnownEngines.append(builders.ContentShell())
+if utils.config.has_section('jerryscript'):
+    KnownEngines.append(builders.JerryScript())
+if utils.config.has_section('iotjs'):
+    KnownEngines.append(builders.IoTjs())
+
 
 Engines, NumUpdated = builders.build(KnownEngines, not options.noupdate, options.force)
 
