@@ -594,8 +594,8 @@ class JerrySunspider(Benchmark):
             tests.append({ 'name': subcase, 'time': passTime})
             total += passTime
 
+        tests.append({ 'name': 'overall', 'time': total})
         tests.append({ 'name': '__total__', 'time': total})
-
         return tests
 
 
