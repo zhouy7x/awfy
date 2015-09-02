@@ -568,8 +568,7 @@ class JerrySimple(Benchmark):
 
 class JerrySunspider(Benchmark):
     def __init__(self):
-        super(JerrySunspider, self).__init__('JerrySunspider', '1.0.1',
-                'JerrySs')
+        super(JerrySunspider, self).__init__('JerrySunspider', '1.0.1', 'JerrySs')
 
     def omit(self, mode):
         if 'JerryScript' not in mode.name and 'IoTjs' not in mode.name:
@@ -582,6 +581,9 @@ class JerrySunspider(Benchmark):
 
         total = 0
         for subcase in cases:
+            # remove new line
+            subcase = subcase[:-1]
+
             full_args = [shell, subcase]
             beginTime = time.time()
             # run sub-case
