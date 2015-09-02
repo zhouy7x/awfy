@@ -552,6 +552,9 @@ class JerrySimple(Benchmark):
         lines = output.splitlines()
         for x in lines:
             m = re.search("@(\w+): (\d+(\.\d+)?)", x)
+            if not m:
+                continue
+
             name = m.group(1)
             score = m.group(2)
 
