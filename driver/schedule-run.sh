@@ -50,11 +50,14 @@ do
         pushd /home/user/work/awfy/driver
         # Test x64 and x86 every time
         python dostuff.py -f -n --config=awfy-x64.config
+
         python dostuff.py -f -n --config=awfy-x86.config
-  
+        # Test x86-optisize after x86 build so no rebuild happens
+        python dostuff.py -f -n --config=awfy-optisize.config
+
         count=`expr $count + 1`
-        count=`expr $count % 5`
-        if [ "$count" = "1" ]
+        armtest=`expr $count % 5`
+        if [ "$armtest" = "1" ]
         then
           # Test arm every 5 times
           python dostuff.py -f -n --config=awfy-arm.config
@@ -100,8 +103,8 @@ do
     popd
 
     if [ "$hasUpdate" = "false" ]; then
-      echo "awfy: no source update, sleep 30m"
-      sleep 30m
+      echo "awfy: no source update, sleep 15m"
+      sleep 15m
     fi
 
   fi
