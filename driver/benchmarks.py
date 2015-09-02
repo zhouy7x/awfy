@@ -35,6 +35,10 @@ class Benchmark(object):
             return True
         if 'ContentShell' in mode.name:
             return True
+        if 'JerryScript' in mode.name:
+            return True
+        if 'IoTjs' in mode.name:
+            return True
 
     def _run(self, submit, native, modes):
         for mode in modes:
