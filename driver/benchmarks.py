@@ -566,6 +566,36 @@ class JerrySimple(Benchmark):
 
         return tests
 
+class JerrySunspider(Benchmark):
+    def __init__(self):
+        super(JerrySunspider, self).__init__('JerrySunspider', '1.0.1',
+                'JerrySs')
+
+    def omit(self, mode):
+        if 'JerryScript' not in mode.name and 'IoTjs' not in mode.name:
+            return True
+
+    def benchmark(self, shell, env, args):
+        f = open('sslist')
+        cases = f.readlines()
+        f.close()
+
+        total = 0
+        for subcase in cases:
+            full_args = [shell, subcase]
+            beginTime = time.time()
+            # run sub-case
+            utils.RunTimedCheckOutput(full_args, env=env)
+            passTime = (time.time() - beginTime) * 1000
+
+            tests.append({ 'name': subcase, 'time': passTime})
+            total += passTime
+
+        tests.append({ 'name': '__total__', 'time': total})
+
+        return tests
+
+
 Benchmarks = [#AsmJSApps(),
               #AsmJSMicro(),
               SunSpider(),
@@ -584,6 +614,7 @@ Benchmarks = [#AsmJSApps(),
               BmDom(),
               BmScalable(),
               JerrySimple(),
+              JerrySunspider(),
              ]
 
 def run(submit, native, modes):
