@@ -347,10 +347,10 @@ class IoTjs(Engine):
     def build(self):
         env = os.environ.copy()
 
-        Run(['tools/build.py', '--target-arch=x86_64', '--buildtype=release'], env)
+        Run(['tools/build.py', '--target-arch=i686', '--buildtype=release'], env)
 
     def shell(self):
-        return os.path.join('build', 'x86_64-linux', 'release', 'iotjs', 'iotjs')
+        return os.path.join('build', 'i686-linux', 'release', 'iotjs', 'iotjs')
 
 
 class Mozilla(Engine):

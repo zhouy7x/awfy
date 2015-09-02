@@ -447,16 +447,7 @@ class ContentShellBased(Benchmark):
         full_args.append('--no-sandbox')
         full_args.append(url)
 
-        # There should be a selfname.js file contain a getmyname function
-        #f = open('selfname.js', 'w')
-        #f.write('function getmyname(){')
-        #f.write('return "' + pserver.getMyName() + '"}')
-        #f.close()
-
-        #nameserver_cmd = [utils.PythonName, '-m', 'SimpleHTTPServer', '8080']
-
-        #phttpserver = subprocess.Popen(nameserver_cmd, env = env)
-        #pcontentshell = subprocess.Popen(full_args, env = env)
+        # use chromium client to start contentshell on slave machine
         chromiumclient.startChromium(args=full_args) 
 
         try:
@@ -533,6 +524,40 @@ class BmScalable(ContentShellBased):
 
         return tests
 
+class JerrySimple(Benchmark):
+    def __init__(self, suite, version, folder):
+        super(JerrySimple, self).__init__('JerryBasic', '1.0',
+                'JerryTest')
+ 
+    def omit(self, mode):
+        if 'JerryScript' not in mode.name and 'IotJs' not in mode.name:
+            return True
+
+    def benchmark(self, shell, env, args):
+        if 'Jerry' in mode.name:
+            test_script = 'jerrytest.sh'
+        else:
+            test_script = 'iotjstest.sh'
+
+        full_args = ['bash', test_script, shell]
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        lines = output.splitlines()
+        for x in lines:
+            m = re.search("@(\w+): (\d+(\.\d+)?)", x)
+            name = m.group(1)
+            score = m.group(2)
+
+            print(name + '    - ' + score)
+            if name == 'binary_size':
+                tests.append({ 'name': '__total__', 'time': score})
+
+            tests.append({ 'name': name, 'time': score})
+
+        return tests
 
 Benchmarks = [#AsmJSApps(),
               #AsmJSMicro(),
@@ -551,6 +576,7 @@ Benchmarks = [#AsmJSApps(),
               WebXPRTStorage(),
               BmDom(),
               BmScalable(),
+              JerrySimple(),
              ]
 
 def run(submit, native, modes):

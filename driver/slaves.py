@@ -46,7 +46,6 @@ class RemoteSlave(Slave):
             rshell = os.path.join(self.RepoPath, engine.source, engine.shell())
             self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
             self.pushRemote(shell, rshell, follow=True)
-            
 
             libpaths = engine.libpaths()
             for libp in libpaths:
