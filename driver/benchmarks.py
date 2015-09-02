@@ -538,7 +538,7 @@ class JerrySimple(Benchmark):
             return True
 
     def benchmark(self, shell, env, args):
-        if 'Jerry' in mode.name:
+        if 'Jerry' in shell:
             test_script = 'jerrytest.sh'
         else:
             test_script = 'iotjstest.sh'
