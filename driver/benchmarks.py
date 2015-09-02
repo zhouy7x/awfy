@@ -525,7 +525,7 @@ class BmScalable(ContentShellBased):
         return tests
 
 class JerrySimple(Benchmark):
-    def __init__(self, suite, version, folder):
+    def __init__(self):
         super(JerrySimple, self).__init__('JerryBasic', '1.0',
                 'JerryTest')
  
