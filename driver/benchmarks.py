@@ -580,6 +580,7 @@ class JerrySunspider(Benchmark):
         f.close()
 
         total = 0
+        tests = []
         for subcase in cases:
             # remove new line
             subcase = subcase[:-1]
