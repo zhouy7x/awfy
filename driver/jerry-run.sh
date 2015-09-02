@@ -48,12 +48,8 @@ do
             echo $i
             git reset --hard $i
             pushd /home/user/work/awfy/driver
-            # Test iotjs
+            # Test jerry
             python dostuff.py -f -n --config=jerry-x86.config
-            popd
-
-            pushd /home/user/work/awfy/server
-            bash ./run-update.sh
             popd
           done
         fi
@@ -75,10 +71,6 @@ do
             pushd /home/user/work/awfy/driver
             # Test iotjs
             python dostuff.py -f -n --config=iotjs-x86.config
-            popd
-
-            pushd /home/user/work/awfy/server
-            bash ./run-update.sh
             popd
           done
         fi
