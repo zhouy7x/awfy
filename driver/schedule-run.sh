@@ -78,12 +78,12 @@ do
     if [ -z "$list" ]; then
       echo "chromium: no update"
     else
-      hasUpdate="true"
       for i in $list
       do
         # Only check v8 changed chromium
         v8find=`git show $i | grep -P "^\+\s+.v8_revision."`
         if [[ -n $v8find ]]; then
+          hasUpdate="true"
           echo $i
           git reset --hard $i
           pushd /home/user/work/awfy/driver
@@ -96,10 +96,6 @@ do
         fi
       done
     fi
-    popd
-
-    # Third, check iotjs update
-    pushd /home/user/work/awfy/repos/iotjs
     popd
 
     if [ "$hasUpdate" = "false" ]; then
