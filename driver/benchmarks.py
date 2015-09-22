@@ -598,6 +598,42 @@ class JerrySunspider(Benchmark):
         tests.append({ 'name': '__total__', 'time': total})
         return tests
 
+class JerryPassrate(Benchmark):
+    def __init__(self):
+        super(JerryPassrate, self).__init__('JerryPassrate', '1.0',
+                'test262')
+ 
+    def omit(self, mode):
+        if 'JerryScript' not in mode.name:
+            return True
+
+    def benchmark(self, shell, env, args):
+        test_script = 'runall.sh'
+
+        full_args = ['bash', test_script, shell]
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        lines = output.splitlines()
+        for x in lines:
+            m = re.search("- Passed (\d+) tests \((\d+(\.\d+)?)%\)", x)
+            if not m:
+                continue
+
+            passed = m.group(1)
+            passrate = m.group(2)
+
+            print('passed    - ' + passed)
+            print('passrate    - ' + passrate)
+
+            tests.append({ 'name': '__total__', 'time': passrate})
+            tests.append({ 'name': 'passrate', 'time': passrate})
+
+            break
+
+        return tests
 
 Benchmarks = [#AsmJSApps(),
               #AsmJSMicro(),
