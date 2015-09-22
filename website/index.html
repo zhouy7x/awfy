@@ -14,6 +14,10 @@
  <script type="text/javascript" src="awfy.js"></script>
  <script type="text/javascript" src="frontpage.js"></script>
  <script type="text/javascript" src="tooltip.js"></script>
+ <style>
+ #totop{ position:fixed; bottom:0; right:10px; cursor:pointer; }
+ #buttonbox{ position:fixed; top:20px; right:10px }
+ </style>
 </head>
 <body>
 <!--[if IE 6]><body class="ie ie6"><![endif]-->
@@ -28,9 +32,56 @@
     $(document).ready(function () {
 	AWFY.startup();
     });
+
+    function highlightPoints() {
+        var threshold = parseInt($("#hlvalue").val());
+        if (isNaN(threshold)) {
+            return;
+        } else {
+            threshold = threshold.toFixed(2) / 100;
+        }
+
+        $(".graph").each(function() {
+            //console.log(this);
+            var display = $(this).data("awfy-display");
+            if (typeof(display) == "undefined") {
+                return;
+            }
+            var plot = display.plot;
+
+            // unhighlight previous
+            plot.unhighlight();
+
+            var graph = display.graph;
+            var series = graph.lines;
+            for (var y = 0; y < series.length; y++) {
+                line = series[y].data;
+                var cur = null, pre = null;
+                for (var x = 0; x < line.length; x++) {
+                    if (line[x][1] != null) {
+                        pre = cur;
+                        cur = line[x][1];
+                    } else {
+                        continue;
+                    }
+                    if (pre == null || cur == null) {
+                        continue;
+                    }
+                    if (Math.abs(cur - pre) / pre.toFixed(2) > threshold) {
+                        plot.highlight(y, x);
+                    }
+                }
+            }
+        });
+    }
   </script>
+    <div id="totop" onclick="window.scrollTo(0,0);" ><h2>Back To Top</h2></div>
  <div class="graph-row">
   <div id="message"></div>
+  <div id="buttonbox">
+    Δ<input id="hlvalue" type="text" size="4" />%
+    <input id="hlbutton" type="button" value="highlight" onclick="highlightPoints()" />
+  </div>
   <div id="navcontainer">
     <ul id="legend"></ul>
     <br><br>
@@ -56,7 +107,10 @@
  <br><br><br>
  <div>
   <div class="graph-row">
-   
+   <div class="graph-container">
+     <div id="octane-label">octane2 score</div>
+     <div class="graph" id="octane-graph"><h2>Loading...</h2></div>
+   </div>
    <br><br><br>
    <div class="graph-container">
      <div id="octane1-label">octane1 score</div>
@@ -89,6 +143,11 @@
    <div class="graph-container">
      <div id="browsermark1-label">browsermark 2.1 contentshell dom</div>
      <div class="graph" id="browsermark1-graph"><h2>Loading...</h2></div>
+   </div>
+   <br><br><br>
+   <div class="graph-container">
+     <div id="browsermark2-label">browsermark 2.1 contentshell scalable solution</div>
+     <div class="graph" id="browsermark2-graph"><h2>Loading...</h2></div>
    </div>
   </div>
   <br><br><br>
