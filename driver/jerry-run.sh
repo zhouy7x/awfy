@@ -25,7 +25,7 @@ fi
 touch /tmp/awfy-daemon
 
 count=0
-date=`date +%Y-%m-%d`
+date="Empty"
 
 while :
 do
