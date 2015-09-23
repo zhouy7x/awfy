@@ -60,8 +60,7 @@ for slave in KnownSlaves:
     # Inform AWFY of each mode we found.
     submit = submitter.Submitter(slave)
     submit.Start()
-    for mode in modes:
-        submit.AddEngine(mode.name, mode.cset)
+    submit.AddEngine(mode.name, mode.cset)
 
     # passrate do not need native
     slave.benchmark(submit, None, modes)
