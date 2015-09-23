@@ -55,7 +55,7 @@ benchmarks.Benchmarks = [benchmarks.JerryPassrate()]
 KnownSlaves = slaves.init()
 
 for slave in KnownSlaves:
-    slave.prepare(Engines)
+    #slave.prepare(Engines)
 
     # Inform AWFY of each mode we found.
     submit = submitter.Submitter(slave)
