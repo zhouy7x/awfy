@@ -25,6 +25,8 @@ fi
 touch /tmp/awfy-daemon
 
 count=0
+date=`date +%Y-%m-%d`
+
 while :
 do
   if [ -e /tmp/awfy ]
@@ -75,6 +77,15 @@ do
           done
         fi
     popd
+
+    today=`date +%Y-%m-%d`
+    if [ "$today" != "$date"]; then
+        pushd /home/user/work/awfy/driver
+        # Test jerry
+        python passrate.py -f -n --config=jerry-x86.config
+        popd
+        date="$today"
+    fi
 
     if [ "$hasUpdate" = "false" ]; then
       echo "awfy: no source update, sleep 15m"
