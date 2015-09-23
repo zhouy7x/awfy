@@ -79,7 +79,7 @@ do
     popd
 
     today=`date +%Y-%m-%d`
-    if [ "$today" != "$date"]; then
+    if [ "$today" != "$date" ]; then
         pushd /home/user/work/awfy/driver
         # Test jerry
         python passrate.py -f -n --config=jerry-x86.config
