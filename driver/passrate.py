@@ -49,7 +49,7 @@ cset = "%s" % datetime.date.today()
 mode = Mode(shell, args, os.environ.copy(), name, cset)
 
 # Change test benchmark to passrate
-benchmarks.Benchmarks = [JerryPassrate()]
+benchmarks.Benchmarks = [builders.JerryPassrate()]
 
 # Set of slaves that run the builds. 
 KnownSlaves = slaves.init()
