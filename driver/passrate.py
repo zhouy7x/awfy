@@ -40,7 +40,8 @@ resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset'])
 
 # Only one mode run
-shell = builders.JerryScript().shell()
+jerry = builders.JerryScript()
+shell = os.path.join(utils.RepoPath, jerry.source, jerry.shell())
 args = []
 env = os.environ.copy()
 name = 'JerryScript-x86'
