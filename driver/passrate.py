@@ -63,7 +63,7 @@ for slave in KnownSlaves:
     submit.AddEngine(mode.name, mode.cset)
 
     # passrate do not need native
-    slave.benchmark(submit, None, modes)
+    slave.benchmark(submit, None, [mode])
 
 # Wait for all of the slaves to finish running before exiting.
 for slave in KnownSlaves:
