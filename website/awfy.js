@@ -960,9 +960,15 @@ AWFY.updateSuiteList = function (machineId) {
 }
 
 AWFY.startup = function () {
+    /*
     this.panes = [$('#ss-graph'),
                   $('#kraken-graph'),
                   $('#octane-graph')];
+    */
+    // add every graph
+    $(".graph").each(function() {
+        AWFY.panes.push($(this));
+    });
 
     this.parseURL();
 

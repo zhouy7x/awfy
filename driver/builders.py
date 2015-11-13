@@ -189,14 +189,17 @@ class V8(Engine):
         if self.cpu != 'arm':
             env["GYP_DEFINES"] = "clang=1"
 
-        #sourcePath = os.path.join(utils.RepoPath, self.source)
-        try:
-            Run(['gclient', 'sync', '-j8'], env)
-        except subprocess.CalledProcessError as e:
-            if synctroubles.fetchGsFileByHttp(e.output, ''):
-                Run(['gclient', 'sync', '-j8'], env)
-            else:
-                raise e
+        with utils.FolderChanger('../'):
+            syncAgain = True
+            while (syncAgain):
+                syncAgain = False
+                try:
+                    Run(['gclient', 'sync', '-j8'], env)
+                except subprocess.CalledProcessError as e:
+                    if synctroubles.fetchGsFileByHttp(e.output, ''):
+                        syncAgain = True
+                    else:
+                        raise e
 
         if self.cpu == 'x64':
             Run(['make', 'x64.release', '-j8'], env)
