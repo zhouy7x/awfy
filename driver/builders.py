@@ -160,10 +160,10 @@ class V8(Engine):
 
         # optisize if configured
         if self.optisize:
-            self.modes.append({
+            self.modes = [{
                             'mode': 'v8-optisize' + cpu_mode,
                             'args': ['--optimize-for-size']
-                          })
+                          }]
 
     def build(self):
         env = os.environ.copy()
