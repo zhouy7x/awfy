@@ -635,6 +635,39 @@ class JerryPassrate(Benchmark):
 
         return tests
 
+class JetStreamShell(Benchmark):
+    def __init__(self):
+        super(JetStreamShell, self).__init__('JetStreamShell', '1.0',
+                'jetstream-shell')
+
+    def benchmark(self, shell, env, args):
+        full_args = [shell]
+        if args:
+            full_args.extend(args)
+        full_args.append('run.js')
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        lines = output.splitlines()
+
+        cnt = 0
+        for x in lines:
+            m = re.search("(.+),(\d+(\.\d+)?)", x)
+            if not m:
+                continue
+            name = m.group(1)
+            score = m.group(2)
+            print(name + ' - ' + score)
+
+            if name == 'Geometric-Mean':
+                name = '__total__'
+
+            tests.append({ 'name': name, 'time': score})
+
+        return tests
+
 Benchmarks = [#AsmJSApps(),
               #AsmJSMicro(),
               SunSpider(),
@@ -654,6 +687,7 @@ Benchmarks = [#AsmJSApps(),
               BmScalable(),
               JerrySimple(),
               JerrySunspider(),
+              JetStreamShell(),
              ]
 
 def run(submit, native, modes):
