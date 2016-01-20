@@ -18,6 +18,7 @@ AWFY.suiteName = null;
 AWFY.subtest = null;
 AWFY.lastHash = null;
 AWFY.lastRefresh = 0;
+AWFY.nameMap = {};
 
 AWFY.request = function (files, callback) {
     var url = window.location.protocol + '//' +
@@ -490,6 +491,11 @@ AWFY.requestZoom = function (display, kind, start_t, end_t) {
     // Figure out the list of dates we'll need to query.
     var files = [];
 
+    var reqId = display.id;
+    if (this.nameMap[reqId] != undefined) {
+        reqId = this.nameMap[reqId];
+    }
+
     var start = new Date(start_t * 1000);
     var end = new Date(end_t * 1000);
     for (var year = start.getUTCFullYear(); year <= end.getUTCFullYear(); year++) {
@@ -501,7 +507,7 @@ AWFY.requestZoom = function (display, kind, start_t, end_t) {
                         : 12;
         for (var month = firstMonth; month <= lastMonth; month++) {
             var name = kind + '-' +
-                       display.id + '-' +
+                       reqId + '-' +
                        this.machineId + '-' +
                        year + '-' +
                        month;
@@ -604,6 +610,10 @@ AWFY.showBreakdown = function (name) {
                     this.drawLegend();
                     }).bind(this);
                 }).bind(this)(domid);
+
+        if (domid != id) {
+            AWFY.nameMap[domid] = id;
+        } 
 
         // Fire off an XHR request for each test.
         var file = 'bk-aggregate-' + id + '-' + this.machineId;
