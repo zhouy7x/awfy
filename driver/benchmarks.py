@@ -598,6 +598,131 @@ class JerrySunspider(Benchmark):
         tests.append({ 'name': '__total__', 'time': total})
         return tests
 
+class JerrySunspiderPerf(Benchmark):
+    def __init__(self):
+        super(JerrySunspiderPerf, self).__init__('JerrySunspiderPerf', '1.0.2', 'JerrySs')
+
+    def omit(self, mode):
+        if 'JerryScript' not in mode.name:
+            return True
+
+    def benchmark(self, shell, env, args):
+        full_args = ['./jerry-mem.sh', shell, 1, 60, 'ss-1.0.2']
+
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+        lines = output.splitlines()
+
+        scorebase = {
+            '3d-cube.js':1.88,
+            '3d-morph.js':4.268,
+            '3d-raytrace.js':0.052,
+            'access-binary-trees.js':1.108,
+            'access-fannkuch.js':5.936,
+            'access-nbody.js':2.696,
+            'access-nsieve.js':8.6,
+            'bitops-3bit-bits-in-byte.js':1.54,
+            'bitops-bits-in-byte.js':2.092,
+            'bitops-bitwise-and.js':2.116,
+            'bitops-nsieve-bits.js':1,
+            'controlflow-recursive.js':0.964,
+            'crypto-aes.js':3.356,
+            'crypto-md5.js':13.772,
+            'crypto-sha1.js':6.444,
+            'date-format-tofte.js':1.98,
+            'date-format-xparb.js':1.08,
+            'math-cordic.js':2.208,
+            'math-partial-sums.js':1.224,
+            'math-spectral-norm.js':1.348,
+            'regexp-dna.js':0.092,
+            'string-base64.js':1,
+            'string-fasta.js':3.504,
+            'string-tagcloud.js':0.028,
+            'string-unpack-code.js':1,
+            'string-validate-input.js':1.424,
+        }
+
+        tests = []
+        total = 0.0
+        for x in lines:
+            m = re.search("(.+) \| (\d+(\.\d+)?)", x)
+            if not m:
+                continue
+
+            name = m.group(1)
+            score = m.group(2)
+            score = float(score) * 1000
+
+            if name in scorebase:
+                refscore = score / scorebase[name]
+
+            tests.append({ 'name': name, 'time': score})
+            total += refscore
+
+        tests.append({ 'name': '__total__', 'time': total})
+        return tests
+
+class JerrySunspiderMem(Benchmark):
+    def __init__(self):
+        super(JerrySunspiderMem, self).__init__('JerrySunspiderMem', '1.0.2', 'JerrySs')
+
+    def omit(self, mode):
+        if 'JerryScript' not in mode.name:
+            return True
+
+    def benchmark(self, shell, env, args):
+        full_args = ['./jerry-mem.sh', shell, 15, 60, 'ss-1.0.2']
+
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+        lines = output.splitlines()
+
+        scorebase = {
+            '3d-cube.js':116,
+            '3d-morph.js':50,
+            '3d-raytrace.js':50 ,
+            'access-binary-trees.js':84,
+            'access-fannkuch.js':40,
+            'access-nbody.js':50,
+            'access-nsieve.js':50,
+            'bitops-3bit-bits-in-byte.js':28,
+            'bitops-bits-in-byte.js':28,
+            'bitops-bitwise-and.js':32,
+            'bitops-nsieve-bits.js':50,
+            'controlflow-recursive.js':256,
+            'crypto-aes.js':124,
+            'crypto-md5.js':50,
+            'crypto-sha1.js':132,
+            'date-format-tofte.js':76,
+            'date-format-xparb.js':76,
+            'math-cordic.js':36,
+            'math-partial-sums.js':50,
+            'math-spectral-norm.js':32,
+            'regexp-dna.js':50,
+            'string-base64.js':50,
+            'string-fasta.js':48,
+            'string-tagcloud.js':50,
+            'string-unpack-code.js':50,
+            'string-validate-input.js':50,
+        }
+
+        tests = []
+        total = 0.0
+        for x in lines:
+            m = re.search("(.+) \| (\d+(\.\d+)?)", x)
+            if not m:
+                continue
+
+            name = m.group(1)
+            score = m.group(2)
+
+            if name in scorebase:
+                refscore = float(score) / scorebase[name]
+
+            tests.append({ 'name': name, 'time': score})
+            total += refscore
+
+        tests.append({ 'name': '__total__', 'time': total})
+        return tests
+
 class JerryPassrate(Benchmark):
     def __init__(self):
         super(JerryPassrate, self).__init__('JerryPassrate', '1.0',
