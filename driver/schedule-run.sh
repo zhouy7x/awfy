@@ -37,7 +37,7 @@ do
     # First, check v8 update
     pushd /home/user/work/awfy/repos/v8
     git fetch
-    list=`git rev-list origin/master ^master | tac`
+    list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
     if [ -z "$list" ]; then
       echo "v8: no update"
     else

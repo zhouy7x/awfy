@@ -1,0 +1,913 @@
+Computing master properties... took 0s1ms
+Querying raw-ss-1... found 0 new rows in 0s0ms
+Querying raw-v8-1... found 0 new rows in 0s0ms
+Querying raw-v8real-1... found 0 new rows in 0s0ms
+Querying raw-kraken-1... found 0 new rows in 0s0ms
+Querying raw-misc-1... found 0 new rows in 0s0ms
+Querying raw-octane-1... found 0 new rows in 0s0ms
+Querying raw-asmjs-ubench-1... found 0 new rows in 0s0ms
+Querying raw-asmjs-apps-1... found 0 new rows in 0s0ms
+Querying raw-embenchen-1... found 0 new rows in 0s0ms
+Querying raw-jetstream-1... found 0 new rows in 0s0ms
+Querying raw-browsermark-1... found 2 new rows in 0s0ms
+Updating cache for raw-browsermark-1-2015-7...took 0s0ms
+Querying bk-raw-browsermark-array_blur-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-browsermark-array_blur-1-2015-7...took 0s0ms
+Querying bk-raw-browsermark-array_weighted-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-browsermark-array_weighted-1-2015-7...took 0s0ms
+Querying bk-raw-browsermark-string_chat-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-browsermark-string_chat-1-2015-7...took 0s0ms
+Querying bk-raw-browsermark-string_filter-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-browsermark-string_filter-1-2015-7...took 0s0ms
+Querying raw-VellamoSurfWaxBinder-1... found 2 new rows in 0s0ms
+Updating cache for raw-VellamoSurfWaxBinder-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-imagedata_seq_mrps-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-imagedata_seq_mrps-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-imagedata_seq_mwps-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-imagedata_seq_mwps-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_single_mrps-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_single_mrps-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_single_mwps-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_single_mwps-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mcps-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mcps-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mrps-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mrps-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mwps-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mwps-1-2015-7...took 0s0ms
+Querying raw-VellamoKruptein-1... found 2 new rows in 0s0ms
+Updating cache for raw-VellamoKruptein-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoKruptein-cryptoJSAESDecryptTime-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoKruptein-cryptoJSAESDecryptTime-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoKruptein-cryptoJSAESEncryptTime-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoKruptein-cryptoJSAESEncryptTime-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoKruptein-cryptoJSSHA2HashTime-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoKruptein-cryptoJSSHA2HashTime-1-2015-7...took 0s0ms
+Querying raw-VellamoDeepCrossfader-1... found 2 new rows in 0s0ms
+Updating cache for raw-VellamoDeepCrossfader-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-0-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-0-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-1-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-1-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-2-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-2-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-3-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-3-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-4-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-4-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-5-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-5-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-6-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-6-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-7-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-7-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-8-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-8-1-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-9-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-9-1-2015-7...took 0s0ms
+Querying raw-WebXPRTStock-1... found 2 new rows in 0s0ms
+Updating cache for raw-WebXPRTStock-1-2015-7...took 0s0ms
+Querying bk-raw-WebXPRTStock-1-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-WebXPRTStock-1-1-2015-7...took 0s0ms
+Querying raw-WebXPRTStorage-1... found 2 new rows in 0s0ms
+Updating cache for raw-WebXPRTStorage-1-2015-7...took 0s0ms
+Querying bk-raw-WebXPRTStorage-1-1... found 2 new rows in 0s0ms
+Updating cache for bk-raw-WebXPRTStorage-1-1-2015-7...took 0s0ms
+Querying raw-ss-2... found 0 new rows in 0s0ms
+Querying raw-v8-2... found 0 new rows in 0s0ms
+Querying raw-v8real-2... found 0 new rows in 0s0ms
+Querying raw-kraken-2... found 0 new rows in 0s0ms
+Querying raw-misc-2... found 0 new rows in 0s0ms
+Querying raw-octane-2... found 0 new rows in 0s0ms
+Querying raw-asmjs-ubench-2... found 0 new rows in 0s0ms
+Querying raw-asmjs-apps-2... found 0 new rows in 0s0ms
+Querying raw-embenchen-2... found 0 new rows in 0s0ms
+Querying raw-jetstream-2... found 0 new rows in 0s0ms
+Querying raw-browsermark-2... found 2 new rows in 0s0ms
+Updating cache for raw-browsermark-2-2015-7...took 0s0ms
+Querying bk-raw-browsermark-array_blur-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-browsermark-array_blur-2-2015-7...took 0s0ms
+Querying bk-raw-browsermark-array_weighted-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-browsermark-array_weighted-2-2015-7...took 0s0ms
+Querying bk-raw-browsermark-string_chat-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-browsermark-string_chat-2-2015-7...took 0s0ms
+Querying bk-raw-browsermark-string_filter-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-browsermark-string_filter-2-2015-7...took 0s0ms
+Querying raw-VellamoSurfWaxBinder-2... found 2 new rows in 0s0ms
+Updating cache for raw-VellamoSurfWaxBinder-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-imagedata_seq_mrps-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-imagedata_seq_mrps-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-imagedata_seq_mwps-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-imagedata_seq_mwps-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_single_mrps-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_single_mrps-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_single_mwps-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_single_mwps-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mcps-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mcps-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mrps-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mrps-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mwps-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mwps-2-2015-7...took 0s0ms
+Querying raw-VellamoKruptein-2... found 2 new rows in 0s0ms
+Updating cache for raw-VellamoKruptein-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoKruptein-cryptoJSAESDecryptTime-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoKruptein-cryptoJSAESDecryptTime-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoKruptein-cryptoJSAESEncryptTime-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoKruptein-cryptoJSAESEncryptTime-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoKruptein-cryptoJSSHA2HashTime-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoKruptein-cryptoJSSHA2HashTime-2-2015-7...took 0s0ms
+Querying raw-VellamoDeepCrossfader-2... found 2 new rows in 0s0ms
+Updating cache for raw-VellamoDeepCrossfader-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-0-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-0-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-1-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-1-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-2-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-2-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-3-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-3-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-4-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-4-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-5-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-5-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-6-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-6-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-7-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-7-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-8-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-8-2-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-9-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-9-2-2015-7...took 0s0ms
+Querying raw-WebXPRTStock-2... found 2 new rows in 0s0ms
+Updating cache for raw-WebXPRTStock-2-2015-7...took 0s0ms
+Querying bk-raw-WebXPRTStock-1-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-WebXPRTStock-1-2-2015-7...took 0s0ms
+Querying raw-WebXPRTStorage-2... found 2 new rows in 0s0ms
+Updating cache for raw-WebXPRTStorage-2-2015-7...took 0s0ms
+Querying bk-raw-WebXPRTStorage-1-2... found 2 new rows in 0s0ms
+Updating cache for bk-raw-WebXPRTStorage-1-2-2015-7...took 0s0ms
+Querying raw-ss-3... found 0 new rows in 0s0ms
+Querying raw-v8-3... found 0 new rows in 0s0ms
+Querying raw-v8real-3... found 0 new rows in 0s0ms
+Querying raw-kraken-3... found 0 new rows in 0s0ms
+Querying raw-misc-3... found 0 new rows in 0s0ms
+Querying raw-octane-3... found 0 new rows in 0s0ms
+Querying raw-asmjs-ubench-3... found 0 new rows in 0s0ms
+Querying raw-asmjs-apps-3... found 0 new rows in 0s0ms
+Querying raw-embenchen-3... found 0 new rows in 0s0ms
+Querying raw-jetstream-3... found 0 new rows in 0s0ms
+Querying raw-browsermark-3... found 2 new rows in 0s0ms
+Updating cache for raw-browsermark-3-2015-7...took 0s0ms
+Querying bk-raw-browsermark-array_blur-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-browsermark-array_blur-3-2015-7...took 0s0ms
+Querying bk-raw-browsermark-array_weighted-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-browsermark-array_weighted-3-2015-7...took 0s0ms
+Querying bk-raw-browsermark-string_chat-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-browsermark-string_chat-3-2015-7...took 0s0ms
+Querying bk-raw-browsermark-string_filter-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-browsermark-string_filter-3-2015-7...took 0s0ms
+Querying raw-VellamoSurfWaxBinder-3... found 2 new rows in 0s0ms
+Updating cache for raw-VellamoSurfWaxBinder-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-imagedata_seq_mrps-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-imagedata_seq_mrps-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-imagedata_seq_mwps-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-imagedata_seq_mwps-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_single_mrps-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_single_mrps-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_single_mwps-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_single_mwps-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mcps-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mcps-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mrps-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mrps-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mwps-3... found 2 new rows in 0s1ms
+Updating cache for bk-raw-VellamoSurfWaxBinder-jsarray_sweep_mwps-3-2015-7...took 0s0ms
+Querying raw-VellamoKruptein-3... found 2 new rows in 0s0ms
+Updating cache for raw-VellamoKruptein-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoKruptein-cryptoJSAESDecryptTime-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoKruptein-cryptoJSAESDecryptTime-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoKruptein-cryptoJSAESEncryptTime-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoKruptein-cryptoJSAESEncryptTime-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoKruptein-cryptoJSSHA2HashTime-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoKruptein-cryptoJSSHA2HashTime-3-2015-7...took 0s0ms
+Querying raw-VellamoDeepCrossfader-3... found 2 new rows in 0s0ms
+Updating cache for raw-VellamoDeepCrossfader-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-0-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-0-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-1-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-1-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-2-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-2-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-3-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-3-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-4-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-4-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-5-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-5-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-6-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-6-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-7-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-7-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-8-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-8-3-2015-7...took 0s0ms
+Querying bk-raw-VellamoDeepCrossfader-9-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-VellamoDeepCrossfader-9-3-2015-7...took 0s0ms
+Querying raw-WebXPRTStock-3... found 2 new rows in 0s0ms
+Updating cache for raw-WebXPRTStock-3-2015-7...took 0s0ms
+Querying bk-raw-WebXPRTStock-1-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-WebXPRTStock-1-3-2015-7...took 0s0ms
+Querying raw-WebXPRTStorage-3... found 2 new rows in 0s0ms
+Updating cache for raw-WebXPRTStorage-3-2015-7...took 0s0ms
+Querying bk-raw-WebXPRTStorage-1-3... found 2 new rows in 0s0ms
+Updating cache for bk-raw-WebXPRTStorage-1-3-2015-7...took 0s0ms
+Importing all datapoints for ss-1... took 0s0ms
+Importing all datapoints for ss-3bit-bits-in-byte-1... took 0s0ms
+Importing all datapoints for ss-aes-1... took 0s0ms
+Importing all datapoints for ss-base64-1... took 0s0ms
+Importing all datapoints for ss-binary-trees-1... took 0s0ms
+Importing all datapoints for ss-bits-in-byte-1... took 0s0ms
+Importing all datapoints for ss-bitwise-and-1... took 0s0ms
+Importing all datapoints for ss-cordic-1... took 0s0ms
+Importing all datapoints for ss-cube-1... took 0s0ms
+Importing all datapoints for ss-dna-1... took 0s0ms
+Importing all datapoints for ss-fannkuch-1... took 0s0ms
+Importing all datapoints for ss-fasta-1... took 0s0ms
+Importing all datapoints for ss-format-tofte-1... took 0s0ms
+Importing all datapoints for ss-format-xparb-1... took 0s0ms
+Importing all datapoints for ss-md5-1... took 0s0ms
+Importing all datapoints for ss-morph-1... took 0s0ms
+Importing all datapoints for ss-nbody-1... took 0s0ms
+Importing all datapoints for ss-nsieve-1... took 0s0ms
+Importing all datapoints for ss-nsieve-bits-1... took 0s0ms
+Importing all datapoints for ss-partial-sums-1... took 0s0ms
+Importing all datapoints for ss-raytrace-1... took 0s0ms
+Importing all datapoints for ss-recursive-1... took 0s0ms
+Importing all datapoints for ss-sha1-1... took 0s0ms
+Importing all datapoints for ss-spectral-norm-1... took 0s0ms
+Importing all datapoints for ss-tagcloud-1... took 0s0ms
+Importing all datapoints for ss-unpack-code-1... took 0s0ms
+Importing all datapoints for ss-validate-input-1... took 0s0ms
+Importing all datapoints for v8real-1... took 0s0ms
+Importing all datapoints for kraken-1... took 0s0ms
+Importing all datapoints for kraken-astar-1... took 0s0ms
+Importing all datapoints for kraken-beat-detection-1... took 0s0ms
+Importing all datapoints for kraken-crypto-aes-1... took 0s0ms
+Importing all datapoints for kraken-crypto-ccm-1... took 0s0ms
+Importing all datapoints for kraken-crypto-pbkdf2-1... took 0s0ms
+Importing all datapoints for kraken-crypto-sha256-iterative-1... took 0s0ms
+Importing all datapoints for kraken-darkroom-1... took 0s0ms
+Importing all datapoints for kraken-desaturate-1... took 0s0ms
+Importing all datapoints for kraken-dft-1... took 0s0ms
+Importing all datapoints for kraken-fft-1... took 0s0ms
+Importing all datapoints for kraken-gaussian-blur-1... took 0s0ms
+Importing all datapoints for kraken-oscillator-1... took 0s0ms
+Importing all datapoints for kraken-parse-financial-1... took 0s0ms
+Importing all datapoints for kraken-stringify-tinderbox-1... took 0s0ms
+Importing all datapoints for misc-1... took 0s0ms
+Importing all datapoints for misc-basic-arguments-1... took 0s0ms
+Importing all datapoints for misc-basic-array-1... took 0s0ms
+Importing all datapoints for misc-basic-closures-1... took 0s0ms
+Importing all datapoints for misc-basic-emptyloop-1... took 0s0ms
+Importing all datapoints for misc-basic-fpops-1... took 0s0ms
+Importing all datapoints for misc-basic-intops-1... took 0s0ms
+Importing all datapoints for misc-basic-strcat-1... took 0s0ms
+Importing all datapoints for misc-bugs-508716-fluid-dynamics-1... took 0s0ms
+Importing all datapoints for misc-bugs-608733-interpreter-1... took 0s0ms
+Importing all datapoints for misc-bugs-608733-trace-compiler-1... took 0s0ms
+Importing all datapoints for misc-bugs-612930-solve-sudoku-1... took 0s0ms
+Importing all datapoints for misc-bugs-636096-model2d-1... took 0s0ms
+Importing all datapoints for misc-bugs-652303-arraymod-1... took 0s0ms
+Importing all datapoints for misc-bugs-652377-jslint-on-jslint-1... took 0s0ms
+Importing all datapoints for misc-bugs-654410-nezulator-1... took 0s0ms
+Importing all datapoints for misc-bugs-658844-sha256-bitcoins-1... took 0s0ms
+Importing all datapoints for misc-bugs-659467-jsunzip-1... took 0s0ms
+Importing all datapoints for misc-bugs-663087-decompress-gzip-1... took 0s0ms
+Importing all datapoints for misc-bugs-847389-jpeg2000-1... took 0s0ms
+Importing all datapoints for misc-f32-exp-1... took 0s0ms
+Importing all datapoints for misc-f32-fft-1... took 0s0ms
+Importing all datapoints for misc-f32-markov-1... took 0s0ms
+Importing all datapoints for misc-forEach-baseline-1... took 0s0ms
+Importing all datapoints for misc-forEach-custom-1... took 0s0ms
+Importing all datapoints for misc-forEach-library-1... took 0s0ms
+Importing all datapoints for misc-typedobj-simple-struct-standard-1... took 0s0ms
+Importing all datapoints for misc-typedobj-simple-struct-typedobj-1... took 0s0ms
+Importing all datapoints for misc-typedobj-splay-standard-1... took 0s0ms
+Importing all datapoints for misc-typedobj-splay-typedobj-1... took 0s0ms
+Importing all datapoints for misc-typedobj-utf8array-standard-1... took 0s0ms
+Importing all datapoints for misc-typedobj-utf8array-typedobj-1... took 0s0ms
+Importing all datapoints for misc-typedobj-write-struct-field-standard-1... took 0s0ms
+Importing all datapoints for misc-typedobj-write-struct-field-typedobj-1... took 0s0ms
+Importing all datapoints for octane-1... took 0s0ms
+Importing all datapoints for octane-Box2D-1... took 0s0ms
+Importing all datapoints for octane-CodeLoad-1... took 0s0ms
+Importing all datapoints for octane-Crypto-1... took 0s0ms
+Importing all datapoints for octane-DeltaBlue-1... took 0s0ms
+Importing all datapoints for octane-EarleyBoyer-1... took 0s0ms
+Importing all datapoints for octane-Gameboy-1... took 0s0ms
+Importing all datapoints for octane-Mandreel-1... took 0s0ms
+Importing all datapoints for octane-MandreelLatency-1... took 0s0ms
+Importing all datapoints for octane-NavierStokes-1... took 0s0ms
+Importing all datapoints for octane-PdfJS-1... took 0s0ms
+Importing all datapoints for octane-RayTrace-1... took 0s0ms
+Importing all datapoints for octane-RegExp-1... took 0s0ms
+Importing all datapoints for octane-Richards-1... took 0s0ms
+Importing all datapoints for octane-Splay-1... took 0s0ms
+Importing all datapoints for octane-SplayLatency-1... took 0s0ms
+Importing all datapoints for octane-Typescript-1... took 0s0ms
+Importing all datapoints for octane-zlib-1... took 0s0ms
+Importing all datapoints for asmjs-ubench-1... took 0s0ms
+Importing all datapoints for asmjs-ubench-copy-1... took 0s0ms
+Importing all datapoints for asmjs-ubench-corrections-1... took 0s0ms
+Importing all datapoints for asmjs-ubench-fannkuch-1... took 0s0ms
+Importing all datapoints for asmjs-ubench-fasta-1... took 0s0ms
+Importing all datapoints for asmjs-ubench-life-1... took 0s0ms
+Importing all datapoints for asmjs-ubench-memops-1... took 0s0ms
+Importing all datapoints for asmjs-ubench-primes-1... took 0s0ms
+Importing all datapoints for asmjs-ubench-skinning-1... took 0s0ms
+Importing all datapoints for asmjs-apps-1... took 0s0ms
+Importing all datapoints for asmjs-apps-box2d-loadtime-1... took 0s0ms
+Importing all datapoints for asmjs-apps-box2d-throughput-1... took 0s0ms
+Importing all datapoints for asmjs-apps-bullet-loadtime-1... took 0s0ms
+Importing all datapoints for asmjs-apps-bullet-throughput-1... took 0s0ms
+Importing all datapoints for asmjs-apps-lua_binarytrees-loadtime-1... took 0s0ms
+Importing all datapoints for asmjs-apps-lua_binarytrees-throughput-1... took 0s0ms
+Importing all datapoints for asmjs-apps-zlib-loadtime-1... took 0s0ms
+Importing all datapoints for asmjs-apps-zlib-throughput-1... took 0s0ms
+Importing all datapoints for embenchen-1... took 0s0ms
+Importing all datapoints for embenchen-bench_box2d-1... took 0s0ms
+Importing all datapoints for embenchen-bench_bullet-1... took 0s0ms
+Importing all datapoints for embenchen-bench_copy-1... took 0s0ms
+Importing all datapoints for embenchen-bench_corrections-1... took 0s0ms
+Importing all datapoints for embenchen-bench_fannkuch-1... took 0s0ms
+Importing all datapoints for embenchen-bench_fasta-1... took 0s0ms
+Importing all datapoints for embenchen-bench_lua_binarytrees-1... took 0s0ms
+Importing all datapoints for embenchen-bench_memops-1... took 0s0ms
+Importing all datapoints for embenchen-bench_primes-1... took 0s0ms
+Importing all datapoints for embenchen-bench_skinning-1... took 0s0ms
+Importing all datapoints for embenchen-bench_zlib-1... took 0s0ms
+Importing all datapoints for jetstream-1... took 0s0ms
+Importing all datapoints for jetstream-bigfib.cpp-1... took 0s0ms
+Importing all datapoints for jetstream-container.cpp-1... took 0s0ms
+Importing all datapoints for jetstream-dry.c-1... took 0s0ms
+Importing all datapoints for jetstream-float-mm.c-1... took 0s0ms
+Importing all datapoints for jetstream-gcc-loops.cpp-1... took 0s0ms
+Importing all datapoints for jetstream-n-body.c-1... took 0s0ms
+Importing all datapoints for jetstream-quicksort.c-1... took 0s0ms
+Importing all datapoints for jetstream-towers.c-1... took 0s0ms
+Importing all datapoints for browsermark-1... took 0s0ms
+Condensing condensed-browsermark-1-2015-7...  took 0s0ms
+Aggregating browsermark-1... took 0s0ms
+Importing all datapoints for browsermark-array_blur-1... took 0s0ms
+Condensing bk-condensed-browsermark-array_blur-1-2015-7...  took 0s0ms
+Aggregating browsermark-array_blur-1... took 0s0ms
+Importing all datapoints for browsermark-array_weighted-1... took 0s0ms
+Condensing bk-condensed-browsermark-array_weighted-1-2015-7...  took 0s0ms
+Aggregating browsermark-array_weighted-1... took 0s0ms
+Importing all datapoints for browsermark-string_chat-1... took 0s0ms
+Condensing bk-condensed-browsermark-string_chat-1-2015-7...  took 0s0ms
+Aggregating browsermark-string_chat-1... took 0s0ms
+Importing all datapoints for browsermark-string_filter-1... took 0s0ms
+Condensing bk-condensed-browsermark-string_filter-1-2015-7...  took 0s0ms
+Aggregating browsermark-string_filter-1... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-1... took 0s0ms
+Condensing condensed-VellamoSurfWaxBinder-1-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-1... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-imagedata_seq_mrps-1... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-imagedata_seq_mrps-1-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-imagedata_seq_mrps-1... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-imagedata_seq_mwps-1... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-imagedata_seq_mwps-1-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-imagedata_seq_mwps-1... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_single_mrps-1... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_single_mrps-1-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_single_mrps-1... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_single_mwps-1... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_single_mwps-1-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_single_mwps-1... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_sweep_mcps-1... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_sweep_mcps-1-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_sweep_mcps-1... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_sweep_mrps-1... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_sweep_mrps-1-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_sweep_mrps-1... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_sweep_mwps-1... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_sweep_mwps-1-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_sweep_mwps-1... took 0s0ms
+Importing all datapoints for VellamoKruptein-1... took 0s0ms
+Condensing condensed-VellamoKruptein-1-2015-7...  took 0s0ms
+Aggregating VellamoKruptein-1... took 0s0ms
+Importing all datapoints for VellamoKruptein-cryptoJSAESDecryptTime-1... took 0s0ms
+Condensing bk-condensed-VellamoKruptein-cryptoJSAESDecryptTime-1-2015-7...  took 0s0ms
+Aggregating VellamoKruptein-cryptoJSAESDecryptTime-1... took 0s0ms
+Importing all datapoints for VellamoKruptein-cryptoJSAESEncryptTime-1... took 0s0ms
+Condensing bk-condensed-VellamoKruptein-cryptoJSAESEncryptTime-1-2015-7...  took 0s0ms
+Aggregating VellamoKruptein-cryptoJSAESEncryptTime-1... took 0s0ms
+Importing all datapoints for VellamoKruptein-cryptoJSSHA2HashTime-1... took 0s0ms
+Condensing bk-condensed-VellamoKruptein-cryptoJSSHA2HashTime-1-2015-7...  took 0s0ms
+Aggregating VellamoKruptein-cryptoJSSHA2HashTime-1... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-1... took 0s0ms
+Condensing condensed-VellamoDeepCrossfader-1-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-1... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-0-1... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-0-1-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-0-1... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-1-1... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-1-1-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-1-1... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-2-1... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-2-1-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-2-1... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-3-1... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-3-1-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-3-1... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-4-1... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-4-1-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-4-1... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-5-1... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-5-1-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-5-1... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-6-1... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-6-1-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-6-1... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-7-1... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-7-1-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-7-1... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-8-1... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-8-1-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-8-1... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-9-1... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-9-1-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-9-1... took 0s0ms
+Importing all datapoints for WebXPRTStock-1... took 0s0ms
+Condensing condensed-WebXPRTStock-1-2015-7...  took 0s0ms
+Aggregating WebXPRTStock-1... took 0s0ms
+Importing all datapoints for WebXPRTStock-1-1... took 0s0ms
+Condensing bk-condensed-WebXPRTStock-1-1-2015-7...  took 0s0ms
+Aggregating WebXPRTStock-1-1... took 0s0ms
+Importing all datapoints for WebXPRTStorage-1... took 0s0ms
+Condensing condensed-WebXPRTStorage-1-2015-7...  took 0s0ms
+Aggregating WebXPRTStorage-1... took 0s0ms
+Importing all datapoints for WebXPRTStorage-1-1... took 0s0ms
+Condensing bk-condensed-WebXPRTStorage-1-1-2015-7...  took 0s0ms
+Aggregating WebXPRTStorage-1-1... took 0s0ms
+Importing all datapoints for ss-2... took 0s0ms
+Importing all datapoints for ss-3bit-bits-in-byte-2... took 0s0ms
+Importing all datapoints for ss-aes-2... took 0s0ms
+Importing all datapoints for ss-base64-2... took 0s0ms
+Importing all datapoints for ss-binary-trees-2... took 0s0ms
+Importing all datapoints for ss-bits-in-byte-2... took 0s0ms
+Importing all datapoints for ss-bitwise-and-2... took 0s0ms
+Importing all datapoints for ss-cordic-2... took 0s0ms
+Importing all datapoints for ss-cube-2... took 0s0ms
+Importing all datapoints for ss-dna-2... took 0s0ms
+Importing all datapoints for ss-fannkuch-2... took 0s0ms
+Importing all datapoints for ss-fasta-2... took 0s0ms
+Importing all datapoints for ss-format-tofte-2... took 0s0ms
+Importing all datapoints for ss-format-xparb-2... took 0s0ms
+Importing all datapoints for ss-md5-2... took 0s0ms
+Importing all datapoints for ss-morph-2... took 0s0ms
+Importing all datapoints for ss-nbody-2... took 0s0ms
+Importing all datapoints for ss-nsieve-2... took 0s0ms
+Importing all datapoints for ss-nsieve-bits-2... took 0s0ms
+Importing all datapoints for ss-partial-sums-2... took 0s0ms
+Importing all datapoints for ss-raytrace-2... took 0s0ms
+Importing all datapoints for ss-recursive-2... took 0s0ms
+Importing all datapoints for ss-sha1-2... took 0s0ms
+Importing all datapoints for ss-spectral-norm-2... took 0s0ms
+Importing all datapoints for ss-tagcloud-2... took 0s0ms
+Importing all datapoints for ss-unpack-code-2... took 0s0ms
+Importing all datapoints for ss-validate-input-2... took 0s0ms
+Importing all datapoints for v8real-2... took 0s0ms
+Importing all datapoints for kraken-2... took 0s0ms
+Importing all datapoints for kraken-astar-2... took 0s0ms
+Importing all datapoints for kraken-beat-detection-2... took 0s0ms
+Importing all datapoints for kraken-crypto-aes-2... took 0s0ms
+Importing all datapoints for kraken-crypto-ccm-2... took 0s0ms
+Importing all datapoints for kraken-crypto-pbkdf2-2... took 0s0ms
+Importing all datapoints for kraken-crypto-sha256-iterative-2... took 0s0ms
+Importing all datapoints for kraken-darkroom-2... took 0s0ms
+Importing all datapoints for kraken-desaturate-2... took 0s0ms
+Importing all datapoints for kraken-dft-2... took 0s0ms
+Importing all datapoints for kraken-fft-2... took 0s0ms
+Importing all datapoints for kraken-gaussian-blur-2... took 0s0ms
+Importing all datapoints for kraken-oscillator-2... took 0s0ms
+Importing all datapoints for kraken-parse-financial-2... took 0s0ms
+Importing all datapoints for kraken-stringify-tinderbox-2... took 0s0ms
+Importing all datapoints for misc-2... took 0s0ms
+Importing all datapoints for misc-basic-arguments-2... took 0s0ms
+Importing all datapoints for misc-basic-array-2... took 0s0ms
+Importing all datapoints for misc-basic-closures-2... took 0s0ms
+Importing all datapoints for misc-basic-emptyloop-2... took 0s0ms
+Importing all datapoints for misc-basic-fpops-2... took 0s0ms
+Importing all datapoints for misc-basic-intops-2... took 0s0ms
+Importing all datapoints for misc-basic-strcat-2... took 0s0ms
+Importing all datapoints for misc-bugs-508716-fluid-dynamics-2... took 0s0ms
+Importing all datapoints for misc-bugs-608733-interpreter-2... took 0s0ms
+Importing all datapoints for misc-bugs-608733-trace-compiler-2... took 0s0ms
+Importing all datapoints for misc-bugs-612930-solve-sudoku-2... took 0s0ms
+Importing all datapoints for misc-bugs-636096-model2d-2... took 0s0ms
+Importing all datapoints for misc-bugs-652303-arraymod-2... took 0s0ms
+Importing all datapoints for misc-bugs-652377-jslint-on-jslint-2... took 0s0ms
+Importing all datapoints for misc-bugs-654410-nezulator-2... took 0s0ms
+Importing all datapoints for misc-bugs-658844-sha256-bitcoins-2... took 0s0ms
+Importing all datapoints for misc-bugs-659467-jsunzip-2... took 0s0ms
+Importing all datapoints for misc-bugs-663087-decompress-gzip-2... took 0s0ms
+Importing all datapoints for misc-bugs-847389-jpeg2000-2... took 0s0ms
+Importing all datapoints for misc-f32-exp-2... took 0s0ms
+Importing all datapoints for misc-f32-fft-2... took 0s0ms
+Importing all datapoints for misc-f32-markov-2... took 0s0ms
+Importing all datapoints for misc-forEach-baseline-2... took 0s0ms
+Importing all datapoints for misc-forEach-custom-2... took 0s0ms
+Importing all datapoints for misc-forEach-library-2... took 0s0ms
+Importing all datapoints for misc-typedobj-simple-struct-standard-2... took 0s0ms
+Importing all datapoints for misc-typedobj-simple-struct-typedobj-2... took 0s0ms
+Importing all datapoints for misc-typedobj-splay-standard-2... took 0s0ms
+Importing all datapoints for misc-typedobj-splay-typedobj-2... took 0s0ms
+Importing all datapoints for misc-typedobj-utf8array-standard-2... took 0s0ms
+Importing all datapoints for misc-typedobj-utf8array-typedobj-2... took 0s0ms
+Importing all datapoints for misc-typedobj-write-struct-field-standard-2... took 0s0ms
+Importing all datapoints for misc-typedobj-write-struct-field-typedobj-2... took 0s0ms
+Importing all datapoints for octane-2... took 0s0ms
+Importing all datapoints for octane-Box2D-2... took 0s0ms
+Importing all datapoints for octane-CodeLoad-2... took 0s0ms
+Importing all datapoints for octane-Crypto-2... took 0s0ms
+Importing all datapoints for octane-DeltaBlue-2... took 0s0ms
+Importing all datapoints for octane-EarleyBoyer-2... took 0s0ms
+Importing all datapoints for octane-Gameboy-2... took 0s0ms
+Importing all datapoints for octane-Mandreel-2... took 0s0ms
+Importing all datapoints for octane-MandreelLatency-2... took 0s0ms
+Importing all datapoints for octane-NavierStokes-2... took 0s0ms
+Importing all datapoints for octane-PdfJS-2... took 0s0ms
+Importing all datapoints for octane-RayTrace-2... took 0s0ms
+Importing all datapoints for octane-RegExp-2... took 0s0ms
+Importing all datapoints for octane-Richards-2... took 0s0ms
+Importing all datapoints for octane-Splay-2... took 0s0ms
+Importing all datapoints for octane-SplayLatency-2... took 0s0ms
+Importing all datapoints for octane-Typescript-2... took 0s0ms
+Importing all datapoints for octane-zlib-2... took 0s0ms
+Importing all datapoints for asmjs-ubench-2... took 0s0ms
+Importing all datapoints for asmjs-ubench-copy-2... took 0s0ms
+Importing all datapoints for asmjs-ubench-corrections-2... took 0s0ms
+Importing all datapoints for asmjs-ubench-fannkuch-2... took 0s0ms
+Importing all datapoints for asmjs-ubench-fasta-2... took 0s0ms
+Importing all datapoints for asmjs-ubench-life-2... took 0s0ms
+Importing all datapoints for asmjs-ubench-memops-2... took 0s0ms
+Importing all datapoints for asmjs-ubench-primes-2... took 0s0ms
+Importing all datapoints for asmjs-ubench-skinning-2... took 0s0ms
+Importing all datapoints for asmjs-apps-2... took 0s0ms
+Importing all datapoints for asmjs-apps-box2d-loadtime-2... took 0s0ms
+Importing all datapoints for asmjs-apps-box2d-throughput-2... took 0s0ms
+Importing all datapoints for asmjs-apps-bullet-loadtime-2... took 0s0ms
+Importing all datapoints for asmjs-apps-bullet-throughput-2... took 0s0ms
+Importing all datapoints for asmjs-apps-lua_binarytrees-loadtime-2... took 0s0ms
+Importing all datapoints for asmjs-apps-lua_binarytrees-throughput-2... took 0s0ms
+Importing all datapoints for asmjs-apps-zlib-loadtime-2... took 0s0ms
+Importing all datapoints for asmjs-apps-zlib-throughput-2... took 0s0ms
+Importing all datapoints for embenchen-2... took 0s0ms
+Importing all datapoints for embenchen-bench_box2d-2... took 0s0ms
+Importing all datapoints for embenchen-bench_bullet-2... took 0s0ms
+Importing all datapoints for embenchen-bench_copy-2... took 0s0ms
+Importing all datapoints for embenchen-bench_corrections-2... took 0s0ms
+Importing all datapoints for embenchen-bench_fannkuch-2... took 0s0ms
+Importing all datapoints for embenchen-bench_fasta-2... took 0s0ms
+Importing all datapoints for embenchen-bench_lua_binarytrees-2... took 0s0ms
+Importing all datapoints for embenchen-bench_memops-2... took 0s0ms
+Importing all datapoints for embenchen-bench_primes-2... took 0s0ms
+Importing all datapoints for embenchen-bench_skinning-2... took 0s0ms
+Importing all datapoints for embenchen-bench_zlib-2... took 0s0ms
+Importing all datapoints for jetstream-2... took 0s0ms
+Importing all datapoints for jetstream-bigfib.cpp-2... took 0s0ms
+Importing all datapoints for jetstream-container.cpp-2... took 0s0ms
+Importing all datapoints for jetstream-dry.c-2... took 0s0ms
+Importing all datapoints for jetstream-float-mm.c-2... took 0s0ms
+Importing all datapoints for jetstream-gcc-loops.cpp-2... took 0s0ms
+Importing all datapoints for jetstream-n-body.c-2... took 0s0ms
+Importing all datapoints for jetstream-quicksort.c-2... took 0s0ms
+Importing all datapoints for jetstream-towers.c-2... took 0s0ms
+Importing all datapoints for browsermark-2... took 0s0ms
+Condensing condensed-browsermark-2-2015-7...  took 0s0ms
+Aggregating browsermark-2... took 0s0ms
+Importing all datapoints for browsermark-array_blur-2... took 0s0ms
+Condensing bk-condensed-browsermark-array_blur-2-2015-7...  took 0s0ms
+Aggregating browsermark-array_blur-2... took 0s0ms
+Importing all datapoints for browsermark-array_weighted-2... took 0s0ms
+Condensing bk-condensed-browsermark-array_weighted-2-2015-7...  took 0s0ms
+Aggregating browsermark-array_weighted-2... took 0s0ms
+Importing all datapoints for browsermark-string_chat-2... took 0s0ms
+Condensing bk-condensed-browsermark-string_chat-2-2015-7...  took 0s0ms
+Aggregating browsermark-string_chat-2... took 0s0ms
+Importing all datapoints for browsermark-string_filter-2... took 0s0ms
+Condensing bk-condensed-browsermark-string_filter-2-2015-7...  took 0s0ms
+Aggregating browsermark-string_filter-2... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-2... took 0s0ms
+Condensing condensed-VellamoSurfWaxBinder-2-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-2... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-imagedata_seq_mrps-2... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-imagedata_seq_mrps-2-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-imagedata_seq_mrps-2... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-imagedata_seq_mwps-2... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-imagedata_seq_mwps-2-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-imagedata_seq_mwps-2... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_single_mrps-2... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_single_mrps-2-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_single_mrps-2... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_single_mwps-2... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_single_mwps-2-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_single_mwps-2... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_sweep_mcps-2... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_sweep_mcps-2-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_sweep_mcps-2... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_sweep_mrps-2... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_sweep_mrps-2-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_sweep_mrps-2... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_sweep_mwps-2... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_sweep_mwps-2-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_sweep_mwps-2... took 0s0ms
+Importing all datapoints for VellamoKruptein-2... took 0s0ms
+Condensing condensed-VellamoKruptein-2-2015-7...  took 0s0ms
+Aggregating VellamoKruptein-2... took 0s0ms
+Importing all datapoints for VellamoKruptein-cryptoJSAESDecryptTime-2... took 0s0ms
+Condensing bk-condensed-VellamoKruptein-cryptoJSAESDecryptTime-2-2015-7...  took 0s0ms
+Aggregating VellamoKruptein-cryptoJSAESDecryptTime-2... took 0s0ms
+Importing all datapoints for VellamoKruptein-cryptoJSAESEncryptTime-2... took 0s0ms
+Condensing bk-condensed-VellamoKruptein-cryptoJSAESEncryptTime-2-2015-7...  took 0s0ms
+Aggregating VellamoKruptein-cryptoJSAESEncryptTime-2... took 0s0ms
+Importing all datapoints for VellamoKruptein-cryptoJSSHA2HashTime-2... took 0s0ms
+Condensing bk-condensed-VellamoKruptein-cryptoJSSHA2HashTime-2-2015-7...  took 0s0ms
+Aggregating VellamoKruptein-cryptoJSSHA2HashTime-2... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-2... took 0s0ms
+Condensing condensed-VellamoDeepCrossfader-2-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-2... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-0-2... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-0-2-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-0-2... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-1-2... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-1-2-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-1-2... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-2-2... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-2-2-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-2-2... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-3-2... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-3-2-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-3-2... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-4-2... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-4-2-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-4-2... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-5-2... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-5-2-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-5-2... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-6-2... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-6-2-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-6-2... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-7-2... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-7-2-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-7-2... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-8-2... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-8-2-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-8-2... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-9-2... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-9-2-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-9-2... took 0s0ms
+Importing all datapoints for WebXPRTStock-2... took 0s0ms
+Condensing condensed-WebXPRTStock-2-2015-7...  took 0s0ms
+Aggregating WebXPRTStock-2... took 0s0ms
+Importing all datapoints for WebXPRTStock-1-2... took 0s0ms
+Condensing bk-condensed-WebXPRTStock-1-2-2015-7...  took 0s0ms
+Aggregating WebXPRTStock-1-2... took 0s0ms
+Importing all datapoints for WebXPRTStorage-2... took 0s0ms
+Condensing condensed-WebXPRTStorage-2-2015-7...  took 0s0ms
+Aggregating WebXPRTStorage-2... took 0s0ms
+Importing all datapoints for WebXPRTStorage-1-2... took 0s0ms
+Condensing bk-condensed-WebXPRTStorage-1-2-2015-7...  took 0s0ms
+Aggregating WebXPRTStorage-1-2... took 0s0ms
+Importing all datapoints for ss-3... took 0s0ms
+Importing all datapoints for ss-3bit-bits-in-byte-3... took 0s0ms
+Importing all datapoints for ss-aes-3... took 0s0ms
+Importing all datapoints for ss-base64-3... took 0s0ms
+Importing all datapoints for ss-binary-trees-3... took 0s0ms
+Importing all datapoints for ss-bits-in-byte-3... took 0s0ms
+Importing all datapoints for ss-bitwise-and-3... took 0s0ms
+Importing all datapoints for ss-cordic-3... took 0s0ms
+Importing all datapoints for ss-cube-3... took 0s0ms
+Importing all datapoints for ss-dna-3... took 0s0ms
+Importing all datapoints for ss-fannkuch-3... took 0s0ms
+Importing all datapoints for ss-fasta-3... took 0s0ms
+Importing all datapoints for ss-format-tofte-3... took 0s0ms
+Importing all datapoints for ss-format-xparb-3... took 0s0ms
+Importing all datapoints for ss-md5-3... took 0s0ms
+Importing all datapoints for ss-morph-3... took 0s0ms
+Importing all datapoints for ss-nbody-3... took 0s0ms
+Importing all datapoints for ss-nsieve-3... took 0s0ms
+Importing all datapoints for ss-nsieve-bits-3... took 0s0ms
+Importing all datapoints for ss-partial-sums-3... took 0s0ms
+Importing all datapoints for ss-raytrace-3... took 0s0ms
+Importing all datapoints for ss-recursive-3... took 0s0ms
+Importing all datapoints for ss-sha1-3... took 0s0ms
+Importing all datapoints for ss-spectral-norm-3... took 0s0ms
+Importing all datapoints for ss-tagcloud-3... took 0s0ms
+Importing all datapoints for ss-unpack-code-3... took 0s0ms
+Importing all datapoints for ss-validate-input-3... took 0s0ms
+Importing all datapoints for v8real-3... took 0s0ms
+Importing all datapoints for kraken-3... took 0s0ms
+Importing all datapoints for kraken-astar-3... took 0s0ms
+Importing all datapoints for kraken-beat-detection-3... took 0s0ms
+Importing all datapoints for kraken-crypto-aes-3... took 0s0ms
+Importing all datapoints for kraken-crypto-ccm-3... took 0s0ms
+Importing all datapoints for kraken-crypto-pbkdf2-3... took 0s0ms
+Importing all datapoints for kraken-crypto-sha256-iterative-3... took 0s0ms
+Importing all datapoints for kraken-darkroom-3... took 0s0ms
+Importing all datapoints for kraken-desaturate-3... took 0s0ms
+Importing all datapoints for kraken-dft-3... took 0s0ms
+Importing all datapoints for kraken-fft-3... took 0s0ms
+Importing all datapoints for kraken-gaussian-blur-3... took 0s0ms
+Importing all datapoints for kraken-oscillator-3... took 0s0ms
+Importing all datapoints for kraken-parse-financial-3... took 0s0ms
+Importing all datapoints for kraken-stringify-tinderbox-3... took 0s0ms
+Importing all datapoints for misc-3... took 0s0ms
+Importing all datapoints for misc-basic-arguments-3... took 0s0ms
+Importing all datapoints for misc-basic-array-3... took 0s0ms
+Importing all datapoints for misc-basic-closures-3... took 0s0ms
+Importing all datapoints for misc-basic-emptyloop-3... took 0s0ms
+Importing all datapoints for misc-basic-fpops-3... took 0s0ms
+Importing all datapoints for misc-basic-intops-3... took 0s0ms
+Importing all datapoints for misc-basic-strcat-3... took 0s0ms
+Importing all datapoints for misc-bugs-508716-fluid-dynamics-3... took 0s0ms
+Importing all datapoints for misc-bugs-608733-interpreter-3... took 0s0ms
+Importing all datapoints for misc-bugs-608733-trace-compiler-3... took 0s0ms
+Importing all datapoints for misc-bugs-612930-solve-sudoku-3... took 0s0ms
+Importing all datapoints for misc-bugs-636096-model2d-3... took 0s1ms
+Importing all datapoints for misc-bugs-652303-arraymod-3... took 0s0ms
+Importing all datapoints for misc-bugs-652377-jslint-on-jslint-3... took 0s0ms
+Importing all datapoints for misc-bugs-654410-nezulator-3... took 0s0ms
+Importing all datapoints for misc-bugs-658844-sha256-bitcoins-3... took 0s0ms
+Importing all datapoints for misc-bugs-659467-jsunzip-3... took 0s0ms
+Importing all datapoints for misc-bugs-663087-decompress-gzip-3... took 0s0ms
+Importing all datapoints for misc-bugs-847389-jpeg2000-3... took 0s0ms
+Importing all datapoints for misc-f32-exp-3... took 0s0ms
+Importing all datapoints for misc-f32-fft-3... took 0s0ms
+Importing all datapoints for misc-f32-markov-3... took 0s0ms
+Importing all datapoints for misc-forEach-baseline-3... took 0s0ms
+Importing all datapoints for misc-forEach-custom-3... took 0s0ms
+Importing all datapoints for misc-forEach-library-3... took 0s0ms
+Importing all datapoints for misc-typedobj-simple-struct-standard-3... took 0s0ms
+Importing all datapoints for misc-typedobj-simple-struct-typedobj-3... took 0s0ms
+Importing all datapoints for misc-typedobj-splay-standard-3... took 0s0ms
+Importing all datapoints for misc-typedobj-splay-typedobj-3... took 0s0ms
+Importing all datapoints for misc-typedobj-utf8array-standard-3... took 0s0ms
+Importing all datapoints for misc-typedobj-utf8array-typedobj-3... took 0s0ms
+Importing all datapoints for misc-typedobj-write-struct-field-standard-3... took 0s0ms
+Importing all datapoints for misc-typedobj-write-struct-field-typedobj-3... took 0s0ms
+Importing all datapoints for octane-3... took 0s0ms
+Importing all datapoints for octane-Box2D-3... took 0s0ms
+Importing all datapoints for octane-CodeLoad-3... took 0s0ms
+Importing all datapoints for octane-Crypto-3... took 0s0ms
+Importing all datapoints for octane-DeltaBlue-3... took 0s0ms
+Importing all datapoints for octane-EarleyBoyer-3... took 0s0ms
+Importing all datapoints for octane-Gameboy-3... took 0s0ms
+Importing all datapoints for octane-Mandreel-3... took 0s0ms
+Importing all datapoints for octane-MandreelLatency-3... took 0s0ms
+Importing all datapoints for octane-NavierStokes-3... took 0s0ms
+Importing all datapoints for octane-PdfJS-3... took 0s0ms
+Importing all datapoints for octane-RayTrace-3... took 0s0ms
+Importing all datapoints for octane-RegExp-3... took 0s1ms
+Importing all datapoints for octane-Richards-3... took 0s0ms
+Importing all datapoints for octane-Splay-3... took 0s0ms
+Importing all datapoints for octane-SplayLatency-3... took 0s0ms
+Importing all datapoints for octane-Typescript-3... took 0s0ms
+Importing all datapoints for octane-zlib-3... took 0s0ms
+Importing all datapoints for asmjs-ubench-3... took 0s0ms
+Importing all datapoints for asmjs-ubench-copy-3... took 0s0ms
+Importing all datapoints for asmjs-ubench-corrections-3... took 0s0ms
+Importing all datapoints for asmjs-ubench-fannkuch-3... took 0s0ms
+Importing all datapoints for asmjs-ubench-fasta-3... took 0s0ms
+Importing all datapoints for asmjs-ubench-life-3... took 0s0ms
+Importing all datapoints for asmjs-ubench-memops-3... took 0s0ms
+Importing all datapoints for asmjs-ubench-primes-3... took 0s0ms
+Importing all datapoints for asmjs-ubench-skinning-3... took 0s0ms
+Importing all datapoints for asmjs-apps-3... took 0s0ms
+Importing all datapoints for asmjs-apps-box2d-loadtime-3... took 0s0ms
+Importing all datapoints for asmjs-apps-box2d-throughput-3... took 0s0ms
+Importing all datapoints for asmjs-apps-bullet-loadtime-3... took 0s0ms
+Importing all datapoints for asmjs-apps-bullet-throughput-3... took 0s0ms
+Importing all datapoints for asmjs-apps-lua_binarytrees-loadtime-3... took 0s0ms
+Importing all datapoints for asmjs-apps-lua_binarytrees-throughput-3... took 0s0ms
+Importing all datapoints for asmjs-apps-zlib-loadtime-3... took 0s0ms
+Importing all datapoints for asmjs-apps-zlib-throughput-3... took 0s0ms
+Importing all datapoints for embenchen-3... took 0s0ms
+Importing all datapoints for embenchen-bench_box2d-3... took 0s0ms
+Importing all datapoints for embenchen-bench_bullet-3... took 0s0ms
+Importing all datapoints for embenchen-bench_copy-3... took 0s0ms
+Importing all datapoints for embenchen-bench_corrections-3... took 0s0ms
+Importing all datapoints for embenchen-bench_fannkuch-3... took 0s0ms
+Importing all datapoints for embenchen-bench_fasta-3... took 0s0ms
+Importing all datapoints for embenchen-bench_lua_binarytrees-3... took 0s0ms
+Importing all datapoints for embenchen-bench_memops-3... took 0s0ms
+Importing all datapoints for embenchen-bench_primes-3... took 0s1ms
+Importing all datapoints for embenchen-bench_skinning-3... took 0s0ms
+Importing all datapoints for embenchen-bench_zlib-3... took 0s0ms
+Importing all datapoints for jetstream-3... took 0s0ms
+Importing all datapoints for jetstream-bigfib.cpp-3... took 0s0ms
+Importing all datapoints for jetstream-container.cpp-3... took 0s0ms
+Importing all datapoints for jetstream-dry.c-3... took 0s0ms
+Importing all datapoints for jetstream-float-mm.c-3... took 0s0ms
+Importing all datapoints for jetstream-gcc-loops.cpp-3... took 0s0ms
+Importing all datapoints for jetstream-n-body.c-3... took 0s0ms
+Importing all datapoints for jetstream-quicksort.c-3... took 0s0ms
+Importing all datapoints for jetstream-towers.c-3... took 0s0ms
+Importing all datapoints for browsermark-3... took 0s0ms
+Condensing condensed-browsermark-3-2015-7...  took 0s0ms
+Aggregating browsermark-3... took 0s0ms
+Importing all datapoints for browsermark-array_blur-3... took 0s0ms
+Condensing bk-condensed-browsermark-array_blur-3-2015-7...  took 0s0ms
+Aggregating browsermark-array_blur-3... took 0s0ms
+Importing all datapoints for browsermark-array_weighted-3... took 0s1ms
+Condensing bk-condensed-browsermark-array_weighted-3-2015-7...  took 0s0ms
+Aggregating browsermark-array_weighted-3... took 0s0ms
+Importing all datapoints for browsermark-string_chat-3... took 0s0ms
+Condensing bk-condensed-browsermark-string_chat-3-2015-7...  took 0s0ms
+Aggregating browsermark-string_chat-3... took 0s0ms
+Importing all datapoints for browsermark-string_filter-3... took 0s0ms
+Condensing bk-condensed-browsermark-string_filter-3-2015-7...  took 0s0ms
+Aggregating browsermark-string_filter-3... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-3... took 0s0ms
+Condensing condensed-VellamoSurfWaxBinder-3-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-3... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-imagedata_seq_mrps-3... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-imagedata_seq_mrps-3-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-imagedata_seq_mrps-3... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-imagedata_seq_mwps-3... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-imagedata_seq_mwps-3-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-imagedata_seq_mwps-3... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_single_mrps-3... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_single_mrps-3-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_single_mrps-3... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_single_mwps-3... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_single_mwps-3-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_single_mwps-3... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_sweep_mcps-3... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_sweep_mcps-3-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_sweep_mcps-3... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_sweep_mrps-3... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_sweep_mrps-3-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_sweep_mrps-3... took 0s0ms
+Importing all datapoints for VellamoSurfWaxBinder-jsarray_sweep_mwps-3... took 0s0ms
+Condensing bk-condensed-VellamoSurfWaxBinder-jsarray_sweep_mwps-3-2015-7...  took 0s0ms
+Aggregating VellamoSurfWaxBinder-jsarray_sweep_mwps-3... took 0s0ms
+Importing all datapoints for VellamoKruptein-3... took 0s0ms
+Condensing condensed-VellamoKruptein-3-2015-7...  took 0s0ms
+Aggregating VellamoKruptein-3... took 0s0ms
+Importing all datapoints for VellamoKruptein-cryptoJSAESDecryptTime-3... took 0s0ms
+Condensing bk-condensed-VellamoKruptein-cryptoJSAESDecryptTime-3-2015-7...  took 0s0ms
+Aggregating VellamoKruptein-cryptoJSAESDecryptTime-3... took 0s0ms
+Importing all datapoints for VellamoKruptein-cryptoJSAESEncryptTime-3... took 0s1ms
+Condensing bk-condensed-VellamoKruptein-cryptoJSAESEncryptTime-3-2015-7...  took 0s0ms
+Aggregating VellamoKruptein-cryptoJSAESEncryptTime-3... took 0s0ms
+Importing all datapoints for VellamoKruptein-cryptoJSSHA2HashTime-3... took 0s0ms
+Condensing bk-condensed-VellamoKruptein-cryptoJSSHA2HashTime-3-2015-7...  took 0s0ms
+Aggregating VellamoKruptein-cryptoJSSHA2HashTime-3... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-3... took 0s0ms
+Condensing condensed-VellamoDeepCrossfader-3-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-3... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-0-3... took 0s1ms
+Condensing bk-condensed-VellamoDeepCrossfader-0-3-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-0-3... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-1-3... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-1-3-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-1-3... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-2-3... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-2-3-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-2-3... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-3-3... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-3-3-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-3-3... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-4-3... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-4-3-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-4-3... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-5-3... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-5-3-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-5-3... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-6-3... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-6-3-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-6-3... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-7-3... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-7-3-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-7-3... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-8-3... took 0s0ms
+Condensing bk-condensed-VellamoDeepCrossfader-8-3-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-8-3... took 0s0ms
+Importing all datapoints for VellamoDeepCrossfader-9-3... took 0s1ms
+Condensing bk-condensed-VellamoDeepCrossfader-9-3-2015-7...  took 0s0ms
+Aggregating VellamoDeepCrossfader-9-3... took 0s0ms
+Importing all datapoints for WebXPRTStock-3... took 0s0ms
+Condensing condensed-WebXPRTStock-3-2015-7...  took 0s0ms
+Aggregating WebXPRTStock-3... took 0s0ms
+Importing all datapoints for WebXPRTStock-1-3... took 0s0ms
+Condensing bk-condensed-WebXPRTStock-1-3-2015-7...  took 0s0ms
+Aggregating WebXPRTStock-1-3... took 0s0ms
+Importing all datapoints for WebXPRTStorage-3... took 0s0ms
+Condensing condensed-WebXPRTStorage-3-2015-7...  took 0s0ms
+Aggregating WebXPRTStorage-3... took 0s0ms
+Importing all datapoints for WebXPRTStorage-1-3... took 0s0ms
+Condensing bk-condensed-WebXPRTStorage-1-3-2015-7...  took 0s0ms
+Aggregating WebXPRTStorage-1-3... took 0s0ms

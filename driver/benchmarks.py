@@ -607,7 +607,7 @@ class JerrySunspiderPerf(Benchmark):
             return True
 
     def benchmark(self, shell, env, args):
-        full_args = ['./jerry-mem.sh', shell, 1, 60, 'ss-1.0.2']
+        full_args = ['./jerry-mem.sh', shell, '1', '60', 'ss-1.0.2']
 
         output = utils.RunTimedCheckOutput(full_args, env=env)
         lines = output.splitlines()
@@ -670,7 +670,7 @@ class JerrySunspiderMem(Benchmark):
             return True
 
     def benchmark(self, shell, env, args):
-        full_args = ['./jerry-mem.sh', shell, 15, 60, 'ss-1.0.2']
+        full_args = ['./jerry-mem.sh', shell, '15', '60', 'ss-1.0.2']
 
         output = utils.RunTimedCheckOutput(full_args, env=env)
         lines = output.splitlines()
@@ -793,6 +793,70 @@ class JetStreamShell(Benchmark):
 
         return tests
 
+class WebXPRTStockLib(Benchmark):
+    def __init__(self):
+        super(WebXPRTStockLib, self).__init__('WebXPRTStockLib', '2015',
+                'WebXPRT2015')
+
+    def benchmark(self, shell, env, args):
+        full_args = [shell]
+        if args:
+            full_args.extend(args)
+        full_args.append('WebXPRT2015-stockslibrary-d8.js')
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        lines = output.splitlines()
+
+        cnt = 0
+        total = 0.0
+        for x in lines:
+            m = re.search("(\d+(\.\d+)?)", x)
+            if not m:
+                continue
+            cnt = cnt + 1
+            score = m.group(1)
+            tests.append({ 'name': cnt, 'time': score})
+            total += float(score)
+
+        tests.append({ 'name': '__total__', 'time': total})
+
+        return tests
+
+class WebXPRTDNA(Benchmark):
+    def __init__(self):
+        super(WebXPRTDNA, self).__init__('WebXPRTDNA', '2015',
+                'WebXPRT2015')
+
+    def benchmark(self, shell, env, args):
+        full_args = [shell]
+        if args:
+            full_args.extend(args)
+        full_args.append('WebXPRT2015-sequencing-d8.js')
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        lines = output.splitlines()
+
+        cnt = 0
+        total = 0.0
+        for x in lines:
+            m = re.search("(\d+(\.\d+)?)", x)
+            if not m:
+                continue
+            cnt = cnt + 1
+            score = m.group(1)
+            tests.append({ 'name': cnt, 'time': score})
+            total += float(score)
+
+        tests.append({ 'name': '__total__', 'time': total})
+
+        return tests
+
 Benchmarks = [#AsmJSApps(),
               #AsmJSMicro(),
               SunSpider(),
@@ -801,18 +865,20 @@ Benchmarks = [#AsmJSApps(),
               OctaneV1(),
               Octane(),
               Embenchen(),
-              JetStream(),
+              #JetStream(),
               BrowserMark(),
               VellamoSurfWaxBinder(),
               VellamoKruptein(),
               #VellamoDeepCrossfader(),
               WebXPRTStock(),
               WebXPRTStorage(),
+              WebXPRTStockLib(),
+              WebXPRTDNA(),
               BmDom(),
               BmScalable(),
-              JerrySimple(),
-              JerrySunspider(),
-              JetStreamShell(),
+              #JerrySimple(),
+              #JerrySunspider(),
+              #JetStreamShell(),
              ]
 
 def run(submit, native, modes):

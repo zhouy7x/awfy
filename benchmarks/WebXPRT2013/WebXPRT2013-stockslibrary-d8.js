@@ -23,43 +23,139 @@
 };
 
 
+    var elapsedTime = [];
+    var  iter=7;
+       for (var iii = 0;iii<iter;iii++)
+     { 
+      var stockChartStartTime = new Date();
+	  displayTechnicalIndicators(feed, 2);
 
-        var stockChartStartTime = new Date();
-
-
-      for (var iii = 0;iii<10;iii++)
-     {
-		displayTechnicalIndicators(feed, 2);
-
-		var heatMapStartTime = new Date();
-		renderHeatMap(feed, true);
-
-
-		var optionsStartTime = new Date();
-		calculateOptionPrices(feed);
+	  var heatMapStartTime = new Date();
+	  renderHeatMap(feed, true);
 
 
-	}
+	  var optionsStartTime = new Date();
+	  calculateOptionPrices(feed);
+	  var endTime = new Date();
+	  elapsedTime[iii] = endTime - stockChartStartTime;
 
+     }
 
+     
+     var arrAfterRemovingOutliers = getArrayAfterRemovingOutliers(elapsedTime);
 
+     var meanScore=calculate_average(arrAfterRemovingOutliers);
 
+     meanScore=Math.round(meanScore,0);
+     print(meanScore);
 
-
-
-
-
-		var endTime = new Date();
-
-		var elapsedTime = endTime - stockChartStartTime;
-		print(elapsedTime)
 		//Server Functions
 		//var arrPos = getQueryStringValue("arrPos");
 		//var testIndex= getQueryStringValue("testIndex");
 		//var run = getQueryStringValue("run");
 		//setTimeout(function(){window.location = serverUrl + 'recorddashboardresults.php?rendertime=' + elapsedTime + '&arrPos=' + arrPos + '&testIndex=' + testIndex + '&run=' + run},globalWorkloadTimeout);
 
+function calculate_average(arr) {
 
+     var total=0;
+     for (var iii = 0;iii<arr.length;iii++)
+     { 
+     	total = total + arr[iii];
+     }
+
+    var average = (total/arr.length); 
+    
+    return average;
+}
+
+function getArrayAfterRemovingOutliers(arr){   
+   var medValArr = calculate_median(arr);   
+   
+   var medVal = 0;
+
+   if(medValArr[0] == 1){
+      median = medValArr[1];
+      medVal = medValArr[1];
+   }else{
+      median = medValArr[1];     
+      medVal = medValArr[2];     
+   }
+   
+   arr.sort(sortNumber);
+   
+   var arrCount = 0;
+   var  arrForfirstQuartile=[];
+
+   for(i=0;i <arr.length; i++)
+   { 
+        if(arr[i] <= medVal)     
+        {
+            arrForfirstQuartile[arrCount] = arr[i];    
+            arrCount++;
+        }
+    }
+
+     
+    var  firstQuartileArr = calculate_median(arrForfirstQuartile);  
+    var  arrForthirdQuartile=[];
+    arrCount=0;
+    for(i=0;i <arr.length; i++)
+    {  
+        if(arr[i] > medVal)      
+        {
+            arrForthirdQuartile[arrCount] = arr[i];     
+            arrCount++;
+        }
+    }
+
+    var thirdQuartileArr = calculate_median(arrForthirdQuartile);      
+    var  basicFrstQtr=[];
+    var  basicThirdQtr=[];
+    basicFrstQtr[0] = Math.round(firstQuartileArr[1],2);   
+    basicThirdQtr[0]= Math.round(thirdQuartileArr[1],2);
+    
+    outlierLimit = basicThirdQtr[0] + 1.5 * (basicThirdQtr[0] - basicFrstQtr[0]);       
+    var arrAfterRemovingOutliers = [];
+    arrCount = 0;
+    for(i=0;i <arr.length; i++)
+    { 
+        if(arr[i] <= outlierLimit )
+        {
+            arrAfterRemovingOutliers[arrCount] = arr[i];
+            arrCount++;
+        }
+    }
+    return arrAfterRemovingOutliers;
+}
+
+
+
+function sortNumber(a,b)
+{
+return a - b
+}
+
+function calculate_median(arr) {    
+  
+    arr.sort(sortNumber);
+
+    var count = arr.length; 
+    if(count % 2) { 
+        median = arr[(count-1)/2];
+        oddnum = 1;
+    } else { 
+        oddnum = 0;
+        low = arr[count/2-1];
+        high = arr[count/2];
+        median = ((low+high)/2);
+    }
+    
+    var returnArray = [];
+    returnArray[0] = oddnum;
+    returnArray[1] = median;
+
+    return returnArray;
+}
 
 
 

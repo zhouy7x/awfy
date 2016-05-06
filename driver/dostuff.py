@@ -85,11 +85,19 @@ for slave in KnownSlaves:
     # Inform AWFY of each mode we found.
     submit = submitter.Submitter(slave)
     submit.Start()
+
+    # modes only run on specific slave
+    slave_modes = []
     for mode in modes:
+        # Do not run turbo on slm .I add this statement here for convenience.
+        # Though it's ugly. 
+        if slave.name == 'slm' and '--turbo' in mode.args:
+            continue
         submit.AddEngine(mode.name, mode.cset)
+        slave_modes.append(mode)
     submit.AddEngine(native.mode, native.signature)
 
-    slave.benchmark(submit, native, modes)
+    slave.benchmark(submit, native, slave_modes)
 
 # Wait for all of the slaves to finish running before exiting.
 for slave in KnownSlaves:

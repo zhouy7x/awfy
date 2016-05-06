@@ -1,0 +1,1 @@
+function getmyname(){return "user-awfy.sh.intel.com"}

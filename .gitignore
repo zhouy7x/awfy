@@ -1,3 +1,11 @@
+website/data
+website/data-bk1
+website/data-bk3
+website/ARCworkloads
+website/benchmarks
+website/reports
+repos/
+.svn/
 *.pyc
 *~
 *.swp
