@@ -227,19 +227,17 @@ class V8(Engine):
             return os.path.join('out', 'ia32.release', 'd8')
 
     def libpaths(self):
-        p1, p2 = '', ''
+        otgt = ''
         if self.cpu == 'x64':
-            p1 = os.path.join('out', 'x64.release', 'natives_blob.bin')
-            p2 = os.path.join('out', 'x64.release', 'snapshot_blob.bin')
+            otgt = 'x64.release'
         elif self.cpu == 'arm':
-            p1 = os.path.join('out', 'arm.release', 'natives_blob.bin')
-            p2 = os.path.join('out', 'arm.release', 'snapshot_blob.bin')
+            otgt = 'arm.release'
         elif self.cpu == 'x86':
-            p1 = os.path.join('out', 'ia32.release', 'natives_blob.bin')
-            p2 = os.path.join('out', 'ia32.release', 'snapshot_blob.bin')
+            otgt = 'ia32.release'
 
-        return [{"path" : p1, "exclude" : []},
-                {"path" : p2, "exclude" : []}
+        return [{"path" : os.path.join('out', otgt, 'natives_blob.bin'), "exclude" : []},
+                {"path" : os.path.join('out', otgt, 'snapshot_blob.bin'), "exclude" : []},
+                {"path" : os.path.join('out', otgt, 'icudtl.dat'), "exclude" : []}
                ]
 
 class ContentShell(Engine):
