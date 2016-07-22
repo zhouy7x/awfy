@@ -14,6 +14,9 @@ from utils import Run
 
 import synctroubles
 
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 class Engine(object):
     def __init__(self):
         self.cpu = utils.config.get('main', 'cpu')

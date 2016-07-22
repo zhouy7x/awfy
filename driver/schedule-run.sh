@@ -24,6 +24,8 @@ fi
 
 touch /tmp/awfy-daemon
 
+python print_env.py
+
 count=0
 while :
 do

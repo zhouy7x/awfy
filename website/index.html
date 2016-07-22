@@ -17,6 +17,8 @@
  <style>
  #totop{ position:fixed; bottom:0; right:10px; cursor:pointer; }
  #buttonbox{ position:fixed; top:20px; right:10px }
+ #commit-div{ position:fixed; top:60px; right:10px; text-align: left; height: 80%; overflow-y: auto;}
+ .benchmark-record {padding: 8px 0 0 16px;}
  </style>
 </head>
 <body>
@@ -74,13 +76,114 @@
             }
         });
     }
+
+    function searchCommit() {
+      var id = $("#commit-id").val().trim();  // '0898bf4835195105d888cf34483e767b8b66fad7'
+      var resdiv = $("#query-results");
+
+      resdiv.empty();
+      if (id.length < 3)
+        return;
+      
+      //console.log(id);
+      $(".graph").each(function() {
+        var display = $(this).data("awfy-display");
+        if (!display) {
+            return;
+        }
+        var plot = display.plot;
+
+        // unhighlight previous
+        plot.unhighlight();
+
+        var graph = display.graph;
+        var info = graph.info;
+
+        for (var y = 0; y < info.length; y++) {
+          var modeid = info[y].modeid;
+          if (!AWFYMaster.modes[modeid] || !AWFYMaster.modes[modeid])
+            continue;
+
+          var line = info[y].data;
+          for (var x = 0; x < line.length; x++) {
+            var dot = line[x];
+            if (dot && ((typeof(dot[1]) === "string" && ~dot[1].indexOf(id))/* || (typeof(dot[2]) === "string" && ~dot[2].indexOf(id))*/)) {
+              plot.highlight(y, x);
+            }
+          }
+        }
+    });
+
+    AWFY.query(AWFY.machineId, AWFY.view, AWFYMaster.suites[AWFY.suiteName].id, id, AWFY.subtest || "", function(data) {
+      var records = JSON.parse(data);
+      //console.log(records);
+
+      if (records.length === 0) {
+        resdiv.append($("<div>No benchmark records</div>"));
+        return;
+      }
+
+      var date = new Date(records[0].stamp * 1000);
+      resdiv.append($("<div class='benchmark-record'>" + "<strong>tested: </strong>" + (date.toLocaleString()) + "</div>"));
+      for (var i = 0; i < records.length; i++) {
+        var r = records[i];
+        var m = AWFYMaster.modes[r.mode_id];
+        if (!m || !m.used)
+          continue;
+
+        var name = r.name ? "<strong>name: </strong>" + r.name + "<br>" : "";
+        var mode = "<strong>mode: </strong>" + m.name + "<br>";
+        var score = "<strong>score: </strong>" + r.score;
+        var item = $("<div class='benchmark-record' style='color:" + m.color + "'>" + name + mode + score + "</div>");
+        resdiv.append(item);
+      }
+    });
+  }
+
+  function lastWeek() {
+    var date = new Date();
+    var start, end = (date.getTime() / 1000) | 0;
+    date.setDate(date.getDate() - 8);
+    start = (date.getTime() / 1000) | 0;
+
+    $(".graph").each(function() {
+      var display = $(this).data("awfy-display");
+      if (!display) {
+          return;
+      }
+      AWFY.requestZoom(display, 'raw', start, end);
+    });
+  }
+
+  function lastMonth() {
+    var date = new Date();
+    var start, end = (date.getTime() / 1000) | 0;
+    date.setMonth(date.getMonth() - 1);
+    start = (date.getTime() / 1000) | 0;
+
+    $(".graph").each(function() {
+      var display = $(this).data("awfy-display");
+      if (!display) {
+          return;
+      }
+      AWFY.requestZoom(display, 'raw', start, end);
+    });
+  }
   </script>
     <div id="totop" onclick="window.scrollTo(0,0);" ><h2>Back To Top</h2></div>
  <div class="graph-row">
   <div id="message"></div>
   <div id="buttonbox">
+    <input type="button" value="LastWeek" onclick="lastWeek()" />
+    <input type="button" value="LastMonth" onclick="lastMonth()" style="margin-right: 32px"/>
     Δ<input id="hlvalue" type="text" size="4" />%
     <input id="hlbutton" type="button" value="highlight" onclick="highlightPoints()" />
+  </div>
+  <div id="commit-div">
+    Commit Id: <input id="commit-id" type="text" size="36" />
+    <input type="button" value="search" onclick="searchCommit()" />
+    <div id="query-results">
+    </div>
   </div>
   <div id="navcontainer">
     <ul id="legend"></ul>

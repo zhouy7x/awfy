@@ -603,23 +603,23 @@ class JerrySunspiderPerf(Benchmark):
         super(JerrySunspiderPerf, self).__init__('JerrySunspiderPerf', '1.0.2', 'JerrySs')
 
     def omit(self, mode):
-        if 'JerryScript' not in mode.name:
+        if 'JerryScript' not in mode.name and 'IoTjs' not in mode.name:
             return True
 
     def benchmark(self, shell, env, args):
-        full_args = ['./jerry-mem.sh', shell, '1', '60', 'ss-1.0.2']
+        full_args = ['./jerry-perf.sh', shell, '1', '60', 'ss-1.0.2']
 
         output = utils.RunTimedCheckOutput(full_args, env=env)
         lines = output.splitlines()
 
         scorebase = {
             '3d-cube.js':1.88,
-            '3d-morph.js':4.268,
+            # '3d-morph.js':4.268,
             '3d-raytrace.js':0.052,
             'access-binary-trees.js':1.108,
             'access-fannkuch.js':5.936,
             'access-nbody.js':2.696,
-            'access-nsieve.js':8.6,
+            # 'access-nsieve.js':8.6,
             'bitops-3bit-bits-in-byte.js':1.54,
             'bitops-bits-in-byte.js':2.092,
             'bitops-bitwise-and.js':2.116,
@@ -633,16 +633,18 @@ class JerrySunspiderPerf(Benchmark):
             'math-cordic.js':2.208,
             'math-partial-sums.js':1.224,
             'math-spectral-norm.js':1.348,
-            'regexp-dna.js':0.092,
+            # 'regexp-dna.js':0.092,
             'string-base64.js':1,
             'string-fasta.js':3.504,
-            'string-tagcloud.js':0.028,
-            'string-unpack-code.js':1,
-            'string-validate-input.js':1.424,
+            # 'string-tagcloud.js':0.028,
+            # 'string-unpack-code.js':1,
+            # 'string-validate-input.js':1.424,
         }
 
         tests = []
         total = 0.0
+        refscore = 0.0
+
         for x in lines:
             m = re.search("(.+) \| (\d+(\.\d+)?)", x)
             if not m:
@@ -666,7 +668,7 @@ class JerrySunspiderMem(Benchmark):
         super(JerrySunspiderMem, self).__init__('JerrySunspiderMem', '1.0.2', 'JerrySs')
 
     def omit(self, mode):
-        if 'JerryScript' not in mode.name:
+        if 'JerryScript' not in mode.name and 'IoTjs' not in mode.name:
             return True
 
     def benchmark(self, shell, env, args):
@@ -677,12 +679,12 @@ class JerrySunspiderMem(Benchmark):
 
         scorebase = {
             '3d-cube.js':116,
-            '3d-morph.js':50,
+            # '3d-morph.js':50,
             '3d-raytrace.js':50 ,
             'access-binary-trees.js':84,
             'access-fannkuch.js':40,
             'access-nbody.js':50,
-            'access-nsieve.js':50,
+            # 'access-nsieve.js':50,
             'bitops-3bit-bits-in-byte.js':28,
             'bitops-bits-in-byte.js':28,
             'bitops-bitwise-and.js':32,
@@ -696,16 +698,18 @@ class JerrySunspiderMem(Benchmark):
             'math-cordic.js':36,
             'math-partial-sums.js':50,
             'math-spectral-norm.js':32,
-            'regexp-dna.js':50,
+            # 'regexp-dna.js':50,
             'string-base64.js':50,
             'string-fasta.js':48,
-            'string-tagcloud.js':50,
-            'string-unpack-code.js':50,
-            'string-validate-input.js':50,
+            # 'string-tagcloud.js':50,
+            # 'string-unpack-code.js':50,
+            # 'string-validate-input.js':50,
         }
 
         tests = []
         total = 0.0
+        refscore = 0.0
+
         for x in lines:
             m = re.search("(.+) \| (\d+(\.\d+)?)", x)
             if not m:
@@ -876,9 +880,9 @@ Benchmarks = [#AsmJSApps(),
               WebXPRTDNA(),
               BmDom(),
               BmScalable(),
-              #JerrySimple(),
-              #JerrySunspider(),
-              #JetStreamShell(),
+			  JerrySunspiderPerf(),
+			  JerrySunspiderMem(),
+              JetStreamShell(),
              ]
 
 def run(submit, native, modes):

@@ -51,6 +51,24 @@ AWFY.request = function (files, callback) {
     }
 }
 
+AWFY.query = function (machine, type, suite_id, cset, test, callback) {
+    var url = window.location.protocol + '//' + window.location.host;
+    if (url[url.length - 1] != '/')
+        url += '/';
+    url += 'awfy/query.php?machine=' + machine + "&type=" + type + "&suite_id=" + suite_id + "&cset=" + cset;
+    if (test) {
+        url += "&test=" + encodeURIComponent(test);
+    }
+
+    $.ajax(url, {
+        async: true,
+        cache: false,
+        success: function (data, textStatus, jqXHR) {
+            callback(data);
+        }
+      });
+}
+
 AWFY.pushState = function () {
     // Build URL query.
     var vars = []
@@ -235,6 +253,23 @@ AWFY.computeBreakdown = function (data, id) {
     }
 
     var graph = this.loadAggregateGraph(blob['graph']);
+
+    // Hide benchmarks data before 2016-3-1
+    if (this.machineId == 4) {
+        for (var e = 0; graph.timelist[e] < 1456761600; e++) ; /* 2016-3-1*/
+        if (e > 0) {
+            graph.timelist.splice(0, e);
+            for (var i = 0; i < graph.info.length; i++) {
+              graph.info[i].data.splice(0, e);
+              graph.lines[i].data.splice(0, e);
+
+              var dat = graph.lines[i].data;
+              for (var j = 0; j < dat.length; j++)
+                dat[j][0] = j;
+            }
+        }
+    }
+
     this.displayNewGraph(id, graph);
 }
 
@@ -539,6 +574,7 @@ AWFY.showOverview = function () {
 
     $('#breakdown').empty();
     $('#breakdown').hide();
+    $("#commit-div").hide();
 
     $('.graph-container').show();
 
@@ -570,6 +606,8 @@ AWFY.showBreakdown = function (name) {
 
     $('.graph-container').hide();
     breakdown.show();
+
+    $("#commit-div").show();
 
     this.suiteName = name;
     this.start = null
@@ -631,6 +669,8 @@ AWFY.showSingle = function (name, subtest, start, end) {
 
     $('.graph-container').hide();
     breakdown.show();
+
+    $("#commit-div").show();
 
     this.suiteName = name;
     this.subtest = subtest;
