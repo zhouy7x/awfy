@@ -77,6 +77,31 @@
         });
     }
 
+
+    function highlightTest(display, id) {
+      var plot = display.plot;
+
+      // unhighlight previous
+      plot.unhighlight();
+
+      var graph = display.graph;
+      var info = graph.info;
+
+      for (var y = 0; y < info.length; y++) {
+        var modeid = info[y].modeid;
+        if (!AWFYMaster.modes[modeid] || !AWFYMaster.modes[modeid])
+          continue;
+
+        var line = info[y].data;
+        for (var x = 0; x < line.length; x++) {
+          var dot = line[x];
+          if (dot && ((typeof(dot[1]) === "string" && ~dot[1].indexOf(id))/* || (typeof(dot[2]) === "string" && ~dot[2].indexOf(id))*/)) {
+            plot.highlight(y, x);
+          }
+        }
+      }
+    }
+
     function searchCommit() {
       var id = $("#commit-id").val().trim();  // '0898bf4835195105d888cf34483e767b8b66fad7'
       var resdiv = $("#query-results");
@@ -84,35 +109,6 @@
       resdiv.empty();
       if (id.length < 3)
         return;
-      
-      //console.log(id);
-      $(".graph").each(function() {
-        var display = $(this).data("awfy-display");
-        if (!display) {
-            return;
-        }
-        var plot = display.plot;
-
-        // unhighlight previous
-        plot.unhighlight();
-
-        var graph = display.graph;
-        var info = graph.info;
-
-        for (var y = 0; y < info.length; y++) {
-          var modeid = info[y].modeid;
-          if (!AWFYMaster.modes[modeid] || !AWFYMaster.modes[modeid])
-            continue;
-
-          var line = info[y].data;
-          for (var x = 0; x < line.length; x++) {
-            var dot = line[x];
-            if (dot && ((typeof(dot[1]) === "string" && ~dot[1].indexOf(id))/* || (typeof(dot[2]) === "string" && ~dot[2].indexOf(id))*/)) {
-              plot.highlight(y, x);
-            }
-          }
-        }
-    });
 
     AWFY.query(AWFY.machineId, AWFY.view, AWFYMaster.suites[AWFY.suiteName].id, id, AWFY.subtest || "", function(data) {
       var records = JSON.parse(data);
@@ -123,8 +119,26 @@
         return;
       }
 
-      var date = new Date(records[0].stamp * 1000);
-      resdiv.append($("<div class='benchmark-record'>" + "<strong>tested: </strong>" + (date.toLocaleString()) + "</div>"));
+      var date = new Date(parseInt(records[0].stamp) * 1000);
+      var tested = date.toLocaleString();
+
+      date.setHours(0);
+      date.setMinutes(0);
+      date.setSeconds(0);
+      var s = (date.getTime() / 1000) | 0;
+
+      date.setDate(date.getDate() + 1);
+      var e = (date.getTime() / 1000) | 0;
+
+      $(".graph").each(function() {
+        var display = $(this).data("awfy-display");
+        if (!display) {
+          return;
+        }
+        AWFY.requestZoom(display, 'raw', s, e, highlightTest.bind({}, display, id));
+      });
+
+      resdiv.append($("<div class='benchmark-record'>" + "<strong>tested: </strong>" + tested + "</div>"));
       for (var i = 0; i < records.length; i++) {
         var r = records[i];
         var m = AWFYMaster.modes[r.mode_id];
@@ -140,10 +154,10 @@
     });
   }
 
-  function lastWeek() {
+  function query_past(days) {
     var date = new Date();
     var start, end = (date.getTime() / 1000) | 0;
-    date.setDate(date.getDate() - 8);
+    date.setDate(date.getDate() - days);
     start = (date.getTime() / 1000) | 0;
 
     $(".graph").each(function() {
@@ -155,27 +169,13 @@
     });
   }
 
-  function lastMonth() {
-    var date = new Date();
-    var start, end = (date.getTime() / 1000) | 0;
-    date.setMonth(date.getMonth() - 1);
-    start = (date.getTime() / 1000) | 0;
-
-    $(".graph").each(function() {
-      var display = $(this).data("awfy-display");
-      if (!display) {
-          return;
-      }
-      AWFY.requestZoom(display, 'raw', start, end);
-    });
-  }
   </script>
     <div id="totop" onclick="window.scrollTo(0,0);" ><h2>Back To Top</h2></div>
  <div class="graph-row">
   <div id="message"></div>
   <div id="buttonbox">
-    <input type="button" value="LastWeek" onclick="lastWeek()" />
-    <input type="button" value="LastMonth" onclick="lastMonth()" style="margin-right: 32px"/>
+    <input type="button" value="LastWeek" onclick="query_past(8)" />
+    <input type="button" value="LastMonth" onclick="query_past(32)" style="margin-right: 32px"/>
     Δ<input id="hlvalue" type="text" size="4" />%
     <input id="hlbutton" type="button" value="highlight" onclick="highlightPoints()" />
   </div>

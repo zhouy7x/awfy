@@ -9,6 +9,36 @@ function fault() {
 	exit();
 }
 
+if (isset($_GET["git_rev"]) && isset($_GET["vendor"])) {
+  $rev = $_GET["git_rev"];
+  $vendor = $_GET["vendor"];
+  $dir = "";
+
+  if ($vendor == "V8") {
+    $dir = "/home/user/work/awfy/repos/v8";
+  }
+  else if ($vendor == "JerryScript") {
+    $dir = "/home/user/work/awfy/repos/jerryscript";
+  }
+  else if ($vendor == "Chromium") {
+    $dir = "/home/user/work/awfy/repos/chromium/src";
+  }
+  $cmd = "cd $dir && git log -1 $rev";
+
+  $pipe = popen($cmd , 'r');
+  if (!$pipe) {
+    die();
+  }
+  $output = '';
+  while(!feof($pipe)) {
+    $output .= fread($pipe, 1024);
+  }
+  pclose($pipe);
+
+  echo $output;
+  die();
+}
+
 if (!isset($_GET["machine"]) || !isset($_GET["type"]) || !isset($_GET["suite_id"]) || !isset($_GET["cset"]))
 	fault();
 

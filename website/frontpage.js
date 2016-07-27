@@ -4,6 +4,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 "use strict";
 
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(searchString, position){
+      position = position || 0;
+      return this.substr(position, searchString.length) === searchString;
+  };
+}
+
 function Display(awfy, id, elt)
 {
     this.awfy = awfy;
@@ -169,7 +176,7 @@ Display.prototype.aggregateTicks = function () {
     // we don't want them too close to the historical lines.
     i = list[list.length - 1][0] + ticks;
 
-    // If the aggregate graph has both historical and recent points, 
+    // If the aggregate graph has both historical and recent points,
     for (; i < this.graph.timelist.length; i += ticks) {
         var d = new Date(this.graph.timelist[Math.floor(i)] * 1000);
         var text = Display.Months[d.getMonth()] + " " + d.getDate();
@@ -181,7 +188,7 @@ Display.prototype.aggregateTicks = function () {
 
 Display.prototype.draw = function () {
     var options = { };
-    
+
     // We always start out by using the original graph, since we may modify
     // this one locally. Start by stripping out any lines that should be
     // hidden.
@@ -444,7 +451,7 @@ Display.prototype.detachTips = function () {
     this.attachedTips = [];
 }
 
-Display.prototype.createToolTip = function (item, extended) {
+Display.prototype.createToolTip = function (item, extended, extra) {
     var so = extended ? '<strong>' : '';
     var sc = extended ? '</strong>' : '';
 
@@ -583,7 +590,7 @@ Display.prototype.createToolTip = function (item, extended) {
         }
 
         if (point.length > 1 &&
-            point[2] && 
+            point[2] &&
             point[1] != point[2] &&
             x < this.graph.timelist.length - 1)
         {
@@ -610,7 +617,49 @@ Display.prototype.createToolTip = function (item, extended) {
             text += pad(d.getHours()) + ':' + pad(d.getMinutes()) + '<br>';
     }
 
+    if (extra) {
+        text += "<div style='color: yellow'>";
+        text += extra.Title + '<br>';
+        text += extra.Date + '<br>';
+        if (extra.ccp)
+            text += extra.ccp + '<br>';
+        text += "</div>";
+    }
+
     return new ToolTip(item.pageX, item.pageY, item, text);
+}
+
+Display.prototype.createToolTipAsync = function (item, extended, callback) {
+    var line = this.graph.info[item.seriesIndex];
+    if (!line)
+        return;
+
+    var mode = AWFYMaster.modes[line.modeid];
+    var vendor;
+    if (mode)
+        vendor = AWFYMaster.vendors[mode.vendor_id];
+    if (!vendor)
+        return;
+
+    var x = item.datapoint[0];
+    var point = line.data[x];
+    var self = this;
+
+    AWFY.git(vendor.name, point[1], function(data) {
+        var extra = {};
+        var lines = data.split("\n");
+        //console.log(data);
+
+        extra.Date = lines[2].substr(5).trim();
+        extra.Title = lines[4].substr(4).trim();
+        for (var i = 5; i < lines.length; i++) {
+            var s = lines[i];
+            if (s.startsWith("    Cr-Commit-Position:")) {
+                extra.ccp = s.substr(24).trim();
+            }
+        }
+        callback(self.createToolTip(item, extended, extra));
+    });
 }
 
 Display.prototype.onClick = function (event, pos, item) {
@@ -634,21 +683,29 @@ Display.prototype.onClick = function (event, pos, item) {
         }
     }
 
-    var tooltip = this.createToolTip(item, true);
-    tooltip.drawFloating();
+    var self = this;
 
-    this.lastToolTip = tooltip;
+    this.createToolTipAsync (item, true, function(tooltip) {
+        if (self.hovering) {
+            self.hovering.remove();
+            self.hovering = null;
+        }
 
-    // The color of the line will be the series color.
-    var line = this.graph.info[item.seriesIndex];
-    if (!line)
-        return;
-    var mode = AWFYMaster.modes[line.modeid];
-    if (!mode)
-        return;
+        tooltip.drawFloating();
 
-    tooltip.attachLine(mode.color);
-    this.attachedTips.push(tooltip);
+        self.lastToolTip = tooltip;
+
+        // The color of the line will be the series color.
+        var line = self.graph.info[item.seriesIndex];
+        if (!line)
+            return;
+        var mode = AWFYMaster.modes[line.modeid];
+        if (!mode)
+            return;
+
+        tooltip.attachLine(mode.color);
+        self.attachedTips.push(tooltip);
+    });
 }
 
 Display.prototype.areItemsEqual = function (item1, item2) {
@@ -658,15 +715,17 @@ Display.prototype.areItemsEqual = function (item1, item2) {
 }
 
 Display.prototype.onHover = function (event, pos, item) {
+    var self = this;
+
     // Are we already hovering over something?
-    if (this.hovering) {
+    if (self.hovering) {
         // If we're hovering over the same point, don't do anything.
-        if (item && this.areItemsEqual(item, this.hovering.item))
+        if (item && self.areItemsEqual(item, self.hovering.item))
             return;
 
         // Otherwise, remove the div since we will redraw.
-        this.hovering.remove();
-        this.hovering = null;
+        self.hovering.remove();
+        self.hovering = null;
     }
 
     // If we have a pinned tooltip that has not been moved yet, don't draw a
@@ -677,8 +736,14 @@ Display.prototype.onHover = function (event, pos, item) {
     if (!item)
         return;
 
-    this.hovering = this.createToolTip(item, false);
-    this.hovering.drawBasic();
+    this.createToolTipAsync(item, false, function(tip) {
+        if (self.hovering) {
+            self.hovering.remove();
+        }
+
+        self.hovering = tip;
+        self.hovering.drawBasic();
+    });
 }
 
 Display.prototype.hideToolTips = function () {

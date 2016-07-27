@@ -69,6 +69,60 @@ AWFY.query = function (machine, type, suite_id, cset, test, callback) {
       });
 }
 
+var gitcache = [];
+var inprogress = {};
+
+function cache_find(cset) {
+    for(var i = 0; i < gitcache.length; i++) {
+        if (gitcache[i].cset === cset) {
+            var rec = gitcache[i];
+            if (i !== 0) {
+                gitcache.splice(i, 1);
+                gitcache.unshift(rec);
+            }
+            return rec.dat;
+        }
+    }
+    return null;
+}
+
+function cache_add(cset, dat) {
+    if (gitcache.length > 500) {
+        gitcache.splice(300, 200);
+    }
+    gitcache.unshift({
+        cset: cset,
+        dat: dat
+    });
+}
+
+AWFY.git = function(vendor, cset, callback) {
+    var dat = cache_find(cset);
+    if (dat) {
+        return callback(dat);
+    }
+
+    if (inprogress[cset])
+        return;
+    inprogress[cset] = true;
+
+    var url = window.location.protocol + '//' + window.location.host;
+    if (url[url.length - 1] != '/')
+        url += '/';
+    url += 'awfy/query.php?git_rev=' + cset + '&vendor=' + vendor;
+
+    $.ajax(url, {
+        async: true,
+        cache: false,
+        success: function (data, textStatus, jqXHR) {
+            delete inprogress[cset];
+            cache_add(cset, data);
+
+            callback(data);
+        }
+      });
+};
+
 AWFY.pushState = function () {
     // Build URL query.
     var vars = []
@@ -522,7 +576,7 @@ AWFY.findX = function (graph, time) {
     return i;
 }
 
-AWFY.requestZoom = function (display, kind, start_t, end_t) {
+AWFY.requestZoom = function (display, kind, start_t, end_t, cb) {
     // Figure out the list of dates we'll need to query.
     var files = [];
 
@@ -554,6 +608,9 @@ AWFY.requestZoom = function (display, kind, start_t, end_t) {
 
     var zoom = function (received) {
         this.computeZoom(display, received, start_t, end_t);
+        if (typeof cb === 'function') {
+            cb();
+        }
     }
 
     this.request(files, zoom.bind(this));
@@ -651,7 +708,7 @@ AWFY.showBreakdown = function (name) {
 
         if (domid != id) {
             AWFY.nameMap[domid] = id;
-        } 
+        }
 
         // Fire off an XHR request for each test.
         var file = 'bk-aggregate-' + id + '-' + this.machineId;
@@ -758,7 +815,7 @@ AWFY.requestRedraw = function () {
         }
     } else if (this.view == 'single') {
         var suite = AWFYMaster.suites[this.suiteName];
-        var found = false;    
+        var found = false;
         for (var i = 0; i < suite.tests.length; i++) {
             if (suite.tests[i] == this.subtest) {
                 found = true;
@@ -906,7 +963,7 @@ AWFY.parseURL = function () {
             return;
         } else if (view == 'breakdown' || view == 'single') {
             if (suiteName == this.suiteName) {
-                if (machineId != this.machineId) 
+                if (machineId != this.machineId)
                     this.changeMachine(machineId);
                 this.lastHash = window.location.hash;
                 return;
@@ -956,12 +1013,13 @@ AWFY.updateMachineList = function (machineId) {
         a.appendTo(li);
         li.appendTo(menu);
     }
-    $('#message').html(AWFYMaster.machines[machineId].message+"<br />&nbsp;");
+    var m = AWFYMaster.machines[machineId];
+    $('#message').html(m.description + " (" + m.cpu + ")" + "<br />&nbsp;");
 }
 
 AWFY.updateSuiteList = function (machineId) {
     var breakdown = $('#breakdownlist');
-    breakdown.empty(); 
+    breakdown.empty();
 
     var home = $('<a href="#" id="suite-overview"></a>').click(
         (function (event) {
