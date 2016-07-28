@@ -145,6 +145,7 @@ class V8(Engine):
                        ("hardfp" in utils.config.get('main', 'flags'))
 
         self.optisize = utils.config_get_default('v8', 'optisize', None)
+        self.interpreter = utils.config_get_default('v8', 'interpreter', None)
 
         if self.cpu == 'x64':
             cpu_mode = '-x64'
@@ -159,6 +160,13 @@ class V8(Engine):
                       }, {
                         'mode': 'v8-turbofan' + cpu_mode,
                         'args': ['--turbo']
+                      }]
+
+        # interpreter
+        if self.interpreter:
+            self.modes = [{
+                        'mode': 'v8-interpreter' + cpu_mode,
+                        'args': ['--ignition', '--no-crankshaft']
                       }]
 
         # optisize if configured
