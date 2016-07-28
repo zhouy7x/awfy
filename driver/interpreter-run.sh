@@ -55,9 +55,6 @@ do
 
 
         popd
-        pushd /home/user/work/awfy/server
-        bash ./run-update.sh
-        popd
       done
     fi
     popd
