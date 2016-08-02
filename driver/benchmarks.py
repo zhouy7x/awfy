@@ -880,8 +880,8 @@ Benchmarks = [#AsmJSApps(),
               WebXPRTDNA(),
               BmDom(),
               BmScalable(),
-			  JerrySunspiderPerf(),
-			  JerrySunspiderMem(),
+			  # JerrySunspiderPerf(),
+			  # JerrySunspiderMem(),
               JetStreamShell(),
              ]
 

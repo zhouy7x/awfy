@@ -35,8 +35,8 @@ else
 
   # First, check v8 update
   pushd /home/user/work/awfy/repos/v8
-  git fetch
-  list=`git rev-list 45d75bca5c13f52850d9ac10ea58dae38fd0f1d7 ^master | tac`
+  # git fetch
+  list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
   if [ -z "$list" ]; then
     echo "v8: no update"
   else
@@ -55,7 +55,8 @@ else
         # Test arm every 5 times
         python dostuff.py -f -n --config=awfy-arm.config
         popd
-        pushd /home/user/work/awfy/server
+        
+		pushd /home/user/work/awfy/server
         bash ./run-update.sh
         popd
       fi

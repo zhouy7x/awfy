@@ -275,7 +275,9 @@ class ContentShell(Engine):
 
     def build(self):
         env = os.environ.copy()
-        
+
+        env["GYP_CHROMIUM_NO_ACTION"] = "0"
+
         if self.cpu == 'x86':
             env["GYP_DEFINES"] = "target_arch=ia32"
         elif self.cpu == 'x64':
