@@ -421,6 +421,9 @@ Display.prototype.completeZoom = function (graph, start, end) {
 }
 
 Display.prototype.cancelZoom = function () {
+    if (!this.plot) {
+        return;
+    }
     this.plot.enableSelection();
     this.plot.clearSelection();
 
@@ -646,16 +649,17 @@ Display.prototype.createToolTipAsync = function (item, extended, callback) {
     var self = this;
 
     AWFY.git(vendor.name, point[1], function(data) {
-        var extra = {};
         var lines = data.split("\n");
         //console.log(data);
-
-        extra.Date = lines[2].substr(5).trim();
-        extra.Title = lines[4].substr(4).trim();
-        for (var i = 5; i < lines.length; i++) {
-            var s = lines[i];
-            if (s.startsWith("    Cr-Commit-Position:")) {
-                extra.ccp = s.substr(24).trim();
+        if (lines.length > 5) {
+            var extra = {};
+            extra.Date = lines[2].substr(5).trim();
+            extra.Title = lines[4].substr(4).trim();
+            for (var i = 5; i < lines.length; i++) {
+                var s = lines[i];
+                if (s.startsWith("    Cr-Commit-Position:")) {
+                    extra.ccp = s.substr(24).trim();
+                }
             }
         }
         callback(self.createToolTip(item, extended, extra));

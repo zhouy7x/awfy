@@ -96,6 +96,21 @@ function cache_add(cset, dat) {
     });
 }
 
+function delete_earily_data(graph) {
+    for (var e = 0; graph.timelist[e] < 1456761600; e++) ; /* 2016-3-1*/
+        if (e > 0) {
+            graph.timelist.splice(0, e);
+            for (var i = 0; i < graph.info.length; i++) {
+              graph.info[i].data.splice(0, e);
+              graph.lines[i].data.splice(0, e);
+
+              var dat = graph.lines[i].data;
+              for (var j = 0; j < dat.length; j++)
+                dat[j][0] = j;
+            }
+        }
+}
+
 AWFY.git = function(vendor, cset, callback) {
     var dat = cache_find(cset);
     if (dat) {
@@ -206,17 +221,29 @@ AWFY.displayNewGraph = function (name, graph) {
     var elt = $('#' + name + '-graph');
     if (!elt.length)
         return;
-    if (!graph) {
+    if (!graph || !graph.timelist.length) {
     this.aggregate[name] = undefined;
-        elt.hide();
+        if (elt.parent().hasClass("graph-container"))
+            elt.parent().hide();
+        else
+            elt.hide();
     return;
     }
-    elt.show();
+    if (elt.parent().hasClass("graph-container"))
+        elt.parent().show();
+    else
+        elt.show();
     var display = elt.data('awfy-display');
     if (!display) {
         display = new Display(this, name, elt);
         elt.data('awfy-display', display);
     }
+
+    // Hide benchmarks data before 2016-3-1
+    if (this.machineId == 4) {
+        delete_earily_data(graph);
+    }
+
     if (display.shouldRefresh()) {
         display.setup(graph);
         display.draw();
@@ -309,19 +336,8 @@ AWFY.computeBreakdown = function (data, id) {
     var graph = this.loadAggregateGraph(blob['graph']);
 
     // Hide benchmarks data before 2016-3-1
-    if (this.machineId == 4) {
-        for (var e = 0; graph.timelist[e] < 1456761600; e++) ; /* 2016-3-1*/
-        if (e > 0) {
-            graph.timelist.splice(0, e);
-            for (var i = 0; i < graph.info.length; i++) {
-              graph.info[i].data.splice(0, e);
-              graph.lines[i].data.splice(0, e);
-
-              var dat = graph.lines[i].data;
-              for (var j = 0; j < dat.length; j++)
-                dat[j][0] = j;
-            }
-        }
+    if (graph && this.machineId == 4) {
+        delete_earily_data(graph);
     }
 
     this.displayNewGraph(id, graph);
@@ -342,8 +358,9 @@ AWFY.computeAggregate = function (received) {
     for (var name in blob.graphs) {
         var blobgraph = blob.graphs[name];
         if (!blobgraph)
-            continue;
-        graphs[name] = this.loadAggregateGraph(blobgraph);
+            graphs[name] = null;
+        else
+            graphs[name] = this.loadAggregateGraph(blobgraph);
     }
 
     // Save this for if/when we need to zoom out.
