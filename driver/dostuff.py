@@ -18,10 +18,6 @@ import slaves
 import submitter
 
 parser = OptionParser(usage="usage: %prog [options]")
-parser.add_option("-f", "--force", dest="force", action="store_true", default=False,
-                  help="Force runs even without source changes")
-parser.add_option("-n", "--no-update", dest="noupdate", action="store_true", default=False,
-                  help="Skip updating source repositories")
 parser.add_option("-c", "--config", dest="config_name", type="string", default="awfy.config",
                   help="Config file (default: awfy.config)")
 (options, args) = parser.parse_args()
@@ -34,27 +30,17 @@ resource.setrlimit(resource.RLIMIT_RSS, (-1, -1))
 resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 
 # Set of engines that get build.
-KnownEngines = []
+Engine = None
 
 if utils.config.has_section('v8'):
-    KnownEngines.append(builders.V8())
+    Engine = builders.V8()
 if utils.config.has_section('contentshell'):
-    KnownEngines.append(builders.ContentShell())
+    Engine = builders.ContentShell()
 if utils.config.has_section('jerryscript'):
-    KnownEngines.append(builders.JerryScript())
+    Engine builders.JerryScript()
 if utils.config.has_section('iotjs'):
-    KnownEngines.append(builders.IoTjs())
+    Engine = builders.IoTjs()
 
-
-Engines, NumUpdated = builders.build(KnownEngines, not options.noupdate, options.force)
-
-# No updates. Report to server and wait 60 seconds, before moving on
-if NumUpdated == 0 and not options.force:
-    for slave in slaves.init():
-        submit = submitter.Submitter(slave)
-        submit.Awake();
-    time.sleep(60)
-    sys.exit(0)
 
 # The native compiler is a special thing, for now.
 native = builders.NativeCompiler()
@@ -62,41 +48,45 @@ native = builders.NativeCompiler()
 # A mode is a configuration of an engine we just built.
 Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset'])
 
+cset = Engine.getRevId()
+
 # Make a list of all modes.
 modes = []
-for engine in Engines:
-    shell = os.path.join(utils.RepoPath, engine.source, engine.shell())
-    env = None
-    with utils.chdir(os.path.join(utils.RepoPath, engine.source)):
-        env = engine.env()
-    for m in engine.modes:
-        engineArgs = engine.args if engine.args else []
-        modeArgs = m['args'] if m['args'] else []
-        args = engineArgs + modeArgs
-        mode = Mode(shell, args, env, m['mode'], engine.cset)
+shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())
+env = None
+with utils.chdir(os.path.join(utils.RepoPath, Engine.source)):
+    env = Engine.env()
+
+modeNames = utils.config_get_default('main', 'modes', None)
+if modeNames:
+    modeNames = modeNames.split(",")
+    for name in modeNames:
+        args = Engine.args if Engine.args else []
+        for i in range(100)
+            arg = utils.config_get_default(name, 'arg' + str(i), None)
+            if arg != None
+                args.append(arg)
+            else
+                break
+        mode = Mode(shell, args, env, name, cset)
         modes.append(mode)
+
 
 # Set of slaves that run the builds. 
 KnownSlaves = slaves.init()
 
 for slave in KnownSlaves:
-    slave.prepare(Engines)
+    slave.prepare([Engine])
 
     # Inform AWFY of each mode we found.
     submit = submitter.Submitter(slave)
     submit.Start()
 
-    # modes only run on specific slave
-    slave_modes = []
     for mode in modes:
-        # Do not run turbo on slm .I add this statement here for convenience.
-        # Though it's ugly. 
-        if slave.name == 'slm' and '--turbo' in mode.args:
-            continue
         submit.AddEngine(mode.name, mode.cset)
         slave_modes.append(mode)
-    submit.AddEngine(native.mode, native.signature)
 
+    # submit.AddEngine(native.mode, native.signature)
     slave.benchmark(submit, native, slave_modes)
 
 # Wait for all of the slaves to finish running before exiting.

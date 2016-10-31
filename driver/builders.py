@@ -21,6 +21,15 @@ class Engine(object):
     def __init__(self):
         self.cpu = utils.config.get('main', 'cpu')
 
+    def getRevId():
+        if self.puller == 'svn':
+            scm = puller.SVN
+        elif self.puller == 'hg':
+            scm = puller.HG
+        elif self.puller == 'git':
+            scm = puller.GIT
+        return scm.Identify()
+
     def updateAndBuild(self, update=True, forceRebuild=False, rev=None):
         with utils.FolderChanger(os.path.join(utils.RepoPath, self.source)):
             self._updateAndBuild(update, forceRebuild, rev=rev)

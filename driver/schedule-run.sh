@@ -50,20 +50,14 @@ do
         echo $i
         git reset --hard $i
         pushd /home/user/work/awfy/driver
-        # Test x64 and x86 every time
-        python dostuff.py -f -n --config=awfy-x64.config
 
-        python dostuff.py -f -n --config=awfy-x86.config
-        # Test x86-optisize after x86 build so no rebuild happens
-        python dostuff.py -f -n --config=awfy-optisize.config
-
-        count=`expr $count + 1`
-        armtest=`expr $count % 5`
-        if [ "$armtest" = "1" ]
-        then
-          # Test arm every 5 times
-          python dostuff.py -f -n --config=awfy-arm.config
-        fi
+        python dostuff.py --config=client/chrubuntu-arm.config &
+        python dostuff.py --config=client/chromeos-arm.config &
+        python dostuff.py --config=client/atom-nuc-x64.config &
+        python dostuff.py --config=client/atom-nuc-x86.config &
+        python dostuff.py --config=client/hsw-nuc-x64.config &
+        python dostuff.py --config=client/hsw-nuc-x86.config &
+        wait
   
         popd
         pushd /home/user/work/awfy/server
@@ -74,31 +68,31 @@ do
     popd
 
     # Second, check chromium update
-    pushd /home/user/work/awfy/repos/chromium/src
-    git fetch
-    list=`git rev-list origin/master ^master | tac`
-    if [ -z "$list" ]; then
-      echo "chromium: no update"
-    else
-      for i in $list
-      do
-        # Only check v8 changed chromium
-        v8find=`git show $i | grep -P "^\+\s+.v8_revision."`
-        if [[ -n $v8find ]]; then
-          hasUpdate="true"
-          echo $i
-          git reset --hard $i
-          pushd /home/user/work/awfy/driver
-          python dostuff.py -f -n --config=awfy-contentshell.config
-          popd
+    # pushd /home/user/work/awfy/repos/chromium/src
+    # git fetch
+    # list=`git rev-list origin/master ^master | tac`
+    # if [ -z "$list" ]; then
+    #   echo "chromium: no update"
+    # else
+    #   for i in $list
+    #   do
+    #     # Only check v8 changed chromium
+    #     v8find=`git show $i | grep -P "^\+\s+.v8_revision."`
+    #     if [[ -n $v8find ]]; then
+    #       hasUpdate="true"
+    #       echo $i
+    #       git reset --hard $i
+    #       pushd /home/user/work/awfy/driver
+    #       python dostuff.py -f -n --config=awfy-contentshell.config
+    #       popd
 
-          pushd /home/user/work/awfy/server
-          bash ./run-update.sh
-          popd
-        fi
-      done
-    fi
-    popd
+    #       pushd /home/user/work/awfy/server
+    #       bash ./run-update.sh
+    #       popd
+    #     fi
+    #   done
+    # fi
+    # popd
 
     if [ "$hasUpdate" = "false" ]; then
       echo "awfy: no source update, sleep 15m"
