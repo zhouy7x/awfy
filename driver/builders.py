@@ -50,7 +50,6 @@ class Engine(object):
             self.updated = scm.Update(rev)
         else:
             self.updated = False
-    
         if forceRebuild or self.updated:
             try:
                 os.unlink(shell)
