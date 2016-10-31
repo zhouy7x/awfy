@@ -48,7 +48,7 @@ def chdir(folder):
 def Run(vec, env = os.environ.copy()):
     print(">> Executing in " + os.getcwd())
     print(' '.join(vec))
-    # print("with: " + str(env))
+    print("with: " + str(env))
     try:
         o = subprocess.check_output(vec, stderr=subprocess.STDOUT, env=env)
     except subprocess.CalledProcessError as e:
@@ -56,7 +56,7 @@ def Run(vec, env = os.environ.copy()):
         print e
         raise e
     o = o.decode("utf-8")
-    print(o)
+    # print(o)
     return o
 
 def Shell(string):
