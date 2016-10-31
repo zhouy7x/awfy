@@ -75,7 +75,7 @@ while True:
 	try:
 		sock, addr = s.accept()
 		print "connect", addr
-		sock.send("connect ok")
+		# sock.send("connect ok")
 		data = sock.recv(10240)
 		if not data:
 			log_to_file("client close in error with ip " + addr)

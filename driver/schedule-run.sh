@@ -48,20 +48,23 @@ do
       for i in $list
       do
         echo $i
-        git reset --hard $i
+        #git reset --hard $i
         pushd /home/user/work/awfy/driver
 
-        python dostuff.py --config=client/chrubuntu-arm.config &
-        python dostuff.py --config=client/chromeos-arm.config &
-        python dostuff.py --config=client/atom-nuc-x64.config &
+        #python dostuff.py --config=client/chrubuntu-arm.config &
+        #python dostuff.py --config=client/chromeos-arm.config &
+        #python dostuff.py --config=client/atom-nuc-x64.config &
         python dostuff.py --config=client/atom-nuc-x86.config &
-        python dostuff.py --config=client/hsw-nuc-x64.config &
+        #python dostuff.py --config=client/hsw-nuc-x64.config &
         python dostuff.py --config=client/hsw-nuc-x86.config &
         wait
+
+	echo "All jobs done."
+	sleep 50m
   
         popd
         pushd /home/user/work/awfy/server
-        bash ./run-update.sh
+        # bash ./run-update.sh
         popd
       done
     fi

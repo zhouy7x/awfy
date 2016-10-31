@@ -12,4 +12,6 @@ repos/
 *.tmp
 *.bak
 *.o
-*.lo
+*.log
+state.p
+

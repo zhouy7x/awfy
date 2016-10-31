@@ -8,6 +8,7 @@ import sys
 import resource
 import utils
 import time
+import socket
 from optparse import OptionParser
 from collections import namedtuple
 
@@ -37,9 +38,21 @@ if utils.config.has_section('v8'):
 if utils.config.has_section('contentshell'):
     Engine = builders.ContentShell()
 if utils.config.has_section('jerryscript'):
-    Engine builders.JerryScript()
+    Engine = builders.JerryScript()
 if utils.config.has_section('iotjs'):
     Engine = builders.IoTjs()
+
+
+myself = utils.config_get_default('main', 'slaves', '')
+print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(('127.0.0.1', 8787))
+s.sendall(options.config_name)
+reply = s.recv(1024)
+s.close();
+
+print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), ' @', myself
 
 
 # The native compiler is a special thing, for now.
@@ -62,11 +75,11 @@ if modeNames:
     modeNames = modeNames.split(",")
     for name in modeNames:
         args = Engine.args if Engine.args else []
-        for i in range(100)
+        for i in range(100):
             arg = utils.config_get_default(name, 'arg' + str(i), None)
-            if arg != None
+            if arg != None:
                 args.append(arg)
-            else
+            else:
                 break
         mode = Mode(shell, args, env, name, cset)
         modes.append(mode)
@@ -84,10 +97,9 @@ for slave in KnownSlaves:
 
     for mode in modes:
         submit.AddEngine(mode.name, mode.cset)
-        slave_modes.append(mode)
 
     # submit.AddEngine(native.mode, native.signature)
-    slave.benchmark(submit, native, slave_modes)
+    slave.benchmark(submit, native, modes)
 
 # Wait for all of the slaves to finish running before exiting.
 for slave in KnownSlaves:

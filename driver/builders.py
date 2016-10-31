@@ -21,7 +21,7 @@ class Engine(object):
     def __init__(self):
         self.cpu = utils.config.get('main', 'cpu')
 
-    def getRevId():
+    def getRevId(self):
         if self.puller == 'svn':
             scm = puller.SVN
         elif self.puller == 'hg':
@@ -162,27 +162,12 @@ class V8(Engine):
         elif self.cpu == 'arm':
             cpu_mode = '-arm'
 
-        self.modes = [{
-                        'mode': 'v8-default' + cpu_mode,
-                        'args': None
-                      }, {
-                        'mode': 'v8-turbofan' + cpu_mode,
-                        'args': ['--turbo']
-                      }]
-
         # interpreter
         if self.interpreter:
             self.modes = [{
                         'mode': 'v8-interpreter' + cpu_mode,
                         'args': ['--ignition', '--no-crankshaft']
                       }]
-
-        # optisize if configured
-        if self.optisize:
-            self.modes = [{
-                            'mode': 'v8-optisize' + cpu_mode,
-                            'args': ['--optimize-for-size']
-                          }]
 
     def build(self):
         env = os.environ.copy()
