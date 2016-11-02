@@ -216,24 +216,25 @@ my $result;
 my $count = 0;
 my @results = ();
 my $total = 0;
-print "[";
+#print "[";
 while ($count++ < $testRuns) {
     $result = runTestsOnce($runShark);
     $result =~ s/\r\n/\n/g;
     chomp $result;
     push @results, $result;
-    print $result;
-    print ",\n" unless ($count == $testRuns);
+    #print $result;
+    #print ",\n" unless ($count == $testRuns);
 }
-print "]\n";
+#print "]\n";
 
 my $output = "var output = [\n" . join(",\n", @results) . "\n];\n";
 dumpToFile($output, $resultsFile);
 dumpToFile(File::Spec->rel2abs($resultsFile), "$resultDirectory/baseline-filename.txt") if $setBaseline;
 
 system("$jsShellPath", "-f", $prefixFile, "-f", $resultsFile, "-f", "resources/sunspider-analyze-results.js");
+unlink $resultsFile;
 
-print("\nResults are located at $resultsFile\n");
+#print("\nResults are located at $resultsFile\n");
 
 if ($runShark) {
     my $newestMShark = newestFile(".", qr/\.mshark$/);

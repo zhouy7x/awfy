@@ -16,9 +16,10 @@ BenchmarkPath = None
 DriverPath = None
 Timeout = 15*60
 PythonName = None
+Includes = None
 
 def InitConfig(name):
-    global config, RepoPath, BenchmarkPath, DriverPath, Timeout, PythonName
+    global config, RepoPath, BenchmarkPath, DriverPath, Timeout, PythonName, Includes
     config = ConfigParser.RawConfigParser()
     if not os.path.isfile(name):
         raise Exception('could not find file: ' + name)
@@ -30,6 +31,7 @@ def InitConfig(name):
     # silly hack to allow 30*60 in the config file.
     Timeout = eval(Timeout, {}, {})
     PythonName = config_get_default(name, 'python', sys.executable)
+    Includes = config_get_default(name, 'includes', None)
 
 class FolderChanger:
     def __init__(self, folder):
@@ -56,7 +58,7 @@ def Run(vec, env = os.environ.copy()):
         print e
         raise e
     o = o.decode("utf-8")
-    # print(o)
+    print(o)
     return o
 
 def Shell(string):

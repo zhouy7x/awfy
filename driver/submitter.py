@@ -51,6 +51,7 @@ class Submitter:
                 if timestamp:
                     url += "&stamp=" + str(timestamp)
                 print(url)
+                self.runIds[i] = 123
                 #url = urllib2.urlopen(url)
                 #contents = url.read()
                 #m = re.search('id=(\d+)', contents)

@@ -24,7 +24,12 @@ fi
 
 touch /tmp/awfy-daemon
 
+trap "kill 0" EXIT
+
+# python build_server.py &
+
 python print_env.py
+
 
 count=0
 while :
@@ -49,18 +54,30 @@ do
       do
         echo $i
         #git reset --hard $i
+        #gclient sync -j8
+
+        rm -f out/arm.release/d8 out/ia32.release/d8 out/x64.release/d8
+
         pushd /home/user/work/awfy/driver
 
+        STARTT=$(date +%s)
+
+        #python dostuff.py --config=client/atom-nuc-2-x64.config && python dostuff.py --config=client/atom-nuc-2-x86.config &
+
+        #python dostuff.py --config=client/hsw-nuc-x64.config && python dostuff.py --config=client/hsw-nuc-x86.config &
+
+        #python dostuff.py --config=client/atom-nuc-x64.config && python dostuff.py --config=client/atom-nuc-x86.config &
+
         #python dostuff.py --config=client/chrubuntu-arm.config &
-        #python dostuff.py --config=client/chromeos-arm.config &
-        #python dostuff.py --config=client/atom-nuc-x64.config &
-        python dostuff.py --config=client/atom-nuc-x86.config &
-        #python dostuff.py --config=client/hsw-nuc-x64.config &
-        python dostuff.py --config=client/hsw-nuc-x86.config &
+
+        python dostuff.py --config=client/chromeos-arm.config &
+
         wait
 
-	echo "All jobs done."
-	sleep 50m
+        SECS=$(($(date +%s) - $STARTT))
+        printf "\n++++++++++++++++ %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
+
+        sleep 10h
   
         popd
         pushd /home/user/work/awfy/server

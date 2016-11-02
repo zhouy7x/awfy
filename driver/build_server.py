@@ -11,7 +11,7 @@ import resource
 
 LISTEN_ADDRESS = "0.0.0.0"
 LISTEN_PORT = 8787
-ERROR_LOG_FILE = "build_server_error.log"
+ERROR_LOG_FILE = "/home/user/work/logs/build_server_error.log"
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((LISTEN_ADDRESS, LISTEN_PORT))
@@ -64,33 +64,35 @@ def build(config):
 	    KnownEngines.append(builders.JerryScript())
 	if utils.config.has_section('iotjs'):
 	    KnownEngines.append(builders.IoTjs())
-	Engines, NumUpdated = builders.build(KnownEngines, False, False)
+	builders.build(KnownEngines, False, False)
 
 def log_to_file(err_content):
 	file = open(ERROR_LOG_FILE, "a+")
 	error_log = "error in build_server - %s : %s \n" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), err_content)
 	file.write(error_log)
 	file.close()
+
 while True:
 	try:
 		sock, addr = s.accept()
-		print "connect", addr
-		# sock.send("connect ok")
+		#print "connect", addr
+		sock.send("connect ok")
 		data = sock.recv(10240)
 		if not data:
 			log_to_file("client close in error with ip " + addr)
 			continue
-		print "recv", data
-		# time.sleep(15)
+		#print "recv", data
+		#time.sleep(15)
 		build(data)
 		sock.send("over")
 		sock.close()
-		print "over"
-		# t = threading.Thread(target = tcplink, args=(sock, addr))
-		# t.start()
+		#print "over"
 	except Exception,e:
 		log_to_file(str(e))
-		sock.send("error")
+		try:
+			sock.send("error")
+		except Exception,e:
+			print e
 		sock.close()
 s.close()
 

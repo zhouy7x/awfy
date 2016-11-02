@@ -13,6 +13,6 @@ repos/
 *.bak
 *.o
 *.log
-state.p
+driver/state.p
 benchmarks/kraken/kraken-1.1-results
 benchmarks/SunSpider/sunspider-1.0.1-results

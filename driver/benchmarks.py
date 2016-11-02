@@ -26,7 +26,9 @@ class Benchmark(object):
         self.version = suite+" "+version
         self.folder = folder
 
-    def run(self, submit, native, modes):
+    def run(self, submit, native, modes, includes):
+        if includes != None and includes.find(self.suite) < 0:
+            return
         with utils.chdir(os.path.join(utils.BenchmarkPath, self.folder)):
             return self._run(submit, native, modes)
 
@@ -866,7 +868,7 @@ Benchmarks = [#AsmJSApps(),
               SunSpider(),
               Kraken(),
               #Assorted(),
-              OctaneV1(),
+              #OctaneV1(),
               Octane(),
               Embenchen(),
               #JetStream(),
@@ -885,9 +887,9 @@ Benchmarks = [#AsmJSApps(),
               JetStreamShell(),
              ]
 
-def run(submit, native, modes):
+def run(submit, native, modes, includes):
     for benchmark in Benchmarks:
-        benchmark.run(submit, native, modes)
+        benchmark.run(submit, native, modes, includes)
     submit.Finish(1)
 
 #def run(slave, submit, native, modes):

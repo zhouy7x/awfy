@@ -21,7 +21,7 @@ class Slave(object):
         pass
 
     def benchmark(self, submit, native, modes):
-        benchmarks.run(submit, native, modes)
+        benchmarks.run(submit, native, modes, utils.Includes)
 
 class RemoteSlave(Slave):
     def __init__(self, name):
@@ -34,6 +34,7 @@ class RemoteSlave(Slave):
         # calculate timeoutmake multiplication work!
         self.Timeout = eval(self.Timeout, {}, {})
         self.PythonName = utils.config_get_default(name, 'python', utils.PythonName)
+        self.Includes = utils.config_get_default(name, 'includes', utils.Includes)
         self.delayed = None
         self.delayedCommand = None
 
@@ -65,6 +66,7 @@ class RemoteSlave(Slave):
         pickle.dump(self.DriverPath, fd)
         pickle.dump(self.Timeout, fd)
         pickle.dump(self.PythonName, fd)
+        pickle.dump(self.Includes, fd)
 
         # dump out all the arguments
         pickle.dump(submit, fd)
@@ -141,6 +143,7 @@ if __name__ == "__main__":
     utils.DriverPath = pickle.load(fd)
     utils.Timeout = pickle.load(fd)
     utils.PythonName = pickle.load(fd)
+    utils.Includes = pickle.load(fd)
 
     # pull out the pickled arguments
     submit = pickle.load(fd)
@@ -149,4 +152,4 @@ if __name__ == "__main__":
     fd.close()
 
     # call the one true function
-    benchmarks.run(submit, native, modes)
+    benchmarks.run(submit, native, modes, utils.Includes)

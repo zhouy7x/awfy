@@ -5,6 +5,7 @@
 
 import os
 import sys
+import time
 import utils
 import puller
 import platform
@@ -21,28 +22,23 @@ class Engine(object):
     def __init__(self):
         self.cpu = utils.config.get('main', 'cpu')
 
-    def getRevId(self):
+    def getPuller(self):
         if self.puller == 'svn':
             scm = puller.SVN
         elif self.puller == 'hg':
             scm = puller.HG
         elif self.puller == 'git':
             scm = puller.GIT
-        return scm.Identify()
+        return scm
 
     def updateAndBuild(self, update=True, forceRebuild=False, rev=None):
         with utils.FolderChanger(os.path.join(utils.RepoPath, self.source)):
             self._updateAndBuild(update, forceRebuild, rev=rev)
 
     def _updateAndBuild(self, update, forceRebuild, rev=None):
-        if self.puller == 'svn':
-            scm = puller.SVN
-        elif self.puller == 'hg':
-            scm = puller.HG
-        elif self.puller == 'git':
-            scm = puller.GIT
+        scm = self.getPuller()
         shell = self.shell()
-    
+
         if not os.path.isfile(shell):
             forceRebuild = True
     
@@ -56,14 +52,15 @@ class Engine(object):
             except:
                 pass
 
+            beginTime = time.time()
             self.build()
             if not os.path.isfile(shell):
                 if self.reconf():
                     self.build()
 
             self.updated = True
-    
-        self.cset = scm.Identify()
+            secs = int(time.time() - beginTime)
+            print('\n++++++++ Build-Time: ' + str(secs/3600) + "h:" + str(secs%3600/60) + "m:" + str(secs%60) + "s ++++++++\n\n")
     
         if not os.path.isfile(shell):
             print(shell)
@@ -193,34 +190,36 @@ class V8(Engine):
         if self.cpu != 'arm':
             env["GYP_DEFINES"] = "clang=1"
 
-        with utils.FolderChanger('../'):
-            syncAgain = True
-            while (syncAgain):
-                syncAgain = False
-                try:
-                    Run(['gclient', 'sync', '-j8'], env)
-                except subprocess.CalledProcessError as e:
-                    if synctroubles.fetchGsFileByHttp(e.output, ''):
-                        syncAgain = True
-                    else:
-                        raise e
+        # *** MOVED TO schedule-run.sh ***
+        #
+        # with utils.FolderChanger('../'):
+        #     syncAgain = True
+        #     while (syncAgain):
+        #         syncAgain = False
+        #         try:
+        #             Run(['gclient', 'sync', '-j8'], env)
+        #         except subprocess.CalledProcessError as e:
+        #             if synctroubles.fetchGsFileByHttp(e.output, ''):
+        #                 syncAgain = True
+        #             else:
+        #                 raise e
 
         if self.cpu == 'x64':
-            Run(['make', 'x64.release', '-j8'], env)
+            Run(['make', 'x64.release', 'werror=no', '-j8'], env)
         elif self.cpu == 'arm':
-            make_cmd = ['make', '-j8', 'arm.release',
+            make_cmd = ['make', 'werror=no', '-j8', 'arm.release',
                     'armv7=true',
                     'armfloatabi=hard',
                     'disassembler=on',
-                    'CC=\"arm-linux-gnueabihf-gcc\"',
+                    'CC=\"arm-linux-gnueabihf-gcc-4.8\"',
                     'AR=\"arm-linux-gnueabihf-ar\"',
-                    'CXX=\"arm-linux-gnueabihf-g++\"',
-                    'LINK=\"arm-linux-gnueabihf-g++\"']
+                    'CXX=\"arm-linux-gnueabihf-g++-4.8\"',
+                    'LINK=\"arm-linux-gnueabihf-g++-4.8\"']
             if self.hardfp:
                 make_cmd.append('hardfp=on')
             Run(make_cmd, env)
         elif self.cpu == 'x86':
-            Run(['make', 'ia32.release', '-j8'], env)
+            Run(['make', 'ia32.release', 'werror=no', '-j8'], env)
   
     def shell(self):
         if self.cpu == 'x64':
@@ -441,8 +440,6 @@ def build(engines, updateRepo=True, forceBuild=False, rev=None):
             print('Build failed!')
             print(err)
             traceback.print_exc(file=sys.stdout)
-            continue
-        if engine.cset == None:
             continue
         if engine.updated and engine.important:
             NumUpdated += 1

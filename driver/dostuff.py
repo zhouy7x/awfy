@@ -48,11 +48,13 @@ print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(('127.0.0.1', 8787))
+hello = s.recv(1024)
 s.sendall(options.config_name)
+print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', options.config_name, '@', myself
 reply = s.recv(1024)
 s.close();
 
-print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), ' @', myself
+print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
 
 
 # The native compiler is a special thing, for now.
@@ -61,7 +63,8 @@ native = builders.NativeCompiler()
 # A mode is a configuration of an engine we just built.
 Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset'])
 
-cset = Engine.getRevId()
+with utils.FolderChanger(os.path.join(utils.RepoPath, Engine.source)):
+    cset = Engine.getPuller().Identify()
 
 # Make a list of all modes.
 modes = []
@@ -74,14 +77,15 @@ modeNames = utils.config_get_default('main', 'modes', None)
 if modeNames:
     modeNames = modeNames.split(",")
     for name in modeNames:
-        args = Engine.args if Engine.args else []
-        for i in range(100):
+        args = Engine.args[:] if Engine.args else []
+        for i in range(1, 100):
             arg = utils.config_get_default(name, 'arg' + str(i), None)
             if arg != None:
                 args.append(arg)
             else:
                 break
         mode = Mode(shell, args, env, name, cset)
+        print myself, name, str(args)
         modes.append(mode)
 
 
