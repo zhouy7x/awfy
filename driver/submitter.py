@@ -37,7 +37,6 @@ class Submitter:
                 url = self.urls[i]
                 url += '?awake=yes'
                 url += '&MACHINE=' + str(self.machine)
-                print(url)
                 # urllib2.urlopen(url)
             except urllib2.URLError:
                 pass
@@ -50,8 +49,6 @@ class Submitter:
                 url += '&MACHINE=' + str(self.machine)
                 if timestamp:
                     url += "&stamp=" + str(timestamp)
-                print(url)
-                self.runIds[i] = 123
                 #url = urllib2.urlopen(url)
                 #contents = url.read()
                 #m = re.search('id=(\d+)', contents)
@@ -73,7 +70,6 @@ class Submitter:
                      'cset': cset
                    }
             url = self.urls[i] + '?' + urllib.urlencode(args)
-            print(url)
             #urllib2.urlopen(url)
 
     def AddTests(self, tests, suite, suiteversion, mode):
@@ -93,7 +89,6 @@ class Submitter:
                      'time': str(time)
                    }
             url = self.urls[i] + '?' + urllib.urlencode(args)
-            print(url)
             #urllib2.urlopen(url)
 
     def Finish(self, status):
@@ -105,5 +100,4 @@ class Submitter:
             url += '?run=finish'
             url += '&status=' + str(status)
             url += '&runid=' + str(self.runIds[i])
-            print(url)
             #urllib2.urlopen(url)

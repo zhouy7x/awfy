@@ -1,0 +1,146 @@
+var ROBOHORNET_DATA = {
+  /**
+   * Benchmark version.
+   *
+   * @type {string}
+   */
+  version: 'RH-A1',
+
+  /**
+   * List of product, application and library tags.
+   *
+   * name: Short human readable name of tag.
+   */
+  productTags: {
+    G_SPREADSHEETS: {
+      name: 'Google Spreadsheets'
+    },
+    G_PRESENTATIONS: {
+      name: 'Google Presentations'
+    },
+    G_MAPS: {
+      name: 'Google Maps'
+    },
+    YUI: {
+      name: 'YUI'
+    },
+    JQUERY: {
+      name: 'jQuery'
+    },
+    EMBER: {
+      name: 'Ember'
+    },
+    HANDLEBARS: {
+      name: 'Handlebars'
+    },
+    METAMORPH: {
+      name: 'Metamorph.js'
+    },
+    CAPPUCCINO: {
+      name: 'Cappuccino'
+    }
+  },
+
+
+  /**
+   * List of technology tags.
+   *
+   * name: Short human readable name of tag.
+   */
+  technologyTags: {
+    TABLE: {
+      name: 'Table'
+    },
+    DOM: {
+      name: 'DOM'
+    },
+    CSS_SELECTORS: {
+      name: 'CSS Selectors'
+    },
+    CANVAS: {
+      name: 'Canvas'
+    },
+    SCROLLING: {
+      name: 'Scrolling'
+    },
+    SVG: {
+      name: 'SVG'
+    },
+    JS: {
+      name: 'Javascript'
+    },
+    MATH: {
+      name: 'Math'
+    }
+  },
+
+  /**
+   * List of benchmarks. Array of objects.
+   *
+   * name:         Short human readable name of benchmark.
+   * description:  Description of benchmark.
+   * filename:     Filename of benchmark, each benchmark file must implement a test
+   *               function and may implement a setUp and tearDown function.
+   * runs:         List of parameters to feed to test, setUp and tearDown
+   *               functions. For each entry a test run is constructed and the
+   *               parameter in the second field is fed to the test function.
+   *               The first field is a short human readable description of the
+   *               parameter.
+   * weight:       Weight of test as relative to the other tests in the file.
+   *               A percentage weight will be computed based on the relative
+   *               weight of each benchmark.
+   * baselineTime: Baseline time, in milliseconds.
+   */
+  benchmarks: [
+    {
+      name: 'Object Scope Access',
+      issueNumber: 31,
+      description: 'Test different methods to access variables from an object',
+      filename: 'object_scope_',
+      runs: [
+        ['100,000 runs', 100000],
+        ['1,000,000 runs', 1000000],
+        ['10,000,000 runs', 10000000]
+      ],
+      //weight: 1,
+      weight: 3.6,
+      baselineTime: 100.0,
+      tags: ['JS'],
+      extended: false
+    },
+
+    {
+      name: 'ES5 Property Accessors',
+      issueNumber: 19,
+      description: 'Test ES5 getter/setters',
+      filename: 'property_accessors_',
+      runs: [
+        ['Getter', 'GET'],
+        ['Setter', 'SET'],
+        ['Combined', '']
+      ],
+      //weight: 1,
+      weight: 3.6,
+      baselineTime: 89.57,
+      tags: ['JS', 'EMBER'],
+      extended: false
+    },
+
+    {
+      name: 'Argument instantiation',
+      issueNumber: 21,
+      description: 'Test referencing the arguments array',
+      filename: 'varargs_',
+      runs: [
+        ['100 Instantiations', 100],
+        ['1000 Instantiations', 1000],
+        ['1000000 Instantiations', 1000000]
+      ],
+      //weight: 2,
+      weight: 7.21,
+      baselineTime: 315.13,
+      tags: ['JS', 'YUI', 'JQUERY', 'EMBER', 'CAPPUCCINO'],
+      extended: false
+    },
+  ]
+};

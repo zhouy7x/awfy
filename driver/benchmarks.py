@@ -283,6 +283,39 @@ class BrowserMark(Benchmark):
 
         return tests
 
+
+class Robohornet(Benchmark):
+    def __init__(self):
+        super(Robohornet, self).__init__('robohornet', '1.0', 'robohornet')
+
+    def benchmark(self, shell, env, args):
+        full_args = [shell]
+        if args:
+            full_args.extend(args)
+        full_args.append('run.js')
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        lines = output.splitlines()
+
+        total = 0.0
+        for x in lines:
+            m = re.search("^(.+):(\d+(\.\d+)?)", x)
+            if not m:
+                continue
+            name = m.group(1)
+            score = m.group(2)
+            tests.append({ 'name': name, 'time': score})
+            print(score + '    - ' + name)
+            total += float(score);
+
+        tests.append({ 'name': "__total__", 'time': total})
+
+        return tests
+
+
 class VellamoSurfWaxBinder(Benchmark):
     def __init__(self):
         super(VellamoSurfWaxBinder, self).__init__('VellamoSurfWaxBinder', '3.1', 'Vellamo')
@@ -872,7 +905,8 @@ Benchmarks = [#AsmJSApps(),
               Octane(),
               Embenchen(),
               #JetStream(),
-              BrowserMark(),
+              #BrowserMark(),
+              Robohornet(),
               VellamoSurfWaxBinder(),
               VellamoKruptein(),
               #VellamoDeepCrossfader(),
