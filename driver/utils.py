@@ -17,9 +17,10 @@ DriverPath = None
 Timeout = 15*60
 PythonName = None
 Includes = None
+Excludes = None
 
 def InitConfig(name):
-    global config, RepoPath, BenchmarkPath, DriverPath, Timeout, PythonName, Includes
+    global config, RepoPath, BenchmarkPath, DriverPath, Timeout, PythonName, Includes, Excludes
     config = ConfigParser.RawConfigParser()
     if not os.path.isfile(name):
         raise Exception('could not find file: ' + name)
@@ -32,6 +33,7 @@ def InitConfig(name):
     Timeout = eval(Timeout, {}, {})
     PythonName = config_get_default(name, 'python', sys.executable)
     Includes = config_get_default(name, 'includes', None)
+    Excludes = config_get_default(name, 'excludes', None)
 
 class FolderChanger:
     def __init__(self, folder):

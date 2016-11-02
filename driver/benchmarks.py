@@ -26,8 +26,10 @@ class Benchmark(object):
         self.version = suite+" "+version
         self.folder = folder
 
-    def run(self, submit, native, modes, includes):
+    def run(self, submit, native, modes, includes, excludes):
         if includes != None and includes.find(self.suite) < 0:
+            return
+        if excludes != None and excludes.find(self.suite) >= 0:
             return
         with utils.chdir(os.path.join(utils.BenchmarkPath, self.folder)):
             return self._run(submit, native, modes)
@@ -921,9 +923,9 @@ Benchmarks = [#AsmJSApps(),
               JetStreamShell(),
              ]
 
-def run(submit, native, modes, includes):
+def run(submit, native, modes, includes, excludes):
     for benchmark in Benchmarks:
-        benchmark.run(submit, native, modes, includes)
+        benchmark.run(submit, native, modes, includes, excludes)
     submit.Finish(1)
 
 #def run(slave, submit, native, modes):
