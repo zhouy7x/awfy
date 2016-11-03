@@ -477,7 +477,7 @@ Display.prototype.createToolTip = function (item, extended, extra) {
     if (this.graph.direction == -1)
          text += so + 'score: ' + sc + y.toFixed(2) + 'ms<br>';
     else
-         text += so + 'score: ' + sc + y.toFixed() + '<br>';
+         text += so + 'score: ' + sc + y.toFixed(2) + '<br>';
 
     // Find the point previous to this one.
     var prev = null;

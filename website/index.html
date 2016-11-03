@@ -46,7 +46,7 @@
         $(".graph").each(function() {
             //console.log(this);
             var display = $(this).data("awfy-display");
-            if (typeof(display) == "undefined") {
+            if (!display || !display.plot) {
                 return;
             }
             var plot = display.plot;
@@ -275,7 +275,7 @@
   <br><br><br>
  </div>
  <div>
-  <div class="graph-row">
+  <!--div class="graph-row">
    <div class="graph-container">
      <div id="browsermark-label">browsermark 2.1 js score</div>
      <div class="graph" id="browsermark-graph"><h2>Loading...</h2></div>
@@ -289,6 +289,13 @@
    <div class="graph-container">
      <div id="browsermark2-label">browsermark 2.1 contentshell scalable solution</div>
      <div class="graph" id="browsermark2-graph"><h2>Loading...</h2></div>
+   </div>
+  </div>
+  <br><br><br-->
+  <div class="graph-row">
+   <div class="graph-container">
+     <div id="robohornet-label">RoboHornet benchmark</div>
+     <div class="graph" id="robohornet-graph"><h2>Loading...</h2></div>
    </div>
   </div>
   <br><br><br>

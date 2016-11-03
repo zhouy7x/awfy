@@ -107,9 +107,9 @@ def sentV8Email(subject, message):
     mail_username='APKAutoBuildNotification@intel.com'  
     mail_password='whatever'  
     from_addr = mail_username
-    #to_addrs='li1.chen@intel.com'
-    to_addrs='''samuel.xu@intel.com;pan.deng@intel.com;jing.bao@intel.com;
-    chunyang.dai@intel.com;shiyu.zhang@intel.com;li1.chen@intel.com;weiliang.lin@intel.com;zidong.jiang@intel.com'''
+    #to_addrs='kanghua.yu@intel.com'
+    to_addrs='''tianyou.li@intel.com;pan.deng@intel.com;jing.bao@intel.com;
+    chunyang.dai@intel.com;shiyu.zhang@intel.com;kanghua.yu@intel.com;weiliang.lin@intel.com;zidong.jiang@intel.com'''
 
     # HOST & PORT  
     HOST = 'smtp.intel.com'
@@ -176,8 +176,8 @@ if __name__ == "__main__":
             continue
 
         desc = machine.description
-        ul_content += '<li><a href="#%s">Machine-%s</a></li>' % (desc, desc)
-        tab_content += '<div id="%s">' % desc
+        ul_content += '<li><a href="#MACH_%s">%s</a></li>' % (machine.id, desc)
+        tab_content += '<div id="MACH_%s">' % machine.id
 
         for benchmark in cx.benchmarks:
             machine_data = report(cx, machine, benchmark)

@@ -199,9 +199,9 @@ def aggregate(graph):
     pos = 0
     regions = []
     for i in range(0, MaxRecentRuns):
-        start = int(round(pos))
+        start = int(math.floor(pos))
 
-        end = min(int(math.floor(pos + region_length)), historical) - 1
+        end = min(int(math.floor(pos + region_length)), historical)
         if end < start:
             end = start
         regions.append((start, end))
