@@ -26,8 +26,6 @@ touch /tmp/awfy-daemon
 
 trap "kill 0" EXIT
 
-# python build_server.py &
-
 python print_env.py
 
 
@@ -50,38 +48,40 @@ do
     else
       hasUpdate="true"
       # Get every commit of v8
-      for i in $list
+      for id in $list
       do
-        echo $i
-        #git reset --hard $i
-        #gclient sync -j8
-
+        git reset --hard -q $id && gclient sync -j8
+        git log -1
         rm -f out/arm.release/d8 out/ia32.release/d8 out/x64.release/d8
 
         pushd /home/user/work/awfy/driver
 
         STARTT=$(date +%s)
 
-        #python dostuff.py --config=client/atom-nuc-2-x64.config && python dostuff.py --config=client/atom-nuc-2-x86.config &
+        python dostuff.py --config=client/hsw-nuc-x64.config --config2=client/hsw-nuc-x86.config $id &
 
-        #python dostuff.py --config=client/hsw-nuc-x64.config && python dostuff.py --config=client/hsw-nuc-x86.config &
+        sleep 5s
 
-        #python dostuff.py --config=client/atom-nuc-x64.config && python dostuff.py --config=client/atom-nuc-x86.config &
+        python dostuff.py --config=client/atom-nuc-x86.config --config2=client/atom-nuc-x64.config $id &
 
-        #python dostuff.py --config=client/chrubuntu-arm.config &
+        python dostuff.py --config=client/atom-nuc-2-x64.config --config2=client/atom-nuc-2-x86.config $id &
 
-        python dostuff.py --config=client/chromeos-arm.config &
+        python dostuff.py --config=client/chrubuntu-arm.config $id &
+
+        python dostuff.py --config=client/chromeos-arm.config $id &
+
+        python dostuff.py --config=client/fc-interp-x64.config $id &
 
         wait
 
         SECS=$(($(date +%s) - $STARTT))
         printf "\n++++++++++++++++ %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
 
-        sleep 10h
-  
+        #sleep 10h
+
         popd
         pushd /home/user/work/awfy/server
-        # bash ./run-update.sh
+        ssh user@user-awfy.sh.intel.com "cd /home/user/work/awfy/server ; bash run-update.sh"
         popd
       done
     fi

@@ -23,34 +23,6 @@ resource.setrlimit(resource.RLIMIT_AS, (-1, -1))
 resource.setrlimit(resource.RLIMIT_RSS, (-1, -1))
 resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 
-"""
-    config format
-    	{
-    		"cpu": "x64",
-    		"commit_id": "cedddd.....",
-    		"hostname": "user@hsw-nuc.sh.intel.com",
-    		"flag": "hardfp",
-    		"force: 1 # 0,
-    		"noupdate": 1 # 0
-    		"repos": "/usr/local/awfy/repos",
-    		"benchmark": "/usr/local/awfy/benchmarks",
-    		"driver": "/usr/local/awfy/driver",
-    		"python": "python",
-    		"includes: "octane",
-    		"machine":6,
-    		"name": "hw",
-    		"v8": {
-				"source": "v8"
-    		},
-    		"iotjs": {
-				"source": "iotjs"
-    		},
-    		"jerryscript": {
-    			"source": "jerryscript"
-    		}
-    	}
-"""
-
 def build(config):
 	utils.InitConfig(config)
 	# Set of engines that get build.

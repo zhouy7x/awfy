@@ -84,7 +84,7 @@ $suite = "v8-v4" if ($v8suite);
 $suite = "parse-only" if ($parseOnly);
 $suite = "sunspider-1.0.1" if (!$suite);
 
-my $resultDirectory = "${suite}-results";
+my $resultDirectory = "/tmp/${suite}-results";
 
 my $suitePath = $suite;
 $suitePath = "tests/" . $suitePath unless ($suite =~ /\//);

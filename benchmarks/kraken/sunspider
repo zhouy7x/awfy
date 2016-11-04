@@ -84,7 +84,7 @@ $suite = "v8-v4" if ($v8suite);
 $suite = "parse-only" if ($parseOnly);
 $suite = "kraken-1.1" if (!$suite);
 
-my $resultDirectory = "${suite}-results";
+my $resultDirectory = "/tmp/${suite}-results";
 
 $runShark = 1 if $runSharkCache;
 $runShark = 20 if $runShark20;

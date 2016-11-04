@@ -58,7 +58,8 @@ class RemoteSlave(Slave):
                     self.pushRemote(llib, rlib, follow=True, excludes=libp['exclude'])
 
     def benchmark(self, submit, native, modes):
-        fd = open("state.p", "wb")
+        state_p = "/tmp/__awfy_" + self.name + "_state.p";
+        fd = open(state_p, "wb")
         # dump the global state gathered from the config file
         pickle.dump(utils.config, fd)
         # dump out the per-slave path *as* the global path for the rpc
@@ -77,7 +78,7 @@ class RemoteSlave(Slave):
         fd.close()
 
         # send the pickled data over the wire so we can make a call
-        self.pushRemote(os.path.join(utils.DriverPath, "state.p"), os.path.join(self.DriverPath, "state.p"))
+        self.pushRemote(state_p, os.path.join(self.DriverPath, "state.p"))
         # cd into the driver's directory, then start running the module.
         self.runRemote(["cd", self.DriverPath, ";", self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p")], async=True)
 

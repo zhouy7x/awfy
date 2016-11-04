@@ -190,7 +190,7 @@ class SunSpiderBased(Benchmark):
 
 class SunSpider(SunSpiderBased):
     def __init__(self):
-        super(SunSpider, self).__init__('ss', '1.0.1', 'SunSpider', 20)
+        super(SunSpider, self).__init__('ss', '1.0.1', 'SunSpider', 5)
 
 class Kraken(SunSpiderBased):
     def __init__(self):

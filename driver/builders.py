@@ -149,22 +149,6 @@ class V8(Engine):
         self.hardfp = (utils.config.has_option('main', 'flags')) and \
                        ("hardfp" in utils.config.get('main', 'flags'))
 
-        self.optisize = utils.config_get_default('v8', 'optisize', None)
-        self.interpreter = utils.config_get_default('v8', 'interpreter', None)
-
-        if self.cpu == 'x64':
-            cpu_mode = '-x64'
-        if self.cpu == 'x86':
-            cpu_mode = '-x86'
-        elif self.cpu == 'arm':
-            cpu_mode = '-arm'
-
-        # interpreter
-        if self.interpreter:
-            self.modes = [{
-                        'mode': 'v8-interpreter' + cpu_mode,
-                        'args': ['--ignition', '--no-crankshaft']
-                      }]
 
     def build(self):
         env = os.environ.copy()
@@ -203,6 +187,8 @@ class V8(Engine):
         #                 syncAgain = True
         #             else:
         #                 raise e
+
+        Run(['git', 'log', '-1'])
 
         if self.cpu == 'x64':
             Run(['make', 'x64.release', 'werror=no', '-j8'], env)
@@ -427,8 +413,8 @@ class NativeCompiler(Engine):
         self.args = utils.config.get('native', 'options').split(' ')
         self.mode = utils.config.get('native', 'mode')
 
-        output = Run([self.cxx, '--version'])
-        self.signature = output.splitlines()[0].strip()
+        #output = Run([self.cxx, '--version'])
+        self.signature = 'gcc 5.4.0' #output.splitlines()[0].strip()
 
 def build(engines, updateRepo=True, forceBuild=False, rev=None):
     Engines = []
