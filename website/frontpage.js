@@ -621,15 +621,26 @@ Display.prototype.createToolTip = function (item, extended, extra) {
     }
 
     if (extra) {
-        text += "<div style='color: yellow'>";
-        text += extra.Title + '<br>';
-        text += extra.Date + '<br>';
-        if (extra.ccp)
-            text += extra.ccp + '<br>';
-        text += "</div>";
+        text += extra;
     }
 
     return new ToolTip(item.pageX, item.pageY, item, text);
+}
+
+function git_extra(dat) {
+    var lines = dat.split("\n");
+    var extra = "";
+    if (lines.length > 5) {
+        extra += lines[2].substr(5).trim() + "<br>";
+        extra += lines[4].substr(4).trim() + "<br>";
+        for (var i = 5; i < lines.length; i++) {
+            var s = lines[i];
+            if (s.startsWith("    Cr-Commit-Position:")) {
+                extra += s.substr(24).trim() + "<br>";
+            }
+        }
+    }
+    return extra;
 }
 
 Display.prototype.createToolTipAsync = function (item, extended, callback) {
@@ -648,22 +659,22 @@ Display.prototype.createToolTipAsync = function (item, extended, callback) {
     var point = line.data[x];
     var self = this;
 
-    AWFY.git(vendor.name, point[1], function(data) {
-        var lines = data.split("\n");
-        //console.log(data);
-        if (lines.length > 5) {
-            var extra = {};
-            extra.Date = lines[2].substr(5).trim();
-            extra.Title = lines[4].substr(4).trim();
-            for (var i = 5; i < lines.length; i++) {
-                var s = lines[i];
-                if (s.startsWith("    Cr-Commit-Position:")) {
-                    extra.ccp = s.substr(24).trim();
-                }
+    var dat = cache_find(point[1]);
+    var tip = self.createToolTip(item, extended,
+        "<div class='extra' style='color: yellow'>" +
+            (dat ? git_extra(dat) : "Loading...") +
+        "</div>");
+
+    if (!dat) {
+        AWFY.git(vendor.name, point[1], function(data) {
+            //console.log(data);
+            if (tip.elt) {
+                tip.elt.find(".extra").html(git_extra(data));
             }
-        }
-        callback(self.createToolTip(item, extended, extra));
-    });
+        });
+    }
+
+    callback(tip);
 }
 
 Display.prototype.onClick = function (event, pos, item) {
