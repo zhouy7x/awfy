@@ -1110,7 +1110,7 @@ AWFY.startup = function () {
         }
         return false;
     }).bind(this));
-    menu.hide();
+    menu.show();
 
     // Add suite information to menu
     var breakdown = $('#breakdownlist');
