@@ -52,6 +52,9 @@ do
       do
         git reset --hard -q $id && gclient sync -j8
         git log -1
+
+        sed -e '/samples.gyp/d' -e '/cctest.gyp/d' -e '/fuzzer.gyp/d' -e '/unittests.gyp/d' -i gypfiles/all.gyp
+        python gypfiles/gyp_v8
         rm -f out/arm.release/d8 out/ia32.release/d8 out/x64.release/d8
 
         pushd /home/user/work/awfy/driver
@@ -83,6 +86,13 @@ do
         pushd /home/user/work/awfy/server
         ssh user@user-awfy.sh.intel.com "cd /home/user/work/awfy/server ; bash run-update.sh"
         popd
+
+        if [ -e /tmp/awfy-stop ]
+        then
+          rm /tmp/awfy-daemon /tmp/awfy-stop
+          echo "awfy: Already stoped"
+          exit 0
+        fi
       done
     fi
     popd
