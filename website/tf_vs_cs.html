@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      #main {
+        width: 80%;
+        height:800px;
+        margin-left: 50px;
+        float: left;
+      }
+      #step {
+        float: left;
+      }
+    </style>
+    <script src="echarts.min.js"></script>
+    <script src="jquery/jquery-1.8.3.min.js"></script>
+
+  </head>
+  <body>
+    <div id="main">
+
+    </div>
+    <div id="step">
+      <div><label for="step_lenght">Step_length</label></div>
+      <input type="text" id="step_length" value="1">
+      <button id="render_button">render</button>
+      <div>
+        <p>Tips: If step_length is greater than 1</p>
+        <p>Then the cset is the first x64's cset </p>
+        <p>and time is the first x64's time</p>
+      </div>
+    </div>
+    <script>
+      var render_button = $("#render_button");
+
+      var myChart = echarts.init(document.getElementById("main"));
+      var data = "";
+      var data0 = ""
+      var time_to_cset = {
+        "x64": {},
+        "x86": {},
+        "arm": {}
+      };
+      var step_length = 1;
+
+      render_button.on('click', function() {
+        step_length = parseInt($("#step_length").val());
+        render();
+      })
+      function init_data() {
+        $.get("crankshaft_vs_turbofan.json", function(response) {
+          data = response;
+          generete_time_to_cset(data);
+          render();
+        });
+      }
+
+      function render() {
+        data0 = splitData(data);
+        var option = {
+          "title": {
+            text: "Turbofan vs Crankshaft",
+            left: "center",
+            textStyle: {fontSize: 32}
+          },
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              type: "line"
+            },
+            formatter: function(params, ticket, callback) {
+              var result0 = "";
+              var result1 = "";
+              var index = params[0].name.replace("\n", " ");
+              var key = params[0].seriesName;
+              var cset = time_to_cset[key][index];
+              // console.log(key, index, cset);
+              // console.log(params)
+              result0 += index + "<br />" + "cset: " + cset + "<br />";
+              for(var i = 0, len = params.length; i< len; i++) {
+                result1 += '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params[i].color + '"></span>';
+                result1 += params[i].seriesName + ": " + params[i].value + "<br />";
+              }
+              var url = "http://awfy-i7.sh.intel.com:7777/?vendor=V8&git_rev=" + cset;
+              $.get(url, function(response) {
+                var detail = git_extra(response);
+                callback(ticket, result0 + detail +result1);
+              })
+
+              return "Loading";
+            }
+          },
+          legend: {
+            data: [{name: "x64",icon: 'circle'}, {name: "x86",icon: 'circle'},{name: "arm",icon: 'circle'}],
+            right: 200,
+            top: 60,
+            itemHeight: 16,
+            textStyle: {fontSize: 32}
+          },
+          grid: {
+            left: "10%",
+            right: "10%",
+            bottom: "15%"
+          },
+          xAxis: {
+            type: 'category',
+            data: data0.categoryData,
+            scale: true,
+            boundaryGap : false,
+            axisLine: {onZero: false},
+            splitLine: {show: false},
+            splitNumber: 20,
+            min: 'dataMin',
+            max: 'dataMax'
+          },
+          yAxis: {
+            scale: true,
+            name: "percent(%)",
+            nameLocation: "start",
+            axisLabel: {
+              formatter: function(value) {
+                return value + "%";
+              }
+            },
+            inverse: true,
+            splitArea: {
+              show: true
+            }
+          },
+          dataZoom: [
+            {
+              type: 'inside',
+              start: 50,
+              end: 100
+            },
+            {
+              show: true,
+              type: 'slider',
+              y: '90%',
+              start: 50,
+              end: 100
+            }
+          ],
+          series: [
+            {
+              name: 'x64',
+              type: 'line',
+              data: calculateMA(1),
+              smooth: true,
+              itemStyle: {
+                normal: {
+                    opacity: 0.5,
+                    color: "red"
+                  }
+                },
+              lineStyle: {
+                  normal: {
+                    opacity: 0.5,
+                    color: "red"
+                  }
+              }
+            },
+            {
+              name: 'x86',
+              type: 'line',
+              data: calculateMA(2),
+              smooth: true,
+              itemStyle: {
+                normal: {
+                    opacity: 0.5,
+                    color: "green"
+                  }
+                },
+              lineStyle: {
+                  normal: {
+                    opacity: 0.5,
+                    color: "green"
+                  }
+              }
+            },
+            {
+              name: 'arm',
+              type: 'line',
+              data: calculateMA(3),
+              smooth: true,
+              itemStyle: {
+                normal: {
+                    opacity: 0.5,
+                    color: "blue"
+                  }
+                },
+              lineStyle: {
+                  normal: {
+                    opacity: 0.5,
+                    color: "blue"
+                  }
+              }
+            }
+          ]
+        };
+        myChart.setOption(option);
+      }
+
+      function git_extra(dat) {
+        var lines = dat.split("\n");
+        var extra = "";
+        if (lines.length > 5) {
+            extra += lines[2].substr(5).trim() + "<br>";
+            extra += lines[4].substr(4).trim() + "<br>";
+            for (var i = 5; i < lines.length; i++) {
+                var s = lines[i];
+                if (s.startsWith("    Cr-Commit-Position:")) {
+                    extra += s.substr(24).trim() + "<br>";
+                }
+            }
+        }
+        return extra;
+      }
+
+
+      function generete_time_to_cset(rawData) {
+        var length = rawData["x64"].length;
+        var get_key = function(rawDate, type, index) {
+          return rawData[type][index]["stamp"];
+        }
+        var get_value = function(rawDate, type, index) {
+          return rawData[type][index]["cset"];
+        }
+        for(var i=0; i < length; i++) {
+          time_to_cset["x64"][get_key(rawData, "x64", i)] = get_value(rawData, "x64", i);
+          time_to_cset["x86"][get_key(rawData, "x86", i)] = get_value(rawData, "x86", i);
+          time_to_cset["arm"][get_key(rawData, "arm", i)] = get_value(rawData, "arm", i);
+        }
+      }
+
+      function calculateMA(index) {
+        var result = [];
+        for (var i = 0, len = data0.values.length; i < len; i++) {
+          result.push(data0.values[i][index]);
+        }
+        return result;
+      }
+      function cal(data, start) {
+        var temp=[];
+        for(var i=start;i>start-step_length;i--) {
+          temp.push(data[i]["score"]);
+        }
+        temp.sort();
+        // console.log(temp, Math.floor(length/2))
+        return temp[Math.floor(length/2)];
+      }
+      function splitData(rawData) {
+        var categoryData = [];
+        var values = [];
+        var length = rawData["x64"].length;
+        for(var i=step_length; i < length; i = i+step_length) {
+          categoryData.push(rawData["x64"][i]["stamp"].replace(' ', '\n'));
+          values.push([rawData["x64"][i]["stamp"].replace(' ', '\n'), cal(rawData["x64"],i), cal(rawData["x86"],i), cal(rawData["arm"],i)])
+        }
+        return {
+          categoryData: categoryData,
+          values: values
+        };
+      }
+
+      init_data();
+
+
+    </script>
+  </body>
+</html>
