@@ -121,10 +121,7 @@ AWFY.git = function(vendor, cset, callback) {
         return;
     inprogress[cset] = true;
 
-    var url = window.location.protocol + '//' + window.location.host;
-    if (url[url.length - 1] != '/')
-        url += '/';
-    url += 'awfy/query.php?git_rev=' + cset + '&vendor=' + vendor;
+    var url = 'http://awfy-i7.sh.intel.com:7777?git_rev=' + cset + '&vendor=' + vendor;
 
     $.ajax(url, {
         async: true,

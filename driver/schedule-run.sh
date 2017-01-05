@@ -65,7 +65,7 @@ do
 
         sleep 5s
 
-        python dostuff.py --config=client/atom-nuc-x86.config --config2=client/atom-nuc-x64.config $id &
+        python dostuff.py --config=client/atom-nuc-x64.config --config2=client/atom-nuc-x86.config $id &
 
         python dostuff.py --config=client/atom-nuc-2-x64.config --config2=client/atom-nuc-2-x86.config $id &
 
