@@ -78,7 +78,7 @@ class AsmJS(Benchmark):
         full_args += ['--cxx="' + native.cxx + '"']
         full_args += ['--'] + native.args
         output = utils.RunTimedCheckOutput(full_args)
-        
+
         tests = self.parse(output)
         submit.AddTests(tests, self.suite, self.version, native.mode)
 
@@ -88,7 +88,7 @@ class AsmJS(Benchmark):
     def benchmark(self, shell, env, args):
         full_args = [utils.PythonName, 'harness.py', shell, '--'] + args
         print(' '.join(full_args))
-        
+
         output = utils.RunTimedCheckOutput(full_args, env=env)
         return self.parse(output)
 
@@ -147,7 +147,7 @@ class OctaneV1(Octane):
     def __init__(self):
         super(Octane, self).__init__('octane1', '1.0', 'octane1')
 
- 
+
 class SunSpiderBased(Benchmark):
     def __init__(self, suite, version, folder, runs):
         super(SunSpiderBased, self).__init__(suite, version, folder)
@@ -372,7 +372,7 @@ class VellamoKruptein(Benchmark):
                 continue
             name = m.group(1)
             score = m.group(2)
-            
+
             if name == "vscore":
                 name = "__total__"
             tests.append({ 'name': name, 'time': score})
@@ -402,7 +402,7 @@ class VellamoDeepCrossfader(Benchmark):
                 continue
             name = m.group(1)
             score = m.group(2)
-            
+
             if name == "total":
                 name = "__total__"
             tests.append({ 'name': name, 'time': score})
@@ -489,7 +489,7 @@ class ContentShellBased(Benchmark):
         full_args.append(url)
 
         # use chromium client to start contentshell on slave machine
-        chromiumclient.startChromium(args=full_args) 
+        chromiumclient.startChromium(args=full_args)
 
         try:
             data = pserver.getTestDataBySocket(timeout=timeout)
@@ -509,7 +509,7 @@ class BmDom(ContentShellBased):
                 'contentshell-bm')
 
     def benchmark(self, shell, env, args):
-        url = '' 
+        url = ''
 
         # read test url
         f = open('dom2.1', 'r')
@@ -526,7 +526,7 @@ class BmDom(ContentShellBased):
             name = parts[0]
             score = parts[1]
 
-            print(name + '    - ' + score) 
+            print(name + '    - ' + score)
             if name == 'overall':
                 name = '__total__'
 
@@ -569,7 +569,7 @@ class JerrySimple(Benchmark):
     def __init__(self):
         super(JerrySimple, self).__init__('JerryBasic', '1.0',
                 'JerryTest')
- 
+
     def omit(self, mode):
         if 'JerryScript' not in mode.name and 'IoTjs' not in mode.name:
             return True
@@ -768,7 +768,7 @@ class JerryPassrate(Benchmark):
     def __init__(self):
         super(JerryPassrate, self).__init__('JerryPassrate', '1.0',
                 'test262')
- 
+
     def omit(self, mode):
         if 'JerryScript' not in mode.name:
             return True
@@ -911,7 +911,7 @@ Benchmarks = [#AsmJSApps(),
               Robohornet(),
               VellamoSurfWaxBinder(),
               VellamoKruptein(),
-              #VellamoDeepCrossfader(),
+              VellamoDeepCrossfader(),
               WebXPRTStock(),
               WebXPRTStorage(),
               WebXPRTStockLib(),
