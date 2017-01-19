@@ -86,6 +86,10 @@ class AsmJS(Benchmark):
         super(AsmJS, self)._run(submit, native, modes)
 
     def benchmark(self, shell, env, args):
+        # only run for turbofan
+        if '--turbo' not in args:
+            return None
+
         full_args = [utils.PythonName, 'harness.py', shell, '--'] + args
         print(' '.join(full_args))
 
@@ -898,8 +902,8 @@ class WebXPRTDNA(Benchmark):
 
         return tests
 
-Benchmarks = [#AsmJSApps(),
-              #AsmJSMicro(),
+Benchmarks = [AsmJSApps(),
+              AsmJSMicro(),
               SunSpider(),
               Kraken(),
               #Assorted(),
