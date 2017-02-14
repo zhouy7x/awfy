@@ -39,7 +39,7 @@ if (isset($_GET["git_rev"]) && isset($_GET["vendor"])) {
   die();
 }
 
-if (!isset($_GET["machine"]) || !isset($_GET["type"]) || !isset($_GET["suite_id"]) || !isset($_GET["cset"]))
+if (!isset($_GET["machine"]) || !isset($_GET["type"]) ||/* !isset($_GET["suite_id"]) || */!isset($_GET["cset"]))
 	fault();
 
 $machine = $_GET["machine"];
@@ -57,6 +57,22 @@ if ($type == "breakdown") {
     WHERE r.status > 0
     AND r.machine = $machine
     AND v.suite_id = $suite_id
+    AND b.cset LIKE '$cset%'");
+  $data = Array();
+  while ($output = mysql_fetch_assoc($query)) {
+      $data[] = $output;
+  }
+  echo json_encode($data);
+  die();
+}
+else if ($type == "overview") {
+  $query = mysql_query("SELECT STRAIGHT_JOIN r.id, r.stamp, v.name, s.score, b.mode_id, v.id
+    FROM awfy_run r
+    JOIN awfy_build b ON r.id = b.run_id
+    JOIN awfy_score s ON s.build_id = b.id
+    JOIN awfy_suite_version v ON v.id = s.suite_version_id
+    WHERE r.status > 0
+    AND r.machine = $machine
     AND b.cset LIKE '$cset%'");
   $data = Array();
   while ($output = mysql_fetch_assoc($query)) {

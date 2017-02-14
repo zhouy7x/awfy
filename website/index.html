@@ -110,7 +110,7 @@
       if (id.length < 3)
         return;
 
-    AWFY.query(AWFY.machineId, AWFY.view, AWFYMaster.suites[AWFY.suiteName].id, id, AWFY.subtest || "", function(data) {
+    AWFY.query(AWFY.machineId, AWFY.view, AWFY.suiteName ? AWFYMaster.suites[AWFY.suiteName].id : "-", id, AWFY.subtest || "", function(data) {
       var records = JSON.parse(data);
       //console.log(records);
 
@@ -241,6 +241,11 @@
    <div class="graph-container">
      <div id="VellamoKruptein-label">VellamoKruptein 3.1 score</div>
      <div class="graph" id="VellamoKruptein-graph"><h2>Loading...</h2></div>
+   </div>
+   <br><br><br>
+   <div class="graph-container">
+     <div id="VellamoDeepCrossfader-label">VellamoDeepCrossfader 3.1 score</div>
+     <div class="graph" id="VellamoDeepCrossfader-graph"><h2>Loading...</h2></div>
    </div>
    <br><br><br>
    <div class="graph-container">

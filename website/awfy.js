@@ -218,7 +218,7 @@ AWFY.displayNewGraph = function (name, graph) {
     var elt = $('#' + name + '-graph');
     if (!elt.length)
         return;
-    if (!graph || !graph.timelist.length) {
+    if (!graph || graph.timelist.length < 2) {
     this.aggregate[name] = undefined;
         if (elt.parent().hasClass("graph-container"))
             elt.parent().hide();
@@ -645,7 +645,7 @@ AWFY.showOverview = function () {
 
     $('#breakdown').empty();
     $('#breakdown').hide();
-    $("#commit-div").hide();
+    //$("#commit-div").hide();
 
     $('.graph-container').show();
 
@@ -678,7 +678,7 @@ AWFY.showBreakdown = function (name) {
     $('.graph-container').hide();
     breakdown.show();
 
-    $("#commit-div").show();
+    //$("#commit-div").show();
 
     this.suiteName = name;
     this.start = null
@@ -741,7 +741,7 @@ AWFY.showSingle = function (name, subtest, start, end) {
     $('.graph-container').hide();
     breakdown.show();
 
-    $("#commit-div").show();
+    //$("#commit-div").show();
 
     this.suiteName = name;
     this.subtest = subtest;
