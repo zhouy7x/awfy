@@ -902,29 +902,204 @@ class WebXPRTDNA(Benchmark):
 
         return tests
 
-Benchmarks = [AsmJSApps(),
-              AsmJSMicro(),
-              SunSpider(),
-              Kraken(),
+# add speedomerer1 benchmark
+class Speedometer1(Benchmark):
+    def __init__(self):
+	super(Speedometer1, self).__init__('speedometer1', '', 'speedometer')
+
+    def benchmark(self, shell, env, args):
+	kill_port = "for p in $(lsof -t -i:9222);do kill -9 -$p; done ; "
+	run_shell = "/home/user/.nvm/versions/node/v8.1.2/bin/node run.js "
+	url = "http://ssgs5-test.sh.intel.com/ARCworkloads/Speedometer-Old-Version/Speedometer/Speedometer/Full.html"
+	print(os.getcwd())
+	cmd = kill_port+run_shell+url+shell
+	print(cmd)
+	output = utils.RunTimedCheckOutput(cmd, env=env)
+	tests = []
+	lines = output.splitlines()
+
+	for x in lines:
+	    m = re.search("(.+): (\d+\.?\d?)", x)
+	    if not m:
+		continue
+	    name = m.group(1)
+	    score = m.group(2)
+	    if name[0:5] == "Score":
+		name = "__total__"
+	    tests.append({'name': name, 'time': score})
+	    print(cmd)
+	    return tests
+
+class Speedometer2(Benchmark):
+    def __init__(self):
+	super(Speedometer2, self).__init__('speedometer2', '', 'speedometer')
+
+    def benchmark(self, shell, env, args):
+	kill_port = "for p in $(lsof -t -i:9222);do kill -9 $p; done ;"
+	run_shell = "/home/user/.nvm/versions/node/v8.1.2/bin/node run.js "
+	url = "http://ssgs5-test.sh.intel.com/ARCworkloads/Speedometer2-226694-jstc/ "
+	print(os.getcwd())
+	
+	cmd = kill_port+run_shell+url+shell
+	print(cmd)
+	output = utils.RunTimedCheckOutput(cmd, env=env)
+	tests = []
+	lines = output.splitlines()
+	
+	for x in lines:
+	    m = re.search("(.+): (\d+\.?\d?)", x)
+	    if not m:
+		continue
+	    name = m.group(1)
+	    score = m.group(2)
+	    if name[0:5] == "Score":
+		name = "__total__"
+	    tests.append({'name': name, 'time': score})
+	    print(score + '   - ' + name)
+	print(cmd)
+	return tests
+
+# add WebTooling benchmark
+class WebTooling(Benchmark):
+    def __init__(self):
+	super(WebTooling, self).__init__('WebTooling', '', 'web-tooling-benchmark')
+
+    def benchmark(self, shell, env, args):
+	full_args = [shell]
+	
+	if args:
+	    full_args.extend(args)
+	full_args.append('dist/cli.js')
+	
+	print(os.getcwd())
+	output = utils.RunTimedCheckOutput(full_args, env=env)
+	
+	tests = []
+	lines = output.splitlines()	
+
+	for x in lines:
+	    m = re.search("(.+):  (\d+\.?\d+)", x)
+	    if not m:
+		continue
+	    name = m.group(1).lstrip()
+	    score = m.group(2)
+	    if name[0:9] == "Geometric": #Geometric mean:  2.78 runs/sec
+		name = "__total__"	   
+	    tests.append({'name':name, 'time':score}) 
+	    print(score + '	- '+ name)
+
+	return tests;
+
+
+# add unity3d benchmark
+class Unity3D(Benchmark):
+    def __init__(self):
+	super(Unity3D, self).__init__('Unity3D', '', 'Unity3D')
+
+    def benchmark(self, shell, env, args):
+	
+	url = "http://ssgs5-test.sh.intel.com/ARCworkloads/unity3d-release"
+	run_shell = "./unity3d.sh"
+	cmd = run_shell+" "+shell+" "+url
+
+	print(os.getcwd())
+	output = utils.RunTimedCheckOutput(cmd, env=env)
+
+	tests = []
+	lines = output.splitlines()
+	
+	for x in lines:
+	    m = re.search("(.+): (\d+)", x)
+	    if not m:
+		continue
+	    name = m.group(1)
+	    score = m.group(2)
+	    if name == "Overall":
+		name = "__total__"
+	    tests.append({'name': name, 'time':score})
+	print tests;
+	return tests;
+
+
+
+# add ARES-6 benchmark
+class ARES6(Benchmark):
+    def __init__(self):
+	super(ARES6, self).__init__('ARES6', '', 'ARES-6')
+
+    def benchmark(self, shell, env, args):
+	full_args = [shell]
+	
+	if args:
+	    full_args.extend(args)
+	full_args.append('cli.js')
+	
+	print(os.getcwd())
+	output = utils.RunTimedCheckOutput(full_args, env=env)	
+	return self.parse(output)
+
+	
+    def parse(self, output):
+	tests = []
+	remainStr = output
+	for subcase in ['ML', 'Babylon', 'Basic', 'Air']:
+	    sep = "Running... " + subcase + " ( 1  to go)"
+	    strList = remainStr.split(sep)
+	    scoreStr = strList[1]
+	    remainStr = strList[0]
+		
+	    lines = scoreStr.splitlines()
+	    for x in lines:
+		m = re.search("(.+):(\s+)(\d+(.\d+))", x)
+		if not m:
+		    continue
+		name = ""
+		if m.group(1) == "firstIteration":
+		    name = subcase + "-firstIteration"
+		elif m.group(1) == "averageWorstCase":
+		    name = subcase + "-worst4iterations"
+		elif m.group(1) == "steadyState":
+		    name = subcase + "-average"
+		
+		if name != "":
+		    score = m.group(3)
+		    tests.append({'name': name, 'time': score})
+		if subcase == "ML" and m.group(1) == "summary":
+		    name = "__total__"
+		    score = m.group(3)
+		    tests.append({'name': name, 'time': score})
+	print tests
+	return tests
+
+
+Benchmarks = [#AsmJSApps(),
+#              AsmJSMicro(),
+#              SunSpider(),
+#              Kraken(),
               #Assorted(),
               #OctaneV1(),
               Octane(),
-              Embenchen(),
+#              Embenchen(),
               #JetStream(),
               #BrowserMark(),
-              Robohornet(),
-              VellamoSurfWaxBinder(),
-              VellamoKruptein(),
-              VellamoDeepCrossfader(),
-              WebXPRTStock(),
-              WebXPRTStorage(),
-              WebXPRTStockLib(),
-              WebXPRTDNA(),
-              BmDom(),
-              BmScalable(),
+#              Robohornet(),
+#              VellamoSurfWaxBinder(),
+#              VellamoKruptein(),
+#              VellamoDeepCrossfader(),
+#              WebXPRTStock(),
+#              WebXPRTStorage(),
+#              WebXPRTStockLib(),
+#              WebXPRTDNA(),
+#              BmDom(),
+#              BmScalable(),
 			  # JerrySunspiderPerf(),
 			  # JerrySunspiderMem(),
-              JetStreamShell(),
+#              JetStreamShell(),
+#	       Speedometer1(),
+	       Speedometer2(),
+	       WebTooling(),
+	       ARES6(),
+	       Unity3D()
              ]
 
 def run(submit, native, modes, includes, excludes):

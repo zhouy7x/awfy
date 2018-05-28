@@ -1,0 +1,15 @@
+{
+  "name": "headless-first",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chrome-remote-interface": "^0.23.2",
+    "tabletojson": "^0.6.0"
+  }
+}

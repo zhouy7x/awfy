@@ -149,6 +149,7 @@ class Context(object):
             v = Vendor(row[0], row[1], row[2], row[3], row[4], row[5])
             self.vendors.append(v)
 
+
         # Get a list of modes, and a reverse mapping from DB ids.
         self.modes = []
         self.modemap = { }
@@ -157,8 +158,8 @@ class Context(object):
             m = Mode(row[0], row[1], row[2], row[3], row[4], row[5])
             self.modemap[int(row[0])] = m
             self.modes.append(m)
-
-        # Get a list of benchmark suites.
+        
+	# Get a list of benchmark suites.
         self.suitemap = {}
         self.benchmarks = []
         c.execute("SELECT id, name, description, better_direction, sort_order, visible FROM awfy_suite WHERE visible > 0")
@@ -166,21 +167,21 @@ class Context(object):
             b = Benchmark(row[0], row[1], row[2], row[3], row[4], row[5])
             self.suitemap[row[0]] = b
             self.benchmarks.append(b)
-
-        # Get a list of suite versions
+        
+	# Get a list of suite versions
         self.suiteversions = []
         c.execute("SELECT id, name, suite_id FROM awfy_suite_version")
         for row in c.fetchall():
             if row[2] in self.suitemap:
                 self.suiteversions.append([row[0], row[1], self.suitemap[row[2]].name])
-
-        # Get a list of machines.
+        
+	# Get a list of machines.
         self.machines = []
         c.execute("SELECT id, os, cpu, description, active, frontpage, pushed_separate, message FROM awfy_machine WHERE active >= 1")
         for row in c.fetchall():
             m = Machine(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
             self.machines.append(m)
-
+    
     def exportModes(self):
         o = { }
         for mode in self.modes:

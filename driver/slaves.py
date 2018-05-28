@@ -42,20 +42,35 @@ class RemoteSlave(Slave):
     def prepare(self, engines):
         self.pushRemote(utils.DriverPath + os.path.sep, self.DriverPath)
         self.pushRemote(utils.BenchmarkPath + os.path.sep, self.BenchmarkPath)
-
         for engine in engines:
-            shell = os.path.join(utils.RepoPath, engine.source, engine.shell())
-            rshell = os.path.join(self.RepoPath, engine.source, engine.shell())
-            self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
-            self.pushRemote(shell, rshell, follow=True)
+	    if engine.source == "v8":
+                shell = os.path.join(utils.RepoPath, engine.source, engine.shell())
+                rshell = os.path.join(self.RepoPath, engine.source, engine.shell())
+                self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
+                self.pushRemote(shell, rshell, follow=True)
+            	libpaths = engine.libpaths()
+           	for libp in libpaths:
+                    llib = os.path.join(utils.RepoPath, engine.source, libp['path'])
+                    rlib = os.path.join(self.RepoPath, engine.source, libp['path'])
+                    if os.path.isfile(llib) or os.path.isdir(llib):
+                        self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
+                        self.pushRemote(llib, rlib, follow=True, excludes=libp['exclude'])
+	    elif engine.source == "chromium/src":		
+                shell = os.path.join(utils.RepoPath, engine.source, engine.shell())
+                rshell = os.path.join(self.RepoPath, engine.source, engine.shell())
+		self.runRemote(["rm", "-rf", os.path.dirname(rshell)])
+                self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
+                self.pushRemote(shell, rshell, follow=True)
 
-            libpaths = engine.libpaths()
-            for libp in libpaths:
-                llib = os.path.join(utils.RepoPath, engine.source, libp['path'])
-                rlib = os.path.join(self.RepoPath, engine.source, libp['path'])
-                if os.path.isfile(llib) or os.path.isdir(llib):
-                    self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
-                    self.pushRemote(llib, rlib, follow=True, excludes=libp['exclude'])
+            	libpaths = engine.libpaths()
+           	for libp in libpaths:
+                    llib = os.path.join(utils.RepoPath, libp['path'])
+                    rlib = os.path.join(self.RepoPath, libp['path'])
+		    rlib2 = os.path.abspath(os.path.join(rlib, os.path.pardir))
+		    if os.path.isfile(llib) or os.path.isdir(llib):			
+		        self.runRemote(["rm", "-rf", os.path.dirname(rlib)])
+                        self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
+                        self.pushRemote(llib, rlib2, follow=True, excludes=libp['exclude'])
 
     def benchmark(self, submit, native, modes):
         state_p = "/tmp/__awfy_" + self.name + "_state.p";
@@ -89,6 +104,7 @@ class RemoteSlave(Slave):
         fullcmd = ["ssh", self.HostName, "--"] + cmds
         if async:
             print ("ASYNC: " + " ".join(fullcmd))
+            #self.delayed = subprocess.Popen(fullcmd, stderr = subprocess.STDOUT, stdout = subprocess.PIPE)
             self.delayed = subprocess.Popen(fullcmd, stderr = subprocess.STDOUT, stdout = subprocess.PIPE)
             subprocess.Popen(['sed', '-e', 's/^/' + self.name + ': /'], stdin = self.delayed.stdout)
             self.delayedCommand = str(fullcmd)
@@ -112,9 +128,12 @@ class RemoteSlave(Slave):
     def synchronize(self):
         if self.delayed:
             print("Waiting for: "+self.delayedCommand)
-            retval = self.delayed.wait()
-            if retval != 0:
-                raise Exception(self.delayedCommand + ": failed with exit code" + str(retval))
+            #retval = self.delayed.wait()
+	    output, retval = self.delayed.communicate() 
+            #if retval != 0:
+	    if self.delayed.returncode != 0:
+                #raise Exception(self.delayedCommand + ": failed with exit code" + str(retval))
+                raise Exception(self.delayedCommand + ": failed with exit code" + str(self.delayed.returncode))
             self.delayed = None
             self.delayedCommand = None
 
@@ -125,7 +144,7 @@ def init():
         slaveNames = slaveNames.split(",")
         for name in slaveNames:
             remote = utils.config_get_default(name, 'remote', 1)
-            if remote == 1:
+            if remote:
                 slaves.append(RemoteSlave(name))
             else:
                 slaves.append(Slave(name))

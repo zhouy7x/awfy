@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)http://krakenbenchmark.mozilla.org/kraken-1.1/driver.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta charset="utf8">
+
+<!--
+ Copyright (C) 2007 Apple Inc.  All rights reserved.
+ Copyright (C) 2010 Mozilla Foundation
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+
+ THIS SOFTWARE IS PROVIDED BY APPLE COMPUTER, INC. ``AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL APPLE COMPUTER, INC. OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+ OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+-->
+
+<title>Kraken JavaScript Benchmark (kraken-1.1 test suite - In Progress...)</title>
+<link rel="stylesheet" href="./kraken.css">
+</head>
+
+<body onload="start()">
+<div id="content">
+<h2>Kraken JavaScript Benchmark <small>(In Progress...)</small></h2>
+<div id="results">
+
+<h3>Content Version: kraken-1.1</h3>
+
+<script src="./Kraken/test-prefix.js"></script>
+<script src="./Kraken/test-contents.js"></script>
+<script>
+var testIndex = -1;
+var currentRepeat = -1;
+var repeatCount = 10;
+
+var currentSquare = 1;
+
+var output = [];
+output.length = repeatCount;
+for (var i = 0; i < output.length; i++) {
+    output[i] = {};
+}
+
+function initSquares() {
+    var squaresDiv = document.getElementById("squares");
+    var id = 0;
+    for (var i = 0; i < repeatCount; i++) {
+        for (var j = 0; j <= tests.length; j++) {
+            id++;
+            squaresDiv.innerHTML += "<span class='incomplete-square' id='square-" + id + "'>\u25A0</span>";
+        }
+        squaresDiv.innerHTML += "<br>";
+    }
+}
+
+function completeSquare() {
+    var square = document.getElementById("square-" + currentSquare);
+    if (square) {
+        square.className = "complete-square";
+        currentSquare++;
+    }
+}
+
+function start() 
+{
+    initSquares();
+    window.setTimeout(reallyNext, 500);
+}
+
+function next() 
+{
+    window.setTimeout(reallyNext, 10);
+}
+
+function reallyNext() 
+{
+    completeSquare();
+    document.getElementById("frameparent").innerHTML = "";
+    document.getElementById("frameparent").innerHTML = "<iframe id='testframe'>";
+    var testFrame = document.getElementById("testframe");
+    testIndex++;
+    if (testIndex < tests.length) {
+        testFrame.contentDocument.open();
+        testFrame.contentDocument.write(testContents[testIndex]);
+        testFrame.contentDocument.close;
+    } else if (++currentRepeat < repeatCount) { 
+        testIndex = 0;
+        testFrame.contentDocument.open();
+        testFrame.contentDocument.write(testContents[testIndex]);
+        testFrame.contentDocument.close;
+    } else {
+        finish();
+    }
+}
+
+function recordResult(time)
+{
+    if (currentRepeat >= 0) // negative repeats are warmups
+        output[currentRepeat][tests[testIndex]] = time;
+    next();
+}
+
+function finish()
+{
+    var outputString = "{";
+    outputString += '"v": "kraken-1.1", ';
+    for (var test in output[0]) {
+        outputString += '"' + test + '":[';
+        for (var i = 0; i < output.length; i++) {
+             outputString += output[i][test] + ",";
+        }
+        outputString = outputString.substring(0, outputString.length - 1);
+        outputString += "],";
+    }
+    outputString = outputString.substring(0, outputString.length - 1);
+    outputString += "}";
+
+    location = "results.html?" + encodeURI(outputString);
+}
+
+</script>
+
+<div id="frameparent"><iframe id="testframe"></iframe></div>
+<div id="squares"><span class="complete-square" id="square-1">■</span><span class="complete-square" id="square-2">■</span><span class="complete-square" id="square-3">■</span><span class="complete-square" id="square-4">■</span><span class="complete-square" id="square-5">■</span><span class="complete-square" id="square-6">■</span><span class="complete-square" id="square-7">■</span><span class="complete-square" id="square-8">■</span><span class="complete-square" id="square-9">■</span><span class="complete-square" id="square-10">■</span><span class="complete-square" id="square-11">■</span><span class="complete-square" id="square-12">■</span><span class="complete-square" id="square-13">■</span><span class="complete-square" id="square-14">■</span><span class="complete-square" id="square-15">■</span><br><span class="complete-square" id="square-16">■</span><span class="complete-square" id="square-17">■</span><span class="complete-square" id="square-18">■</span><span class="complete-square" id="square-19">■</span><span class="complete-square" id="square-20">■</span><span class="complete-square" id="square-21">■</span><span class="complete-square" id="square-22">■</span><span class="complete-square" id="square-23">■</span><span class="complete-square" id="square-24">■</span><span class="complete-square" id="square-25">■</span><span class="complete-square" id="square-26">■</span><span class="complete-square" id="square-27">■</span><span class="complete-square" id="square-28">■</span><span class="complete-square" id="square-29">■</span><span class="complete-square" id="square-30">■</span><br><span class="complete-square" id="square-31">■</span><span class="complete-square" id="square-32">■</span><span class="complete-square" id="square-33">■</span><span class="complete-square" id="square-34">■</span><span class="complete-square" id="square-35">■</span><span class="complete-square" id="square-36">■</span><span class="complete-square" id="square-37">■</span><span class="complete-square" id="square-38">■</span><span class="complete-square" id="square-39">■</span><span class="complete-square" id="square-40">■</span><span class="complete-square" id="square-41">■</span><span class="complete-square" id="square-42">■</span><span class="complete-square" id="square-43">■</span><span class="complete-square" id="square-44">■</span><span class="complete-square" id="square-45">■</span><br><span class="complete-square" id="square-46">■</span><span class="complete-square" id="square-47">■</span><span class="complete-square" id="square-48">■</span><span class="complete-square" id="square-49">■</span><span class="complete-square" id="square-50">■</span><span class="complete-square" id="square-51">■</span><span class="complete-square" id="square-52">■</span><span class="complete-square" id="square-53">■</span><span class="complete-square" id="square-54">■</span><span class="complete-square" id="square-55">■</span><span class="complete-square" id="square-56">■</span><span class="complete-square" id="square-57">■</span><span class="complete-square" id="square-58">■</span><span class="complete-square" id="square-59">■</span><span class="complete-square" id="square-60">■</span><br><span class="complete-square" id="square-61">■</span><span class="complete-square" id="square-62">■</span><span class="complete-square" id="square-63">■</span><span class="complete-square" id="square-64">■</span><span class="complete-square" id="square-65">■</span><span class="complete-square" id="square-66">■</span><span class="complete-square" id="square-67">■</span><span class="complete-square" id="square-68">■</span><span class="complete-square" id="square-69">■</span><span class="complete-square" id="square-70">■</span><span class="complete-square" id="square-71">■</span><span class="complete-square" id="square-72">■</span><span class="complete-square" id="square-73">■</span><span class="complete-square" id="square-74">■</span><span class="complete-square" id="square-75">■</span><br><span class="complete-square" id="square-76">■</span><span class="complete-square" id="square-77">■</span><span class="complete-square" id="square-78">■</span><span class="complete-square" id="square-79">■</span><span class="complete-square" id="square-80">■</span><span class="complete-square" id="square-81">■</span><span class="complete-square" id="square-82">■</span><span class="complete-square" id="square-83">■</span><span class="complete-square" id="square-84">■</span><span class="complete-square" id="square-85">■</span><span class="complete-square" id="square-86">■</span><span class="complete-square" id="square-87">■</span><span class="complete-square" id="square-88">■</span><span class="complete-square" id="square-89">■</span><span class="complete-square" id="square-90">■</span><br><span class="complete-square" id="square-91">■</span><span class="complete-square" id="square-92">■</span><span class="complete-square" id="square-93">■</span><span class="complete-square" id="square-94">■</span><span class="complete-square" id="square-95">■</span><span class="complete-square" id="square-96">■</span><span class="complete-square" id="square-97">■</span><span class="complete-square" id="square-98">■</span><span class="complete-square" id="square-99">■</span><span class="complete-square" id="square-100">■</span><span class="complete-square" id="square-101">■</span><span class="complete-square" id="square-102">■</span><span class="complete-square" id="square-103">■</span><span class="complete-square" id="square-104">■</span><span class="complete-square" id="square-105">■</span><br><span class="complete-square" id="square-106">■</span><span class="complete-square" id="square-107">■</span><span class="complete-square" id="square-108">■</span><span class="complete-square" id="square-109">■</span><span class="complete-square" id="square-110">■</span><span class="complete-square" id="square-111">■</span><span class="complete-square" id="square-112">■</span><span class="complete-square" id="square-113">■</span><span class="complete-square" id="square-114">■</span><span class="complete-square" id="square-115">■</span><span class="complete-square" id="square-116">■</span><span class="complete-square" id="square-117">■</span><span class="complete-square" id="square-118">■</span><span class="complete-square" id="square-119">■</span><span class="complete-square" id="square-120">■</span><br><span class="complete-square" id="square-121">■</span><span class="complete-square" id="square-122">■</span><span class="complete-square" id="square-123">■</span><span class="complete-square" id="square-124">■</span><span class="complete-square" id="square-125">■</span><span class="complete-square" id="square-126">■</span><span class="complete-square" id="square-127">■</span><span class="complete-square" id="square-128">■</span><span class="complete-square" id="square-129">■</span><span class="complete-square" id="square-130">■</span><span class="complete-square" id="square-131">■</span><span class="complete-square" id="square-132">■</span><span class="complete-square" id="square-133">■</span><span class="complete-square" id="square-134">■</span><span class="complete-square" id="square-135">■</span><br><span class="complete-square" id="square-136">■</span><span class="complete-square" id="square-137">■</span><span class="complete-square" id="square-138">■</span><span class="complete-square" id="square-139">■</span><span class="incomplete-square" id="square-140">■</span><span class="incomplete-square" id="square-141">■</span><span class="incomplete-square" id="square-142">■</span><span class="incomplete-square" id="square-143">■</span><span class="incomplete-square" id="square-144">■</span><span class="incomplete-square" id="square-145">■</span><span class="incomplete-square" id="square-146">■</span><span class="incomplete-square" id="square-147">■</span><span class="incomplete-square" id="square-148">■</span><span class="incomplete-square" id="square-149">■</span><span class="incomplete-square" id="square-150">■</span><br></div>
+</div>
+</div>
+
+
+</body></html>

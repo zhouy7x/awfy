@@ -149,6 +149,67 @@ class V8(Engine):
         self.hardfp = (utils.config.has_option('main', 'flags')) and \
                        ("hardfp" in utils.config.get('main', 'flags'))
 
+	slaves = utils.config.get('main', 'slaves')
+	self.slaveMachine = utils.config.get(slaves, 'machine')
+	 
+    def build(self):
+        env = os.environ.copy()
+        if self.cxx is not None:
+            env['CXX'] = self.cxx
+        if self.cc is not None:
+            env['CC'] = self.cc
+        if self.cpp is not None:
+            env['CPP'] = self.cpp
+        if self.link is not None:
+            env['LINK'] = self.link
+        if self.cxx_host is not None:
+            env['CXX_host'] = self.cxx_host
+        if self.cc_host is not None:
+            env['CC_host'] = self.cc_host
+        if self.cpp_host is not None:
+            env['CPP_host'] = self.cpp_host
+        if self.link_host is not None:
+            env['LINK_host'] = self.link_host
+        if self.ar is not None:
+            env['AR'] = self.ar
+
+        
+	Run(['git', 'log', '-1', '--pretty=short'])
+	
+	gn_shell = os.path.join(utils.DriverPath, 'gn-cmd.sh')
+	Run([gn_shell, self.slaveMachine, self.cpu], env)
+
+    def shell(self):
+	return os.path.join('out.gn', self.slaveMachine, self.cpu+".release", 'd8')
+
+    def libpaths(self):
+        otgt = self.slaveMachine + "/" + self.cpu + ".release"
+        return [{"path" : os.path.join('out.gn', otgt, 'natives_blob.bin'), "exclude" : []},
+                {"path" : os.path.join('out.gn', otgt, 'snapshot_blob.bin'), "exclude" : []},
+                {"path" : os.path.join('out.gn', otgt, 'icudtl.dat'), "exclude" : []}
+               ]
+
+
+class V8_gyp(Engine):
+    def __init__(self):
+        super(V8, self).__init__()
+        self.puller = 'git'
+        self.source = utils.config.get('v8', 'source')
+        self.cxx = utils.config_get_default('v8', 'cxx', None)
+        self.cc = utils.config_get_default('v8', 'cc', None)
+        self.cpp = utils.config_get_default('v8', 'cpp', None)
+        self.link = utils.config_get_default('v8', 'link', None)
+        self.cxx_host = utils.config_get_default('v8', 'cxx_host', None)
+        self.cc_host = utils.config_get_default('v8', 'cc_host', None)
+        self.cpp_host = utils.config_get_default('v8', 'cpp_host', None)
+        self.link_host = utils.config_get_default('v8', 'link_host', None)
+        self.ar = utils.config_get_default('v8', 'ar', None)
+
+        self.args = ['--expose-gc']
+        self.important = True
+        self.hardfp = (utils.config.has_option('main', 'flags')) and \
+                       ("hardfp" in utils.config.get('main', 'flags'))
+
 
     def build(self):
         env = os.environ.copy()
@@ -191,9 +252,9 @@ class V8(Engine):
         Run(['git', 'log', '-1'])
 
         if self.cpu == 'x64':
-            Run(['make', 'x64.release', 'werror=no', '-j8'], env)
+            Run(['make', 'x64.release', 'werror=no', '-j30'], env)
         elif self.cpu == 'arm':
-            make_cmd = ['make', 'werror=no', '-j8', 'arm.release',
+            make_cmd = ['make', 'werror=no', '-j30', 'arm.release',
                     'armv7=true',
                     'armfloatabi=hard',
                     'disassembler=on',
@@ -205,7 +266,7 @@ class V8(Engine):
                 make_cmd.append('hardfp=on')
             Run(make_cmd, env)
         elif self.cpu == 'x86':
-            Run(['make', 'ia32.release', 'werror=no', '-j8'], env)
+            Run(['make', 'ia32.release', 'werror=no', '-j30'], env)
   
     def shell(self):
         if self.cpu == 'x64':
@@ -315,6 +376,65 @@ class JerryScript(Engine):
     def shell(self):
         return os.path.join('build', 'bin', 'release.linux', 'jerry')
 
+# add Headless Engine
+class Headless(Engine):
+    def __init__(self):
+	super(Headless, self).__init__()
+	self.puller = 'git'
+	self.source = utils.config.get('headless', 'source')
+	self.args = []
+	self.important = True
+	
+	if self.cpu == 'x64':
+	    cpu_mode = '-x64'
+	elif self.cpu == 'x86':
+	    cpu_mode = '-x86'
+	elif self.cpu == 'arm':
+	    cpu_mode = '-arm'
+
+	self.modes = [{'mode': 'headless' + cpu_mode, 'args': None}]
+
+
+    def build(self):
+	env = os.environ.copy()
+	env["GYP_CHROMIUM_NO_ACTION"] = "0"
+
+	if self.cpu == 'x86':
+	    env["GYP_DEFINES"] = "target_arch=ia32"
+	elif self.cpu == 'x64':
+	    env["GYP_DEFINES"] = "target_arch=x64"
+	elif self.cpu == 'arm':
+	    env["GYP_DEFINES"] = "target_arch=arm arm_float_abi=hard component=shared_library linux_use_gold_flags=1"
+	    env["GYP_CROSSCOMPILE"] = "1"
+	# add build command code here
+	with utils.FolderChanger('./'):
+	    syncAgain =  True
+	    sourcePath = os.path.join(utils.RepoPath, self.source)
+	    in_argns_name = self.cpu + ".gn"
+	    in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
+	    out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu, 'args.gn')
+	    while(syncAgain):
+		syncAgain = False
+		try:
+		    Run(['cp', in_argns, out_argns])
+		    Run(['gclient', 'sync', '-j25', '-f'], env)
+		    Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
+		    Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
+		except subprocess.CalledProcessError as e:
+		    if synctroubles.fetchGsFileByHttp(e.output, ''):
+			syncAgain = True
+		    else:
+			raise e
+	Run(['ninja', '-C', os.path.join(sourcePath, 'out', self.cpu), 'chrome', '-j40'], env)
+	   	    
+    def shell(self):
+	return os.path.join(utils.RepoPath, self.source, 'out', self.cpu, 'chrome')
+
+    def libpaths(self):
+	p = os.path.join(utils.RepoPath, self.source, 'out', self.cpu)
+	return [{'path': p, 'exclude': ['obj', 'gen', 'clang_x64', 'clang_x86_v8_arm', 'pyproto', 'resources']}]
+
+	    
 class IoTjs(Engine):
     def __init__(self):
         super(IoTjs, self).__init__()

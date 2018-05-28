@@ -1,0 +1,4 @@
+""
+"Vanilla-ES2015-Babel-Webpack-TodoMVC ( 7 / 480 )"
+"React-TodoMVC ( 11 / 480 )"
+"React-Redux-TodoMVC ( 14 / 480 )"

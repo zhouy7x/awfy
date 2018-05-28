@@ -46,16 +46,13 @@ do
     if [ -z "$list" ]; then
       echo "v8: no update"
     else
+
       hasUpdate="true"
       # Get every commit of v8
       for id in $list
       do
-        git reset --hard -q $id && gclient sync -j8
-        git log -1
-
-        sed -e '/samples.gyp/d' -e '/cctest.gyp/d' -e '/fuzzer.gyp/d' -e '/unittests.gyp/d' -i gypfiles/all.gyp
-        python gypfiles/gyp_v8
-        rm -f out/arm.release/d8 out/ia32.release/d8 out/x64.release/d8
+        git reset --hard -q $id && gclient sync -j10
+        git log -1 --pretty=short
 
         pushd /home/user/work/awfy/driver
 
@@ -63,17 +60,19 @@ do
 
         python dostuff.py --config=client/hsw-nuc-x64.config --config2=client/hsw-nuc-x86.config $id &
 
-        sleep 5s
+        #sleep 5s
 
-        python dostuff.py --config=client/atom-nuc-x64.config --config2=client/atom-nuc-x86.config $id &
+        #python dostuff.py --config=client/atom-nuc-x64.config --config2=client/atom-nuc-x86.config $id &
 
-        python dostuff.py --config=client/atom-nuc-2-x64.config --config2=client/atom-nuc-2-x86.config $id &
+        #python dostuff.py --config=client/atom-nuc-2-x64.config --config2=client/atom-nuc-2-x86.config $id &
+        
+        python dostuff.py --config=client/apl-nuc-x64.config $id &
 
-        python dostuff.py --config=client/chrubuntu-arm.config $id &
+        # python dostuff.py --config=client/chrubuntu-arm.config $id &
 
         python dostuff.py --config=client/chromeos-arm.config $id &
 
-        python dostuff.py --config=client/fc-interp-x64.config $id &
+        # python dostuff.py --config=client/fc-interp-x64.config $id &
 
         wait
 
@@ -82,10 +81,19 @@ do
 
         #sleep 10h
 
-        popd
-        pushd /home/user/work/awfy/server
-        ssh user@user-awfy.sh.intel.com "cd /home/user/work/awfy/server ; bash run-update.sh"
-        popd
+   	popd
+
+   	pushd /home/user/work/awfy/server
+   	./run-update.sh
+   	popd
+        # count=`expr $count + 1`
+        # mod5=`expr $count % 5`
+        # if [ "$mod5" = "1" ]
+        # then
+        #   pushd /home/user/work/awfy/server
+        #   ./run-update.sh
+        #   popd
+        # fi
 
         if [ -e /tmp/awfy-stop ]
         then
@@ -98,31 +106,32 @@ do
     popd
 
     # Second, check chromium update
-    # pushd /home/user/work/awfy/repos/chromium/src
-    # git fetch
-    # list=`git rev-list origin/master ^master | tac`
-    # if [ -z "$list" ]; then
-    #   echo "chromium: no update"
-    # else
-    #   for i in $list
-    #   do
-    #     # Only check v8 changed chromium
-    #     v8find=`git show $i | grep -P "^\+\s+.v8_revision."`
-    #     if [[ -n $v8find ]]; then
-    #       hasUpdate="true"
-    #       echo $i
-    #       git reset --hard $i
-    #       pushd /home/user/work/awfy/driver
-    #       python dostuff.py -f -n --config=awfy-contentshell.config
-    #       popd
+     pushd /home/user/work/awfy/chromium_repos/chromium/src
+     git fetch
+     list=`git rev-list origin/master ^master | tac`
+     if [ -z "$list" ]; then
+       echo "chromium: no update"
+     else
+       for i in $list
+       do
+         # Only check v8 changed chromium
+         v8find=`git show $i | grep -P "^\+\s+.v8_revision."`
+         if [[ -n $v8find ]]; then
+           hasUpdate="true"
+           echo $i
+           git reset --hard $i
+           pushd /home/user/work/awfy/driver
+           python dostuff.py  --config=client/machine_config/electro-x64.config 
+	   python dostuff.py  --config=client/machine_config/elm-arm.config
+           popd
 
-    #       pushd /home/user/work/awfy/server
-    #       bash ./run-update.sh
-    #       popd
-    #     fi
-    #   done
-    # fi
-    # popd
+           pushd /home/user/work/awfy/server
+           bash ./run-update.sh
+           popd
+         fi
+       done
+     fi
+     popd
 
     if [ "$hasUpdate" = "false" ]; then
       echo "awfy: no source update, sleep 15m"

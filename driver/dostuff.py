@@ -32,6 +32,16 @@ resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 # A mode is a configuration of an engine we just built.
 Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset'])
 
+# Get the timestamp of commiting patch
+def getPatchTime(src_path, cset):
+    cmd = 'cd ' + src_path + ' && git log -1 ' + cset + ' | grep -i Date'
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=None, shell=True)
+    out = p.communicate()[0]
+    arr = re.split('\s+', out)
+    time_str = arr[5] + '-' + arr[2] + '-' + arr[3] + ' ' + arr[4]
+    timeArrary = time.strptime(time_str, "%Y-%b-%d %H:%M:%S")
+    timeStamp = int(time.mktime(timeArray))
+    return timeStamp
 
 def dostuff(config_name):
     utils.InitConfig(config_name)
@@ -47,13 +57,15 @@ def dostuff(config_name):
         Engine = builders.JerryScript()
     if utils.config.has_section('iotjs'):
         Engine = builders.IoTjs()
+    if utils.config.has_section('headless'):
+	Engine = builders.Headless()
 
 
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(('127.0.0.1', 8787))
+    s.connect(('127.0.0.1', 8792))
     hello = s.recv(1024)
     s.sendall(config_name)
     print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
@@ -71,6 +83,10 @@ def dostuff(config_name):
             cset = Engine.getPuller().Identify()
     else:
         cset = progargs[0]
+    print "***************************************"
+    print cset
+    print "***************************************"
+
 
     # Make a list of all modes.
     modes = []
@@ -94,7 +110,6 @@ def dostuff(config_name):
             print myself, name, str(args)
             modes.append(mode)
 
-
     # Set of slaves that run the builds. 
     KnownSlaves = slaves.init()
 
@@ -103,9 +118,11 @@ def dostuff(config_name):
 
         # Inform AWFY of each mode we found.
         submit = submitter.Submitter(slave)
+	print "submit start ..."
         submit.Start()
 
         for mode in modes:
+	    print "submit add engine..."
             submit.AddEngine(mode.name, mode.cset)
 
         # submit.AddEngine(native.mode, native.signature)

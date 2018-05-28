@@ -37,7 +37,7 @@ class Handler(tornado.web.RequestHandler):
 				repo = {
 					"V8": "/home/user/work/awfy/repos/v8",
 					"JerryScript": "/home/user/work/awfy/repos/jerryscript",
-					"Chromium": "/home/user/work/awfy/repos/chromium/src"
+					"Chromium": "/home/user/work/awfy/chromium_repos/chromium/src"
 				}
 				cmd = "cd %s && git log -1 %s" % (repo[vendor], git_rev)
 				print cmd

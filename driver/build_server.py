@@ -10,7 +10,7 @@ import builders
 import resource
 
 LISTEN_ADDRESS = "0.0.0.0"
-LISTEN_PORT = 8787
+LISTEN_PORT = 8792
 ERROR_LOG_FILE = "/home/user/work/logs/build_server_error.log"
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -36,7 +36,10 @@ def build(config):
 	    KnownEngines.append(builders.JerryScript())
 	if utils.config.has_section('iotjs'):
 	    KnownEngines.append(builders.IoTjs())
-	builders.build(KnownEngines, False, False)
+	if utils.config.has_section('headless'):
+	    KnownEngines.append(builders.Headless())
+	#builders.build(KnownEngines, False, False)
+	builders.build(KnownEngines, False, True)
 
 def log_to_file(err_content):
 	file = open(ERROR_LOG_FILE, "a+")

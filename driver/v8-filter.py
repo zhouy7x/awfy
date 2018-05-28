@@ -33,5 +33,5 @@ for commit in sys.stdin:
 	commits += 1
 
 
-# print('commit discard: ' + str(discards) + '/' + str(commits))
+print >> sys.stderr, 'commit discard: ' + str(discards) + '/' + str(commits)
 

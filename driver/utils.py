@@ -60,7 +60,10 @@ def Run(vec, env = os.environ.copy()):
         print e
         raise e
     o = o.decode("utf-8")
-    print(o)
+    try:
+    	print(o)
+    except:
+	print("print exception...")
     return o
 
 def Shell(string):
@@ -93,21 +96,30 @@ def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenar
     if timeout is None:
         timeout = Timeout
     print('Running: "'+ '" "'.join(args) + '" with timeout: ' + str(timeout)+'s')
-    p = subprocess.Popen(args, env = env, stdout=subprocess.PIPE, **popenargs)
-    with Handler(signal.SIGALRM, timeout_handler):
-        try:
-            signal.alarm(timeout)
-            output = p.communicate()[0]
-            # if we get an alarm right here, nothing too bad should happen
-            signal.alarm(0)
-            if p.returncode:
-                print "ERROR: returned" + str(p.returncode)
-        except TimeException:
-            # make sure it is no longer running
-            p.kill()
-            # in case someone looks at the logs...
-            print ("WARNING: Timed Out")
-            # try to get any partial output
-            output = p.communicate()[0]
-    print (output)
-    return output
+    print(args)
+    try:
+	if type(args) == list:
+	    print("list......................")
+    	    p = subprocess.Popen(args, bufsize=8192,  env = env, stdout=subprocess.PIPE, **popenargs)
+	else:
+	    p = subprocess.Popen(args, bufsize=8192, shell=True, env = env, stdout=subprocess.PIPE, **popenargs)
+	with Handler(signal.SIGALRM, timeout_handler):
+            try:
+		signal.alarm(timeout)
+		output = p.communicate()[0]
+		# if we get an alarm right here, nothing too bad should happen
+		signal.alarm(0)
+		if p.returncode:
+		    print "ERROR: returned" + str(p.returncode)
+	    except TimeException:
+            	# make sure it is no longer running
+            	p.kill()
+             	# in case someone looks at the logs...
+            	print ("WARNING: Timed Out")
+            	# try to get any partial output
+            	output = p.communicate()[0]
+	#print (output)
+	return output
+    except Exception as e:
+	pass
+

@@ -234,14 +234,14 @@ Display.prototype.draw = function () {
     if (this.graph.aggregate && this.awfy.type != 'overview')
         options.yaxis.min = 0;
 
-    if (this.graph.direction == 1) {
+    /*if (this.graph.direction == 1) {
 	options.yaxis.transform = function (v) {
             return -v;
         };
 	options.yaxis.inverseTransform = function (v) {
             return -v;
         };
-    }
+    }*/
 
     if (this.graph.aggregate && this.historical) {
         // If the graph has both historical and recent points, indicated by
@@ -302,7 +302,7 @@ Display.prototype.draw = function () {
                                                   .appendTo(this.elt);
     } else {
         var yaxisLabel = $("<div class='axisLabel yaxisLabel'></div>")
-                                          .text("Execution Time (ms)")
+                                                        .text("Execution Time (ms)")
                                                   .appendTo(this.elt);
     }
     yaxisLabel.css("margin-top", yaxisLabel.width() / 2 - 20);
