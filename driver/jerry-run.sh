@@ -37,7 +37,7 @@ do
     hasUpdate="false"
 
     # First, check jerry update
-    pushd /home/user/work/awfy/repos/jerryscript
+    pushd /home/user/work/repos/jerryscript
         git fetch
         list=`git rev-list origin/master ^master | tac`
         if [ -z "$list" ]; then
@@ -58,7 +58,7 @@ do
     popd
 
     # Second, check iotjs update
-    pushd /home/user/work/awfy/repos/iotjs
+    pushd /home/user/work/repos/iotjs
         git fetch
         list=`git rev-list origin/master ^master | tac`
         if [ -z "$list" ]; then

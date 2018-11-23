@@ -26,18 +26,18 @@ fi
 touch /tmp/awfy-daemon
 while :
 do
-	if [ -e /tmp/awfy ]
-	then
-		echo "/tmp/awfy lock in place"
-		sleep 30m
-	else
-		cd /home/user/work/awfy/driver
-		python dostuff.py --config=awfy-x64.config
+    if [ -e /tmp/awfy ]
+    then
+        echo "/tmp/awfy lock in place"
+        sleep 30m
+    else
+        cd /home/user/work/awfy/driver
+        python dostuff.py --config=awfy-x64.config
                 pushd ../server
                 bash ./run-update.sh
                 popd
-		#python dostuff.py --config=awfy-x64-slm.config
-	fi
+        #python dostuff.py --config=awfy-x64-slm.config
+    fi
 done
 rm /tmp/awfy-daemon
 

@@ -37,7 +37,7 @@ do
     hasUpdate="false"
 
     # First, check v8 update
-    pushd /home/user/work/awfy/repos/v8
+    pushd /home/user/work/repos/v8
     git fetch
     list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
     if [ -z "$list" ]; then
@@ -51,7 +51,7 @@ do
         git reset --hard $i
         pushd /home/user/work/awfy/driver
 
-		python dostuff.py -f -n --config=awfy-interpreter.config
+        python dostuff.py -f -n --config=awfy-interpreter.config
 
 
         popd

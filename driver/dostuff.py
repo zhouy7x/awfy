@@ -44,6 +44,8 @@ def getPatchTime(src_path, cset):
     return timeStamp
 
 def dostuff(config_name):
+    print "dostuff"
+    print config_name
     utils.InitConfig(config_name)
 
     # Set of engines that get build.
@@ -58,14 +60,14 @@ def dostuff(config_name):
     if utils.config.has_section('iotjs'):
         Engine = builders.IoTjs()
     if utils.config.has_section('headless'):
-	Engine = builders.Headless()
+        Engine = builders.Headless()
 
 
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(('127.0.0.1', 8792))
+    s.connect(('127.0.0.1', 8797))
     hello = s.recv(1024)
     s.sendall(config_name)
     print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
@@ -118,11 +120,11 @@ def dostuff(config_name):
 
         # Inform AWFY of each mode we found.
         submit = submitter.Submitter(slave)
-	print "submit start ..."
+        print "submit start ..."
         submit.Start()
 
         for mode in modes:
-	    print "submit add engine..."
+            print "submit add engine..."
             submit.AddEngine(mode.name, mode.cset)
 
         # submit.AddEngine(native.mode, native.signature)

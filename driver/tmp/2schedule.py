@@ -35,7 +35,7 @@ do
     hasUpdate="false"
 
     # First, check v8 update
-    pushd /home/user/work/awfy/repos/v8
+    pushd /home/user/work/repos/v8
     git fetch
     list=`git rev-list origin/master ^master | tac`
     if [ -z "$list" ]; then
@@ -69,7 +69,7 @@ do
     popd
 
     # Second, check chromium update
-    pushd /home/user/work/awfy/repos/chromium/src
+    pushd /home/user/work/repos/chromium/src
     git fetch
     list=`git rev-list origin/master ^master | tac`
     if [ -z "$list" ]; then
@@ -95,7 +95,7 @@ do
     popd
 
     # Third, check iotjs update
-    pushd /home/user/work/awfy/repos/iotjs
+    pushd /home/user/work/repos/iotjs
     popd
 
     if [ "$hasUpdate" = "false" ]; then

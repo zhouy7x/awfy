@@ -30,7 +30,16 @@ then
 fi
 
 # lanuch chrome
-export DISPLAY=":1"
+if [ "$(cat /proc/cpuinfo  | grep N3350)" != "" ]
+then
+	export DISPLAY=":2"
+elif [ "$(cat /proc/cpuinfo  | grep N3450)" != "" ]
+then
+	export DISPLAY=":0"
+else
+	echo "Unknown machine!"
+fi
+
 $CHROME_PATH --no-sandbox $URL --enable-logging --v=1 &
 
 

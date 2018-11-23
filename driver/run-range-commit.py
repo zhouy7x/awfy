@@ -28,9 +28,9 @@ touch /tmp/awfy-daemon
 count=0
 if [ -e /tmp/awfy ]
 then
-	echo "/tmp/awfy lock in place"
+        echo "/tmp/awfy lock in place"
 else
-        pushd /home/user/work/awfy/repos/v8
+        pushd /home/user/work/repos/v8
           list=`git rev-list 230d0845b7012bb404d013d0fce9d07fb83f62e2 ^aa84551622799c6c44b8ee60ea6c40405465177a | tac`
           if [ -z "$list" ]; then
             echo "no source updated, sleep 2m"
@@ -40,8 +40,8 @@ else
             do
               echo $i
               git reset --hard $i
-	      pushd /home/user/work/awfy/driver
-	      python dostuff.py -f -n --config=awfy-x64.config
+              pushd /home/user/work/awfy/driver
+              python dostuff.py -f -n --config=awfy-x64.config
               python dostuff.py -f -n --config=awfy-x86.config
 
               count=`expr $count + 1`

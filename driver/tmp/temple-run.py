@@ -24,12 +24,12 @@ then
 fi
 
 touch /tmp/awfy-daemon
-	if [ -e /tmp/awfy ]
-	then
-		echo "/tmp/awfy lock in place"
-		sleep 30m
-	else
-                pushd /home/user/work/awfy/repos/v8
+        if [ -e /tmp/awfy ]
+        then
+                echo "/tmp/awfy lock in place"
+                sleep 30m
+        else
+                pushd /home/user/work/repos/v8
                   
                   list=`git rev-list afba55965118d9ba57e53c729f52be2340e626e0 ^1e4173d93a58ab72208d40c38b0a20d91c863a37 | tac`
                   if [ -z "$list" ]; then
@@ -44,8 +44,8 @@ touch /tmp/awfy-daemon
                       
                       echo $i
                       git reset --hard $i
-  		      pushd /home/user/work/awfy/driver
-  		      python dostuff.py -f -n --config=only-atom-x86.config
+                      pushd /home/user/work/awfy/driver
+                      python dostuff.py -f -n --config=only-atom-x86.config
                       popd
                       pushd /home/user/work/awfy/server
                       bash ./run-update.sh
@@ -54,8 +54,8 @@ touch /tmp/awfy-daemon
                     done
                   fi
                 popd
-		#python dostuff.py --config=awfy-x64.config
-		#python dostuff.py --config=awfy-x64-slm.config
-	fi
+                #python dostuff.py --config=awfy-x64.config
+                #python dostuff.py --config=awfy-x64-slm.config
+        fi
 rm /tmp/awfy-daemon
 

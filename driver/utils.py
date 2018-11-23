@@ -61,9 +61,9 @@ def Run(vec, env = os.environ.copy()):
         raise e
     o = o.decode("utf-8")
     try:
-    	print(o)
+        print(o)
     except:
-	print("print exception...")
+        print("print exception...")
     return o
 
 def Shell(string):
@@ -95,31 +95,95 @@ class Handler():
 def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenargs):
     if timeout is None:
         timeout = Timeout
-    print('Running: "'+ '" "'.join(args) + '" with timeout: ' + str(timeout)+'s')
-    print(args)
+    if type(args) == list:
+        print('Running: "'+ '" "'.join(args) + '" with timeout: ' + str(timeout)+'s')
+    elif type(args) == str:
+        print('Running: "'+ args + '" with timeout: ' + str(timeout) + 's')
+    else:
+        print('Running: ' + args)
     try:
-	if type(args) == list:
-	    print("list......................")
-    	    p = subprocess.Popen(args, bufsize=8192,  env = env, stdout=subprocess.PIPE, **popenargs)
-	else:
-	    p = subprocess.Popen(args, bufsize=8192, shell=True, env = env, stdout=subprocess.PIPE, **popenargs)
-	with Handler(signal.SIGALRM, timeout_handler):
+        if type(args) == list:
+            print("list......................")
+            p = subprocess.Popen(args, bufsize=-1,  env=env, close_fds=True, preexec_fn=os.setsid, 
+                    stdout=subprocess.PIPE, **popenargs)
+
+            with Handler(signal.SIGALRM, timeout_handler):
+                try:
+                    signal.alarm(timeout)
+                    output = p.communicate()[0]
+                    # if we get an alarm right here, nothing too bad should happen
+                    signal.alarm(0)
+                    if p.returncode:
+                        print "ERROR: returned" + str(p.returncode)
+                except TimeException:
+                    # make sure it is no longer running
+                    # p.kill()
+                    os.killpg(p.pid, signal.SIGINT)
+                    # in case someone looks at the logs...
+                    print ("WARNING: Timed Out 1st.")
+                    # try to get any partial output
+                    output = p.communicate()[0]
+                    print ('output 1st =', output)
+
+                    # try again.
+                    p = subprocess.Popen(args, bufsize=-1, shell=True, env=env, close_fds=True,
+                                             preexec_fn=os.setsid,
+                                             stdout=subprocess.PIPE, **popenargs)
+                    try:
+                        signal.alarm(timeout)
+                        output = p.communicate()[0]
+                        # if we get an alarm right here, nothing too bad should happen
+                        signal.alarm(0)
+                        if p.returncode:
+                            print "ERROR: returned" + str(p.returncode)
+                    except TimeException:
+                        # make sure it is no longer running
+                        # p.kill()
+                        os.killpg(p.pid, signal.SIGINT)
+                        # in case someone looks at the logs...
+                        print ("WARNING: Timed Out 2nd.")
+                        # try to get any partial output
+                        output = p.communicate()[0]
+
+        else:
+            import subprocess32
+            p = subprocess32.Popen(args, bufsize=-1, shell=True, env=env, close_fds=True, preexec_fn=os.setsid,
+                    stdout=subprocess.PIPE, **popenargs)
+            #with Handler(signal.SIGALRM, timeout_handler):
             try:
-		signal.alarm(timeout)
-		output = p.communicate()[0]
-		# if we get an alarm right here, nothing too bad should happen
-		signal.alarm(0)
-		if p.returncode:
-		    print "ERROR: returned" + str(p.returncode)
-	    except TimeException:
-            	# make sure it is no longer running
-            	p.kill()
-             	# in case someone looks at the logs...
-            	print ("WARNING: Timed Out")
-            	# try to get any partial output
-            	output = p.communicate()[0]
-	#print (output)
-	return output
+                output = p.communicate(timeout=timeout)[0]
+                # if we get an alarm right here, nothing too bad should happen
+                if p.returncode:
+                    print "ERROR: returned" + str(p.returncode)
+            except subprocess32.TimeoutExpired:
+                # make sure it is no longer running
+                # p.kill()
+                os.killpg(p.pid, signal.SIGINT)
+                # in case someone looks at the logs...
+                print ("WARNING: Timed Out 1st.")
+                # try to get any partial output
+                output = p.communicate()[0]
+                print ('output 1st =',output)
+
+                # try again.
+                p = subprocess32.Popen(args, bufsize=-1, shell=True, env=env, close_fds=True, preexec_fn=os.setsid,
+                            stdout=subprocess.PIPE, **popenargs)
+                try:
+                    output = p.communicate(timeout=timeout)[0]
+                    # if we get an alarm right here, nothing too bad should happen
+                    if p.returncode:
+                        print "ERROR: returned" + str(p.returncode)
+                except subprocess32.TimeoutExpired:
+                    # make sure it is no longer running
+                    # p.kill()
+                    os.killpg(p.pid, signal.SIGINT)
+                    # in case someone looks at the logs...
+                    print ("WARNING: Timed Out 2nd.")
+                    # try to get any partial output
+                    output = p.communicate()[0]
+
+        print ('output final =',output)
+        return output
     except Exception as e:
-	pass
+        pass
 

@@ -43,32 +43,32 @@ class RemoteSlave(Slave):
         self.pushRemote(utils.DriverPath + os.path.sep, self.DriverPath)
         self.pushRemote(utils.BenchmarkPath + os.path.sep, self.BenchmarkPath)
         for engine in engines:
-	    if engine.source == "v8":
+            if engine.source == "v8":
                 shell = os.path.join(utils.RepoPath, engine.source, engine.shell())
                 rshell = os.path.join(self.RepoPath, engine.source, engine.shell())
                 self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
                 self.pushRemote(shell, rshell, follow=True)
-            	libpaths = engine.libpaths()
-           	for libp in libpaths:
+                libpaths = engine.libpaths()
+                for libp in libpaths:
                     llib = os.path.join(utils.RepoPath, engine.source, libp['path'])
                     rlib = os.path.join(self.RepoPath, engine.source, libp['path'])
                     if os.path.isfile(llib) or os.path.isdir(llib):
                         self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
                         self.pushRemote(llib, rlib, follow=True, excludes=libp['exclude'])
-	    elif engine.source == "chromium/src":		
+            elif engine.source == "chromium/src":
                 shell = os.path.join(utils.RepoPath, engine.source, engine.shell())
                 rshell = os.path.join(self.RepoPath, engine.source, engine.shell())
-		self.runRemote(["rm", "-rf", os.path.dirname(rshell)])
+                self.runRemote(["rm", "-rf", os.path.dirname(rshell)])
                 self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
                 self.pushRemote(shell, rshell, follow=True)
 
-            	libpaths = engine.libpaths()
-           	for libp in libpaths:
+                libpaths = engine.libpaths()
+                for libp in libpaths:
                     llib = os.path.join(utils.RepoPath, libp['path'])
                     rlib = os.path.join(self.RepoPath, libp['path'])
-		    rlib2 = os.path.abspath(os.path.join(rlib, os.path.pardir))
-		    if os.path.isfile(llib) or os.path.isdir(llib):			
-		        self.runRemote(["rm", "-rf", os.path.dirname(rlib)])
+                    rlib2 = os.path.abspath(os.path.join(rlib, os.path.pardir))
+                    if os.path.isfile(llib) or os.path.isdir(llib):
+                        self.runRemote(["rm", "-rf", os.path.dirname(rlib)])
                         self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
                         self.pushRemote(llib, rlib2, follow=True, excludes=libp['exclude'])
 
@@ -129,9 +129,9 @@ class RemoteSlave(Slave):
         if self.delayed:
             print("Waiting for: "+self.delayedCommand)
             #retval = self.delayed.wait()
-	    output, retval = self.delayed.communicate() 
+            output, retval = self.delayed.communicate() 
             #if retval != 0:
-	    if self.delayed.returncode != 0:
+            if self.delayed.returncode != 0:
                 #raise Exception(self.delayedCommand + ": failed with exit code" + str(retval))
                 raise Exception(self.delayedCommand + ": failed with exit code" + str(self.delayed.returncode))
             self.delayed = None
@@ -176,3 +176,4 @@ if __name__ == "__main__":
 
     # call the one true function
     benchmarks.run(submit, native, modes, utils.Includes, utils.Excludes)
+    

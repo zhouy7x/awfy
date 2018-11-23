@@ -28,12 +28,12 @@ touch /tmp/awfy-daemon
 count=0
 while :
 do
-	if [ -e /tmp/awfy ]
-	then
-		echo "/tmp/awfy lock in place"
-		sleep 30m
-	else
-                pushd /home/user/work/awfy/repos/v8
+        if [ -e /tmp/awfy ]
+        then
+                echo "/tmp/awfy lock in place"
+                sleep 30m
+        else
+                pushd /home/user/work/repos/v8
                   git fetch
                   list=`git rev-list origin/master ^master | tac`
                   if [ -z "$list" ]; then
@@ -44,8 +44,8 @@ do
                     do
                       echo $i
                       git reset --hard $i
-  		      pushd /home/user/work/awfy/driver
-  		      python dostuff.py -f -n --config=awfy-x64.config
+                      pushd /home/user/work/awfy/driver
+                      python dostuff.py -f -n --config=awfy-x64.config
                       python dostuff.py -f -n --config=awfy-x86.config
 
                       count=`expr $count + 1`
@@ -62,9 +62,9 @@ do
                     done
                   fi
                 popd
-		#python dostuff.py --config=awfy-x64.config
-		#python dostuff.py --config=awfy-x64-slm.config
-	fi
+                #python dostuff.py --config=awfy-x64.config
+                #python dostuff.py --config=awfy-x64-slm.config
+        fi
 done
 rm /tmp/awfy-daemon
 

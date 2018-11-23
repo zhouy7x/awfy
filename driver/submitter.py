@@ -49,20 +49,20 @@ class Submitter:
                 url += '&MACHINE=' + str(self.machine)
                 if timestamp:
                     url += "&stamp=" + str(timestamp)
-		print url
+                print url
                 url = urllib2.urlopen(url)
-		if url == None:
-		    print "urlopen return None"
+                if url == None:
+                    print "urlopen return None"
                 contents = url.read()
                 m = re.search('id=(\d+)', contents)
                 if m == None:
                     self.runIds[i] = None
                 else:
                     self.runIds[i] = int(m.group(1))
-		    print self.runIds[i]
+                    print self.runIds[i]
             except urllib2.URLError:
                 self.runIds[i] = None
-			
+                        
     def AddEngine(self, name, cset):
         for i in range(len(self.urls)):
             if not self.runIds[i]:

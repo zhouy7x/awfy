@@ -15,13 +15,13 @@ if (isset($_GET["git_rev"]) && isset($_GET["vendor"])) {
   $dir = "";
 
   if ($vendor == "V8") {
-    $dir = "/home/user/work/awfy/repos/v8";
+    $dir = "/home/user/work/repos/v8";
   }
   else if ($vendor == "JerryScript") {
-    $dir = "/home/user/work/awfy/repos/jerryscript";
+    $dir = "/home/user/work/repos/jerryscript";
   }
   else if ($vendor == "Chromium") {
-    $dir = "/home/user/work/awfy/repos/chromium/src";
+    $dir = "/home/user/work/chromium_repos/chromium/src";
   }
   $cmd = "cd $dir && git log -1 $rev";
 

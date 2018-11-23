@@ -7,7 +7,7 @@ import signal
 import time
 
 # executable path
-ChromiumShell = "/home/user/work/awfy/repos/chromium/src/out/Release/content_shell"
+ChromiumShell = "/home/user/work/repos/chromium/src/out/Release/content_shell"
 # lock for running chromium
 ALock = thread.allocate_lock()
 

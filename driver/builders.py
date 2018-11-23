@@ -149,9 +149,9 @@ class V8(Engine):
         self.hardfp = (utils.config.has_option('main', 'flags')) and \
                        ("hardfp" in utils.config.get('main', 'flags'))
 
-	slaves = utils.config.get('main', 'slaves')
-	self.slaveMachine = utils.config.get(slaves, 'machine')
-	 
+        slaves = utils.config.get('main', 'slaves')
+        self.slaveMachine = utils.config.get(slaves, 'machine')
+        
     def build(self):
         env = os.environ.copy()
         if self.cxx is not None:
@@ -174,13 +174,13 @@ class V8(Engine):
             env['AR'] = self.ar
 
         
-	Run(['git', 'log', '-1', '--pretty=short'])
-	
-	gn_shell = os.path.join(utils.DriverPath, 'gn-cmd.sh')
-	Run([gn_shell, self.slaveMachine, self.cpu], env)
+        Run(['git', 'log', '-1', '--pretty=short'])
+        
+        gn_shell = os.path.join(utils.DriverPath, 'gn-cmd.sh')
+        Run([gn_shell, self.slaveMachine, self.cpu], env)
 
     def shell(self):
-	return os.path.join('out.gn', self.slaveMachine, self.cpu+".release", 'd8')
+        return os.path.join('out.gn', self.slaveMachine, self.cpu+".release", 'd8')
 
     def libpaths(self):
         otgt = self.slaveMachine + "/" + self.cpu + ".release"
@@ -379,62 +379,100 @@ class JerryScript(Engine):
 # add Headless Engine
 class Headless(Engine):
     def __init__(self):
-	super(Headless, self).__init__()
-	self.puller = 'git'
-	self.source = utils.config.get('headless', 'source')
-	self.args = []
-	self.important = True
-	
-	if self.cpu == 'x64':
-	    cpu_mode = '-x64'
-	elif self.cpu == 'x86':
-	    cpu_mode = '-x86'
-	elif self.cpu == 'arm':
-	    cpu_mode = '-arm'
+        super(Headless, self).__init__()
+        self.puller = 'git'
+        self.source = utils.config.get('headless', 'source')
+        self.args = []
+        self.important = True
+        
+        if self.cpu == 'x64':
+            cpu_mode = '-x64'
+        elif self.cpu == 'x86':
+            cpu_mode = '-x86'
+        elif self.cpu == 'arm':
+            cpu_mode = '-arm'
 
-	self.modes = [{'mode': 'headless' + cpu_mode, 'args': None}]
+        self.modes = [{'mode': 'headless' + cpu_mode, 'args': None}]
 
 
     def build(self):
-	env = os.environ.copy()
-	env["GYP_CHROMIUM_NO_ACTION"] = "0"
+        env = os.environ.copy()
+        env["GYP_CHROMIUM_NO_ACTION"] = "0"
 
-	if self.cpu == 'x86':
-	    env["GYP_DEFINES"] = "target_arch=ia32"
-	elif self.cpu == 'x64':
-	    env["GYP_DEFINES"] = "target_arch=x64"
-	elif self.cpu == 'arm':
-	    env["GYP_DEFINES"] = "target_arch=arm arm_float_abi=hard component=shared_library linux_use_gold_flags=1"
-	    env["GYP_CROSSCOMPILE"] = "1"
-	# add build command code here
-	with utils.FolderChanger('./'):
-	    syncAgain =  True
-	    sourcePath = os.path.join(utils.RepoPath, self.source)
-	    in_argns_name = self.cpu + ".gn"
-	    in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
-	    out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu, 'args.gn')
-	    while(syncAgain):
-		syncAgain = False
-		try:
-		    Run(['cp', in_argns, out_argns])
-		    Run(['gclient', 'sync', '-j25', '-f'], env)
-		    Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
-		    Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
-		except subprocess.CalledProcessError as e:
-		    if synctroubles.fetchGsFileByHttp(e.output, ''):
-			syncAgain = True
-		    else:
-			raise e
-	Run(['ninja', '-C', os.path.join(sourcePath, 'out', self.cpu), 'chrome', '-j40'], env)
-	   	    
+        if self.cpu == 'x86':
+            env["GYP_DEFINES"] = "target_arch=ia32"
+        elif self.cpu == 'x64':
+            env["GYP_DEFINES"] = "target_arch=x64"
+        elif self.cpu == 'arm':
+            env["GYP_DEFINES"] = "target_arch=arm arm_float_abi=hard component=shared_library linux_use_gold_flags=1"
+            env["GYP_CROSSCOMPILE"] = "1"
+        # add build command code here
+        with utils.FolderChanger('./'):
+            syncAgain =  True
+            sourcePath = os.path.join(utils.RepoPath, self.source)
+            in_argns_name = self.cpu + ".gn"
+            in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
+            out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu, 'args.gn')
+            while(syncAgain):
+                syncAgain = False
+                try:
+                    # print 'env=%s'%env
+                    Run(['cp', in_argns, out_argns])
+                    Run(['gclient', 'sync', '-j25', '-f'], env)
+                    Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
+                    Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
+                except subprocess.CalledProcessError as e:
+                    if synctroubles.fetchGsFileByHttp(e.output, ''):
+                        syncAgain = True
+                    else:
+                        raise e
+        try:
+            Run(['ninja', '-C', os.path.join(sourcePath, 'out', self.cpu), 'chrome', '-j40'], env)
+        except subprocess.CalledProcessError as e:
+            print "Dirty build failed!"
+            # add build command code here
+            with utils.FolderChanger('./'):
+                syncAgain =  True
+                sourcePath = os.path.join(utils.RepoPath, self.source)
+                in_argns_name = self.cpu + ".gn"
+                in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
+                out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu, 'args.gn')
+                while(syncAgain):
+                    syncAgain = False
+                    try:
+                        # add 3 steps:
+                        # 1. perl -pi -e "s/sudo //g" ./build/install-build-deps.sh
+                        Run(['perl', '-pi', '-e', '"s/sudo //g"', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+                        # 2. run build/install-build-deps.sh
+                        Run(['/bin/bash', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+                        # 3. git checkout build/install-build-deps.sh
+                        Run(['git', 'checkout', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+
+                        Run(['rm', os.path.join(sourcePath, 'out', self.cpu), '-rf'])
+                        Run(['mkdir', os.path.join(sourcePath, 'out', self.cpu)])
+                        Run(['cp', in_argns, out_argns])
+                        print 'env=%s'%env
+                        Run(['gclient', 'sync', '-j25', '-f'], env)
+                        Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
+                        Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
+                    except subprocess.CalledProcessError as e:
+                        if synctroubles.fetchGsFileByHttp(e.output, ''):
+                            syncAgain = True
+                        else:
+                            raise e
+            try:
+                Run(['ninja', '-C', os.path.join(sourcePath, 'out', self.cpu), 'chrome', '-j40'], env)
+            except subprocess.CalledProcessError as e:
+                print "Clean build also failed!"
+
     def shell(self):
-	return os.path.join(utils.RepoPath, self.source, 'out', self.cpu, 'chrome')
+        return os.path.join(utils.RepoPath, self.source, 'out', self.cpu, 'chrome')
 
     def libpaths(self):
-	p = os.path.join(utils.RepoPath, self.source, 'out', self.cpu)
-	return [{'path': p, 'exclude': ['obj', 'gen', 'clang_x64', 'clang_x86_v8_arm', 'pyproto', 'resources']}]
+        p = os.path.join(utils.RepoPath, self.source, 'out', self.cpu)
+        return [{'path': p, 'exclude': ['obj', 'gen', 'clang_x64', 'clang_x86_v8_arm', 'pyproto', 'resources']}]
 
-	    
+            
 class IoTjs(Engine):
     def __init__(self):
         super(IoTjs, self).__init__()
@@ -537,10 +575,12 @@ class NativeCompiler(Engine):
         self.signature = 'gcc 5.4.0' #output.splitlines()[0].strip()
 
 def build(engines, updateRepo=True, forceBuild=False, rev=None):
+    print "build"
     Engines = []
     NumUpdated = 0
     for engine in engines:
         try:
+            print "updateAndBuild"
             engine.updateAndBuild(updateRepo, forceBuild, rev)
         except Exception as err:
             print('Build failed!')

@@ -1,4 +1,4 @@
-pushd /home/user/work/awfy/repos/chromium/src
+pushd /home/user/work/repos/chromium/src
 #  git fetch
   current=`git rev-parse HEAD`
   echo $current

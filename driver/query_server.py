@@ -20,35 +20,35 @@ define('port', default=7777, help='run on the given port', type=int)
 
 
 class Handler(tornado.web.RequestHandler):
-	def option(self):
-		self.set_header('Access-Control-Allow-Origin: *')
+        def option(self):
+                self.set_header('Access-Control-Allow-Origin: *')
                 self.set_header('Access-Control-Allow-Methods: GET')
-		self.write("ok")
+                self.write("ok")
 
-	def get(self):
-		git_rev = self.get_argument("git_rev", default = None)
-		vendor = self.get_argument("vendor", default = None)
-		self.set_header('Access-Control-Allow-Origin', "*")
-		self.set_header('Access-Control-Allow-Methods', "GET")
-		if not(git_rev and vendor):
-			self.write("")
-		else:
-			try:
-				repo = {
-					"V8": "/home/user/work/awfy/repos/v8",
-					"JerryScript": "/home/user/work/awfy/repos/jerryscript",
-					"Chromium": "/home/user/work/awfy/chromium_repos/chromium/src"
-				}
-				cmd = "cd %s && git log -1 %s" % (repo[vendor], git_rev)
-				print cmd
-				try:
-			           status, o = commands.getstatusoutput(cmd)
-			        except Exception as e:
-			           print e
-			        o = o.decode("utf-8")
-			        self.write(o)
-			except Exception,e:
-				self.write(str(e))
+        def get(self):
+                git_rev = self.get_argument("git_rev", default = None)
+                vendor = self.get_argument("vendor", default = None)
+                self.set_header('Access-Control-Allow-Origin', "*")
+                self.set_header('Access-Control-Allow-Methods', "GET")
+                if not(git_rev and vendor):
+                        self.write("")
+                else:
+                        try:
+                                repo = {
+                                        "V8": "/home/user/work/repos/v8",
+                                        "JerryScript": "/home/user/work/repos/jerryscript",
+                                        "Chromium": "/home/user/work/chromium_repos/chromium/src"
+                                }
+                                cmd = "cd %s && git log -1 %s" % (repo[vendor], git_rev)
+                                print cmd
+                                try:
+                                   status, o = commands.getstatusoutput(cmd)
+                                except Exception as e:
+                                   print e
+                                o = o.decode("utf-8")
+                                self.write(o)
+                        except Exception,e:
+                                self.write(str(e))
 
 class Application(tornado.web.Application):
     def __init__(self):
