@@ -108,7 +108,7 @@ def save_cache(prefix, cache):
 
 def update_cache(cx, suite, prefix, when, rows):
     # Sort everything into separate modes.
-    modes = { }
+    modes = {}
     for row in rows:
         modeid = int(row[4])
         if not modeid in cx.modemap:
@@ -151,7 +151,7 @@ def update_cache(cx, suite, prefix, when, rows):
     cache = open_cache(suite, prefix)
 
     # Build a reverse mode mapping for the cache.
-    cache_modes = { }
+    cache_modes = {}
     for i, oldline in enumerate(cache['lines']):
         cache_modes[int(oldline['modeid'])] = oldline
 
@@ -308,11 +308,13 @@ def update(cx, machine, suite):
     for test_name in suite.tests:
         def fetch_test(machine, finish_stamp = (0,"UNIX_TIMESTAMP()"),
                                 test_stamp = (0, "UNIX_TIMESTAMP()")):
-            return fetch_test_scores(machine.id, suite.id, test_name, finish_stamp, test_stamp)
+            return fetch_test_scores(machine.id, suite.id, test_name.replace(' and ', ' & '), finish_stamp, test_stamp)
 
         prefix = ""
         if suite.visible == 2:
             prefix = "auth-"
+        if ' & ' in test_name:
+            test_name = test_name.replace(' & ', ' and ')
 
         prefix += 'bk-raw-' + suite.name + '-' + test_name + '-' + str(machine.id)
         perform_update(cx, machine, suite, prefix, fetch_test)
@@ -327,6 +329,7 @@ def export_master(cx):
         }
 
     text = "var AWFYMaster = " + json.dumps(j) + ";\n"
+    text = text.replace(' & ', ' and ')
 
     path = os.path.join(awfy.path, 'master.js')
     if os.path.exists(path):

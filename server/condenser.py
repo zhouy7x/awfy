@@ -274,6 +274,7 @@ def condense_suite(cx, machine, suite):
 
     for test_name in suite.tests:
         test_path = suite.name + '-' + test_name + '-' + str(machine.id)
+        test_path = test_path.replace(' & ', ' and ')
         test_aggregate = condense(cx, suite, prefix + 'bk-', test_path)
         j = { 'version': awfy.version,
               'graph': test_aggregate
