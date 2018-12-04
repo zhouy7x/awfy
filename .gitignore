@@ -16,4 +16,3 @@ repos/
 driver/state.p
 benchmarks/kraken/kraken-1.1-results
 benchmarks/SunSpider/sunspider-1.0.1-results
-server/delete_point.py
