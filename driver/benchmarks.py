@@ -12,13 +12,13 @@ import subprocess
 import signal
 import pickle
 import time
-
 import ConfigParser
 import submitter
 import utils
 import socket
 import chromiumclient
 import pserver
+
 
 class Benchmark(object):
     def __init__(self, suite, version, folder):
@@ -57,10 +57,11 @@ class Benchmark(object):
                 print('Suite-Time ' + self.version + ':'), passTime
             except Exception as e:
                 print('Failed to run ' + self.version + '!')
-                print("Exception: " +  repr(e))
+                print("Exception: " + repr(e))
                 pass
             if tests:
                 submit.AddTests(tests, self.suite, self.version, mode.name)
+
 
 class AsmJS(Benchmark):
     def __init__(self, suite, version, folder):
@@ -110,13 +111,16 @@ class AsmJS(Benchmark):
         tests.append({ 'name': '__total__', 'time': total })
         return tests
 
+
 class AsmJSMicro(AsmJS):
     def __init__(self):
         super(AsmJSMicro, self).__init__('asmjs-ubench', '0.3', 'asmjs-ubench')
 
+
 class AsmJSApps(AsmJS):
     def __init__(self):
         super(AsmJSApps, self).__init__('asmjs-apps', '0.2', 'asmjs-apps')
+
 
 class Octane(Benchmark):
     def __init__(self):
@@ -146,6 +150,7 @@ class Octane(Benchmark):
             print(score + '    - ' + name)
 
         return tests
+
 
 class OctaneV1(Octane):
     def __init__(self):
@@ -192,17 +197,21 @@ class SunSpiderBased(Benchmark):
 
         return tests
 
+
 class SunSpider(SunSpiderBased):
     def __init__(self):
         super(SunSpider, self).__init__('ss', '1.0.1', 'SunSpider', 5)
+
 
 class Kraken(SunSpiderBased):
     def __init__(self):
         super(Kraken, self).__init__('kraken', '1.1', 'kraken', 5)
 
+
 class Assorted(SunSpiderBased):
     def __init__(self):
         super(Assorted, self).__init__('misc', '0.1', 'misc', 3)
+
 
 class Embenchen(Benchmark):
     def __init__(self):
@@ -233,6 +242,7 @@ class Embenchen(Benchmark):
         tests.append({ 'name': '__total__', 'time': total })
         return tests
 
+
 class JetStream(Benchmark):
     def __init__(self):
         super(JetStream, self).__init__('jetstream', '1.0.1', 'jetstream-asmjs')
@@ -257,6 +267,7 @@ class JetStream(Benchmark):
             tests.append({ 'name': name, 'time': score })
         tests.append({ 'name': '__total__', 'time': total })
         return tests
+
 
 class BrowserMark(Benchmark):
     def __init__(self):
@@ -353,6 +364,7 @@ class VellamoSurfWaxBinder(Benchmark):
 
         return tests
 
+
 class VellamoKruptein(Benchmark):
     def __init__(self):
         super(VellamoKruptein, self).__init__('VellamoKruptein', '3.1',
@@ -383,6 +395,7 @@ class VellamoKruptein(Benchmark):
 
         return tests
 
+
 class VellamoDeepCrossfader(Benchmark):
     def __init__(self):
         super(VellamoDeepCrossfader, self).__init__('VellamoDeepCrossfader', '3.0',
@@ -412,6 +425,7 @@ class VellamoDeepCrossfader(Benchmark):
             tests.append({ 'name': name, 'time': score})
 
         return tests
+
 
 class WebXPRTStock(Benchmark):
     def __init__(self):
@@ -445,6 +459,7 @@ class WebXPRTStock(Benchmark):
 
         return tests
 
+
 class WebXPRTStorage(Benchmark):
     def __init__(self):
         super(WebXPRTStorage, self).__init__('WebXPRTStorage', '2013',
@@ -477,6 +492,7 @@ class WebXPRTStorage(Benchmark):
 
         return tests
 
+
 class ContentShellBased(Benchmark):
     def __init__(self, suite, version, folder):
         super(ContentShellBased, self).__init__(suite, version, folder)
@@ -506,6 +522,7 @@ class ContentShellBased(Benchmark):
             chromiumclient.stopChromium()
 
         return data
+
 
 class BmDom(ContentShellBased):
     def __init__(self):
@@ -538,6 +555,7 @@ class BmDom(ContentShellBased):
 
         return tests
 
+
 class BmScalable(ContentShellBased):
     def __init__(self):
         super(BmScalable, self).__init__('browsermark2', '2.1',
@@ -568,6 +586,7 @@ class BmScalable(ContentShellBased):
             tests.append({ 'name': name, 'time': score})
 
         return tests
+
 
 class JerrySimple(Benchmark):
     def __init__(self):
@@ -607,6 +626,7 @@ class JerrySimple(Benchmark):
 
         return tests
 
+
 class JerrySunspider(Benchmark):
     def __init__(self):
         super(JerrySunspider, self).__init__('JerrySunspider', '1.0.1', 'JerrySs')
@@ -638,6 +658,7 @@ class JerrySunspider(Benchmark):
         tests.append({ 'name': 'overall', 'time': total})
         tests.append({ 'name': '__total__', 'time': total})
         return tests
+
 
 class JerrySunspiderPerf(Benchmark):
     def __init__(self):
@@ -698,11 +719,12 @@ class JerrySunspiderPerf(Benchmark):
             if name in scorebase:
                 refscore = score / scorebase[name]
 
-            tests.append({ 'name': name, 'time': score})
+            tests.append({'name': name, 'time': score})
             total += refscore
 
-        tests.append({ 'name': '__total__', 'time': total})
+        tests.append({'name': '__total__', 'time': total})
         return tests
+
 
 class JerrySunspiderMem(Benchmark):
     def __init__(self):
@@ -768,6 +790,7 @@ class JerrySunspiderMem(Benchmark):
         tests.append({ 'name': '__total__', 'time': total})
         return tests
 
+
 class JerryPassrate(Benchmark):
     def __init__(self):
         super(JerryPassrate, self).__init__('JerryPassrate', '1.0',
@@ -805,6 +828,7 @@ class JerryPassrate(Benchmark):
 
         return tests
 
+
 class JetStreamShell(Benchmark):
     def __init__(self):
         super(JetStreamShell, self).__init__('JetStreamShell', '1.0',
@@ -838,6 +862,7 @@ class JetStreamShell(Benchmark):
 
         return tests
 
+
 class WebXPRTStockLib(Benchmark):
     def __init__(self):
         super(WebXPRTStockLib, self).__init__('WebXPRTStockLib', '2015',
@@ -869,6 +894,7 @@ class WebXPRTStockLib(Benchmark):
         tests.append({ 'name': '__total__', 'time': total})
 
         return tests
+
 
 class WebXPRTDNA(Benchmark):
     def __init__(self):
@@ -902,6 +928,7 @@ class WebXPRTDNA(Benchmark):
 
         return tests
 
+
 # add speedomerer1 benchmark
 class Speedometer1(Benchmark):
     def __init__(self):
@@ -929,6 +956,7 @@ class Speedometer1(Benchmark):
             tests.append({'name': name, 'time': score})
             print(cmd)
             return tests
+
 
 class Speedometer2(Benchmark):
     def __init__(self):
@@ -959,6 +987,7 @@ class Speedometer2(Benchmark):
         #print(cmd)
         return tests
 
+
 # add WebTooling benchmark
 class WebTooling(Benchmark):
     def __init__(self):
@@ -984,7 +1013,7 @@ class WebTooling(Benchmark):
                 continue
             name = m.group(1).lstrip()
             score = m.group(2)
-            if name[0:9] == "Geometric": #Geometric mean:  2.78 runs/sec
+            if name[0:9] == "Geometric":  # Geometric mean:  2.78 runs/sec
                 name = "__total__"
             tests.append({'name':name, 'time':score}) 
             print(score + '     - '+ name)
@@ -1022,7 +1051,6 @@ class Unity3D(Benchmark):
         return tests;
 
 
-
 # add ARES-6 benchmark
 class ARES6(Benchmark):
     def __init__(self):
@@ -1038,7 +1066,6 @@ class ARES6(Benchmark):
         print(os.getcwd())
         output = utils.RunTimedCheckOutput(full_args, env=env)        
         return self.parse(output)
-
         
     def parse(self, output):
         tests = []
@@ -1073,6 +1100,46 @@ class ARES6(Benchmark):
         return tests
 
 
+class D8Size(Benchmark):
+    def __init__(self):
+        super(D8Size, self).__init__('d8', '', '')
+
+    def benchmark(self, shell, env, args):
+        full_args = ['ls', '-l', shell]
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args)
+
+        tests = []
+        lines = output.split()
+
+        print "lines = %s" % str(lines)
+        print lines[4]
+        tests.append({'name': "__total__", 'time': lines[4]})
+        return tests
+
+
+class BinSize(Benchmark):
+    def __init__(self):
+        super(BinSize, self).__init__('snapshot_blob', '', '')
+
+    def benchmark(self, shell, env, args):
+        shell = shell.replace('d8', 'snapshot_blob.bin')
+        full_args = ['ls', '-l', shell]
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args)
+
+        tests = []
+        lines = output.split()
+
+        print "lines = %s" % str(lines)
+        print lines[4]
+        tests.append({'name': "__total__", 'time': lines[4]})
+        return tests
+
+
+
 Benchmarks = [#AsmJSApps(),
 #              AsmJSMicro(),
 #              SunSpider(),
@@ -1100,7 +1167,9 @@ Benchmarks = [#AsmJSApps(),
                Speedometer2(),
                WebTooling(),
                ARES6(),
-               Unity3D()
+               Unity3D(),
+               D8Size(),
+               BinSize()
              ]
 
 def run(submit, native, modes, includes, excludes):
