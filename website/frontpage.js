@@ -300,9 +300,13 @@ Display.prototype.draw = function () {
         var yaxisLabel = $("<div class='axisLabel yaxisLabel'></div>")
                                                         .text("Score")
                                                   .appendTo(this.elt);
-    } else {
+    } else if (this.graph.direction == -1) {
         var yaxisLabel = $("<div class='axisLabel yaxisLabel'></div>")
                                                         .text("Execution Time (ms)")
+                                                  .appendTo(this.elt);
+    } else {
+        var yaxisLabel = $("<div class='axisLabel yaxisLabel'></div>")
+                                                        .text("File Size (byte)")
                                                   .appendTo(this.elt);
     }
     yaxisLabel.css("margin-top", yaxisLabel.width() / 2 - 20);
@@ -476,8 +480,10 @@ Display.prototype.createToolTip = function (item, extended, extra) {
     // Show score.
     if (this.graph.direction == -1)
          text += so + 'score: ' + sc + y.toFixed(2) + 'ms<br>';
-    else
+    else if (this.graph.direction == 1)
          text += so + 'score: ' + sc + y.toFixed(2) + '<br>';
+    else 
+         text += so + 'size: ' + sc + y.toFixed(2) + 'byte<br>';
 
     // Find the point previous to this one.
     var prev = null;
@@ -493,8 +499,8 @@ Display.prototype.createToolTip = function (item, extended, extra) {
         var diff = Math.round((y - prev[0]) * 10) / 10;
         var perc = -Math.round(((y - prev[0]) / prev[0]) * 1000) / 10;
         var better;
-        if ((perc < 0 && this.graph.direction == -1) ||
-            (perc > 0 && this.graph.direction == 1))
+        if ((perc < 0 && this.graph.direction < 0) ||
+            (perc > 0 && this.graph.direction > 0))
         {
             better = 'worse';
         } else {
@@ -509,6 +515,8 @@ Display.prototype.createToolTip = function (item, extended, extra) {
                 text += String.fromCharCode(916) + ': ' + diff;
             if (this.graph.direction == -1)
                 text += 'ms';
+			else if (this.graph.direction == -2)
+				text += 'byte';
             text += ' (' + perc + '% ' + better + ')<br>';
         }
     }

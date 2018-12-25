@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*-coding:utf-8-*-
+import signal
 from sys import argv
 import os, sys
 import datetime
@@ -108,17 +109,35 @@ def reset_git(vendor):
         return 3
 
 
+def interrupted(signum, frame):
+    "called when read times out"
+    print 'interrupted!'
+    signal.signal(signal.SIGALRM, interrupted)
+
+
+def signal_handler(signum, frame):
+    raise Exception("\nTimeout!")
+
+
 def get_cur_git_rev(vendor):
     """
     get current git commit version.
     :param vendor:
     :return:
     """
+    TIMEOUT = 30
     try:
-        git_rev = raw_input("Please input the '%s' git_rev, or just press the 'ENTER' key to use the latest git_rev in database: " % vendor)
-    except Exception,e:
+        signal.signal(signal.SIGALRM, signal_handler)
+        signal.alarm(TIMEOUT)
+        print 'You have 30 seconds to type in your stuff...'
+        git_rev = raw_input(
+            "Please input the '%s' git_rev, or just press the 'ENTER' key to use the latest git_rev in database: " % vendor)
+        signal.alarm(0)
+        print "You typed: %s" % git_rev
+    except Exception, e:
         print(e)
         git_rev = ''
+
     if git_rev:
         return git_rev
 

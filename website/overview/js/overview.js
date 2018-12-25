@@ -33,6 +33,6 @@ function data2nv(scores, direction) {
 			"color": AWFYMaster["modes"][scores[i]["modeid"]]["color"],
 		}
 	}
-	return [{key: direction == -1 ? "Lower is better" : "Higher is better",
+	return [{key: direction < 0 ? "Lower is better" : "Higher is better",
 			 values: adjusted}];
 }
