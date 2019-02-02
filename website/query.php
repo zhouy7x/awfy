@@ -21,7 +21,7 @@ if (isset($_GET["git_rev"]) && isset($_GET["vendor"])) {
     $dir = "/home/user/work/repos/jerryscript";
   }
   else if ($vendor == "Chromium") {
-    $dir = "/home/user/work/chromium_repos/chromium/src";
+    $dir = "/home/user/work/repos/chrome/x64/chromium/src";
   }
   $cmd = "cd $dir && git log -1 $rev";
 

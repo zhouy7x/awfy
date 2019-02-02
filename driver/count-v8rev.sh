@@ -1,5 +1,5 @@
 count=0
-pushd /home/user/work/chromium_repos/chromium/src
+pushd /home/user/work/repos/chrome/x64/chromium/src
 git fetch
 list=`git rev-list origin/master ^master | tac`
 if [ -z "$list" ]; then

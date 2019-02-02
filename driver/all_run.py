@@ -88,9 +88,9 @@ def reset_git(vendor):
     repo = {
         "v8": "/home/user/work/repos/v8",
         "jerryscript": "/home/user/work/repos/jerryscript",
-        "x64": "/home/user/work/chromium_repos/chromium/src",
-        "glm": "/home/user/work/chromium_glm_repos/chromium/src",
-        "arm": "/home/user/work/chromium-arm/chromium/src",
+        "x64": "/home/user/work/repos/chrome/x64/chromium/src",
+        "glm": "/home/user/work/repos/chrome/glm/chromium/src",
+        "arm": "/home/user/work/repos/chrome/arm/chromium/src",
         "home": "/home/user/work/awfy/driver"
     }
     try:
@@ -179,15 +179,15 @@ def check_all(param):
         str_list = ["python build_server_v8.py", "bash schedule-run-v8.sh", "python dostuff-v8.py"]
     elif param.lower() == 'x64':
         str_list = ["bash schedule-run-chrome.sh", "python build_server_chrome.py", "python dostuff-chrome.py",
-                    "/home/user/depot_tools/ninja-linux64 -C /home/user/work/chromium_repos/chromium/src/out/x64 chrome -j40"]
+                    "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/x64/chromium/src/out/x64 chrome -j40"]
     elif param.lower() == 'arm':
         str_list = ["python build_server_chrome_arm.py", "bash schedule-run-chrome-arm.sh",
                     "python dostuff-chrome-arm.py",
-                    "/home/user/depot_tools/ninja-linux64 -C /home/user/work/chromium-arm/chromium/src/out/arm chrome -j40"]
+                    "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/arm/chromium/src/out/arm chrome -j40"]
     elif param.lower() == 'glm':
         str_list = ["bash schedule-run-chrome-glm.sh", "python build_server_chrome_glm.py",
                     "python dostuff-chrome-glm.py",
-                    "/home/user/depot_tools/ninja-linux64 -C /home/user/work/chromium_glm_repos/chromium/src/out/x64 chrome -j40"]
+                    "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/glm/chromium/src/out/x64 chrome -j40"]
     else:
         print(ERROR_MSG, "line %d" % sys._getframe().f_lineno)
         return

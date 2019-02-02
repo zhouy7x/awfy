@@ -27,7 +27,7 @@ def webscore(shell, env, args, url, timeout=600):
         return data
 
 
-shell = '/home/user/work/chromium_repos/chromium/src/out/Release/content_shell'
+shell = '/home/user/work/repos/chrome/x64/chromium/src/out/Release/content_shell'
 env = os.environ.copy()
 args = None
 url = 'http://commit.sh.intel.com/dom-2.1.html'

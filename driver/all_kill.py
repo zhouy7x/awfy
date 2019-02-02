@@ -26,17 +26,17 @@ def kill_all(repos):
             str_list = ["python build_server_v8.py", "bash schedule-run-v8.sh", "python dostuff-v8.py"]
         elif param.lower() == 'x64':
             str_list = ["bash schedule-run-chrome.sh", "python build_server_chrome.py", "python dostuff-chrome.py",
-                        "/home/user/depot_tools/ninja-linux64 -C /home/user/work/chromium_repos/chromium/src/out/x64 chrome -j40",
+                        "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/x64/chromium/src/out/x64 chrome -j40",
                         "ssh user@awfy-x64-spd.sh.intel.com"]
         elif param.lower() == 'arm':
             str_list = ["python build_server_chrome_arm.py", "bash schedule-run-chrome-arm.sh",
                         "python dostuff-chrome-arm.py",
-                        "/home/user/depot_tools/ninja-linux64 -C /home/user/work/chromium-arm/chromium/src/out/arm chrome -j40",
+                        "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/arm/chromium/src/out/arm chrome -j40",
                         "ssh user@awfy-arm-spd.sh.intel.com"]
         elif param.lower() == 'glm':
             str_list = ["python build_server_chrome_glm.py", "bash schedule-run-chrome-glm.sh",
                         "python dostuff-chrome-glm.py",
-                        "/home/user/depot_tools/ninja-linux64 -C /home/user/work/chromium_glm_repos/chromium/src/out/x64 chrome -j40",
+                        "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/glm/chromium/src/out/x64 chrome -j40",
                         "ssh chrx@chrx"]
         elif param.lower() == 'query':
             str_list = ["python query_server.py"]
