@@ -397,15 +397,15 @@ class Headless(Engine):
 
     def build(self):
         env = os.environ.copy()
-        env["GYP_CHROMIUM_NO_ACTION"] = "0"
+        # env["GYP_CHROMIUM_NO_ACTION"] = "0"
 
-        if self.cpu == 'x86':
-            env["GYP_DEFINES"] = "target_arch=ia32"
-        elif self.cpu == 'x64':
-            env["GYP_DEFINES"] = "target_arch=x64"
-        elif self.cpu == 'arm':
-            env["GYP_DEFINES"] = "target_arch=arm arm_float_abi=hard component=shared_library linux_use_gold_flags=1"
-            env["GYP_CROSSCOMPILE"] = "1"
+        # if self.cpu == 'x86':
+        #     env["GYP_DEFINES"] = "target_arch=ia32"
+        # elif self.cpu == 'x64':
+        #     env["GYP_DEFINES"] = "target_arch=x64"
+        # elif self.cpu == 'arm':
+        #     env["GYP_DEFINES"] = "target_arch=arm arm_float_abi=hard component=shared_library linux_use_gold_flags=1"
+        #     env["GYP_CROSSCOMPILE"] = "1"
         # add build command code here
         with utils.FolderChanger('./'):
             syncAgain =  True
@@ -416,11 +416,15 @@ class Headless(Engine):
             while(syncAgain):
                 syncAgain = False
                 try:
-                    # print 'env=%s'%env
+                    print 'env=%s' % env
                     Run(['cp', in_argns, out_argns])
                     Run(['gclient', 'sync', '-j25', '-f'], env)
+                    if self.cpu == 'arm':
+                        Run(['sed', '-i',
+                             '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                             os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
                     Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
-                    Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
+                    # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                 except subprocess.CalledProcessError as e:
                     if synctroubles.fetchGsFileByHttp(e.output, ''):
                         syncAgain = True
@@ -453,8 +457,12 @@ class Headless(Engine):
                         Run(['cp', in_argns, out_argns])
                         print 'env=%s'%env
                         Run(['gclient', 'sync', '-j25', '-f'], env)
+                        if self.cpu == 'arm':
+                            Run(['sed', '-i',
+                                 '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                                 os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
                         Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
-                        Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
+                        # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                     except subprocess.CalledProcessError as e:
                         if synctroubles.fetchGsFileByHttp(e.output, ''):
                             syncAgain = True
@@ -578,16 +586,29 @@ def build(engines, updateRepo=True, forceBuild=False, rev=None):
     print "build"
     Engines = []
     NumUpdated = 0
-    for engine in engines:
+    if len(engines) == 1:
         try:
             print "updateAndBuild"
-            engine.updateAndBuild(updateRepo, forceBuild, rev)
+            engines[0].updateAndBuild(updateRepo, forceBuild, rev)
+            status = 0
         except Exception as err:
             print('Build failed!')
             print(err)
             traceback.print_exc(file=sys.stdout)
-            continue
-        if engine.updated and engine.important:
-            NumUpdated += 1
-        Engines.append(engine)
-    return Engines, NumUpdated
+            status = 1
+        return status
+    else:
+        for engine in engines:
+            try:
+                print "updateAndBuild"
+                engine.updateAndBuild(updateRepo, forceBuild, rev)
+                status = 0
+            except Exception as err:
+                print('Build failed!')
+                print(err)
+                traceback.print_exc(file=sys.stdout)
+                continue
+            if engine.updated and engine.important:
+                NumUpdated += 1
+            Engines.append(engine)
+        return Engines, NumUpdated
