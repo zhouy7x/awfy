@@ -189,7 +189,6 @@ class V8(Engine):
                 {"path" : os.path.join('out.gn', otgt, 'icudtl.dat'), "exclude" : []}
                ]
 
-
 class V8_gyp(Engine):
     def __init__(self):
         super(V8, self).__init__()
@@ -384,7 +383,7 @@ class Headless(Engine):
         self.source = utils.config.get('headless', 'source')
         self.args = []
         self.important = True
-        
+
         if self.cpu == 'x64':
             cpu_mode = '-x64'
         elif self.cpu == 'x86':
@@ -393,7 +392,6 @@ class Headless(Engine):
             cpu_mode = '-arm'
 
         self.modes = [{'mode': 'headless' + cpu_mode, 'args': None}]
-
 
     def build(self):
         env = os.environ.copy()
@@ -419,10 +417,10 @@ class Headless(Engine):
                     print 'env=%s' % env
                     Run(['cp', in_argns, out_argns])
                     Run(['gclient', 'sync', '-j25', '-f'], env)
-                    if self.cpu == 'arm':
-                        Run(['sed', '-i',
-                             '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
-                             os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                    #if self.cpu == 'arm':
+                    #    Run(['sed', '-i',
+                    #         '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                    #         os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
                     Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
                     # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                 except subprocess.CalledProcessError as e:
@@ -457,10 +455,10 @@ class Headless(Engine):
                         Run(['cp', in_argns, out_argns])
                         print 'env=%s'%env
                         Run(['gclient', 'sync', '-j25', '-f'], env)
-                        if self.cpu == 'arm':
-                            Run(['sed', '-i',
-                                 '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
-                                 os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                        #if self.cpu == 'arm':
+                        #    Run(['sed', '-i',
+                        #         '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                        #         os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
                         Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
                         # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                     except subprocess.CalledProcessError as e:
@@ -480,7 +478,134 @@ class Headless(Engine):
         p = os.path.join(utils.RepoPath, self.source, 'out', self.cpu)
         return [{'path': p, 'exclude': ['obj', 'gen', 'clang_x64', 'clang_x86_v8_arm', 'pyproto', 'resources']}]
 
-            
+# add Headless_patch Engine
+class Headless_patch(Engine):
+    def __init__(self):
+        super(Headless_patch, self).__init__()
+        self.puller = 'git'
+        self.source = utils.config.get('headless-patch', 'source')
+        self.args = []
+        self.important = True
+
+        if self.cpu == 'x64':
+            cpu_mode = '-x64'
+        elif self.cpu == 'x86':
+            cpu_mode = '-x86'
+        elif self.cpu == 'arm':
+            cpu_mode = '-arm'
+
+        self.modes = [{'mode': 'headless' + cpu_mode, 'args': None}]
+
+    def build(self):
+        env = os.environ.copy()
+        # env["GYP_CHROMIUM_NO_ACTION"] = "0"
+
+        # if self.cpu == 'x86':
+        #     env["GYP_DEFINES"] = "target_arch=ia32"
+        # elif self.cpu == 'x64':
+        #     env["GYP_DEFINES"] = "target_arch=x64"
+        # elif self.cpu == 'arm':
+        #     env["GYP_DEFINES"] = "target_arch=arm arm_float_abi=hard component=shared_library linux_use_gold_flags=1"
+        #     env["GYP_CROSSCOMPILE"] = "1"
+        # add build command code here
+        with utils.FolderChanger('./'):
+            syncAgain = True
+            sourcePath = os.path.join(utils.RepoPath, self.source)
+            in_argns_name = self.cpu + ".gn"
+            in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
+            out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu + '-patch', 'args.gn')
+            while (syncAgain):
+                syncAgain = False
+                try:
+                    print 'env=%s' % env
+                    Run(['cp', in_argns, out_argns])
+                    Run(['gclient', 'sync', '-j25', '-f'], env)
+
+                    # add patch to v8.
+                    """
+                    COMMAND:
+                    patch -p 1 -i /repos/enable-compressed-pointer.patch
+                    clean COMMAND:
+                    patch -R -p 1 -i /repos/enable-compressed-pointer.patch
+                    or 
+                    git checkout .
+                    """
+                    with utils.FolderChanger(os.path.join(utils.RepoPath, self.source, 'v8')):
+                        Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
+
+                    if self.cpu == 'arm':
+                        Run(['sed', '-i',
+                             '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                             os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                    Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu + '-patch')], env)
+                    # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
+                except subprocess.CalledProcessError as e:
+                    if synctroubles.fetchGsFileByHttp(e.output, ''):
+                        syncAgain = True
+                    else:
+                        raise e
+        try:
+            Run(['ninja', '-C', os.path.join(sourcePath, 'out', self.cpu + '-patch'), 'chrome', '-j40'], env)
+        except subprocess.CalledProcessError as e:
+            print "Dirty build failed!"
+            # add build command code here
+            with utils.FolderChanger('./'):
+                syncAgain = True
+                sourcePath = os.path.join(utils.RepoPath, self.source)
+                in_argns_name = self.cpu + ".gn"
+                in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
+                out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu + '-patch', 'args.gn')
+                while (syncAgain):
+                    syncAgain = False
+                    try:
+                        # add 3 steps:
+                        # 1. perl -pi -e "s/sudo //g" ./build/install-build-deps.sh
+                        Run(['perl', '-pi', '-e', '"s/sudo //g"',
+                             os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+                        # 2. run build/install-build-deps.sh
+                        Run(['/bin/bash', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+                        # 3. git checkout build/install-build-deps.sh
+                        Run(['git', 'checkout', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+
+                        Run(['rm', os.path.join(sourcePath, 'out', self.cpu + '-patch'), '-rf'])
+                        Run(['mkdir', os.path.join(sourcePath, 'out', self.cpu + '-patch')])
+                        Run(['cp', in_argns, out_argns])
+                        print 'env=%s' % env
+                        Run(['gclient', 'sync', '-j25', '-f'], env)
+
+                        # add patch to v8.
+                        with utils.FolderChanger(os.path.join(utils.RepoPath, self.source, 'v8')):
+                            Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
+
+                        if self.cpu == 'arm':
+                            Run(['sed', '-i',
+                                 '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                                 os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                        Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu + '-patch')], env)
+                        # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
+                    except subprocess.CalledProcessError as e:
+                        if synctroubles.fetchGsFileByHttp(e.output, ''):
+                            syncAgain = True
+                        else:
+                            raise e
+            try:
+                Run(['ninja', '-C', os.path.join(sourcePath, 'out', self.cpu + '-patch'), 'chrome', '-j40'], env)
+            except subprocess.CalledProcessError as e:
+                print "Clean build also failed!"
+        finally:
+            # clean patch to v8.
+            with utils.FolderChanger(os.path.join(utils.RepoPath, self.source, 'v8')):
+                # Run(['patch', '-R', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
+                Run(['git', 'checkout', '.'], env)
+
+    def shell(self):
+        return os.path.join(utils.RepoPath, self.source, 'out', self.cpu + '-patch', 'chrome')
+
+    def libpaths(self):
+        p = os.path.join(utils.RepoPath, self.source, 'out', self.cpu + '-patch')
+        return [{'path': p, 'exclude': ['obj', 'gen', 'clang_x64', 'clang_x86_v8_arm', 'pyproto', 'resources']}]
+
+
 class IoTjs(Engine):
     def __init__(self):
         super(IoTjs, self).__init__()

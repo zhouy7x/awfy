@@ -32,7 +32,7 @@ fi
 # lanuch chrome
 if [ "$(cat /proc/cpuinfo  | grep N3350)" != "" ]
 then
-	export DISPLAY=":2"
+	export DISPLAY=":1"
 elif [ "$(cat /proc/cpuinfo  | grep N3450)" != "" ]
 then
 	export DISPLAY=":0"

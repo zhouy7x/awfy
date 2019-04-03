@@ -23,7 +23,6 @@ parser.add_option("-c", "--config", dest="config_name", type="string", default="
 parser.add_option("-2", "--config2", dest="config2_name", type="string", default="", help="Second config file")
 parser.add_option("-3", "--config3", dest="config3_name", type="string", default="", help="Third config file")
 (options, progargs) = parser.parse_args()
-print (options, progargs)
 
 # Set resource limits for child processes
 resource.setrlimit(resource.RLIMIT_AS, (-1, -1))
@@ -62,22 +61,20 @@ def dostuff(config_name):
         Engine = builders.IoTjs()
     if utils.config.has_section('headless'):
         Engine = builders.Headless()
-    if utils.config.has_section('headless-patch'):
-        Engine = builders.Headless_patch()
 
 
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(('127.0.0.1', 8794))
-    hello = s.recv(1024)
-    s.sendall(config_name)
-    print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
-    reply = s.recv(1024)
-    s.close();
-
-    print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
+    # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # s.connect(('127.0.0.1', 8795))
+    # hello = s.recv(1024)
+    # s.sendall(config_name)
+    # print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
+    # reply = s.recv(1024)
+    # s.close();
+    #
+    # print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
 
 
     # The native compiler is a special thing, for now.

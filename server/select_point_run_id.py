@@ -39,6 +39,6 @@ def main(machine_id, mode_id, start_stamp):
 
 
 if __name__ == '__main__':
-    ls = [(1, 22, 1545406994), (1, 24, 1545407181)]
+    ls = [(10, 32, 1553875065)]
     for i in ls:
         main(*i)

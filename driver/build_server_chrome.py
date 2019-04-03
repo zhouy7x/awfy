@@ -38,6 +38,8 @@ def build(config):
             KnownEngines.append(builders.IoTjs())
         if utils.config.has_section('headless'):
             KnownEngines.append(builders.Headless())
+        if utils.config.has_section('headless-patch'):
+            KnownEngines.append(builders.Headless_patch())
         #builders.build(KnownEngines, False, False)
         builders.build(KnownEngines, False, True)
 

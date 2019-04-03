@@ -98,7 +98,7 @@ def reset_git(vendor):
     except Exception as e:
         print(e)
         return 3
-    cmd = "git pull && git reset --hard %s" % git_rev
+    cmd = "git fetch && git reset --hard %s" % git_rev
     print cmd
     a = os.system(cmd)
     try:

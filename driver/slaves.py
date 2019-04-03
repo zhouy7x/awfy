@@ -9,6 +9,7 @@ from collections import namedtuple
 
 import benchmarks
 
+
 class Slave(object):
     def __init__(self, name):
         self.name = name
@@ -22,6 +23,7 @@ class Slave(object):
 
     def benchmark(self, submit, native, modes):
         benchmarks.run(submit, native, modes, utils.Includes, utils.Excludes)
+
 
 class RemoteSlave(Slave):
     def __init__(self, name):
@@ -137,6 +139,7 @@ class RemoteSlave(Slave):
             self.delayed = None
             self.delayedCommand = None
 
+
 def init(): 
     slaves = []
     slaveNames = utils.config_get_default('main', 'slaves', None)
@@ -152,6 +155,7 @@ def init():
     #if not slaves:
         #slaves = [Slave("main")]
     return slaves
+
 
 if __name__ == "__main__":
     Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset'])
@@ -176,4 +180,3 @@ if __name__ == "__main__":
 
     # call the one true function
     benchmarks.run(submit, native, modes, utils.Includes, utils.Excludes)
-    
