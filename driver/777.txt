@@ -1,0 +1,3 @@
+ssh user@hsw-nuc.sh.intel.com 
+ssh root@awfy-chromebook-turbofan.sh.intel.com
+ssh user@apl-nuc.sh.intel.com

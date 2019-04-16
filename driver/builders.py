@@ -189,9 +189,70 @@ class V8(Engine):
                 {"path" : os.path.join('out.gn', otgt, 'icudtl.dat'), "exclude" : []}
                ]
 
+class V8_patch(Engine):
+    def __init__(self):
+        super(V8_patch, self).__init__()
+        self.puller = 'git'
+        self.source = utils.config.get('v8-patch', 'source')
+        self.cxx = utils.config_get_default('v8-patch', 'cxx', None)
+        self.cc = utils.config_get_default('v8-patch', 'cc', None)
+        self.cpp = utils.config_get_default('v8-patch', 'cpp', None)
+        self.link = utils.config_get_default('v8-patch', 'link', None)
+        self.cxx_host = utils.config_get_default('v8-patch', 'cxx_host', None)
+        self.cc_host = utils.config_get_default('v8-patch', 'cc_host', None)
+        self.cpp_host = utils.config_get_default('v8-patch', 'cpp_host', None)
+        self.link_host = utils.config_get_default('v8-patch', 'link_host', None)
+        self.ar = utils.config_get_default('v8-patch', 'ar', None)
+
+        self.args = ['--expose-gc']
+        self.patch = 'patch'
+        self.important = True
+        self.hardfp = (utils.config.has_option('main', 'flags')) and \
+                      ("hardfp" in utils.config.get('main', 'flags'))
+
+        slaves = utils.config.get('main', 'slaves')
+        self.slaveMachine = utils.config.get(slaves, 'machine')
+
+    def build(self):
+        env = os.environ.copy()
+        if self.cxx is not None:
+            env['CXX'] = self.cxx
+        if self.cc is not None:
+            env['CC'] = self.cc
+        if self.cpp is not None:
+            env['CPP'] = self.cpp
+        if self.link is not None:
+            env['LINK'] = self.link
+        if self.cxx_host is not None:
+            env['CXX_host'] = self.cxx_host
+        if self.cc_host is not None:
+            env['CC_host'] = self.cc_host
+        if self.cpp_host is not None:
+            env['CPP_host'] = self.cpp_host
+        if self.link_host is not None:
+            env['LINK_host'] = self.link_host
+        if self.ar is not None:
+            env['AR'] = self.ar
+
+        Run(['git', 'log', '-1', '--pretty=short'])
+        print env
+        gn_shell = os.path.join(utils.DriverPath, 'gn-cmd.sh')
+        Run([gn_shell, self.slaveMachine, self.cpu, self.patch], env)
+
+    def shell(self):
+        return os.path.join('out.gn', self.slaveMachine, self.cpu + ".patch", 'd8')
+
+    def libpaths(self):
+        otgt = self.slaveMachine + "/" + self.cpu + ".patch"
+        return [{"path": os.path.join('out.gn', otgt, 'natives_blob.bin'), "exclude": []},
+                {"path": os.path.join('out.gn', otgt, 'snapshot_blob.bin'), "exclude": []},
+                {"path": os.path.join('out.gn', otgt, 'icudtl.dat'), "exclude": []}
+                ]
+
+
 class V8_gyp(Engine):
     def __init__(self):
-        super(V8, self).__init__()
+        super(V8_gyp, self).__init__()
         self.puller = 'git'
         self.source = utils.config.get('v8', 'source')
         self.cxx = utils.config_get_default('v8', 'cxx', None)
@@ -417,10 +478,10 @@ class Headless(Engine):
                     print 'env=%s' % env
                     Run(['cp', in_argns, out_argns])
                     Run(['gclient', 'sync', '-j25', '-f'], env)
-                    #if self.cpu == 'arm':
-                    #    Run(['sed', '-i',
-                    #         '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
-                    #         os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                    if self.cpu == 'arm':
+                        Run(['sed', '-i',
+                             '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                             os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
                     Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
                     # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                 except subprocess.CalledProcessError as e:
@@ -455,10 +516,10 @@ class Headless(Engine):
                         Run(['cp', in_argns, out_argns])
                         print 'env=%s'%env
                         Run(['gclient', 'sync', '-j25', '-f'], env)
-                        #if self.cpu == 'arm':
-                        #    Run(['sed', '-i',
-                        #         '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
-                        #         os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                        if self.cpu == 'arm':
+                            Run(['sed', '-i',
+                                 '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                                 os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
                         Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
                         # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                     except subprocess.CalledProcessError as e:

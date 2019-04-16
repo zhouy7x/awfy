@@ -1,7 +1,21 @@
 #!/bin/bash
+
+function optional() {
+    if [ -z "${!1}" ]; then
+        echo -n "${1} not set (ok)"
+        if [ -n "${2}" ]; then
+            echo -n ", default is: ${2}"
+            export ${1}="${2}"
+        fi
+        echo ""
+    fi
+}
+
 machine=$1
 cpu=$2
-out_dir="out.gn/$machine/$cpu.release"
+version=$3
+optional version "release"
+out_dir="out.gn/$machine/$cpu.$version"
 echo "output directory is: $out_dir"
 arguments="is_debug=false target_cpu=\"$cpu\""
 gn gen $out_dir --args="$arguments"
