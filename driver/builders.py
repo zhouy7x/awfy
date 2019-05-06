@@ -456,6 +456,7 @@ class Headless(Engine):
 
     def build(self):
         env = os.environ.copy()
+        env["NO_AUTH_BOTO_CONFIG"] = "/repos/boto.cfg"
         # env["GYP_CHROMIUM_NO_ACTION"] = "0"
 
         # if self.cpu == 'x86':
@@ -479,9 +480,12 @@ class Headless(Engine):
                     Run(['cp', in_argns, out_argns])
                     Run(['gclient', 'sync', '-j25', '-f'], env)
                     if self.cpu == 'arm':
+                        #Run(['sed', '-i',
+                        #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                        #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
                         Run(['sed', '-i',
-                             '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
-                             os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                             '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
+                             os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
                     Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
                     # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                 except subprocess.CalledProcessError as e:
@@ -517,9 +521,12 @@ class Headless(Engine):
                         print 'env=%s'%env
                         Run(['gclient', 'sync', '-j25', '-f'], env)
                         if self.cpu == 'arm':
+                            #Run(['sed', '-i',
+                            #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                            #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
                             Run(['sed', '-i',
-                                 '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
-                                 os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                                 '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
+                                 os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
                         Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
                         # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                     except subprocess.CalledProcessError as e:
@@ -559,6 +566,7 @@ class Headless_patch(Engine):
 
     def build(self):
         env = os.environ.copy()
+        env["NO_AUTH_BOTO_CONFIG"] = "/repos/boto.cfg"
         # env["GYP_CHROMIUM_NO_ACTION"] = "0"
 
         # if self.cpu == 'x86':
@@ -595,9 +603,12 @@ class Headless_patch(Engine):
                         Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
 
                     if self.cpu == 'arm':
+                        #Run(['sed', '-i',
+                        #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                        #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
                         Run(['sed', '-i',
-                             '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
-                             os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                             '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
+                             os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
                     Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu + '-patch')], env)
                     # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                 except subprocess.CalledProcessError as e:
@@ -639,9 +650,12 @@ class Headless_patch(Engine):
                             Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
 
                         if self.cpu == 'arm':
+                            #Run(['sed', '-i',
+                            #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                            #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
                             Run(['sed', '-i',
-                                 '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
-                                 os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                                 '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
+                                 os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
                         Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu + '-patch')], env)
                         # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                     except subprocess.CalledProcessError as e:
