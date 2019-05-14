@@ -3,12 +3,12 @@
 import time, os
 
 while True:
-    file = "/logs/chrome/electro/schedule-run-chrome-log--20190315101217.txt"
+    file = "/logs/v8/schedule-run-v8-log--20190506095103.txt"
     with open(file) as f:
         data = f.read()
 
-    if "732fc59039585cf57e181992c08c675b8d81f274" in data:
-        print os.system("python all_kill.py x64")
+    if "5782a628581fd917242e8f9c5aa5dda7fda0ed89" in data:
+        print os.system("python all_kill.py v8")
         time.sleep(3)
         break
     # print os.system("python all_run.py x64")
