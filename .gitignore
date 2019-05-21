@@ -5,6 +5,7 @@ website/ARCworkloads
 website/benchmarks
 website/reports
 repos/
+.idea/
 .svn/
 *.pyc
 *~
