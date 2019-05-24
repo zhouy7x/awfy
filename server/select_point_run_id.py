@@ -6,6 +6,45 @@
 """
 import json
 import awfy
+import argparse
+
+
+help = """
+Manual to the script of %s, you need:
+   - A machine id:
+
+        --machine=1
+    
+   - A mode id:
+   
+        -mode=34
+        
+   - A number of stamp:
+     
+        -stamp=1555082061
+     
+   - A command in terminal, you can use simple name for each config("-m" for "--machine", "-o" for "--mode", "-s" for 
+     "--stamp"):
+
+        python select_point_run_id.py -m 1 -o 10 -s 1555082061
+
+
+Examples:
+
+      python select_point_run_id.py -m 1 -o 10 -s 1555082061
+      python select_point_run_id.py -machine=1 -mode=10 -stamp=1555082061
+
+""" % __file__
+parser = argparse.ArgumentParser(description='------')
+parser.usage = help
+parser.add_argument('-m', '--machine', type=int, required=True, help="machine id")
+parser.add_argument('-o', '--mode', type=int, required=True, help="mode id")
+parser.add_argument('-s', '--stamp', type=int, required=True, help="stamp number")
+
+args = parser.parse_args()
+machine = args.machine
+mode = args.mode
+stamp = args.stamp
 
 
 def write_to_file(data, a1, a2):
@@ -23,7 +62,6 @@ def main(machine_id, mode_id, start_stamp):
                 and r.stamp >= %s  
           ORDER BY r.stamp DESC;
     """
-
     c = awfy.db.cursor()
     lines = c.execute(query, [machine_id, mode_id, start_stamp])
     print (lines)
@@ -39,6 +77,4 @@ def main(machine_id, mode_id, start_stamp):
 
 
 if __name__ == '__main__':
-    ls = [(8, 34, 1555082061)]
-    for i in ls:
-        main(*i)
+    main(machine, mode, stamp)
