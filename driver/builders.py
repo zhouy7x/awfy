@@ -237,8 +237,8 @@ class V8_patch(Engine):
         Run(['git', 'log', '-1', '--pretty=short'])
         print env
         # add patch.
-        with utils.FolderChanger(os.path.join(utils.RepoPath, self.source)):
-            Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
+        #with utils.FolderChanger(os.path.join(utils.RepoPath, self.source)):
+        Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
 
         gn_shell = os.path.join(utils.DriverPath, 'gn-cmd.sh')
         Run([gn_shell, self.slaveMachine, self.cpu, self.patch], env)

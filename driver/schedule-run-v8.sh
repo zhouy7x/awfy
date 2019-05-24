@@ -51,7 +51,7 @@ do
             # Get every commit of v8
             for id in $list
             do
-                git reset --hard -q $id && gclient sync -j10 -f
+                git reset --hard -q $id && git clean -fd && gclient sync -j10 -f
                 git log -1 --pretty=short
 
                 pushd /home/user/work/awfy/driver
