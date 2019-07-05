@@ -988,6 +988,36 @@ class Speedometer2(Benchmark):
         return tests
 
 
+class JetStream2(Benchmark):
+    def __init__(self):
+        super(JetStream2, self).__init__('jetstream2', '', 'jetstream2')
+
+    def benchmark(self, shell, env, args):
+        kill_port = "for p in $(lsof -t -i:9222);do kill -9 $p; done ;"
+        run_shell = "/home/user/.nvm/versions/node/v8.1.2/bin/node run.js "
+        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/JetStream2-JSTC/ "
+        print(os.getcwd())
+
+        cmd = kill_port + run_shell + url + shell
+        print(cmd)
+        output = utils.RunTimedCheckOutput(cmd, env=env)
+        tests = []
+        lines = output.splitlines()
+
+        for x in lines:
+            m = re.search("(.+): (\d+\.?\d?)", x)
+            if not m:
+                continue
+            name = m.group(1)
+            score = m.group(2)
+            if name[0:5] == "Score":
+                name = "__total__"
+            tests.append({'name': name, 'time': score})
+            print(score + '   - ' + name)
+        # print(cmd)
+        return tests
+
+
 # add WebTooling benchmark
 class WebTooling(Benchmark):
     def __init__(self):
@@ -1165,6 +1195,7 @@ Benchmarks = [#AsmJSApps(),
 #              JetStreamShell(),
 #               Speedometer1(),
                Speedometer2(),
+               JetStream2(),
                WebTooling(),
                ARES6(),
                Unity3D(),
