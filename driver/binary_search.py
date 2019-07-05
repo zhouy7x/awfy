@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 # -*- coding:utf-8 -*-
 """
 @author:lhj
@@ -7,6 +7,7 @@
 import os
 import re
 import socket
+import time
 
 """
 1. 获取到commit id和master号对应的字典；
@@ -15,18 +16,20 @@ import socket
 4. 得到下一轮的master号，递归运行；
 5. 退出条件下一轮mater号与本轮相同或相差1.
 """
+end_id = "4305bde675647ced2fb1a5782baff01ca089c45b"
+end_master = 666076
+begin_id = "8ff73bc1bf403515c233a8a09829c0093af32ec2"
+begin_master = 666190
+err_id = begin_master
+ok_id = end_master
 
-DATA_LIST = list()
-DATA_DICT = dict()
 config_name = "client/machine_config/elm-arm.config"
 work_place = '/home/user/work/awfy/driver'
 src_path = '/repos/chrome/arm/chromium/src'
-begin_id = "a263a05f06c69d89c428a92e56b195abe2574667"
-begin_master = 619031
-end_id = "e49c86c9b8f2f6b49275eeccdc1cdd767cade3a9"
-end_master = 618834
-ok_id = end_master
-err_id = begin_master
+
+DATA_LIST = list()
+DATA_DICT = dict()
+
 
 def build(commit_id):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -91,7 +94,7 @@ def get_commit_dict():
     with open('log.txt') as f:
         data = f.read()
 
-    data = re.search(r'\ncommit %s[\w\W]*Cr-Commit-Position: refs/heads/master@{#%d}'%(begin_id, end_master), data)
+    data = re.search(r'\ncommit %s[\w\W]*Cr-Commit-Position: refs/heads/master@{#%d}' % (begin_id, end_master), data)
     if data:
         with open('c-m.txt', 'w') as f:
             f.write(data.group())
@@ -110,7 +113,7 @@ def get_commit_dict():
             DATA_DICT[int(t[1])] = t[0]
             DATA_LIST.append((int(t[1]), t[0]))
     # print DATA_LIST
-    # print len(DATA_LIST), 619031-618834+1
+    # print len(DATA_LIST), begin_master - end_master + 1
 
 
 def check_build_process(foo):
@@ -129,6 +132,7 @@ def check_build_process(foo):
 @check_build_process
 def main():
     get_commit_dict()
+    time.sleep(10)
     try:
         binary_search(begin_master, end_master)
         print "The error was happended between master number %d and %d:" % (ok_id, err_id)
