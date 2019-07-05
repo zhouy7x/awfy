@@ -39,7 +39,7 @@ def build(config):
         if utils.config.has_section('headless'):
             KnownEngines.append(builders.Headless())
         #builders.build(KnownEngines, False, False)
-        builders.build(KnownEngines, False, True)
+        return builders.build(KnownEngines, False, True)
 
 def log_to_file(err_content):
         file = open(ERROR_LOG_FILE, "a+")
@@ -58,8 +58,10 @@ while True:
                         continue
                 print "recv", data
                 time.sleep(15)
-                build(data)
-                sock.send("over")
+                if build(data):
+                    sock.send("error")
+                else:
+                    sock.send("over")
                 sock.close()
                 #print "over"
         except Exception,e:
