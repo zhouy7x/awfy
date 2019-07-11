@@ -79,15 +79,19 @@ def config_get_default(section, name, default=None):
 
 class TimeException(Exception):
     pass
+
 def timeout_handler(signum, frame):
     raise TimeException()
+
 class Handler():
     def __init__(self, signum, lam):
         self.signum = signum
         self.lam = lam
         self.old = None
+
     def __enter__(self):
         self.old = signal.signal(self.signum, self.lam)
+
     def __exit__(self, type, value, traceback):
         signal.signal(self.signum, self.old)
         
@@ -149,7 +153,7 @@ def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenar
             import subprocess32
             p = subprocess32.Popen(args, bufsize=-1, shell=True, env=env, close_fds=True, preexec_fn=os.setsid,
                     stdout=subprocess.PIPE, **popenargs)
-            #with Handler(signal.SIGALRM, timeout_handler):
+            # with Handler(signal.SIGALRM, timeout_handler):
             try:
                 output = p.communicate(timeout=timeout)[0]
                 # if we get an alarm right here, nothing too bad should happen
@@ -163,7 +167,7 @@ def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenar
                 print ("WARNING: Timed Out 1st.")
                 # try to get any partial output
                 output = p.communicate()[0]
-                print ('output 1st =',output)
+                print ('output 1st =', output)
 
                 # try again.
                 p = subprocess32.Popen(args, bufsize=-1, shell=True, env=env, close_fds=True, preexec_fn=os.setsid,

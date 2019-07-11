@@ -503,7 +503,7 @@ class Headless(Engine):
             print "Dirty build failed!"
             # add build command code here
             with utils.FolderChanger('./'):
-                syncAgain =  True
+                syncAgain = True
                 sourcePath = os.path.join(utils.RepoPath, self.source)
                 in_argns_name = self.cpu + ".gn"
                 in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)

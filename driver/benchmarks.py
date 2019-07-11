@@ -1048,7 +1048,7 @@ class WebTooling(Benchmark):
             tests.append({'name':name, 'time':score}) 
             print(score + '     - '+ name)
 
-        return tests;
+        return tests
 
 
 # add unity3d benchmark
@@ -1077,8 +1077,8 @@ class Unity3D(Benchmark):
             if name == "Overall":
                 name = "__total__"
             tests.append({'name': name, 'time':score})
-        print tests;
-        return tests;
+        print tests
+        return tests
 
 
 # add ARES-6 benchmark
@@ -1094,7 +1094,7 @@ class ARES6(Benchmark):
         full_args.append('cli.js')
         
         print(os.getcwd())
-        output = utils.RunTimedCheckOutput(full_args, env=env)        
+        output = utils.RunTimedCheckOutput(full_args, env=env)
         return self.parse(output)
         
     def parse(self, output):
@@ -1127,6 +1127,56 @@ class ARES6(Benchmark):
                     score = m.group(3)
                     tests.append({'name': name, 'time': score})
         print tests
+        return tests
+
+
+# add polybench-c-4.2.1-beta-wasm benchmark
+class Wasm(Benchmark):
+    def __init__(self):
+        super(Wasm, self).__init__('wasm', '', 'polybench-c-4.2.1-beta-wasm')
+
+    def benchmark(self, shell, env, args):
+        full_args = ['/bin/bash', './run-wasm.sh']
+        full_args.append(shell)
+
+        if args:
+            full_args.extend(args)
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=90*60)
+
+        tests = []
+        '''
+        mvt
+        [INFO] Running 5 times /repos/v8/out.gn/1/x64.release/d8...
+        [INFO] Maximal variance authorized on 3 average runs: 5%...
+        /repos/v8/out.gn/1/x64.release/d8 ./mvt.js
+        [WARNING] Variance is above thresold, unsafe performance measurement
+                => max deviation=7.69200%, tolerance=5%
+        [INFO] Normalized time: 0.06500000
+        cholesky
+        [INFO] Running 5 times /repos/v8/out.gn/1/x64.release/d8...
+        [INFO] Maximal variance authorized on 3 average runs: 5%...
+        /repos/v8/out.gn/1/x64.release/d8 ./cholesky.js
+        [INFO] Maximal deviation from arithmetic mean of 3 average runs: 0.06800%
+        [INFO] Normalized time: 7.82433333
+        '''
+        subcases = re.findall(r'(\w+)\n[\w\W]+?\n[INFO] Normalized time: (\d+\.\d+)', output)
+        print subcases
+        # lines = output.splitlines()
+        # print('lines=', lines)
+        # for x in lines:
+        #     m = re.search("(.+):  ?(\d+\.?\d+)", x)
+        #     if not m:
+        #         print(x, 'is wrong!')
+        #         continue
+        #     name = m.group(1).lstrip()
+        #     score = m.group(2)
+        #     if name[0:9] == "Geometric":  # Geometric mean:  2.78 runs/sec
+        #         name = "__total__"
+        #     tests.append({'name': name, 'time': score})
+        #     print(score + '     - ' + name)
+
         return tests
 
 
