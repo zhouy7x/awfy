@@ -58,8 +58,8 @@ do
 
                 STARTT=$(date +%s)
 
-                #python dostuff-v8.py --config=client/hsw-nuc-x64.config --config2=client/hsw-nuc-x86.config --config3=client/hsw-nuc-x64-patch.config $id &
-                python dostuff-v8.py --config=client/hsw-nuc-x64-patch.config $id &
+                ##python dostuff-v8.py --config=client/hsw-nuc-x64.config --config2=client/hsw-nuc-x86.config --config3=client/hsw-nuc-x64-patch.config $id &
+                #python dostuff-v8.py --config=client/hsw-nuc-x64-patch.config $id &
 
                 #sleep 5s
 
@@ -67,12 +67,12 @@ do
 
                 #python dostuff.py --config=client/atom-nuc-2-x64.config --config2=client/atom-nuc-2-x86.config $id &
 
-                #python dostuff-v8.py --config=client/apl-nuc-x64.config --config2=client/apl-nuc-x64-patch.config $id &
-                python dostuff-v8.py --config=client/apl-nuc-x64-patch.config $id &
+                ##python dostuff-v8.py --config=client/apl-nuc-x64.config --config2=client/apl-nuc-x64-patch.config $id &
+                #python dostuff-v8.py --config=client/apl-nuc-x64-patch.config $id &
 
                 # python dostuff.py --config=client/chrubuntu-arm.config $id &
 
-                #python dostuff-v8.py --config=client/chromeos-arm.config $id &
+                python dostuff-v8.py --config=client/chromeos-arm.config $id &
 
                 # python dostuff.py --config=client/fc-interp-x64.config $id &
 
