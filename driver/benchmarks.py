@@ -1244,6 +1244,7 @@ Benchmarks = [#AsmJSApps(),
                JetStream2(),
                WebTooling(),
                ARES6(),
+               Wasm(),
                Unity3D(),
                D8Size(),
                BinSize()
