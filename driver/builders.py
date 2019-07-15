@@ -411,6 +411,7 @@ class ContentShell(Engine):
         p = os.path.join('out', 'Release/')
         return [{'path' : p, 'exclude' : ['obj', 'gen']}]
 
+
 class JerryScript(Engine):
     def __init__(self):
         super(JerryScript, self).__init__()
@@ -439,6 +440,7 @@ class JerryScript(Engine):
 
     def shell(self):
         return os.path.join('build', 'bin', 'release.linux', 'jerry')
+
 
 # add Headless Engine
 class Headless(Engine):
@@ -483,13 +485,13 @@ class Headless(Engine):
                     print 'env=%s' % env
                     Run(['cp', in_argns, out_argns])
                     Run(['gclient', 'sync', '-j25', '-f'], env)
-                    if self.cpu == 'arm':
+                    # if self.cpu == 'arm':
                         #Run(['sed', '-i',
                         #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
                         #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
-                        Run(['sed', '-i',
-                             '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
-                             os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
+                        # Run(['sed', '-i',
+                        #      '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
+                        #      os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
                     Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
                     # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                 except subprocess.CalledProcessError as e:
@@ -503,7 +505,7 @@ class Headless(Engine):
             print "Dirty build failed!"
             # add build command code here
             with utils.FolderChanger('./'):
-                syncAgain =  True
+                syncAgain = True
                 sourcePath = os.path.join(utils.RepoPath, self.source)
                 in_argns_name = self.cpu + ".gn"
                 in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
@@ -511,28 +513,33 @@ class Headless(Engine):
                 while(syncAgain):
                     syncAgain = False
                     try:
-                        # add 3 steps:
-                        # 1. perl -pi -e "s/sudo //g" ./build/install-build-deps.sh
-                        Run(['perl', '-pi', '-e', '"s/sudo //g"', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
-                        # 2. run build/install-build-deps.sh
-                        Run(['/bin/bash', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
-                        # 3. git checkout build/install-build-deps.sh
-                        Run(['git', 'checkout', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
-
-                        Run(['rm', os.path.join(sourcePath, 'out', self.cpu), '-rf'])
-                        Run(['mkdir', os.path.join(sourcePath, 'out', self.cpu)])
-                        Run(['cp', in_argns, out_argns])
-                        print 'env=%s'%env
-                        Run(['gclient', 'sync', '-j25', '-f'], env)
                         if self.cpu == 'arm':
-                            #Run(['sed', '-i',
-                            #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
-                            #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
-                            Run(['sed', '-i',
-                                 '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
-                                 os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
-                        Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
-                        # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
+                            in_cddl = os.path.join(utils.RepoPath, 'cddl')
+                            out_cddl = os.path.join(utils.RepoPath, self.source, 'out', self.cpu)
+                            Run(['cp', in_cddl, out_cddl])
+                        else:
+                            # add 3 steps:
+                            # 1. perl -pi -e "s/sudo //g" ./build/install-build-deps.sh
+                            Run(['perl', '-pi', '-e', '"s/sudo //g"', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+                            # 2. run build/install-build-deps.sh
+                            Run(['/bin/bash', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+                            # 3. git checkout build/install-build-deps.sh
+                            Run(['git', 'checkout', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+
+                            Run(['rm', os.path.join(sourcePath, 'out', self.cpu), '-rf'])
+                            Run(['mkdir', os.path.join(sourcePath, 'out', self.cpu)])
+                            Run(['cp', in_argns, out_argns])
+                            print 'env=%s'%env
+                            Run(['gclient', 'sync', '-j25', '-f'], env)
+                            # if self.cpu == 'arm':
+                                #Run(['sed', '-i',
+                                #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                                #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                                # Run(['sed', '-i',
+                                #      '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
+                                #      os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
+                            Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
+                            # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                     except subprocess.CalledProcessError as e:
                         if synctroubles.fetchGsFileByHttp(e.output, ''):
                             syncAgain = True
@@ -549,6 +556,7 @@ class Headless(Engine):
     def libpaths(self):
         p = os.path.join(utils.RepoPath, self.source, 'out', self.cpu)
         return [{'path': p, 'exclude': ['obj', 'gen', 'clang_x64', 'clang_x86_v8_arm', 'pyproto', 'resources']}]
+
 
 # add Headless_patch Engine
 class Headless_patch(Engine):
@@ -606,13 +614,13 @@ class Headless_patch(Engine):
                     with utils.FolderChanger(os.path.join(utils.RepoPath, self.source, 'v8')):
                         Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
 
-                    if self.cpu == 'arm':
+                    # if self.cpu == 'arm':
                         #Run(['sed', '-i',
                         #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
                         #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
-                        Run(['sed', '-i',
-                             '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
-                             os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
+                        # Run(['sed', '-i',
+                        #      '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
+                        #      os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
                     Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu + '-patch')], env)
                     # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                 except subprocess.CalledProcessError as e:
@@ -653,13 +661,13 @@ class Headless_patch(Engine):
                         with utils.FolderChanger(os.path.join(utils.RepoPath, self.source, 'v8')):
                             Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
 
-                        if self.cpu == 'arm':
+                        # if self.cpu == 'arm':
                             #Run(['sed', '-i',
                             #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
                             #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
-                            Run(['sed', '-i',
-                                 '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
-                                 os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
+                            # Run(['sed', '-i',
+                            #      '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
+                            #      os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
                         Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu + '-patch')], env)
                         # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                     except subprocess.CalledProcessError as e:

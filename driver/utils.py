@@ -163,7 +163,7 @@ def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenar
                 print ("WARNING: Timed Out 1st.")
                 # try to get any partial output
                 output = p.communicate()[0]
-                print ('output 1st =',output)
+                # print ('output 1st =',output)
 
                 # try again.
                 p = subprocess32.Popen(args, bufsize=-1, shell=True, env=env, close_fds=True, preexec_fn=os.setsid,
@@ -182,8 +182,9 @@ def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenar
                     # try to get any partial output
                     output = p.communicate()[0]
 
-        print ('output final =',output)
+        # print ('output final =',output)
         return output
     except Exception as e:
+        print e
         pass
 

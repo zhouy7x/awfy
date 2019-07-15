@@ -1,11 +1,14 @@
-#!/bin/bash
+#!/usr/bin/python
 
-count=1
+import benchmarks
+import os
 
-while [ $count -le 10 ]; do
-    echo $count
-    ssh user@awfy-arm-spd.sh.intel.com -- "cd /home/user/work/awfy/driver ; python slaves.py /home/user/work/awfy/driver/state.p"
-    count=$((count + 1))
-    sleep 5
-done
-echo "finished"
+# wasm = benchmarks.Wasm()
+# shell = '/repos/v8/out.gn/1/x64.release/d8'
+# env = None
+# args = None
+# print(os.getcwd())
+#
+# wasm.benchmark(shell, env, args)
+
+print int(2.6*60*60)
