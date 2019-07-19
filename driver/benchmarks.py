@@ -1144,40 +1144,22 @@ class Wasm(Benchmark):
             full_args.extend(args)
 
         print(os.getcwd())
-        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=int(2.6*60*60))
+        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=int(2.6*3600))
 
         tests = []
-        '''
-        mvt
-        [INFO] Running 5 times /repos/v8/out.gn/1/x64.release/d8...
-        [INFO] Maximal variance authorized on 3 average runs: 5%...
-        /repos/v8/out.gn/1/x64.release/d8 ./mvt.js
-        [WARNING] Variance is above thresold, unsafe performance measurement
-                => max deviation=7.69200%, tolerance=5%
-        [INFO] Normalized time: 0.06500000
-        cholesky
-        [INFO] Running 5 times /repos/v8/out.gn/1/x64.release/d8...
-        [INFO] Maximal variance authorized on 3 average runs: 5%...
-        /repos/v8/out.gn/1/x64.release/d8 ./cholesky.js
-        [INFO] Maximal deviation from arithmetic mean of 3 average runs: 0.06800%
-        [INFO] Normalized time: 7.82433333
-        '''
-        subcases = re.findall(r'(\w+)\n[\w\W]+?\n[INFO] Normalized time: (\d+\.\d+)', output)
-        print subcases
-        # lines = output.splitlines()
-        # print('lines=', lines)
-        # for x in lines:
-        #     m = re.search("(.+):  ?(\d+\.?\d+)", x)
-        #     if not m:
-        #         print(x, 'is wrong!')
-        #         continue
-        #     name = m.group(1).lstrip()
-        #     score = m.group(2)
-        #     if name[0:9] == "Geometric":  # Geometric mean:  2.78 runs/sec
-        #         name = "__total__"
-        #     tests.append({'name': name, 'time': score})
-        #     print(score + '     - ' + name)
 
+        subcases = re.findall(r'(.+)\n[\w\W]+?\n\[INFO\] Normalized time: (\d+\.\d+)\n', output)
+        # print subcases
+        for subcase in subcases:
+            name = subcase[0]
+            score = utils.myround(subcase[1], 2)
+            tests.append({'name': name, 'time': score})
+            print(score + '     - ' + name)
+        total = pow(reduce(lambda i, j: i * j, [float(x['time']) for x in tests]), 1.0 / len(tests))
+        name = '__total__'
+        score = utils.myround(total, 2)
+        tests.append({'name': name, 'time': score})
+        print(score + '     - ' + name)
         return tests
 
 

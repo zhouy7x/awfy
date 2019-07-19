@@ -49,6 +49,15 @@ class FolderChanger:
 def chdir(folder):
     return FolderChanger(folder)
 
+def myround(num, digit=2):
+    try:
+        num = float(num)
+    except:
+        print "Error: must send a number or a string in numeric format!"
+        return
+    else:
+        return str(round(num, digit))
+
 def Run(vec, env = os.environ.copy()):
     print(">> Executing in " + os.getcwd())
     print(' '.join(vec))
