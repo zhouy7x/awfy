@@ -112,8 +112,8 @@ def get_commit_dict():
         for t in ret:
             DATA_DICT[int(t[1])] = t[0]
             DATA_LIST.append((int(t[1]), t[0]))
-    # print DATA_LIST
-    # print len(DATA_LIST), begin_master - end_master + 1
+    print DATA_LIST
+    print len(DATA_LIST), begin_master - end_master + 1
 
 
 def check_build_process(foo):

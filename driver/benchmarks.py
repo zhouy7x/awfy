@@ -996,7 +996,6 @@ class JetStream2(Benchmark):
         kill_port = "for p in $(lsof -t -i:9222);do kill -9 $p; done ;"
         run_shell = "/home/user/.nvm/versions/node/v8.1.2/bin/node run.js "
         url = "http://ssgs3-test.sh.intel.com:8000/ARCworkloads/JetStream2-JSTC/ "
-        print(os.getcwd())
 
         cmd = kill_port + run_shell + url + shell
         print(cmd)
@@ -1077,7 +1076,7 @@ class Unity3D(Benchmark):
             if name == "Overall":
                 name = "__total__"
             tests.append({'name': name, 'time':score})
-        print tests
+            print(score + '     - '+ name)
         return tests
 
 
@@ -1201,40 +1200,41 @@ class BinSize(Benchmark):
         return tests
 
 
+Benchmarks = [
+    # AsmJSApps(),
+    # AsmJSMicro(),
+    # SunSpider(),
+    # Kraken(),
+    # Assorted(),
+    # OctaneV1(),
+    # Embenchen(),
+    # JetStream(),
+    # BrowserMark(),
+    # Robohornet(),
+    # VellamoSurfWaxBinder(),
+    # VellamoKruptein(),
+    # VellamoDeepCrossfader(),
+    # WebXPRTStock(),
+    # WebXPRTStorage(),
+    # WebXPRTStockLib(),
+    # WebXPRTDNA(),
+    # BmDom(),
+    # BmScalable(),
+    # JerrySunspiderPerf(),
+    # JerrySunspiderMem(),
+    # JetStreamShell(),
+    # Speedometer1(),
+    Octane(),
+    Speedometer2(),
+    JetStream2(),
+    WebTooling(),
+    ARES6(),
+    Wasm(),
+    Unity3D(),
+    D8Size(),
+    BinSize()
+]
 
-Benchmarks = [#AsmJSApps(),
-#              AsmJSMicro(),
-#              SunSpider(),
-#              Kraken(),
-              #Assorted(),
-              #OctaneV1(),
-              Octane(),
-#              Embenchen(),
-              #JetStream(),
-              #BrowserMark(),
-#              Robohornet(),
-#              VellamoSurfWaxBinder(),
-#              VellamoKruptein(),
-#              VellamoDeepCrossfader(),
-#              WebXPRTStock(),
-#              WebXPRTStorage(),
-#              WebXPRTStockLib(),
-#              WebXPRTDNA(),
-#              BmDom(),
-#              BmScalable(),
-                          # JerrySunspiderPerf(),
-                          # JerrySunspiderMem(),
-#              JetStreamShell(),
-#               Speedometer1(),
-               Speedometer2(),
-               JetStream2(),
-               WebTooling(),
-               ARES6(),
-               Wasm(),
-               Unity3D(),
-               D8Size(),
-               BinSize()
-             ]
 
 def run(submit, native, modes, includes, excludes):
     for benchmark in Benchmarks:

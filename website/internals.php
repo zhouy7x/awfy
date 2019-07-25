@@ -22,6 +22,8 @@ function has_permissions()
 	# Test here which persons have permission to see all benchmarks
 	if ($_SESSION['persona'] == "hv1989@gmail.com")
 		return true;
+	if ($_SESSION['persona'] == "zhouy7x@gmail.com")
+		return true;
 	if ($_SESSION['persona'] == "hverschore@mozilla.com")
 		return true;
 

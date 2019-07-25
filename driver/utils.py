@@ -49,7 +49,7 @@ class FolderChanger:
 def chdir(folder):
     return FolderChanger(folder)
 
-def myround(num, digit=3):
+def myround(num, digit=2):
     try:
         num = float(num)
     except:
@@ -195,8 +195,9 @@ def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenar
                     # try to get any partial output
                     output = p.communicate()[0]
 
-        print ('output final =',output)
+        # print ('output final =',output)
         return output
     except Exception as e:
+        print e
         pass
 
