@@ -1132,9 +1132,9 @@ class ARES6(Benchmark):
 
 
 # add polybench-c-4.2.1-beta-wasm benchmark
-class Wasm(Benchmark):
+class Polybench(Benchmark):
     def __init__(self):
-        super(Wasm, self).__init__('wasm', '', 'polybench-c-4.2.1-beta-wasm')
+        super(Polybench, self).__init__('polybench', '', 'polybench-c-4.2.1-beta-wasm')
 
     def benchmark(self, shell, env, args):
         full_args = ['/bin/bash', './run-wasm.sh']
@@ -1231,7 +1231,8 @@ Benchmarks = [
     JetStream2(),
     WebTooling(),
     ARES6(),
-    Wasm(),
+    # Wasm(),
+    Polybench(),
     Unity3D(),
     D8Size(),
     BinSize()
