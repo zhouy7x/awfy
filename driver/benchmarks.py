@@ -1208,6 +1208,12 @@ class Spec2k6(Benchmark):
             print(compilation_time + '     - ' + name1)
             print(execution_time + '     - ' + name2)
         # Todo: need a __total__ score.
+        total = pow(reduce(lambda i, j: i * j, [float(x['time']) for x in tests]), 1.0 / len(tests))
+        name = '__total__'
+        score = utils.myround(total, 2)
+        tests.append({'name': name, 'time': score})
+        print(score + '     - ' + name)
+
         return tests
 
 
