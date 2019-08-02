@@ -53,11 +53,14 @@ def get_result_of_spec2k6(ls, digit=2):
     c_times = []
     e_times = []
     if type(ls) not in (list, tuple):
+        print ls
         raise Exception('Type error: type of source data must be "list" or "tuple"!')
     for i in ls:
         if type(i) not in (list, tuple):
+            print i
             raise Exception('Type error: type of element in source data must be "list" or "tuple"!')
         if len(i) != 2:
+            print i
             raise Exception('Data format error: length of element in source data must be 2!')
         c = float(myround(i[0], digit))
         if c:

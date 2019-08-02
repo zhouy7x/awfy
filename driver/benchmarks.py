@@ -1197,7 +1197,11 @@ class Spec2k6(Benchmark):
             data = i[1].splitlines()
             q = re.findall(r'compile: *(\d+\.\d*)\n[\w\W]+?\nmean: *(\d+\.\d*)', i[1])
             # print q
-            compilation_time, execution_time = utils.get_result_of_spec2k6(q)
+            try:
+                compilation_time, execution_time = utils.get_result_of_spec2k6(q)
+            except Exception, e:
+                print e
+                return
             # print compilation_time
             # print execution_time
             name1 = i[0] + '_compilation_time'
