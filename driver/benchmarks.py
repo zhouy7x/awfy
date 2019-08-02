@@ -1130,9 +1130,9 @@ class ARES6(Benchmark):
 
 
 # add polybench-c-4.2.1-beta-wasm benchmark
-class Wasm(Benchmark):
+class Polybench(Benchmark):
     def __init__(self):
-        super(Wasm, self).__init__('wasm', '', 'polybench-c-4.2.1-beta-wasm')
+        super(Polybench, self).__init__('polybench', '', 'polybench-c-4.2.1-beta-wasm')
 
     def benchmark(self, shell, env, args):
         full_args = ['/bin/bash', './run-wasm.sh']
@@ -1158,6 +1158,56 @@ class Wasm(Benchmark):
         score = utils.myround(total, 2)
         tests.append({'name': name, 'time': score})
         print(score + '     - ' + name)
+        return tests
+
+
+# add polybench-c-4.2.1-beta-wasm benchmark
+class Spec2k6(Benchmark):
+    def __init__(self):
+        super(Spec2k6, self).__init__('spec2k6', '', 'speck2k6-jstc-runtime')
+
+    def benchmark(self, shell, env, args):
+        full_args = ['/bin/bash', './run.sh']
+        full_args.append(shell)
+
+        if args:
+            full_args.extend(args)
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=int(4*3600))
+
+        tests = []
+
+        subnames = ['namd', 'gobmk', 'povray', 'sjeng', 'libquantum', 'lbm']
+
+        regular_string = r''
+        regular_string += r'\n('
+        regular_string += r'|'.join(subnames)
+        regular_string += r')\n'
+        regular_string += r'([\w\W]+)'
+        regular_string += r'\n\1\.js execution time was .*?s.'
+        # a = r'|'.join(subnames)
+        # regular_string = r'\n('+a+r')'+r'([\w\W]+?)'+r'\n\1\.js execution time was .*?s.'
+        print regular_string
+        subcases = re.findall(regular_string, output)
+        # print subcases
+        print len(subcases)
+        for i in subcases:
+            p = []
+            data = i[1].splitlines()
+            q = re.findall(r'compile: *(\d+\.\d*)\n[\w\W]+?\nmean: *(\d+\.\d*)', i[1])
+            # print q
+            compilation_time, execution_time = utils.get_result_of_spec2k6(q)
+            # print compilation_time
+            # print execution_time
+            name1 = i[0] + '_compilation_time'
+            name2 = i[0] + '_execution_time'
+            # score = utils.myround(subcase[1], 2)
+            tests.append({'name': name1, 'time': compilation_time})
+            tests.append({'name': name2, 'time': execution_time})
+            print(compilation_time + '     - ' + name1)
+            print(execution_time + '     - ' + name2)
+        # Todo: need a __total__ score.
         return tests
 
 
@@ -1229,7 +1279,9 @@ Benchmarks = [
     JetStream2(),
     WebTooling(),
     ARES6(),
-    Wasm(),
+    # Wasm(),
+    Polybench(),
+    Spec2k6(),
     Unity3D(),
     D8Size(),
     BinSize()

@@ -2,7 +2,6 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-
 import os
 import sys
 import commands
@@ -48,6 +47,30 @@ class FolderChanger:
 
 def chdir(folder):
     return FolderChanger(folder)
+
+
+def get_result_of_spec2k6(ls, digit=2):
+    c_times = []
+    e_times = []
+    if type(ls) not in (list, tuple):
+        raise Exception('Type error: type of source data must be "list" or "tuple"!')
+    for i in ls:
+        if type(i) not in (list, tuple):
+            raise Exception('Type error: type of element in source data must be "list" or "tuple"!')
+        if len(i) != 2:
+            raise Exception('Data format error: length of element in source data must be 2!')
+        c = float(myround(i[0], digit))
+        if c:
+            c_times.append(c)
+        e = float(myround(i[1], digit))
+        if e:
+            e_times.append(e)
+
+    compilation_time = myround(sum(c_times)/len(c_times), digit)
+    execution_time = myround(sum(e_times), digit)
+
+    return compilation_time, execution_time
+
 
 def myround(num, digit=2):
     try:
