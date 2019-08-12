@@ -43,9 +43,9 @@ Examples:
 parser = argparse.ArgumentParser(description='------')
 parser.usage = help
 parser.add_argument('-m', '--machine', type=int, required=True, help="machine id")
-parser.add_argument('-o', '--mode', type=int, required=True, help="mode id")
+parser.add_argument('-o', '--mode', type=int, default=None, help="mode id, default is None")
 parser.add_argument('-st', '--startstamp', type=int, required=True, help="start stamp number")
-parser.add_argument('-sp', '--stopstamp', type=int, default=None, help="stop stamp number")
+parser.add_argument('-sp', '--stopstamp', type=int, default=None, help="stop stamp number, default is None")
 
 args = parser.parse_args()
 machine = args.machine
@@ -59,31 +59,29 @@ def write_to_file(data, a1, a2):
         f.write(json.dumps(data))
 
 
-def main(machine_id, mode_id, startstamp, stopstamp=None):
-    c = awfy.db.cursor()
+def main(machine_id, mode_id, startstamp, stopstamp):
+
+    tmp_ls = []
+    query = """
+    SELECT STRAIGHT_JOIN *          
+              FROM awfy_run r    
+                    JOIN awfy_build b ON r.id = b.run_id       
+              WHERE  r.machine = %s 
+    """
+    tmp_ls.append(machine_id)
+    if mode_id:
+        query += " AND b.mode_id=%s "
+        tmp_ls.append(mode_id)
+    if startstamp:
+        query += " AND r.stamp >= %s "
+        tmp_ls.append(startstamp)
     if stopstamp:
-        query = """
-        SELECT STRAIGHT_JOIN *          
-              FROM awfy_run r    
-                    JOIN awfy_build b ON r.id = b.run_id       
-              WHERE  r.machine = %s 
-                    and b.mode_id=%s
-                    and r.stamp >= %s  
-                    and r.stamp <= %s  
-              ORDER BY r.stamp DESC;
-        """
-        lines = c.execute(query, [machine_id, mode_id, startstamp, stopstamp])
-    else:
-        query = """
-        SELECT STRAIGHT_JOIN *          
-              FROM awfy_run r    
-                    JOIN awfy_build b ON r.id = b.run_id       
-              WHERE  r.machine = %s 
-                    and b.mode_id=%s
-                    and r.stamp >= %s  
-              ORDER BY r.stamp DESC;
-        """
-        lines = c.execute(query, [machine_id, mode_id, startstamp])
+        query += " AND r.stamp <= %s "
+        tmp_ls.append(stopstamp)
+    query += " ORDER BY r.stamp DESC; "
+    print query
+    c = awfy.db.cursor()
+    lines = c.execute(query, tmp_ls)
     print (lines)
     a = c.fetchall()
     # print a
