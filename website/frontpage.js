@@ -304,9 +304,13 @@ Display.prototype.draw = function () {
         var yaxisLabel = $("<div class='axisLabel yaxisLabel'></div>")
                                                         .text("Execution Time (ms)")
                                                   .appendTo(this.elt);
-    } else {
+    } else if (this.graph.direction == -2) {
         var yaxisLabel = $("<div class='axisLabel yaxisLabel'></div>")
                                                         .text("File Size (byte)")
+                                                  .appendTo(this.elt);
+    } else if (this.graph.direction == -3) {
+        var yaxisLabel = $("<div class='axisLabel yaxisLabel'></div>")
+                                                        .text("Execution Time (s)")
                                                   .appendTo(this.elt);
     }
     yaxisLabel.css("margin-top", yaxisLabel.width() / 2 - 20);
@@ -482,8 +486,10 @@ Display.prototype.createToolTip = function (item, extended, extra) {
          text += so + 'score: ' + sc + y.toFixed(2) + 'ms<br>';
     else if (this.graph.direction == 1)
          text += so + 'score: ' + sc + y.toFixed(2) + '<br>';
-    else 
+    else if (this.graph.direction == -2)
          text += so + 'size: ' + sc + y.toFixed(2) + 'byte<br>';
+    else if (this.graph.direction == -3)
+         text += so + 'score: ' + sc + y.toFixed(2) + 's<br>';
 
     // Find the point previous to this one.
     var prev = null;
@@ -517,6 +523,8 @@ Display.prototype.createToolTip = function (item, extended, extra) {
                 text += 'ms';
 			else if (this.graph.direction == -2)
 				text += 'byte';
+			else if (this.graph.direction == -3)
+				text += 's';
             text += ' (' + perc + '% ' + better + ')<br>';
         }
     }
