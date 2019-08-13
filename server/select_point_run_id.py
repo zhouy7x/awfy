@@ -70,13 +70,13 @@ def main(machine_id, mode_id, startstamp, stopstamp):
     """
     tmp_ls.append(machine_id)
     if mode_id:
-        query += " AND b.mode_id=%s "
+        query += " AND b.mode_id=%s \n"
         tmp_ls.append(mode_id)
     if startstamp:
-        query += " AND r.stamp >= %s "
+        query += " AND r.stamp >= %s \n"
         tmp_ls.append(startstamp)
     if stopstamp:
-        query += " AND r.stamp <= %s "
+        query += " AND r.stamp <= %s \n"
         tmp_ls.append(stopstamp)
     query += " ORDER BY r.stamp DESC; "
     print query
