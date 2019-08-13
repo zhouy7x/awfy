@@ -1204,8 +1204,8 @@ class Spec2k6(Benchmark):
                 return
             # print compilation_time
             # print execution_time
-            name1 = i[0] + '_compilation_time'
-            name2 = i[0] + '_execution_time'
+            name1 = i[0] + '-compilation'
+            name2 = i[0] + '-execution'
             # score = utils.myround(subcase[1], 2)
             tests.append({'name': name1, 'time': compilation_time})
             tests.append({'name': name2, 'time': execution_time})
