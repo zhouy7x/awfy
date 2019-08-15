@@ -16,6 +16,23 @@
 #     (wait for it to confirm that it's no longer running)
 #     ctrl a+d
 
+function v8-count() {
+    if [ ! -e tmp/v8-count ];
+    then
+        touch tmp/v8-count
+    fi
+    tmp=`cat tmp/v8-count`;
+    if [ -z "$tmp" ];
+    then
+        tmp=0;
+    fi
+    tmp=$[tmp+1];
+    echo $tmp;
+    echo $tmp > tmp/v8-count;
+    return $tmp;
+}
+
+
 if [ -e /tmp/awfy-daemon-v8 ]
 then
   echo "awfy: Already running"
@@ -29,7 +46,7 @@ trap "kill 0" EXIT
 python print_env.py
 
 
-count=0
+#count=0
 while :
 do
     if [ -e /tmp/awfy ]
@@ -58,23 +75,37 @@ do
 
                 STARTT=$(date +%s)
 
-                python dostuff-v8.py --config=client/hsw-nuc-x64.config --config2=client/hsw-nuc-x86.config --config3=client/hsw-nuc-x64-patch.config $id &
-                #python dostuff-v8.py --config=client/hsw-nuc-x64-patch.config $id &
+                if [ ! -e tmp/v8-count ];
+                then
+                    touch tmp/v8-count
+                fi
+                tmp=`cat tmp/v8-count`;
+                if [ -z "$tmp" ];
+                then
+                    tmp=0;
+                fi
+                echo $tmp;
 
-                #sleep 5s
+                if [ $tmp == 75 ];
+                then
+                    python dostuff-v8.py --config=client/hsw-nuc-x64-long-time.config --config2=client/hsw-nuc-x86.config --config3=client/hsw-nuc-x64-patch.config $id &
+                    python dostuff-v8.py --config=client/apl-nuc-x64-x64-long-time.config --config2=client/apl-nuc-x64-patch.config $id &
+                    python dostuff-v8.py --config=client/chromeos-arm-x64-long-time.config $id &
+                    tmp=0
+                else
+                    python dostuff-v8.py --config=client/hsw-nuc-x64.config --config2=client/hsw-nuc-x86.config --config3=client/hsw-nuc-x64-patch.config $id &
+                    #python dostuff-v8.py --config=client/hsw-nuc-x64-patch.config $id &
+                    python dostuff-v8.py --config=client/chromeos-arm.config $id &
+                    python dostuff-v8.py --config=client/apl-nuc-x64.config --config2=client/apl-nuc-x64-patch.config $id &
 
-                #python dostuff.py --config=client/atom-nuc-x64.config --config2=client/atom-nuc-x86.config $id &
-
-                #python dostuff.py --config=client/atom-nuc-2-x64.config --config2=client/atom-nuc-2-x86.config $id &
-
-                ##python dostuff-v8.py --config=client/apl-nuc-x64.config --config2=client/apl-nuc-x64-patch.config $id &
-                #python dostuff-v8.py --config=client/apl-nuc-x64-patch.config $id &
-
-                # python dostuff.py --config=client/chrubuntu-arm.config $id &
-
-                ##python dostuff-v8.py --config=client/chromeos-arm.config $id &
-
-                # python dostuff.py --config=client/fc-interp-x64.config $id &
+                    #python dostuff.py --config=client/atom-nuc-x64.config --config2=client/atom-nuc-x86.config $id &
+                    #python dostuff.py --config=client/atom-nuc-2-x64.config --config2=client/atom-nuc-2-x86.config $id &
+                    #python dostuff-v8.py --config=client/apl-nuc-x64-patch.config $id &
+                    # python dostuff.py --config=client/chrubuntu-arm.config $id &
+                    # python dostuff.py --config=client/fc-interp-x64.config $id &
+                    tmp=$[tmp+1];
+                fi
+                echo $tmp > tmp/v8-count;
 
                 wait
 

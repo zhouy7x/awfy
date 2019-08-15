@@ -1132,7 +1132,7 @@ class ARES6(Benchmark):
 # add polybench-c-4.2.1-beta-wasm benchmark
 class Polybench(Benchmark):
     def __init__(self):
-        super(Polybench, self).__init__('polybench', '', 'polybench-c-4.2.1-beta-wasm')
+        super(Polybench, self).__init__('polybench', '', 'polybench/polybench-c-4.2.1-beta-wasm')
 
     def benchmark(self, shell, env, args):
         full_args = ['/bin/bash', './run-wasm.sh']
@@ -1167,8 +1167,7 @@ class Spec2k6(Benchmark):
         super(Spec2k6, self).__init__('spec2k6', '', 'speck2k6-jstc-runtime')
 
     def benchmark(self, shell, env, args):
-        full_args = ['/bin/bash', './run.sh']
-        full_args.append(shell)
+        full_args = [shell, './run.js']
 
         if args:
             full_args.extend(args)
