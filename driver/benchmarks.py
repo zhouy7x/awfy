@@ -1200,7 +1200,7 @@ class Spec2k6(Benchmark):
             full_args.extend(args)
 
         print(os.getcwd())
-        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=int(6*3600))
+        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=None)
 
         tests = []
 
