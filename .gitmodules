@@ -1,0 +1,15 @@
+[submodule "benchmarks/web-tooling-benchmark"]
+	path = benchmarks/web-tooling-benchmark
+	url = https://github.com/v8/web-tooling-benchmark.git
+[submodule "benchmarks/ARES-6"]
+	path = benchmarks/ARES-6
+	url = https://github.com/bmeurer/ARES-6.git
+[submodule "benchmarks/jetstream2-d8"]
+	path = benchmarks/jetstream2-d8
+	url = https://gitlab.devtools.intel.com/web-technology-optimization/jetstream2-jstc
+[submodule "benchmarks/polybench"]
+	path = benchmarks/polybench
+	url = http://gitlab.devtools.intel.com/jingbao/polybench
+[submodule "benchmarks/speck2k6-jstc-runtime"]
+	path = benchmarks/speck2k6-jstc-runtime
+	url = http://gitlab.devtools.intel.com/zhiguozh/speck2k6-jstc-runtime
