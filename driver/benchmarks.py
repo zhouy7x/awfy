@@ -1177,43 +1177,23 @@ class Spec2k6(Benchmark):
 
         tests = []
 
-        subnames = ['namd', 'gobmk', 'povray', 'sjeng', 'libquantum', 'lbm']
-
-        regular_string = r''
-        regular_string += r'\n('
-        regular_string += r'|'.join(subnames)
-        regular_string += r')\n'
-        regular_string += r'([\w\W]+)'
-        regular_string += r'\n\1\.js execution time was .*?s.'
-        # a = r'|'.join(subnames)
-        # regular_string = r'\n('+a+r')'+r'([\w\W]+?)'+r'\n\1\.js execution time was .*?s.'
+        regular_string = r'=== Result of \d+\.(\w+) ===\nAverage compile time: +(\d+\.\d+)\nTotal execution time: +(\d+\.\d+)'
         print regular_string
         subcases = re.findall(regular_string, output)
         # print subcases
-        print len(subcases)
         for i in subcases:
-            p = []
-            data = i[1].splitlines()
-            q = re.findall(r'compile: *(\d+\.\d*)\n[\w\W]+?\nmean: *(\d+\.\d*)', i[1])
-            # print q
-            try:
-                compilation_time, execution_time = utils.get_result_of_spec2k6(q)
-            except Exception, e:
-                print e
-                return
-            # print compilation_time
-            # print execution_time
             name1 = i[0] + '-compilation'
             name2 = i[0] + '-execution'
-            # score = utils.myround(subcase[1], 2)
-            tests.append({'name': name1, 'time': compilation_time})
-            tests.append({'name': name2, 'time': execution_time})
-            print(compilation_time + '     - ' + name1)
-            print(execution_time + '     - ' + name2)
-        # Todo: need a __total__ score.
-        total = pow(reduce(lambda i, j: i * j, [float(x['time']) for x in tests]), 1.0 / len(tests))
+            score1 = utils.myround(i[1])
+            score2 = utils.myround(i[2])
+            tests.append({'name': name1, 'time': score1})
+            tests.append({'name': name2, 'time': score2})
+            print(score1 + '     - ' + name1)
+            print(score2 + '     - ' + name2)
+
+        total = re.search(r'=== Final Result ===\nScore: *(\d+\.\d+)', output)
         name = '__total__'
-        score = utils.myround(total, 2)
+        score = utils.myround(total.group(1))
         tests.append({'name': name, 'time': score})
         print(score + '     - ' + name)
 

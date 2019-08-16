@@ -15,9 +15,14 @@ echo $tmp;
 if [ $tmp == 5 ];
 then
     echo "succeed!"
+    string='-long-time'
     tmp=0
 else
+    string=''
     tmp=$[tmp+1];
 fi
 echo $tmp > tmp/v8-count;
 
+#echo --config=client/machine_config/electro-x64$string.config
+
+bash tmp/1$string.sh
