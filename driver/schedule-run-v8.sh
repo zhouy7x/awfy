@@ -69,7 +69,7 @@ do
                 fi
                 echo $tmp;
 
-                if [ $tmp == 1 ];
+                if [ $tmp == 70 ];
                 then
                     string='-long-time';
                     tmp=0
