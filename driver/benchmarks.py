@@ -1129,6 +1129,33 @@ class ARES6(Benchmark):
         return tests
 
 
+class JetStream2D8(Benchmark):
+    def __init__(self):
+        super(JetStream2D8, self).__init__('jetstream2-d8', '', 'jetstream2-d8')
+
+    def benchmark(self, shell, env, args):
+        full_args = [shell, './run.js']
+        if args:
+            full_args.extend(args)
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        subcases = re.findall(r'Running *(.+):\n[\w\W]+?Score: (\d+\.\d*)', output)
+        # print subcases
+        for subcase in subcases:
+            name = subcase[0]
+            score = utils.myround(subcase[1], 2)
+            tests.append({'name': name, 'time': score})
+            print(score + '     - ' + name)
+        total = re.search(r'Total Score: *(\d+\.\d*)', output)
+        name = '__total__'
+        score = utils.myround(total.group(1))
+        tests.append({'name': name, 'time': score})
+        print(score + '     - ' + name)
+        return tests
+
+
 # add polybench-c-4.2.1-beta-wasm benchmark
 class Polybench(Benchmark):
     def __init__(self):
@@ -1177,8 +1204,7 @@ class Spec2k6(Benchmark):
 
         tests = []
 
-        regular_string = r'=== Result of \d+\.(\w+) ===\nAverage compile time: +(\d+\.\d+)\nTotal execution time: +(\d+\.\d+)'
-        print regular_string
+        regular_string = r'=== Result of \d+\.(\w+) ===\nAverage compile time: +(\d+\.\d*)\nTotal execution time: +(\d+\.\d*)'
         subcases = re.findall(regular_string, output)
         # print subcases
         for i in subcases:
@@ -1191,7 +1217,7 @@ class Spec2k6(Benchmark):
             print(score1 + '     - ' + name1)
             print(score2 + '     - ' + name2)
 
-        total = re.search(r'=== Final Result ===\nScore: *(\d+\.\d+)', output)
+        total = re.search(r'=== Final Result ===\nScore: *(\d+\.\d*)', output)
         name = '__total__'
         score = utils.myround(total.group(1))
         tests.append({'name': name, 'time': score})
@@ -1268,7 +1294,7 @@ Benchmarks = [
     JetStream2(),
     WebTooling(),
     ARES6(),
-    # Wasm(),
+    JetStream2D8(),
     Polybench(),
     Spec2k6(),
     Unity3D(),
