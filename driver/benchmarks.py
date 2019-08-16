@@ -1131,7 +1131,7 @@ class ARES6(Benchmark):
 
 class JetStream2D8(Benchmark):
     def __init__(self):
-        super(JetStream2D8, self).__init__('jetstream2-d8', '', 'jetstream2-d8')
+        super(JetStream2D8, self).__init__('jetstream2_d8', '', 'jetstream2-d8')
 
     def benchmark(self, shell, env, args):
         full_args = [shell, './run.js']
