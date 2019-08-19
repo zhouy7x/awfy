@@ -118,8 +118,8 @@ class RemoteSlave(Slave):
         # if they asked us to follow symlinks, then add '-L' into the arguments.
         if follow:
             rsync_flags += "L"
-
-        sync_cmd = ["rsync", rsync_flags]
+        flags = "--delete-excluded"
+        sync_cmd = ["rsync", rsync_flags, flags]
         for exclude in excludes:
             sync_cmd.append("--exclude"+"="+exclude)
 
@@ -146,6 +146,10 @@ def init():
     if slaveNames:
         slaveNames = slaveNames.split(",")
         for name in slaveNames:
+            # check ssh status
+            hostname = utils.config_get_default(name, 'hostname', None)
+            if hostname:
+                utils.check_host_status(hostname)
             remote = utils.config_get_default(name, 'remote', 1)
             if remote:
                 slaves.append(RemoteSlave(name))
