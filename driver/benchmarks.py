@@ -1134,7 +1134,7 @@ class JetStream2D8(Benchmark):
         super(JetStream2D8, self).__init__('Jetstream2d8', '', 'jetstream2-d8')
 
     def benchmark(self, shell, env, args):
-        full_args = [shell, './run.js']
+        full_args = [shell, './cli.js']
         if args:
             full_args.extend(args)
         print(os.getcwd())
