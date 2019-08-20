@@ -118,15 +118,26 @@ class RemoteSlave(Slave):
         # if they asked us to follow symlinks, then add '-L' into the arguments.
         if follow:
             rsync_flags += "L"
-        flags = "--delete-excluded"
-        sync_cmd = ["rsync", rsync_flags, flags]
+        sync_cmd = ["rsync", rsync_flags]
         for exclude in excludes:
             sync_cmd.append("--exclude"+"="+exclude)
 
         sync_cmd += [file_loc, self.HostName + ":" + file_remote]
-        utils.Run(sync_cmd)
-        #utils.Run(["rsync", rsync_flags, file_loc, self.HostName + ":" + file_remote])
-        
+        try:
+            utils.Run(sync_cmd)
+        except:
+            # run again.
+            rsync_flags = "-aP"
+            if follow:
+                rsync_flags += "L"
+            flags = "--delete-excluded"
+            sync_cmd = ["rsync", rsync_flags, flags]
+            for exclude in excludes:
+                sync_cmd.append("--exclude" + "=" + exclude)
+
+            sync_cmd += [file_loc, self.HostName + ":" + file_remote]
+            utils.Run(sync_cmd)
+
     def synchronize(self):
         if self.delayed:
             print("Waiting for: "+self.delayedCommand)
