@@ -147,9 +147,9 @@ def init():
         slaveNames = slaveNames.split(",")
         for name in slaveNames:
             # check ssh status
-            hostname = utils.config_get_default(name, 'hostname', None)
-            if hostname:
-                utils.check_host_status(hostname)
+            # hostname = utils.config_get_default(name, 'hostname', None)
+            # if hostname:
+            #     utils.check_host_status(hostname)
             remote = utils.config_get_default(name, 'remote', 1)
             if remote:
                 slaves.append(RemoteSlave(name))
