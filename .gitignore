@@ -16,5 +16,6 @@ repos/
 *.log
 driver/state.p
 driver/tmp
+server/run-id-*
 benchmarks/kraken/kraken-1.1-results
 benchmarks/SunSpider/sunspider-1.0.1-results
