@@ -1197,7 +1197,10 @@ class Spec2k6(Benchmark):
         full_args = [shell, './run.js']
 
         if args:
+            print 'args: ', args
             full_args.extend(args)
+
+        full_args += ['--', 'awfy']
 
         print(os.getcwd())
         output = utils.RunTimedCheckOutput(full_args, env=env, timeout=int(7*3600))
