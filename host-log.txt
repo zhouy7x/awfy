@@ -1,7 +1,7 @@
 ./driver/benchmarks.py:940:        url = "http://ssgs3-test.sh.intel.com:8000/ARCworkloads/Speedometer-Old-Version/Speedometer/Speedometer/Full.html"
 ./driver/benchmarks.py:968:        url = "http://ssgs3-test.sh.intel.com:8000/ARCworkloads/Speedometer2-226694-jstc/ "
 ./driver/benchmarks.py:998:        url = "http://ssgs3-test.sh.intel.com:8000/ARCworkloads/JetStream2-JSTC/ "
-./driver/benchmarks.py:1061:        url = "http://ssgs3-test.sh.intel.com:8000/ARCworkloads/unity3d-release"
+./driver/benchmarks.py:1060:        url = "http://ssgs3-test.sh.intel.com:8000/ARCworkloads/unity3d-release"
 ./driver/client/hsw-nuc-x86.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php
 ./driver/client/machine_config/elm-arm-jetstream.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php/
 ./driver/client/machine_config/electro-x64.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php/
@@ -9,11 +9,14 @@
 ./driver/client/machine_config/electro-glm.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php/
 ./driver/client/machine_config/awfy-arm.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php/
 ./driver/client/machine_config/elm-arm.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php/
+./driver/client/chromeos-arm-long-time.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php
 ./driver/client/chromeos-arm.config.bak:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php
 ./driver/client/atom-nuc-2-x64.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php
 ./driver/client/atom-nuc-2-x86.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php
 ./driver/client/apl-nuc-x64.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php
 ./driver/client/chromeos-arm.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php
+./driver/client/hsw-nuc-x64-long-time.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php
+./driver/client/apl-nuc-x64-long-time.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php
 ./driver/client/apl-nuc-x64-patch.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php
 ./driver/client/hsw-nuc-x64-patch.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php
 ./driver/client/hsw-nuc-x64.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php

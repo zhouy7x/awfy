@@ -121,7 +121,7 @@ AWFY.git = function(vendor, cset, callback) {
         return;
     inprogress[cset] = true;
 
-    var url = 'http://ssgs3-test.sh.intel.com:7777?git_rev=' + cset + '&vendor=' + vendor;
+    var url = 'http://ssgs5-test.sh.intel.com:7777?git_rev=' + cset + '&vendor=' + vendor;
 
     $.ajax(url, {
         async: true,
