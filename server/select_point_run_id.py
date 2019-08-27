@@ -65,7 +65,7 @@ stop_stamp = args.stopstamp
 
 
 def write_to_file(data, a1, a2):
-    with open('run-id-%s-%s.txt' % (a1, a2), 'w') as f:
+    with open('tmp/run-id-%s-%s.txt' % (a1, a2), 'w') as f:
         f.write(json.dumps(data))
 
 
