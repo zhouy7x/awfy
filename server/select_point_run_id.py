@@ -22,7 +22,17 @@ Manual to the script of %s, you need:
    - A number of start stamp:
      
         --startstamp=1555082061
-        
+     
+     get this number from database, SQL:
+     
+            SELECT STRAIGHT_JOIN *
+        FROM awfy_run r 
+            JOIN awfy_build b ON r.id = b.run_id 
+            JOIN awfy_score sc ON sc.build_id = b.id 
+        WHERE 
+            b.cset = "{commit id}" 
+            AND r.machine = {machine number} ;
+            
    - A number of stop stamp:
      
         --stopstamp=1555082062
