@@ -937,7 +937,7 @@ class Speedometer1(Benchmark):
     def benchmark(self, shell, env, args):
         kill_port = "for p in $(lsof -t -i:9222);do kill -9 -$p; done ; "
         run_shell = "/home/user/.nvm/versions/node/v8.1.2/bin/node run.js "
-        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/Speedometer-Old-Version/Speedometer/Speedometer/Full.html"
+        url = "http://ssgs3-test.sh.intel.com:8000/ARCworkloads/Speedometer-Old-Version/Speedometer/Speedometer/Full.html"
         print(os.getcwd())
         cmd = kill_port+run_shell+url+shell
         print(cmd)
@@ -965,7 +965,7 @@ class Speedometer2(Benchmark):
     def benchmark(self, shell, env, args):
         kill_port = "for p in $(lsof -t -i:9222);do kill -9 $p; done ;"
         run_shell = "/home/user/.nvm/versions/node/v8.1.2/bin/node run.js "
-        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/Speedometer2-226694-jstc/ "
+        url = "http://ssgs3-test.sh.intel.com:8000/ARCworkloads/Speedometer2-226694-jstc/ "
         print(os.getcwd())
         
         cmd = kill_port+run_shell+url+shell
@@ -995,7 +995,7 @@ class JetStream2(Benchmark):
     def benchmark(self, shell, env, args):
         kill_port = "for p in $(lsof -t -i:9222);do kill -9 $p; done ;"
         run_shell = "/home/user/.nvm/versions/node/v8.1.2/bin/node run.js "
-        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/JetStream2-JSTC/ "
+        url = "http://ssgs3-test.sh.intel.com:8000/ARCworkloads/JetStream2-JSTC/ "
 
         cmd = kill_port + run_shell + url + shell
         print(cmd)
@@ -1057,7 +1057,7 @@ class Unity3D(Benchmark):
 
     def benchmark(self, shell, env, args):
         
-        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/unity3d-release"
+        url = "http://ssgs3-test.sh.intel.com:8000/ARCworkloads/unity3d-release"
         run_shell = "./unity3d.sh"
         cmd = run_shell+" "+shell+" "+url
 

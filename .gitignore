@@ -20,3 +20,4 @@ server/run-id-*
 server/tmp/
 benchmarks/kraken/kraken-1.1-results
 benchmarks/SunSpider/sunspider-1.0.1-results
+*.txt
