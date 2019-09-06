@@ -485,6 +485,8 @@ class Headless(Engine):
             in_argns_name = self.cpu + ".gn"
             in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
             out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu, 'args.gn')
+            if not os.path.isdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu)):
+                os.mkdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu))
             while(syncAgain):
                 syncAgain = False
                 try:
@@ -602,7 +604,9 @@ class Headless_patch(Engine):
             sourcePath = os.path.join(utils.RepoPath, self.source)
             in_argns_name = self.cpu + ".gn"
             in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
-            out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu + '-patch', 'args.gn')
+            out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-patch', 'args.gn')
+            if not os.path.isdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-patch')):
+                os.mkdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-patch'))
             while (syncAgain):
                 syncAgain = False
                 try:
