@@ -52,31 +52,17 @@ def reset_git(vendor):
     """
     vendor = vendor.lower()
     if vendor not in ALL_DEVICES:
-        return 1
+        raise Exception(ERROR_MSG)
 
-    try:
-        git_rev = get_cur_git_rev(vendor)
-    except Exception, e:
-        print(e)
-        return 2
+    git_rev = get_cur_git_rev(vendor)
+    os.chdir(REPOS[vendor])
 
-    if git_rev == 1:
-        return 2
-
-    try:
-        os.chdir(REPOS[vendor])
-    except Exception as e:
-        print(e)
-        return 3
     cmd = "git fetch && git reset --hard %s" % git_rev
     print cmd
     a = os.system(cmd)
-    try:
-        os.chdir(REPOS["home"])
-    except:
-        return 3
     if a:
-        return 3
+        raise Exception('git fetch & reset error!')
+    os.chdir(REPOS["home"])
 
 
 def interrupted(signum, frame):
@@ -120,16 +106,13 @@ def get_cur_git_rev(vendor):
              ORDER BY r.stamp DESC;                                                  
              """
 
-    sys.path.append("%s/server" % WORK_DIR)
+    sys.path.append("%s/awfy/server" % WORK_DIR)
     import awfy
     c = awfy.db.cursor()
     c.execute(query, [MACHINES[vendor]])
-    try:
-        git_rev = c.fetchone()[0].decode('utf-8')
-        print(git_rev)
-    except Exception as e:
-        print(e)
-        return 1
+
+    git_rev = c.fetchone()[0].decode('utf-8')
+    print(git_rev)
     return git_rev
 
 
@@ -200,12 +183,10 @@ def run_list(param, log_string):
         return 1
 
     print("now reset the git commit version...")
-    ret = reset_git(param)
-    if ret == 2:
-        print('ERROR: Could not get git commit version!')
-        return 1
-    elif ret == 3:
-        print("ERROR: reset git wrong!")
+    try:
+        ret = reset_git(param)
+    except Exception as e:
+        print e
         return 1
     print("run command...")
     run_command(param, log_string)
@@ -214,14 +195,14 @@ def run_list(param, log_string):
 
 def run_all(repos):
     """
-    You can choose params from 'v8', 'x64', 'arm', or none param means run them all.
+    You can choose params from %s, or none param means run them all.
     functions:
     1. check all progresses to find out if there were some progresses in operation.
     2. reset git commit version.
     3. run command of designated repos.
     :param repos:
     :return:
-    """
+    """ % ', '.join(ALL_DEVICES)
     log_string = "--" + datetime.datetime.now().strftime('%Y%m%d%H%M%S')
     print(log_string)
     # os.system('mkdir /home/user/work/logs/%s'%logdir)
@@ -237,7 +218,7 @@ def run_all(repos):
             t = run_list(param, log_string)
         else:
             t = 1
-            print(ERROR_MSG, "line %d" % sys._getframe().f_lineno)
+            print(ERROR_MSG)
 
         if t:
             print('check or run command was wrong!')

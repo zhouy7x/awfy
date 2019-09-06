@@ -16,7 +16,7 @@ REPOS = {
     "glm": "/home/user/work/repos/chrome/glm/chromium/src",
     "arm": "/home/user/work/repos/chrome/arm/chromium/src",
     "amd64": "/home/user/work/repos/chrome/amd64/chromium/src",
-    "home": "%s/driver" % WORK_DIR
+    "home": "%s/awfy/driver" % WORK_DIR
 }
 MACHINES = {
     'amd64': 12,
