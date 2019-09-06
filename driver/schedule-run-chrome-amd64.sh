@@ -15,14 +15,14 @@
 #     screen -r
 #     (wait for it to confirm that it's no longer running)
 #     ctrl a+d
-lockfile=/tmp/awfy-daemon-chrome
-if [ -e ${lockfile} ]
+lockfile=/tmp/awfy-daemon-chrome-amd64
+if [ -e "$lockfile" ]
 then
   echo "awfy: Already running"
   exit 0
 fi
 
-touch ${lockfile}
+touch $lockfile
 
 trap "kill 0" EXIT
 
@@ -123,7 +123,7 @@ do
                     # python dostuff-chrome.py  --config=client/machine_config/electro-x64.config --config2=client/machine_config/electro-x64-patch.config
                     # python dostuff-chrome.py  --config=client/machine_config/electro-x64-patch.config
                     # python dostuff-chrome.py  --config=client/machine_config/elm-arm.config
-                    python dostuff-chrome.py  --config=client/machine_config/amd-2500u.config
+                    python dostuff-chrome-amd64.py  --config=client/machine_config/amd-2500u.config
                     popd
 
                     pushd /home/user/work/awfy/server

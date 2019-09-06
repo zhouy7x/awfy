@@ -15,14 +15,14 @@
 #     screen -r
 #     (wait for it to confirm that it's no longer running)
 #     ctrl a+d
-
-if [ -e /tmp/awfy-daemon-chrome-arm ]
+lockfile=/tmp/awfy-daemon-chrome-arm
+if [ -e "$lockfile" ]
 then
   echo "awfy: Already running"
   exit 0
 fi
 
-touch /tmp/awfy-daemon-chrome-arm
+touch $lockfile
 
 trap "kill 0" EXIT
 
