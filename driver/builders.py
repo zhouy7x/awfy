@@ -461,6 +461,8 @@ class Headless(Engine):
             cpu_mode = '-x86'
         elif self.cpu == 'arm':
             cpu_mode = '-arm'
+        elif self.cpu == 'amd64':
+            cpu_mode = '-amd64'
 
         self.modes = [{'mode': 'headless' + cpu_mode, 'args': None}]
 
@@ -577,6 +579,8 @@ class Headless_patch(Engine):
             cpu_mode = '-x86'
         elif self.cpu == 'arm':
             cpu_mode = '-arm'
+        elif self.cpu == 'amd64':
+            cpu_mode = '-amd64'
 
         self.modes = [{'mode': 'headless-patch' + cpu_mode, 'args': None}]
 
