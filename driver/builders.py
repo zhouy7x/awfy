@@ -18,6 +18,7 @@ import synctroubles
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+
 class Engine(object):
     def __init__(self):
         self.cpu = utils.config.get('main', 'cpu')
@@ -129,6 +130,7 @@ class Nitro(Engine):
     def shell(self):
         return os.path.join('WebKitBuild', 'Release', 'jsc')
 
+
 class V8(Engine):
     def __init__(self):
         super(V8, self).__init__()
@@ -188,6 +190,7 @@ class V8(Engine):
                 {"path" : os.path.join('out.gn', otgt, 'snapshot_blob.bin'), "exclude" : []},
                 {"path" : os.path.join('out.gn', otgt, 'icudtl.dat'), "exclude" : []}
                ]
+
 
 class V8_patch(Engine):
     def __init__(self):
@@ -354,6 +357,7 @@ class V8_gyp(Engine):
                 {"path" : os.path.join('out', otgt, 'icudtl.dat'), "exclude" : []}
                ]
 
+
 class ContentShell(Engine):
     def __init__(self):
         super(ContentShell, self).__init__()
@@ -474,7 +478,7 @@ class Headless(Engine):
         #     env["GYP_CROSSCOMPILE"] = "1"
         # add build command code here
         with utils.FolderChanger('./'):
-            syncAgain =  True
+            syncAgain = True
             sourcePath = os.path.join(utils.RepoPath, self.source)
             in_argns_name = self.cpu + ".gn"
             in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
@@ -574,7 +578,7 @@ class Headless_patch(Engine):
         elif self.cpu == 'arm':
             cpu_mode = '-arm'
 
-        self.modes = [{'mode': 'headless' + cpu_mode, 'args': None}]
+        self.modes = [{'mode': 'headless-patch' + cpu_mode, 'args': None}]
 
     def build(self):
         env = os.environ.copy()
@@ -605,11 +609,11 @@ class Headless_patch(Engine):
                     # add patch to v8.
                     """
                     COMMAND:
-                    patch -p 1 -i /repos/enable-compressed-pointer.patch
+                        patch -p 1 -i /repos/enable-compressed-pointer.patch
                     clean COMMAND:
-                    patch -R -p 1 -i /repos/enable-compressed-pointer.patch
-                    or 
-                    git checkout .
+                        patch -R -p 1 -i /repos/enable-compressed-pointer.patch
+                        or 
+                        git checkout .
                     """
                     with utils.FolderChanger(os.path.join(utils.RepoPath, self.source, 'v8')):
                         Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
@@ -757,6 +761,7 @@ class Mozilla(Engine):
     def shell(self):
         return os.path.join('js', 'src', self.objdir, 'dist', 'bin', 'js')
 
+
 class MozillaInbound(Mozilla):
     def __init__(self):
         super(MozillaInbound, self).__init__('mi')
@@ -771,6 +776,7 @@ class MozillaInbound(Mozilla):
                 }
             ]
 
+
 class MozillaInboundGGC(Mozilla):
     def __init__(self):
         super(MozillaInboundGGC, self).__init__('mi')
@@ -782,7 +788,8 @@ class MozillaInboundGGC(Mozilla):
                     'args': ['--ion-offthread-compile=on', '-W']
                 }
             ]
-        
+
+
 class NativeCompiler(Engine):
     def __init__(self):
         super(NativeCompiler, self).__init__()
@@ -793,6 +800,7 @@ class NativeCompiler(Engine):
 
         #output = Run([self.cxx, '--version'])
         self.signature = 'gcc 5.4.0' #output.splitlines()[0].strip()
+
 
 def build(engines, updateRepo=True, forceBuild=False, rev=None):
     print "build"
