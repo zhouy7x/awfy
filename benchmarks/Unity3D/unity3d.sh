@@ -37,7 +37,8 @@ elif [ "$(cat /proc/cpuinfo  | grep N3450)" != "" ]
 then
 	export DISPLAY=":0"
 else
-	echo "Unknown machine!"
+	export DISPLAY=":0"
+
 fi
 
 $CHROME_PATH --no-sandbox $URL --enable-logging --v=1 &
