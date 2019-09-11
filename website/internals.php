@@ -10,7 +10,7 @@ if(!isset($_SESSION))
 
 function init_database()
 {
-    mysql_connect("ssgs3-test.sh.intel.com", "root", "mkk") or die("ERROR: " . mysql_error());
+    mysql_connect("ssgs5-test.sh.intel.com", "root", "mkk") or die("ERROR: " . mysql_error());
     mysql_select_db("dvander") or die("ERROR: " . mysql_error());
 }
 

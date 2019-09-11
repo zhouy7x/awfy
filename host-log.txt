@@ -23,3 +23,4 @@
 ./website/awfy.js:124:    var url = 'http://ssgs3-test.sh.intel.com:7777?git_rev=' + cset + '&vendor=' + vendor;
 ./website/internals.php:13:    mysql_connect("ssgs3-test.sh.intel.com", "root", "mkk") or die("ERROR: " . mysql_error());
 ./server/etc/awfy-server.config:2:host = ssgs3-test.sh.intel.com
+./driver/client/machine_config/amd-2500u.config:6:updateURL = http://ssgs3-test.sh.intel.com/UPDATE.php/
