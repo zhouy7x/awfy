@@ -19,7 +19,7 @@ const convert = require('./convert')
  */
 function launchChrome(headless = true) {
     return chromeLauncher.launch({
-        port: 9222, // Uncomment to force a specific port of your choice.
+        port: 9223, // Uncomment to force a specific port of your choice.
         chromePath: process.argv[3] || '/opt/google/chrome/google-chrome',
         chromeFlags: [
             '--window-size=412,7as32',
@@ -32,6 +32,7 @@ function launchChrome(headless = true) {
 }
 (async function() {
 
+    console.log(111);
     const chrome = await launchChrome();
     const protocol = await CDP({ port: chrome.port });
 
@@ -40,6 +41,7 @@ function launchChrome(headless = true) {
     const { Page, Runtime } = protocol;
     await Promise.all([Page.enable(), Runtime.enable()]);
 
+    console.log(222);
     var path = process.argv[2]
     var path2 = "http://user-awfy.sh.intel.com/awfy/ARCworkloads/Speedometer/Speedometer/Full.html"
     var path3 = "http://user-awfy.sh.intel.com/awfy/ARCworkloads/Speedometer-Angular/Speedometer/Full.html"
@@ -49,11 +51,15 @@ function launchChrome(headless = true) {
     // Wait for window.onload before doing stuff.
     Page.loadEventFired(async() => {
         const js = "JetStream.start()";
+	await sleep(1000);
         await Runtime.evaluate({ expression: js });
 
+    	console.log(333);
         var log_file = "./logs/log-" + Date.now() + ".txt"
         var tmp = undefined;
+	var i = 0;
         while (true) {
+    	    console.log(444);
             await sleep(1000);
             const js_res = "document.querySelector('#result-summary .score').innerHTML";
             const result = await Runtime.evaluate({ expression: js_res });
@@ -63,12 +69,13 @@ function launchChrome(headless = true) {
             // console.log("Running...")
             const js_info = "document.querySelector('#results .benchmark-done h3.benchmark-name a').innerHTML";
             const info = await Runtime.evaluate({ expression: js_info });
+	    console.log(info.result.value);
             if (tmp != info.result.value) {
                 tmp = await info.result.value;
                 console.log("Running " + tmp + " ...");
             }
             // console.log(detail2.result.value)
-            
+            i++
             if (result.result.value == undefined) continue
             // console.log(result.result.value)
             console.log("Score: " + result.result.value)

@@ -993,7 +993,7 @@ class JetStream2(Benchmark):
         super(JetStream2, self).__init__('jetstream2', '', 'jetstream2')
 
     def benchmark(self, shell, env, args):
-        kill_port = "for p in $(lsof -t -i:9222);do kill -9 $p; done ;"
+        kill_port = "for p in $(lsof -t -i:9223);do kill -9 $p; done ;"
         run_shell = "/home/user/.nvm/versions/node/v8.1.2/bin/node run.js "
         url = "http://ssgs3-test.sh.intel.com:8000/ARCworkloads/JetStream2-JSTC/ "
 
