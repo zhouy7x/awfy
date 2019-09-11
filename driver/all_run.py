@@ -127,7 +127,7 @@ def check_all(param):
         str_list = [
             "python build_server_%s.py" % param,
             "bash schedule-run-%s.sh" % param,
-            "python dostuff-v8.py" % param
+            "python dostuff-%s.py" % param
         ]
     else:
         str_list = [
