@@ -24,5 +24,4 @@ fi
 echo -e "gn gen $out_dir --args=\"$arguments\""
 gn gen $out_dir --args="$arguments"
 ninja -C $out_dir d8 -j40
-git checkout .
 
