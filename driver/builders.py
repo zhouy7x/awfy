@@ -241,7 +241,7 @@ class V8_patch(Engine):
         print env
         # add patch.
         #with utils.FolderChanger(os.path.join(utils.RepoPath, self.source)):
-        Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
+        # Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
 
         gn_shell = os.path.join(utils.DriverPath, 'gn-cmd.sh')
         Run([gn_shell, self.slaveMachine, self.cpu, self.patch], env)
@@ -602,7 +602,7 @@ class Headless_patch(Engine):
         with utils.FolderChanger('./'):
             syncAgain = True
             sourcePath = os.path.join(utils.RepoPath, self.source)
-            in_argns_name = self.cpu + ".gn"
+            in_argns_name = self.cpu + '-patch' + ".gn"
             in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
             out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-patch', 'args.gn')
             if not os.path.isdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-patch')):
@@ -623,8 +623,8 @@ class Headless_patch(Engine):
                         or 
                         git checkout .
                     """
-                    with utils.FolderChanger(os.path.join(utils.RepoPath, self.source, 'v8')):
-                        Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
+                    # with utils.FolderChanger(os.path.join(utils.RepoPath, self.source, 'v8')):
+                    #     Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
 
                     # if self.cpu == 'arm':
                         #Run(['sed', '-i',
@@ -633,7 +633,7 @@ class Headless_patch(Engine):
                         # Run(['sed', '-i',
                         #      '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
                         #      os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
-                    Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu + '-patch')], env)
+                    Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu+'-patch')], env)
                     # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                 except subprocess.CalledProcessError as e:
                     if synctroubles.fetchGsFileByHttp(e.output, ''):
@@ -648,9 +648,9 @@ class Headless_patch(Engine):
             with utils.FolderChanger('./'):
                 syncAgain = True
                 sourcePath = os.path.join(utils.RepoPath, self.source)
-                in_argns_name = self.cpu + ".gn"
+                in_argns_name = self.cpu + '-patch' + ".gn"
                 in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
-                out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu + '-patch', 'args.gn')
+                out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-patch', 'args.gn')
                 while (syncAgain):
                     syncAgain = False
                     try:
@@ -669,9 +669,9 @@ class Headless_patch(Engine):
                         print 'env=%s' % env
                         Run(['gclient', 'sync', '-j25', '-f'], env)
 
-                        # add patch to v8.
-                        with utils.FolderChanger(os.path.join(utils.RepoPath, self.source, 'v8')):
-                            Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
+                        # add patch to v8. move to args.gn
+                        # with utils.FolderChanger(os.path.join(utils.RepoPath, self.source, 'v8')):
+                        #     Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
 
                         # if self.cpu == 'arm':
                             #Run(['sed', '-i',
