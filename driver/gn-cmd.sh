@@ -19,7 +19,7 @@ out_dir="out.gn/$machine/$cpu.$version"
 echo "output directory is: $out_dir"
 arguments="is_debug=false target_cpu=\"$cpu\""
 gn gen $out_dir --args="$arguments"
-if [ "$version"=="patch" ]; then
+if [ "$version" == "patch" ]; then
     arguments+=" v8_enable_pointer_compression=true"
 fi
 echo -e "gn gen $out_dir --args=\"$arguments\""
