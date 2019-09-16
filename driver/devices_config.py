@@ -10,7 +10,7 @@ LOG_DIR = {
 WORK_DIR = "/home/user/work"
 LOG_PATH = "%s/logs" % WORK_DIR
 REPOS = {
-    "v8": "/home/user/work/repos/v8",
+    "v8": "/home/user/work/repos/v8/v8",
     "jerryscript": "/home/user/work/repos/jerryscript",
     "x64": "/home/user/work/repos/chrome/x64/chromium/src",
     "glm": "/home/user/work/repos/chrome/glm/chromium/src",
