@@ -605,12 +605,12 @@ class Headless_patch(Engine):
         with utils.FolderChanger('./'):
             syncAgain = True
             sourcePath = os.path.join(utils.RepoPath, self.source)
-            in_argns_name = self.cpu + '-compressed-pointer' + ".gn"
+            in_argns_name = self.cpu + '-patch' + ".gn"
             # in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
             in_argns = os.path.join(WORK_DIR, 'awfy', 'gn_file', in_argns_name)
-            out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-compressed-pointer', 'args.gn')
-            if not os.path.isdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-compressed-pointer')):
-                os.mkdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-compressed-pointer'))
+            out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-patch', 'args.gn')
+            if not os.path.isdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-patch')):
+                os.mkdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-patch'))
             while (syncAgain):
                 syncAgain = False
                 try:
@@ -652,10 +652,10 @@ class Headless_patch(Engine):
             with utils.FolderChanger('./'):
                 syncAgain = True
                 sourcePath = os.path.join(utils.RepoPath, self.source)
-                in_argns_name = self.cpu + '-compressed-pointer' + ".gn"
+                in_argns_name = self.cpu + '-patch' + ".gn"
                 # in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
                 in_argns = os.path.join(WORK_DIR, 'awfy', 'gn_file', in_argns_name)
-                out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-compressed-pointer', 'args.gn')
+                out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-patch', 'args.gn')
                 while (syncAgain):
                     syncAgain = False
                     try:
