@@ -30,6 +30,13 @@ def kill_all(repos):
                 "bash schedule-run-%s.sh" % param,
                 "python dostuff-%s.py" % param
             ]
+        elif param == 'cyan':
+            str_list = [
+                "bash schedule-run-compressed-pointer-%s.sh" % param,
+                "python build_server_compressed_pointer_%s.py" % param,
+                "python dostuff-compressed-pointer-%s.py" % param,
+                "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/compressed-pointer/chromium/src/out/"
+            ]
         else:
             str_list = [
                 "bash schedule-run-chrome-%s.sh" % param,

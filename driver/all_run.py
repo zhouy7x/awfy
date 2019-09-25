@@ -23,11 +23,15 @@ def run_command(param, log_string):
         cmd = 'rm -rf %s && mkdir -p %s' % (log_path, log_path)
         print(cmd)
         if os.system(cmd):
-          return 'ERROR: mkdir error.'
+          return 'ERROR: make log dir error.'
     if param == 'v8':
         str1 = 'python build_server_%s.py > %s/build_server_%s_log%s.txt 2>&1 &' % (param, log_path, param, log_string)
         str2 = 'rm -f /tmp/awfy-daemon-%s /tmp/awfy-lock' % param
         str3 = 'bash schedule-run-%s.sh > %s/schedule-run-%s-log%s.txt 2>&1 &' % (param, log_path, param, log_string)
+    elif param == 'cyan':
+        str1 = 'python build_server_compressed_pointer_%s.py > %s/build_server_compressed_pointer_%s_log%s.txt 2>&1 &' % (param, log_path, param, log_string)
+        str2 = 'rm -f /tmp/awfy-daemon-compressed-pointer-%s /tmp/awfy-lock' % param
+        str3 = 'bash schedule-run-compressed-pointer-%s.sh > %s/schedule-run-compressed-pointer-%s-log%s.txt 2>&1 &' % (param, log_path, param, log_string)
     else:
         str1 = 'python build_server_chrome_%s.py > %s/build_server_chrome_%s_log%s.txt 2>&1 &' % (param, log_path, param, log_string)
         str2 = 'rm -f /tmp/awfy-daemon-chrome-%s /tmp/awfy-lock' % param
@@ -50,10 +54,6 @@ def reset_git(vendor):
     :param vendor:
     :return:
     """
-    vendor = vendor.lower()
-    if vendor not in ALL_DEVICES:
-        raise Exception(ERROR_MSG)
-
     git_rev = get_cur_git_rev(vendor)
     os.chdir(REPOS[vendor])
 
@@ -102,7 +102,13 @@ def get_cur_git_rev(vendor):
              JOIN awfy_score s ON s.build_id = b.id                                 
              JOIN awfy_suite_version v ON v.id = s.suite_version_id                 
              WHERE r.status > 0                                                       
-             AND r.machine = %s                                                                                      
+             AND r.machine = %s
+             """
+    if vendor in ['cyan-v8', 'cyan-chrome']:
+        query += """
+                 AND b.mode_id = %s 
+                 """ % MODES[vendor]
+    query += """
              ORDER BY r.stamp DESC;                                                  
              """
 
@@ -184,7 +190,12 @@ def run_list(param, log_string):
 
     print("now reset the git commit version...")
     try:
-        ret = reset_git(param)
+        if param == 'cyan':
+            params = ['cyan-v8', 'cyan-chrome']
+            for tmp in params:
+                reset_git(tmp)
+        else:
+            reset_git(param)
     except Exception as e:
         print e
         return 1
@@ -202,7 +213,7 @@ def run_all(repos):
     3. run command of designated repos.
     :param repos:
     :return:
-    """ % ', '.join(ALL_DEVICES)
+    """
     log_string = "--" + datetime.datetime.now().strftime('%Y%m%d%H%M%S')
     print(log_string)
     # os.system('mkdir /home/user/work/logs/%s'%logdir)

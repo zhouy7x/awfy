@@ -97,7 +97,7 @@ do
 #
 #                if [ -e /tmp/awfy-stop ]
 #                then
-#                    rm /tmp/awfy-daemon-chrome-glm /tmp/awfy-stop
+#                    rm $lockfile /tmp/awfy-stop
 #                    echo "awfy: Already stoped"
 #                    exit 0
 #                fi
@@ -140,5 +140,5 @@ do
 
     fi
 done
-rm /tmp/awfy-daemon-chrome-glm
+rm $lockfile
 

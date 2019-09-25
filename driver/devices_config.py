@@ -1,4 +1,4 @@
-ALL_DEVICES = ['v8', 'x64', 'arm', 'glm', 'amd64']
+ALL_DEVICES = ['v8', 'x64', 'arm', 'glm', 'amd64', 'cyan']
 ALL_PROCESSES = ALL_DEVICES + ['apache2', 'query']
 LOG_DIR = {
         'v8': 'v8',
@@ -6,24 +6,33 @@ LOG_DIR = {
         'arm': 'chrome/arm',
         'glm': 'chrome/glm',
         'amd64': 'chrome/amd64',
+        'cyan': 'compressed-pointer',
     }
 WORK_DIR = "/home/user/work"
 LOG_PATH = "%s/logs" % WORK_DIR
 REPOS = {
+    "home": "%s/awfy/driver" % WORK_DIR,
     "v8": "/home/user/work/repos/v8/v8",
     "jerryscript": "/home/user/work/repos/jerryscript",
     "x64": "/home/user/work/repos/chrome/x64/chromium/src",
     "glm": "/home/user/work/repos/chrome/glm/chromium/src",
     "arm": "/home/user/work/repos/chrome/arm/chromium/src",
     "amd64": "/home/user/work/repos/chrome/amd64/chromium/src",
-    "home": "%s/awfy/driver" % WORK_DIR
+    "cyan-v8": "/home/user/work/repos/compressed-pointer/v8/v8",
+    "cyan-chrome": "/home/user/work/repos/compressed-pointer/x64/chromium/src",
 }
 MACHINES = {
+    'cyan-v8': 13,
+    'cyan-chrome': 13,
     'amd64': 12,
     'glm': 11,
     'x64': 10,
     'arm': 9,
     'v8': 8
+}
+MODES = {
+    'cyan-v8': 22,
+    'cyan-chrome': 18,
 }
 RELATED = {
     'apache2': "/etc/init.d/apache2 start",
@@ -32,5 +41,5 @@ RELATED = {
 TIMEOUT = 30
 ERROR_MSG = "ERROR: You can choose one or two or all of the params from %s, " \
             "or none param means run them all." % ','.join(ALL_DEVICES)
-KILL_ERROR_MSG = "ERROR: You can choose one or two or all of the params from %s, " \
+KILL_ERROR_MSG = "ERROR: You can choose any of these params from %s, " \
             "or none param means run them all." % ','.join(ALL_PROCESSES)
