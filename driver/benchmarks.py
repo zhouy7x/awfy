@@ -1138,7 +1138,7 @@ class JetStream2D8(Benchmark):
         if args:
             full_args.extend(args)
         print(os.getcwd())
-        output = utils.RunTimedCheckOutput(full_args, env=env)
+        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=25*60)
 
         tests = []
         subcases = re.findall(r'Running *(.+):\n[\w\W]+?Score: (\d+\.\d*)', output)
