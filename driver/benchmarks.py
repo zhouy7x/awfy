@@ -999,7 +999,7 @@ class JetStream2(Benchmark):
 
         cmd = kill_port + run_shell + url + shell
         print(cmd)
-        output = utils.RunTimedCheckOutput(cmd, env=env)
+        output = utils.RunTimedCheckOutput(cmd, env=env, timeout=25*60)
         tests = []
         lines = output.splitlines()
 
