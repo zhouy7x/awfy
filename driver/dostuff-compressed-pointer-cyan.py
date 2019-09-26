@@ -54,6 +54,8 @@ def dostuff(config_name):
 
     if utils.config.has_section('v8'):
         Engine = builders.V8()
+    if utils.config.has_section('v8-patch'):
+        Engine = builders.V8_patch()
     if utils.config.has_section('contentshell'):
         Engine = builders.ContentShell()
     if utils.config.has_section('jerryscript'):
