@@ -30,7 +30,7 @@ def kill_all(repos):
                 "bash schedule-run-%s.sh" % param,
                 "python dostuff-%s.py" % param
             ]
-        elif param == 'cyan':
+        elif param in ['cyan', 'bigcore']:
             str_list = [
                 "bash schedule-run-compressed-pointer-%s.sh" % param,
                 "python build_server_compressed_pointer_%s.py" % param,
