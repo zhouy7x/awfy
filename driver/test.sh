@@ -1,28 +1,38 @@
 #!/bin/bash
 
 
-if [ ! -e tmp/v8-count ];
-then
-    touch tmp/v8-count
-fi
-tmp=`cat tmp/v8-count`;
-if [ -z "$tmp" ];
-then
-    tmp=0;
-fi
+count=0
+while :
+do
+    #part 1
+    list=`ls`
+    for id in $list
+    do
+        echo $id
+        echo $count
+        sleep 1
+        count=`expr $count + 1`
+        if [ "$count" = "5" ]
+        then
+            count=0
+            break
 
-echo $tmp;
-if [ $tmp == 5 ];
-then
-    echo "succeed!"
-    string='-long-time'
-    tmp=0
-else
-    string=''
-    tmp=$[tmp+1];
-fi
-echo $tmp > tmp/v8-count;
+        fi
+    done
 
-#echo --config=client/machine_config/electro-x64$string.config
+    # part 2
+    list=`ls ..`
+    for id in $list
+    do
+        echo $id
+        echo $count
+        sleep 1
+        count=`expr $count + 1`
+        if [ "$count" = "5" ]
+        then
+            count=0
+            break
 
-bash tmp/1$string.sh
+        fi
+    done
+done

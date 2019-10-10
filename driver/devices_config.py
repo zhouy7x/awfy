@@ -1,4 +1,4 @@
-ALL_DEVICES = ['v8', 'x64', 'arm', 'glm', 'amd64', 'cyan']
+ALL_DEVICES = ['v8', 'x64', 'arm', 'glm', 'amd64', 'cyan', 'bigcore']
 ALL_PROCESSES = ALL_DEVICES + ['apache2', 'query']
 LOG_DIR = {
         'v8': 'v8',
@@ -7,6 +7,7 @@ LOG_DIR = {
         'glm': 'chrome/glm',
         'amd64': 'chrome/amd64',
         'cyan': 'compressed-pointer',
+        'bigcore': 'compressed-pointer/bigcore',
     }
 WORK_DIR = "/home/user/work"
 LOG_PATH = "%s/logs" % WORK_DIR
@@ -20,8 +21,10 @@ REPOS = {
     "amd64": "/home/user/work/repos/chrome/amd64/chromium/src",
     "cyan-v8": "/home/user/work/repos/compressed-pointer/v8/v8",
     "cyan-chrome": "/home/user/work/repos/compressed-pointer/x64/chromium/src",
+    "bigcore": "/home/user/work/repos/compressed-pointer/v8-2/v8",
 }
 MACHINES = {
+    'bigcore': 14,
     'cyan-v8': 13,
     'cyan-chrome': 13,
     'amd64': 12,
