@@ -39,50 +39,50 @@ do
     else
         hasUpdate="false"
 
-        # First, check v8 update
-        pushd /home/user/work/repos/compressed-pointer/v8/v8
-        git fetch
-        list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
-        if [ -z "$list" ]; then
-            echo "v8: no update"
-        else
-
-            hasUpdate="true"
-            # Get every commit of v8
-            for id in $list
-            do
-                git reset --hard -q $id && gclient sync -j10
-                git log -1 --pretty=short
-
-                pushd /home/user/work/awfy/driver
-
-                STARTT=$(date +%s)
-
-                python dostuff-compressed-pointer-cyan.py --config=client/cyan-v8.config --config2=client/cyan-v8-patch.config $id &
-
-                wait
-
-                SECS=$(($(date +%s) - $STARTT))
-                printf "\n++++++++++++++++ %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
-
-                #sleep 10h
-
-                popd
-
-                pushd /home/user/work/awfy/server
-                ./run-update.sh
-                popd
-
-
-                if [ -e /tmp/awfy-stop ]
-                then
-                    rm /tmp/awfy-daemon-chrome /tmp/awfy-stop
-                    echo "awfy: Already stoped"
-                    exit 0
-                fi
-            done
-        fi
-        popd
+#        # First, check v8 update
+#        pushd /home/user/work/repos/compressed-pointer/v8/v8
+#        git fetch
+#        list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
+#        if [ -z "$list" ]; then
+#            echo "v8: no update"
+#        else
+#
+#            hasUpdate="true"
+#            # Get every commit of v8
+#            for id in $list
+#            do
+#                git reset --hard -q $id && gclient sync -j10
+#                git log -1 --pretty=short
+#
+#                pushd /home/user/work/awfy/driver
+#
+#                STARTT=$(date +%s)
+#
+#                python dostuff-compressed-pointer-cyan.py --config=client/cyan-v8.config --config2=client/cyan-v8-patch.config $id &
+#
+#                wait
+#
+#                SECS=$(($(date +%s) - $STARTT))
+#                printf "\n++++++++++++++++ %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
+#
+#                #sleep 10h
+#
+#                popd
+#
+#                pushd /home/user/work/awfy/server
+#                ./run-update.sh
+#                popd
+#
+#
+#                if [ -e /tmp/awfy-stop ]
+#                then
+#                    rm /tmp/awfy-daemon-chrome /tmp/awfy-stop
+#                    echo "awfy: Already stoped"
+#                    exit 0
+#                fi
+#            done
+#        fi
+#        popd
 
         # Second, check chromium update
         pushd /home/user/work/repos/compressed-pointer/x64/chromium/src
