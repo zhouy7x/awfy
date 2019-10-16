@@ -68,13 +68,12 @@ class RemoteSlave(Slave):
                 for libp in libpaths:
                     llib = os.path.join(utils.RepoPath, libp['path'])
                     rlib = os.path.join(self.RepoPath, libp['path'])
-                    print self.RepoPath
-                    print libp['path']
-                    print 'rlib', rlib
                     rlib2 = os.path.abspath(os.path.join(rlib, os.path.pardir))
                     if os.path.isfile(llib) or os.path.isdir(llib):
-                        self.runRemote(["rm", "-rf", os.path.dirname(rlib)])
-                        self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
+                        # self.runRemote(["rm", "-rf", os.path.dirname(rlib)])
+                        # self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
+                        self.runRemote(["rm", "-rf", rlib])
+                        self.runRemote(["mkdir", "-p", rlib])
                         self.pushRemote(llib, rlib2, follow=True, excludes=libp['exclude'])
 
     def benchmark(self, submit, native, modes):
