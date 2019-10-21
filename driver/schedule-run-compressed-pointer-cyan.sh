@@ -103,6 +103,11 @@ do
                     python dostuff-compressed-pointer-cyan.py  --config=client/machine_config/cyan-x64.config --config2=client/machine_config/cyan-x64-patch.config
                     popd
 
+                    wait
+
+                    SECS=$(($(date +%s) - $STARTT))
+                    printf "\n++++++++++++++++ %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
+
                     pushd /home/user/work/awfy/server
                     bash ./run-update.sh
                     popd

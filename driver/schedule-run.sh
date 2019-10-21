@@ -121,9 +121,15 @@ do
                     echo $i
                     git reset --hard $i
                     pushd /home/user/work/awfy/driver
+                    STARTT=$(date +%s)
                     #           python dostuff.py  --config=client/machine_config/electro-x64.config 
                     python dostuff.py  --config=client/machine_config/elm-arm.config
                     popd
+
+                    wait
+
+                    SECS=$(($(date +%s) - $STARTT))
+                    printf "\n++++++++++++++++ %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
 
                     pushd /home/user/work/awfy/server
                     bash ./run-update.sh
