@@ -30,6 +30,8 @@ def build(config):
 
         if utils.config.has_section('v8'):
             KnownEngines.append(builders.V8())
+        if utils.config.has_section('v8-patch'):
+            KnownEngines.append(builders.V8_patch())
         if utils.config.has_section('contentshell'):
             KnownEngines.append(builders.ContentShell())
         if utils.config.has_section('jerryscript'):
@@ -38,6 +40,8 @@ def build(config):
             KnownEngines.append(builders.IoTjs())
         if utils.config.has_section('headless'):
             KnownEngines.append(builders.Headless())
+        if utils.config.has_section('headless-patch'):
+            KnownEngines.append(builders.Headless_patch())
         #builders.build(KnownEngines, False, False)
         builders.build(KnownEngines, False, True)
 

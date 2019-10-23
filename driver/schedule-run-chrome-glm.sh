@@ -121,7 +121,7 @@ do
                     echo $i
                     git reset --hard $i
                     pushd /home/user/work/awfy/driver
-                    python dostuff-chrome-glm.py  --config=client/machine_config/electro-glm.config
+                    python dostuff-chrome-glm.py  --config=client/machine_config/electro-glm.config --config2=client/machine_config/electro-glm-patch.config
                     # python dostuff-chrome.py  --config=client/machine_config/elm-arm.config
                     popd
 
