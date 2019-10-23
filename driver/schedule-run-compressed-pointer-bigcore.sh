@@ -100,6 +100,9 @@ do
 #                    echo $i
 #                    git reset --hard $i
 #                    pushd /home/user/work/awfy/driver
+#
+#                    STARTT=$(date +%s)
+#
 #                    python dostuff-compressed-pointer-cyan.py  --config=client/machine_config/cyan-x64.config --config2=client/machine_config/cyan-x64-patch.config
 #                    popd
 #

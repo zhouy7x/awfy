@@ -121,6 +121,9 @@ do
                     echo $i
                     git reset --hard $i
                     pushd /home/user/work/awfy/driver
+
+                    STARTT=$(date +%s)
+
                     #python dostuff-chrome.py  --config=client/machine_config/electro-x64.config
                     python dostuff-chrome-arm.py  --config=client/machine_config/elm-arm.config
                     popd
