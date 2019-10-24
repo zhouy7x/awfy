@@ -63,6 +63,9 @@ def dostuff(config_name):
         Engine = builders.IoTjs()
     if utils.config.has_section('headless'):
         Engine = builders.Headless()
+    if utils.config.has_section('headless-patch'):
+        Engine = builders.Headless_patch()
+
 
 
     myself = utils.config_get_default('main', 'slaves', '')

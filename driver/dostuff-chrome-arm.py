@@ -53,6 +53,8 @@ def dostuff(config_name):
 
     if utils.config.has_section('v8'):
         Engine = builders.V8()
+    if utils.config.has_section('v8-patch'):
+        Engine = builders.V8_patch()
     if utils.config.has_section('contentshell'):
         Engine = builders.ContentShell()
     if utils.config.has_section('jerryscript'):
@@ -61,6 +63,9 @@ def dostuff(config_name):
         Engine = builders.IoTjs()
     if utils.config.has_section('headless'):
         Engine = builders.Headless()
+    if utils.config.has_section('headless-patch'):
+        Engine = builders.Headless_patch()
+
 
 
     myself = utils.config_get_default('main', 'slaves', '')
