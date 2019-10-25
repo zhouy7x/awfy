@@ -11,18 +11,18 @@ LOG_DIR = {
     }
 WORK_DIR = "/home/user/work"
 LOG_PATH = "%s/logs" % WORK_DIR
-REPOS_PATH = "%s/repos" % WORK_DIR
+REPO_PATH = "%s/repos" % WORK_DIR
 REPOS = {
     "home": "%s/awfy/driver" % WORK_DIR,
-    "v8": "%s/v8/v8" % REPOS_PATH,
-    "jerryscript": "%s/jerryscript" % REPOS_PATH,
-    "x64": "%s/chrome/x64/chromium/src" % REPOS_PATH,
-    "glm": "%s/chrome/glm/chromium/src" % REPOS_PATH,
-    "arm": "%s/chrome/arm/chromium/src" % REPOS_PATH,
-    "amd64": "%s/chrome/amd64/chromium/src" % REPOS_PATH,
-    "cyan-v8": "%s/compressed-pointer/v8/v8" % REPOS_PATH,
-    "cyan-chrome": "%s/compressed-pointer/x64/chromium/src" % REPOS_PATH,
-    "bigcore": "%s/compressed-pointer/v8-2/v8" % REPOS_PATH,
+    "v8": "%s/v8/v8" % REPO_PATH,
+    "jerryscript": "%s/jerryscript" % REPO_PATH,
+    "x64": "%s/chrome/x64/chromium/src" % REPO_PATH,
+    "glm": "%s/chrome/glm/chromium/src" % REPO_PATH,
+    "arm": "%s/chrome/arm/chromium/src" % REPO_PATH,
+    "amd64": "%s/chrome/amd64/chromium/src" % REPO_PATH,
+    "cyan-v8": "%s/compressed-pointer/v8/v8" % REPO_PATH,
+    "cyan-chrome": "%s/compressed-pointer/x64/chromium/src" % REPO_PATH,
+    "bigcore": "%s/compressed-pointer/v8-2/v8" % REPO_PATH,
 }
 MACHINES = {
     'bigcore': 14,
