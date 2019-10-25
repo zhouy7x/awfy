@@ -17,12 +17,14 @@ else:
     # with open('host-log.txt') as f:
     #     data = f.readlines()
     path_list = map(lambda x: x[:x.find(':')], data)
-    print data
+    path_list = list(set(path_list))
+    # print path_list, len(path_list)
+
     # replace old host to new host.
-    # for path in path_list:
-    #     cmd = 'perl -pi -e "s/%s/%s/g" %s' % (old_host, new_host, path)
-    #     print cmd
-    #     os.system(cmd)
+    for path in path_list:
+        cmd = 'perl -pi -e "s/%s/%s/g" %s' % (old_host, new_host, path)
+        print cmd
+        os.system(cmd)
 
     # remove *.pyc
     # cmd = 'find / -name "*.pyc" -print | xargs rm'
