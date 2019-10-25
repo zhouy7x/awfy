@@ -11,17 +11,18 @@ LOG_DIR = {
     }
 WORK_DIR = "/home/user/work"
 LOG_PATH = "%s/logs" % WORK_DIR
+REPOS_PATH = "%s/repos" % WORK_DIR
 REPOS = {
     "home": "%s/awfy/driver" % WORK_DIR,
-    "v8": "/home/user/work/repos/v8/v8",
-    "jerryscript": "/home/user/work/repos/jerryscript",
-    "x64": "/home/user/work/repos/chrome/x64/chromium/src",
-    "glm": "/home/user/work/repos/chrome/glm/chromium/src",
-    "arm": "/home/user/work/repos/chrome/arm/chromium/src",
-    "amd64": "/home/user/work/repos/chrome/amd64/chromium/src",
-    "cyan-v8": "/home/user/work/repos/compressed-pointer/v8/v8",
-    "cyan-chrome": "/home/user/work/repos/compressed-pointer/x64/chromium/src",
-    "bigcore": "/home/user/work/repos/compressed-pointer/v8-2/v8",
+    "v8": "%s/v8/v8" % REPOS_PATH,
+    "jerryscript": "%s/jerryscript" % REPOS_PATH,
+    "x64": "%s/chrome/x64/chromium/src" % REPOS_PATH,
+    "glm": "%s/chrome/glm/chromium/src" % REPOS_PATH,
+    "arm": "%s/chrome/arm/chromium/src" % REPOS_PATH,
+    "amd64": "%s/chrome/amd64/chromium/src" % REPOS_PATH,
+    "cyan-v8": "%s/compressed-pointer/v8/v8" % REPOS_PATH,
+    "cyan-chrome": "%s/compressed-pointer/x64/chromium/src" % REPOS_PATH,
+    "bigcore": "%s/compressed-pointer/v8-2/v8" % REPOS_PATH,
 }
 MACHINES = {
     'bigcore': 14,
@@ -39,7 +40,7 @@ MODES = {
 }
 RELATED = {
     'apache2': "/etc/init.d/apache2 start",
-    'query_server.py': "python query_server.py > /home/user/work/logs/query_server_log.txt 2>&1 &"
+    'query_server.py': "python query_server.py > %s/query_server_log.txt 2>&1 &" % LOG_PATH
 }
 TIMEOUT = 30
 ERROR_MSG = "ERROR: You can choose one or two or all of the params from %s, " \
