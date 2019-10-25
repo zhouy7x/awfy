@@ -11,7 +11,8 @@ def kill_all(repos):
     :return:
     """
     if not repos:
-        return ERROR_MSG
+        print ERROR_MSG
+        return
     elif repos == ['all']:
         repos = ALL_PROCESSES
 
