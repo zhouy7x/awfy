@@ -18,6 +18,10 @@ def kill_all(repos):
 
     for param in repos:
         param = param.lower()
+        if param not in ALL_PROCESSES:
+            print ERROR_MSG
+            return
+
         if param == 'apache2':
             cmd = '/etc/init.d/apache2 stop'
             if os.system(cmd):
