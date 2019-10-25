@@ -45,4 +45,4 @@ TIMEOUT = 30
 ERROR_MSG = "ERROR: You can choose one or two or all of the params from %s, " \
             "or none param means run them all." % ','.join(ALL_DEVICES)
 KILL_ERROR_MSG = "ERROR: You can choose any of these params from %s, " \
-            "or none param means run them all." % ','.join(ALL_PROCESSES)
+            "or 'all' means run them all." % ','.join(ALL_PROCESSES)

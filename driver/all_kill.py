@@ -11,7 +11,7 @@ def kill_all(repos):
     :return:
     """
     if not repos:
-        print ERROR_MSG
+        print KILL_ERROR_MSG
         return
     elif repos == ['all']:
         repos = ALL_PROCESSES
@@ -19,7 +19,7 @@ def kill_all(repos):
     for param in repos:
         param = param.lower()
         if param not in ALL_PROCESSES:
-            print ERROR_MSG
+            print KILL_ERROR_MSG
             return
 
         if param == 'apache2':
