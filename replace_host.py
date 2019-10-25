@@ -12,7 +12,8 @@ try:
 except Exception as e:
     print "Error: Must give 2 params, old host and new host."
 else:
-    # grep -nr 'ssgs5-test.sh.intel.com' > host-log.txt
+    cmd = "grep -nr 'ssgs5-test.sh.intel.com' > host-log.txt"
+    os.system(cmd)
     with open('host-log.txt') as f:
         data = f.readlines()
     path_list = map(lambda x: x[:x.find(':')], data)
