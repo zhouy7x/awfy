@@ -5,6 +5,8 @@
 @time:2018/12/21
 """
 import json
+import os
+
 import awfy
 import argparse
 
@@ -65,13 +67,16 @@ stop_stamp = args.stopstamp
 
 
 def write_to_file(data, a1, a2):
+    output_dir = './tmp'
+    if not os.path.isdir(output_dir):
+        os.system("rm -rf %s && mkdir -p %s" % (output_dir, output_dir))
     file_name = 'tmp/run-id-%s-%s.txt' % (a1, a2)
     with open(file_name, 'w') as f:
         f.write(json.dumps(data))
     return file_name
 
-def main(machine_id, mode_id, startstamp, stopstamp):
 
+def main(machine_id, mode_id, startstamp, stopstamp):
     tmp_ls = []
     query = """
     SELECT STRAIGHT_JOIN *          
@@ -103,7 +108,7 @@ def main(machine_id, mode_id, startstamp, stopstamp):
     print (run_id_ls)
 
     file_name = write_to_file(run_id_ls, machine_id, mode_id)
-    print "Output file path: ./%s" % file_name
+    print "Output file path: %s" % file_name
 
 
 if __name__ == '__main__':
