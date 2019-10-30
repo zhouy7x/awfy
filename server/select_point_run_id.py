@@ -65,9 +65,10 @@ stop_stamp = args.stopstamp
 
 
 def write_to_file(data, a1, a2):
-    with open('tmp/run-id-%s-%s.txt' % (a1, a2), 'w') as f:
+    file_name = 'tmp/run-id-%s-%s.txt' % (a1, a2)
+    with open(file_name, 'w') as f:
         f.write(json.dumps(data))
-
+    return file_name
 
 def main(machine_id, mode_id, startstamp, stopstamp):
 
@@ -101,7 +102,8 @@ def main(machine_id, mode_id, startstamp, stopstamp):
 
     print (run_id_ls)
 
-    write_to_file(run_id_ls, machine_id, mode_id)
+    file_name = write_to_file(run_id_ls, machine_id, mode_id)
+    print "Output file path: ./%s" % file_name
 
 
 if __name__ == '__main__':
