@@ -1,0 +1,3006 @@
+------------------------------------------------------------------------
+r226694 | rniwa@webkit.org | 2018-01-10 12:51:09 +0800 (三, 10  1月 2018) | 9 lines
+
+Speedometer 2.0: Update the About page.
+https://bugs.webkit.org/show_bug.cgi?id=175918
+
+Reviewed by Keith Miller.
+
+Updated the about page for Speedometer 2.0.
+
+* Speedometer/index.html:
+
+------------------------------------------------------------------------
+r222534 | commit-queue@webkit.org | 2017-09-27 07:48:14 +0800 (三, 27  9月 2017) | 43 lines
+
+Speedometer: ensure all TodoMVC tests use the complete latest CSS
+https://bugs.webkit.org/show_bug.cgi?id=177358
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-09-26
+Reviewed by Ryosuke Niwa.
+
+* Speedometer/resources/todomvc/architecture-examples/angular/dist/*: Updated per build instructions.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/assets/css/todomvc-app.css: Updated to latest version.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/*: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/package-lock.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/package.json: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/todomvc-index.html: Updated to match new CSS classnames.
+* Speedometer/resources/todomvc/architecture-examples/emberjs-debug/assets/vendor.css: Manually updated to latest TodoMVC CSS, except with IDs instead of classes. (Build steps unknown.)
+* Speedometer/resources/todomvc/architecture-examples/emberjs/app/components/todo-list.js: Updated to match new CSS classnames.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/app/templates/application.hbs: Updated to match new CSS classnames.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/app/templates/components/todo-list.hbs: Updated to match new CSS classnames.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/dist/*: Updated per build instructions.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/vendor/index.css: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/architecture-examples/inferno/node_modules/*: Updated TodoMVC CSS.
+* Speedometer/resources/todomvc/architecture-examples/inferno/package.json: Updated TodoMVC CSS.
+* Speedometer/resources/todomvc/architecture-examples/jquery/index.html: Updated to match new CSS classnames.
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/*: Updated TodoMVC CSS.
+* Speedometer/resources/todomvc/architecture-examples/jquery/package.json: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/templates/stats.html: Updated to match new CSS classnames.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/index.html: Updated to match new CSS classnames.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/todomvc-app-css/index.css: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/todomvc-app-css/package.json: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/todomvc-common/*: Updated to latest version.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/package.json: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/functional-prog-examples/elm/node_modules/todomvc-app-css/index.css: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/functional-prog-examples/elm/node_modules/todomvc-common/base.js: Updated to latest version.
+* Speedometer/resources/todomvc/functional-prog-examples/elm/package.json: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/*: Updated per build instructions.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/package-lock.json: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/package.json: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/node_modules/todomvc-app-css/index.css: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/node_modules/todomvc-app-css/package.json: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/node_modules/todomvc-app-css/readme.md: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/node_modules/todomvc-common/*: Updated to latest version.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/package.json: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/node_modules/todomvc-app-css/index.css: Updated to latest TodoMVC CSS.
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/node_modules/todomvc-common/*: Updated to latest version.
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/package.json: Updated to latest TodoMVC CSS.
+------------------------------------------------------------------------
+r222488 | commit-queue@webkit.org | 2017-09-26 11:29:41 +0800 (二, 26  9月 2017) | 22 lines
+
+Speedometer: Add missing build scripts for Vue.js example
+https://bugs.webkit.org/show_bug.cgi?id=177359
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-09-25
+Reviewed by Ryosuke Niwa.
+
+This directory contains the build scripts needed to update `dist/*`. It had not been checked in because previously, all `build` directories were ignored by `.gitignore`. This directory is generated as part of `npm install -g vue-cli && vue init webpack some-project-name`.
+
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/build/build.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/build/check-versions.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/build/dev-client.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/build/dev-server.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/build/utils.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/build/vue-loader.conf.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/build/webpack.base.conf.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/build/webpack.dev.conf.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/build/webpack.prod.conf.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/build/webpack.test.conf.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/dist/*: Updated per build instructions.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/package-lock.json: Added build dependencies per vue-cli.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/package.json: Added build dependencies per vue-cli.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/src/components/todo.css: Updated CSS to the latest version for #177358.
+------------------------------------------------------------------------
+r222466 | commit-queue@webkit.org | 2017-09-26 05:11:35 +0800 (二, 26  9月 2017) | 7 lines
+
+Speedometer: Fix typo
+https://bugs.webkit.org/show_bug.cgi?id=177425
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-09-25
+Reviewed by Ryosuke Niwa.
+
+* Speedometer/InteractiveRunner.html: Fix typo: “Arithemtic Mean” → “Arithmetic Mean”.
+------------------------------------------------------------------------
+r221841 | commit-queue@webkit.org | 2017-09-11 08:59:19 +0800 (一, 11  9月 2017) | 12 lines
+
+Speedometer: Reduce duplication in react-redux test
+https://bugs.webkit.org/show_bug.cgi?id=176227
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-09-10
+Reviewed by Ryosuke Niwa.
+
+Updating react-scripts to a modern version avoids an issue where the generated bundle included the same `Object.assign`
+polyfill multiple times.
+
+* Speedometer/resources/todomvc/architecture-examples/react-redux/dist/*: Update dist per build instructions.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/package-lock.json: Update dependencies.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/package.json: Update dependencies.
+------------------------------------------------------------------------
+r221659 | rniwa@webkit.org | 2017-09-06 10:37:41 +0800 (三, 06  9月 2017) | 47 lines
+
+Compute the final score using geometric mean in Speedometer 2.0
+https://bugs.webkit.org/show_bug.cgi?id=172968
+
+Reviewed by Saam Barati.
+
+Make Speedometer 2.0 use the geometric mean of the subtotal of each test suite instead of the total..
+
+In Speedometer 1.0, we used the total time to compute the final score because we wanted to make
+the slowest framework and library faster. The fastest suite (FlightJS) still accounted for ~6% and
+the slowest case (React) accounted for ~25% so we felt the total time, or the arithmetic mean with
+a constant factor, was a good metric to track.
+
+In the latest version of Speedometer 2.0, however, the fastest suite (Preact) runs in ~55ms whereas
+the slowest suite (Inferno) takes 1.5s on Safari. Since the total time is 6.5s, Preact's suite only
+accounts for ~0.8% of the total score while Inferno's suite accounts for ~23% of the total score.
+Since the goal of Speedometer is to approximate different kinds of DOM API use patterns on the Web,
+we want each framework & library to have some measurement impact on the overall benchmark score.
+
+Furthermore, after r221205, we're testing both debug build of Ember.js as well as release build.
+Since debug build is 4x slower, using the total time or the arithmetic mean thereof will effectively
+give 4x as much weight to debug build of Ember.js relative to release build of Ember.js. Given only
+~5% of websites that deploy Ember.js use debug build, this weighting is clearly not right.
+
+This patch, therefore, replaces the arithmetic mean by the geometric mean to compute the final score.
+It also moves the code to compute the final score to BenchmarkRunner to be shared between main.js
+and InteractiveRunner.html.
+
+* Speedometer/InteractiveRunner.html:
+(.didRunSuites): Show geometric mean, arithmetic mean, total, as well as the score for completeness
+since this is a debugging page for developers.
+* Speedometer/resources/benchmark-runner.js:
+(BenchmarkRunner.prototype.step): Added mean, geomean, and score as measuredValues' properties.
+(BenchmarkRunner.prototype._runTestAndRecordResults): Removed the dead code.
+(BenchmarkRunner.prototype._finalize): Compute and add total, arithmetic mean (just mean in the code),
+and geometric mean (geomean) to measuredValues.
+* Speedometer/resources/main.js:
+(window.benchmarkClient): Replaced testsCount by stepsCount and _timeValues by _measuredValuesList.
+(window.benchmarkClient.willRunTest):
+(window.benchmarkClient.didRunTest):
+(window.benchmarkClient.didRunSuites): Store measuredValues object instead of just the total time.
+(window.benchmarkClient.didFinishLastIteration):
+(window.benchmarkClient._computeResults):
+(window.benchmarkClient._computeResults.valueForUnit): Renamed from totalTimeInDisplayUnit. Now simply
+retrieves the values computed by BenchmarkRunner's_finalize.
+(startBenchmark):
+(computeScore): Deleted.
+
+------------------------------------------------------------------------
+r221611 | commit-queue@webkit.org | 2017-09-05 16:17:25 +0800 (二, 05  9月 2017) | 11 lines
+
+Speedometer 2.0: Add dummy node to notify app is ready for Backbone suite
+https://bugs.webkit.org/show_bug.cgi?id=176142
+
+Patch by Shiyu Zhang <shiyu.zhang@intel.com> on 2017-09-05
+Reviewed by Ryosuke Niwa.
+
+Create a dummy node to notify that app is ready for Backbone suite. It prevents Speedometer injecting items before app.js is loaded.
+
+* Speedometer/resources/tests.js:
+(Suites.push.prepare):
+* Speedometer/resources/todomvc/architecture-examples/backbone/js/app.js:
+------------------------------------------------------------------------
+r221401 | commit-queue@webkit.org | 2017-08-31 06:45:26 +0800 (四, 31  8月 2017) | 12 lines
+
+Speedometer 2.0: jQuery test fails occasionally
+https://bugs.webkit.org/show_bug.cgi?id=176017
+
+Patch by Shiyu Zhang <shiyu.zhang@intel.com> on 2017-08-30
+Reviewed by Ryosuke Niwa.
+
+Create a dummy node to notify that app is ready for jQuery suite. It prevents Speedometer injecting items before app.js is loaded.
+
+* Speedometer/resources/tests.js:
+(Suites.push.prepare):
+* Speedometer/resources/todomvc/architecture-examples/jquery/js/app.js:
+(jQuery.App.init):
+------------------------------------------------------------------------
+r221206 | commit-queue@webkit.org | 2017-08-26 05:59:29 +0800 (六, 26  8月 2017) | 13 lines
+
+Speedometer: Restructure Ember example
+https://bugs.webkit.org/show_bug.cgi?id=175926
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-08-25
+Reviewed by Ryosuke Niwa.
+
+This patch removes an unused stylesheet from the output, and gets rid of the unneeded intermediate `source` folder.
+
+* Speedometer/resources/tests.js: Update path to Ember benchmark.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/*: Moved to `../`.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/app/index.html: Removed stylesheet reference.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/app/styles/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/dist/*: Regenerated per build instructions.
+------------------------------------------------------------------------
+r221205 | rniwa@webkit.org | 2017-08-26 05:21:35 +0800 (六, 26  8月 2017) | 11 lines
+
+Speedometer 2.0: Duplicate the current EmberJS test as EmberJS-Debug test
+https://bugs.webkit.org/show_bug.cgi?id=175956
+
+Reviewed by Saam Barati.
+
+Made the copy of Ember.js directory at r216946 as emberjs-debug, and added a new test suite "EmberJS-Debug-TodoMVC". 
+
+* Speedometer/resources/tests.js:
+(Suites.push.prepare):
+* Speedometer/resources/todomvc/architecture-examples/emberjs-debug: Copied from emberjs@r216946.
+
+------------------------------------------------------------------------
+r221129 | rniwa@webkit.org | 2017-08-24 14:13:42 +0800 (四, 24  8月 2017) | 7 lines
+
+Speedometer: Add missing stylesheet to Angular example
+​https://bugs.webkit.org/show_bug.cgi?id=175820
+
+Fix r221042. It was supposed to add an empty file but git-svn failed to do so.
+
+* Speedometer/resources/todomvc/architecture-examples/angular/dist/styles.d41d8cd98f00b204e980.bundle.css: Added.
+
+------------------------------------------------------------------------
+r221121 | commit-queue@webkit.org | 2017-08-24 08:14:55 +0800 (四, 24  8月 2017) | 16 lines
+
+Speedometer: Update to modern Preact version
+https://bugs.webkit.org/show_bug.cgi?id=175763
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-08-23
+Reviewed by Ryosuke Niwa.
+
+* Speedometer/resources/todomvc/architecture-examples/preact/README.md: Documented build steps.
+* Speedometer/resources/todomvc/architecture-examples/preact/dist/*: Renamed from build to dist so it can be checked in, and updated per build steps.
+* Speedometer/resources/todomvc/architecture-examples/preact/package-lock.json: Locked dependencies to ensure builds are deterministic.
+* Speedometer/resources/todomvc/architecture-examples/preact/package.json: Updated build commands and dependencies.
+* Speedometer/resources/todomvc/architecture-examples/preact/rollup.config.js: Updated configuration.
+* Speedometer/resources/todomvc/architecture-examples/preact/src/app/footer.js: Updated to modern Preact version.
+* Speedometer/resources/todomvc/architecture-examples/preact/src/app/index.js: Updated to modern Preact version.
+* Speedometer/resources/todomvc/architecture-examples/preact/src/app/util.js: Updated to modern Preact version.
+* Speedometer/resources/todomvc/architecture-examples/preact/src/index.html: Made title consistent.
+* Speedometer/resources/todomvc/architecture-examples/preact/webpack.config.babel.js: Updated configuration.
+------------------------------------------------------------------------
+r221118 | rniwa@webkit.org | 2017-08-24 07:54:40 +0800 (四, 24  8月 2017) | 9 lines
+
+Speedometer 2.0: Add the capability to run a specific suite
+https://bugs.webkit.org/show_bug.cgi?id=175908
+
+Address Joe's review comments.
+
+* Speedometer/resources/main.js:
+(startBenchmark):
+
+
+------------------------------------------------------------------------
+r221114 | rniwa@webkit.org | 2017-08-24 07:04:13 +0800 (四, 24  8月 2017) | 12 lines
+
+Speedometer 2.0: Add the capability to run a specific suite
+https://bugs.webkit.org/show_bug.cgi?id=175908
+
+Reviewed by Saam Barati.
+
+Added ?suite=X query parameter to specify a specific suite (e.g. React-TodoMVC) to run.
+
+* Speedometer/resources/main.js:
+(enableOneSuite): Added.
+(startBenchmark): Return true if the benchmark actually had started running.
+(startTest): Don't transition to the "running" state if the benchmark failed to start (e.g. no tests to run).
+
+------------------------------------------------------------------------
+r221106 | rniwa@webkit.org | 2017-08-24 05:40:41 +0800 (四, 24  8月 2017) | 28 lines
+
+Speedometer 2.0: Async time is not always capturing layout time
+https://bugs.webkit.org/show_bug.cgi?id=175871
+
+Reviewed by Simon Fraser.
+
+Speedometer harness was designed to capture the time browser engine spends relayouting and repainting the content
+after DOM mutations this in its async time measurement, which is the time between each test case's code had finished
+running and when a newly scheduled 0s timer is fired immediately afterwards.
+
+It turns out that modern web browsers defer this reflow and repaint work until the next animation frame is requested.
+This results in Speedometer harness measuring reflow and repaint cost only sometimes depending on when each test case
+had finished running relative to the next frame request.
+
+While such a behavior makes sense and might be desirable for a modern browser engine, we would like to capture it in
+the async time for the purpose of Speedometer. Unfortunately, there isn't an interoperable API for browsers to report
+the total layout and repaint time, and relying on 16ms-granularity requestAnimationFrame is too coarse for Speedometer.
+
+This patch works around these limitations by manually forcing the layout in async time measurement by calling
+getBoundingClientRect() in iframe's document. Since the height of the document depends on the number of todo items,
+this should cause browser engines to do most if not all of the work needed to reflow the document at least for now.
+
+Note that even new async time doesn't always capture painting time but there isn't a good cross-browser mechanism
+to measure paint time in the granurality we need for Speedometer at the moment anyway. (Should such a mechanism exist,
+that could be a huge timing attack surface so it's probably best that we don't have one.)
+
+* Speedometer/resources/benchmark-runner.js:
+(BenchmarkRunner.prototype._runTest):
+
+------------------------------------------------------------------------
+r221105 | rniwa@webkit.org | 2017-08-24 05:39:28 +0800 (四, 24  8月 2017) | 19 lines
+
+Speedometer: Make React/Redux item order consistent
+https://bugs.webkit.org/show_bug.cgi?id=175818
+
+Reviewed by Joseph Pecoraro.
+
+Based on the patch made by Mathias Bynens. Re-generated project files.
+
+Also tweaked the instruction in package.json so that newly generated files in build/* replace dist/* instead of
+being moved under dist/build/ by rm -rf'ing dist directory first.
+
+* Speedometer/resources/todomvc/architecture-examples/react-redux/dist/index.html:
+* Speedometer/resources/todomvc/architecture-examples/react-redux/dist/static/js/main.43a0948c.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/dist/static/js/main.43a0948c.js.map: Removed.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/dist/static/js/main.69cd9655.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/dist/static/js/main.69cd9655.js.map: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/package.json:
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/reducers/todos.js: Forced new items to be appended rather than prepended.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/yarn.lock: Removed unnecessary file.
+
+------------------------------------------------------------------------
+r221104 | commit-queue@webkit.org | 2017-08-24 05:37:45 +0800 (四, 24  8月 2017) | 15 lines
+
+Speedometer: Update to modern React version
+https://bugs.webkit.org/show_bug.cgi?id=175715
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-08-23
+Reviewed by Ryosuke Niwa.
+
+This patch pins React and react-dom to v15.5.4 (released in May 2017).
+
+* Speedometer/resources/todomvc/architecture-examples/react/README.md: Documented build steps.
+* Speedometer/resources/todomvc/architecture-examples/react/index.html: Made title consistent.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/*: Remove unneeded files and update per build instructions.
+* Speedometer/resources/todomvc/architecture-examples/react/npm-shrinkwrap.json: Removed in favor of package-lock.json.
+* Speedometer/resources/todomvc/architecture-examples/react/package-lock.json: Pinned dependencies to make build deterministic.
+* Speedometer/resources/todomvc/architecture-examples/react/package.json: Update dependencies.
+* Speedometer/resources/todomvc/architecture-examples/react/yarn.lock: Removed in favor of package-lock.json.
+------------------------------------------------------------------------
+r221054 | rniwa@webkit.org | 2017-08-23 07:11:05 +0800 (三, 23  8月 2017) | 24 lines
+
+REGRESSION(R220043): Speedometer 2.0: Fix vanilla JS examples
+https://bugs.webkit.org/show_bug.cgi?id=175815
+
+Reviewed by Saam Barati.
+
+Both vanilla ES2015 and Babel + WebPack test cases were failing to mark Todo items as completed since they were relying on
+`new Date().getTime()` to generate an unique ID. That's not going to work if mulitple todo items are added within 1ms.
+
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/bundle.app.71bb1f671e4e65604d05.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/bundle.app.71bb1f671e4e65604d05.js.map: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/bundle.app.9debb1b0a94f14d0ebe9.js: Removed.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/bundle.app.9debb1b0a94f14d0ebe9.js.map: Removed.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/bundle.manifest.2102040c9a6e04cc046e.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/bundle.manifest.2102040c9a6e04cc046e.js.map: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/bundle.vendor.b16cc08e016d07886f5f.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/bundle.vendor.b16cc08e016d07886f5f.js.map: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/index.html:
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/styles.app.71bb1f671e4e65604d05.css: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/styles.app.71bb1f671e4e65604d05.css.map: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/styles.vendor.b16cc08e016d07886f5f.css: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/styles.vendor.b16cc08e016d07886f5f.css.map: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/store.js:
+* Speedometer/resources/todomvc/vanilla-examples/es2015/src/store.js:
+
+------------------------------------------------------------------------
+r221045 | rniwa@webkit.org | 2017-08-23 05:03:53 +0800 (三, 23  8月 2017) | 6 lines
+
+Commit the change meant to be included in the previous commit.
+
+* Speedometer/resources/main.js:
+(startBenchmark):
+
+
+------------------------------------------------------------------------
+r221044 | rniwa@webkit.org | 2017-08-23 05:00:49 +0800 (三, 23  8月 2017) | 15 lines
+
+Speedometer 2.0: Make it possible to change the iteration count via query string
+https://bugs.webkit.org/show_bug.cgi?id=175811
+
+Reviewed by Saam Barati.
+
+Added the support for specifying the iteration count by "iterationCount" query parameter, and replaced "ms"
+query parameter by "unit=ms".
+
+Finally, reduced the number of iterations from 20 to 10 to reduce the time needed to run the benchmark
+since Speedometer 2.0 contains more than twice the number of libraries and frameworks than Speedometer 1.0.
+
+* Speedometer/resources/main.js:
+(window.benchmarkClient.didFinishLastIteration):
+(startBenchmark):
+
+------------------------------------------------------------------------
+r221039 | rniwa@webkit.org | 2017-08-23 04:42:23 +0800 (三, 23  8月 2017) | 10 lines
+
+Speedometer 2.0: Add button to select and unselect all tests to InteractiveRunner.html
+https://bugs.webkit.org/show_bug.cgi?id=175816
+
+Reviewed by Saam Barati.
+
+Added buttons to select and unselect all subtests to aid debugging.
+
+* Speedometer/InteractiveRunner.html:
+(createUIForSuites):
+
+------------------------------------------------------------------------
+r220950 | rniwa@webkit.org | 2017-08-19 11:05:57 +0800 (六, 19  8月 2017) | 19 lines
+
+REGRESSION(r219640): Speedometer no longer runs on Safari 7
+https://bugs.webkit.org/show_bug.cgi?id=175749
+
+Reviewed by Joseph Pecoraro.
+
+PerformanceTests:
+
+Use regular string instead of template literal to make the script compatible with older versions of Safari.
+
+* Speedometer/resources/benchmark-runner.js:
+(BenchmarkRunner.prototype._runTest):
+
+Websites/browserbench.org:
+
+Fix the bug on browserbench.org.
+
+* Speedometer/resources/benchmark-runner.js:
+(BenchmarkRunner.prototype._runTest):
+
+------------------------------------------------------------------------
+r220900 | commit-queue@webkit.org | 2017-08-18 12:03:24 +0800 (五, 18  8月 2017) | 12 lines
+
+Speedometer: Update to modern Vue.js version
+https://bugs.webkit.org/show_bug.cgi?id=175660
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-08-17
+Reviewed by Ryosuke Niwa.
+
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/README.md: Documented build process.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/config/index.js: Forced relative URLs to avoid breaking the interactive runner.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/dist/*: Updated per build steps.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/package-lock.json: Added to pin dependencies and make builds deterministic.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/package.json: Update to modern Vue.js version.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/src/components/Todos.vue: Fix markup error.
+------------------------------------------------------------------------
+r220899 | commit-queue@webkit.org | 2017-08-18 11:51:17 +0800 (五, 18  8月 2017) | 11 lines
+
+Speedometer: Update to modern React/Redux version
+https://bugs.webkit.org/show_bug.cgi?id=175669
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-08-17
+Reviewed by Ryosuke Niwa.
+
+* Speedometer/resources/todomvc/architecture-examples/react-redux/README.md: Documented build steps.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/dist/*: Updated per build instructions.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/package-lock.json: Pinned dependencies to make builds deterministic.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/package.json: Fixed build command.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/public/index.html: Made title consistent.
+------------------------------------------------------------------------
+r220801 | commit-queue@webkit.org | 2017-08-17 03:17:33 +0800 (四, 17  8月 2017) | 18 lines
+
+Speedometer: Update Angular 1 TodoMVC example to v1.6.5
+https://bugs.webkit.org/show_bug.cgi?id=175623
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-08-16
+Reviewed by Ryosuke Niwa.
+
+* Speedometer/resources/todomvc/architecture-examples/angularjs/index.html: Made title consistent.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/angular-resource/angular-resource.min.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/angular-resource/angular-resource.min.js.map: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/angular-route/angular-route.min.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/angular-route/angular-route.min.js.map: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/angular/angular.min.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/angular/angular.min.js.map: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/todomvc-app-css/package.json: Updated per build steps.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/todomvc-common/package.json: Updated per build steps.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/package-lock.json: Added to pin dependencies.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/package.json: Updated per build steps.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/readme.md: Document the build process.
+------------------------------------------------------------------------
+r220800 | commit-queue@webkit.org | 2017-08-17 02:59:28 +0800 (四, 17  8月 2017) | 17 lines
+
+Speedometer: Document Backbone example
+https://bugs.webkit.org/show_bug.cgi?id=175626
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-08-16
+Reviewed by Ryosuke Niwa.
+
+* Speedometer/resources/todomvc/architecture-examples/backbone/index.html: Made title consistent.
+* Speedometer/resources/todomvc/architecture-examples/backbone/node_modules/backbone/backbone-min.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/backbone/node_modules/backbone/backbone-min.map: Added.
+* Speedometer/resources/todomvc/architecture-examples/backbone/node_modules/jquery/dist/jquery.js: Updated per build steps.
+* Speedometer/resources/todomvc/architecture-examples/backbone/node_modules/jquery/dist/jquery.min.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/backbone/node_modules/jquery/dist/jquery.min.map: Added.
+* Speedometer/resources/todomvc/architecture-examples/backbone/node_modules/todomvc-app-css/index.css: Updated per build steps.
+* Speedometer/resources/todomvc/architecture-examples/backbone/node_modules/underscore/underscore-min.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/backbone/node_modules/underscore/underscore-min.map: Added.
+* Speedometer/resources/todomvc/architecture-examples/backbone/package-lock.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/backbone/readme.md: Documented build steps.
+------------------------------------------------------------------------
+r220373 | commit-queue@webkit.org | 2017-08-08 08:47:14 +0800 (二, 08  8月 2017) | 30 lines
+
+Speedometer: Update to modern production Ember version
+https://bugs.webkit.org/show_bug.cgi?id=175278
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-08-07
+Reviewed by Ryosuke Niwa.
+
+* Speedometer/resources/todomvc/architecture-examples/emberjs/README.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/index.html: Made title consistent.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/README.md: Documented build process.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/components/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/index.html: Made title consistent.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/instance-initializers/global.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/models/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/router.js: Update to latest version.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/routes/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/services/repo.js: Update to latest version
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/styles/app.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/templates/components/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/bower.json: Update to latest version.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/config/environment.js: Update to latest version.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/dist/*: Added generated files per build instructions.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/package-lock.json: Pinned dependencies.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/package.json: Update to latest version.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/.jshintrc: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/helpers/module-for-acceptance.js: Updated to latest version.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/helpers/start-app.js: Updated to latest version.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/index.html: Updated to latest version.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/integration/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/unit/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/vendor/.gitkeep: Added.
+------------------------------------------------------------------------
+r220086 | commit-queue@webkit.org | 2017-08-01 08:39:16 +0800 (二, 01  8月 2017) | 8 lines
+
+Speedometer 2.0: Remove <base> from Angular 4 test
+https://bugs.webkit.org/show_bug.cgi?id=175004
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-07-31
+Reviewed by Ryosuke Niwa.
+
+* Speedometer/resources/todomvc/architecture-examples/angular/dist/index.html: Remove <base>.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/index.html: Remove <base>.
+------------------------------------------------------------------------
+r220043 | commit-queue@webkit.org | 2017-07-29 19:38:07 +0800 (六, 29  7月 2017) | 8 lines
+
+Speedometer 2.0: Document vanilla/es2015 build process
+https://bugs.webkit.org/show_bug.cgi?id=174894
+
+Patch by Mathias Bynens <mathias@chromium.org> on 2017-07-29
+Reviewed by Ryosuke Niwa.
+
+* Speedometer/resources/todomvc/vanilla-examples/es2015/README.md: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/index.html: Made title consistent.
+------------------------------------------------------------------------
+r219993 | commit-queue@webkit.org | 2017-07-28 12:44:45 +0800 (五, 28  7月 2017) | 19 lines
+
+Speedometer 2.0: Document Angular 4 build process
+https://bugs.webkit.org/show_bug.cgi?id=174896
+
+Patch by Mathias Bynens <mathias@chromium.org> on 2017-07-27
+Reviewed by Ryosuke Niwa.
+
+This patch documents the build process for the Angular 4 example, pins the dependencies (so
+that builds are deterministic), and updates the generated files accordingly.
+
+* Speedometer/resources/todomvc/architecture-examples/angular/README.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/dist/*: Update per build instructions.
+* Speedometer/resources/todomvc/architecture-examples/angular/e2e/app.e2e-spec.ts: Removed unused file.
+* Speedometer/resources/todomvc/architecture-examples/angular/e2e/app.po.ts: Removed unused file.
+* Speedometer/resources/todomvc/architecture-examples/angular/e2e/tsconfig.e2e.json: Removed unused file.
+* Speedometer/resources/todomvc/architecture-examples/angular/package.json: Remove unneeded scripts.
+* Speedometer/resources/todomvc/architecture-examples/angular/package-lock.json: Added to pin dependencies.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/app/app.component.ts: Updated.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/environments/environment.ts: Updated.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/index.html: Made title consistent.
+------------------------------------------------------------------------
+r219903 | commit-queue@webkit.org | 2017-07-26 12:42:19 +0800 (三, 26  7月 2017) | 11 lines
+
+Speedometer 2.0: Document es2015-babel-webpack build process
+https://bugs.webkit.org/show_bug.cgi?id=174252
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-07-25
+Reviewed by Ryosuke Niwa.
+
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/README.md: Added build docs.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/*: Update generated build files.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/package.json: Remove unused items.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/package-lock.json: Added lockfile.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/index.html: Make title consistent.
+------------------------------------------------------------------------
+r219640 | commit-queue@webkit.org | 2017-07-19 07:22:46 +0800 (三, 19  7月 2017) | 13 lines
+
+Add performance.mark()s around each test step
+https://bugs.webkit.org/show_bug.cgi?id=174530
+
+Patch by Matt Kotsenas <mattkot@microsoft.com> on 2017-07-18
+Reviewed by Ryosuke Niwa.
+
+Add `performance.mark()` around each test step to make analysis
+simpler. Now each test step can be investigated via dev tools, ETW, etc.
+
+* Speedometer/resources/benchmark-runner.js:
+(BenchmarkRunner.prototype._writeMark):
+(BenchmarkRunner.prototype._runTest):
+(BenchmarkRunner.prototype._runTestAndRecordResults):
+------------------------------------------------------------------------
+r219251 | commit-queue@webkit.org | 2017-07-07 18:25:00 +0800 (五, 07  7月 2017) | 12 lines
+
+Speedometer 2.0: Fix vanilla JS example
+https://bugs.webkit.org/show_bug.cgi?id=174246
+
+Patch by Mathias Bynens <mathias@qiwi.be> on 2017-07-07
+Reviewed by Ryosuke Niwa.
+
+Previously, all TODO items were assigned an ID of `null`. This patch
+fixes that bug. Manually deleting items now works again.
+
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/index.html: Made title consistent.
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/js/store.js: Fixed bug with deleting items.
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/readme.md: Added docs.
+------------------------------------------------------------------------
+r217161 | rniwa@webkit.org | 2017-05-20 06:42:43 +0800 (六, 20  5月 2017) | 19 lines
+
+REGRESSION(r217118): Speedometer 2.0: Flight.js test is broken
+https://bugs.webkit.org/show_bug.cgi?id=172394
+
+Reviewed by Chris Dumez.
+
+PerformanceTests:
+
+Fixed the bug that we were never clearing window.checkLoadedTimeoutId.
+
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/requirejs/require.js:
+(newContext.checkLoaded):
+
+Websites/browserbench.org:
+
+Merge the fix.
+
+* Speedometer2.0/resources/todomvc/dependency-examples/flight/flight/node_modules/requirejs/require.js:
+(newContext.checkLoaded):
+
+------------------------------------------------------------------------
+r217121 | rniwa@webkit.org | 2017-05-19 18:50:38 +0800 (五, 19  5月 2017) | 10 lines
+
+Speedometer 2.0: Angular v1 test only deletes the second item
+https://bugs.webkit.org/show_bug.cgi?id=172353
+
+Reviewed by Antti Koivisto.
+
+Like jQuery and Inferno, run querySelector after removing each todo item.
+
+* Speedometer/InteractiveRunner.html: Tweaked CSS again.
+* Speedometer/resources/tests.js:
+
+------------------------------------------------------------------------
+r217119 | rniwa@webkit.org | 2017-05-19 18:09:13 +0800 (五, 19  5月 2017) | 18 lines
+
+Speedometer 2.0: Elem test isn't updating DOM during the measurement
+https://bugs.webkit.org/show_bug.cgi?id=172343
+
+Reviewed by Antti Koivisto.
+
+Elem test wasn't doing much work because it simply enqueues items into the work queue, which doesn't get
+executed until the next requestAnimationFrame or setTimeout callback happens.
+
+Expose elm's work function as contentWindow.elemWork and make the first use of rAF a synchronous callback
+just as it would when requestAnimationFrame isn't defined, and make the second use of rAF queue up to
+an array of callbacks, and have the test runner manually invoke each callback.
+
+This increases the runtime of the Elm suite from 100ms to 300ms on Safari.
+
+* Speedometer/resources/tests.js:
+(processElmWorkQueue): Added. A helper which processes Elm's work queue and manually invokes render callbacks.
+* Speedometer/resources/todomvc/functional-prog-examples/elm/dist/elm.js:
+
+------------------------------------------------------------------------
+r217118 | rniwa@webkit.org | 2017-05-19 18:05:13 +0800 (五, 19  5月 2017) | 19 lines
+
+Speedometer 2.0: Flight.js test is sometime broken
+https://bugs.webkit.org/show_bug.cgi?id=172347
+
+Reviewed by Antti Koivisto.
+
+The bug was caused by the test runner only waiting for #new-todo, which happens before all other states are
+updated in the Flight.js dependency example. As done in Speedometer v1, insert a dummy element with id set
+to appIsReady and wait for this element to appear in the benchmark harness.
+
+* Speedometer/resources/tests.js: Wait for #appIsReady.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/js/main.js: Removed the superflous call
+to console.log.
+(checkReady): Added. Insert #appIsReady if checkLoaded is no longer running at 50ms interval. Because this
+could happen asynchronously, we check the absense of checkLoadedTimeoutId Ωevery 10ms for 5 times for
+the total duration of 50ms. If checkLoadedTimeoutId was never present, we call it ready. If we ever observed
+the presence of checkLoadedTimeoutId, wait another 50ms and start over.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/requirejs/require.js:
+(.newContext.checkLoaded): Expose checkLoadedTimeoutId which is a timer ID used to check the dependency.
+
+------------------------------------------------------------------------
+r217112 | rniwa@webkit.org | 2017-05-19 17:43:40 +0800 (五, 19  5月 2017) | 24 lines
+
+Speedometer 2.0: jQuery and Inferno tests don't delete all ToDo items
+https://bugs.webkit.org/show_bug.cgi?id=172341
+
+Reviewed by Antti Koivisto.
+
+The bug was caused by the fact TodoMVC examples for jQuery and Inferno JS create a new button
+to delete the todo item each time todo items are rendered.
+
+Fixed the bug by dynamically look for .destroy using querySelector for each item.
+
+Also moved the deletion of the iframe from the end of each test suite to the beginning of each suite.
+This will make debugging the issue like this easier on InteractiveRunner.html since the iframe
+will stick around after stepping the last item in the suite.
+
+* Speedometer/InteractiveRunner.html: Tweaked the CSS to make buttons to "Step" and "Run" always visible
+even if the list of suites and subtests are too long to fit in the viewport.
+
+* Speedometer/resources/benchmark-runner.js:
+(BenchmarkRunner.prototype.step):
+(BenchmarkRunner.prototype._runTestAndRecordResults):
+
+* Speedometer/resources/tests.js: Fixed the bug for jQuery and Inferno. In the case of jQuery
+we also have to fix the code for checking every ToDo item as completed as well.
+
+------------------------------------------------------------------------
+r217107 | rniwa@webkit.org | 2017-05-19 17:19:01 +0800 (五, 19  5月 2017) | 13 lines
+
+Speedometer 2.0: Vanilla JS test doesn't mark all todo items as completed
+https://bugs.webkit.org/show_bug.cgi?id=172348
+
+Reviewed by Antti Koivisto.
+
+The bug was caused by the in-memory store class using the milisecond precision timestamp as an ID.
+Because we inserts 50 items all at once, this can result in multiple data items sharing a single ID.
+
+Fixed the bug by using a mononotically increasing ID instead.
+
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/js/store.js:
+(Store.prototype.save):
+
+------------------------------------------------------------------------
+r217089 | rniwa@webkit.org | 2017-05-19 11:05:07 +0800 (五, 19  5月 2017) | 25 lines
+
+REGRESSION (r216694 - 216712): Performance test Speedometer/Full.html is failing
+https://bugs.webkit.org/show_bug.cgi?id=172077
+
+Reviewed by Chris Dumez.
+
+PerformanceTests:
+
+Rename Full.html to index.html to match the convention of other benchmarks.
+
+* Speedometer/index.html: Renamed from PerformanceTests/Speedometer/Full.html.
+
+Tools:
+
+Fixed perftest.py by updating the lines to ignore in Speedometer.
+
+Also start report the results as "Speedometer" instead of "DoYouEvenBench/Full.html" to perf.webkit.org.
+
+* Scripts/webkitpy/performance_tests/perftest.py:
+(PerfTest._lines_to_ignore_in_parser_result): Updated for Speedometer 2.0.
+* Scripts/webkitpy/performance_tests/perftestsrunner.py:
+(PerfTestsRunner._collect_tests): Use "Speedometer" instead of "Speedometer/index.html" as the test name.
+(_generate_results_dict): Removed the workaround to keep reporting Speedometer as DoYouEvenBench.
+* Scripts/webkitpy/performance_tests/perftestsrunner_unittest.py:
+(MainTest.test_collect_tests_with_index_html_and_resources): Added.
+
+------------------------------------------------------------------------
+r217088 | rniwa@webkit.org | 2017-05-19 11:03:55 +0800 (五, 19  5月 2017) | 9 lines
+
+Speedometer: check-in missing React TodoMVC dependency
+https://bugs.webkit.org/show_bug.cgi?id=172213
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-18
+Reviewed by Ryosuke Niwa.
+
+* Speedometer/resources/todomvc/architecture-examples/react/index.html: fix director.min.js path.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/director/director.min.js: Added.
+
+------------------------------------------------------------------------
+r216996 | rniwa@webkit.org | 2017-05-18 04:52:39 +0800 (四, 18  5月 2017) | 8 lines
+
+Speedometer: adjust Ember TodoMVC to use full path
+https://bugs.webkit.org/show_bug.cgi?id=172211
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-17
+Reviewed by Ryosuke Niwa.
+
+* Speedometer/resources/tests.js: use full path to Ember TodoMVC app.
+
+------------------------------------------------------------------------
+r216946 | commit-queue@webkit.org | 2017-05-17 05:16:51 +0800 (三, 17  5月 2017) | 31 lines
+
+Update to Speedometer 2.0 w/updated frameworks + new workloads
+https://bugs.webkit.org/show_bug.cgi?id=170513
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-16
+Reviewed by Ryosuke Niwa.
+
+Refresh test runner and fix apps to work with it.
+
+* Speedometer/InteractiveRunner.html:
+(parseQueryString): Adds support for startAutomatically query parameter.
+* Speedometer/resources/tests.js:
+(triggerEnter): Refactor event triggering behavior for tests.
+* Speedometer/resources/todomvc/architecture-examples/angular/dist/index.html:
+(CSS): Drop reference to extraneous stylesheet in Angular TodoMVC.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/assets/todomvc.js:
+* Speedometer/resources/todomvc/architecture-examples/emberjs/index.html:
+(base): Enable Ember TodoMVC to be run from any directory/level.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/services/memory.js:
+(localStorageMemory): Correct import path and switch to window.localStorageMemory to fix Ember failures.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/services/repo.js:
+* Speedometer/resources/todomvc/architecture-examples/emberjs/tests/index.html:
+* Speedometer/resources/todomvc/architecture-examples/jquery/index.html:
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/director/LICENSE: Added.
+(LICENSE): Add missing metadata and LICENSE files as part of director.js package for jQuery TodoMVC
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/director/bower.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/director/dist/director.js: Add missing
+director.js dependency for jQuery TodoMVC implementation.
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/director/dist/director.min.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/director/dist/ender.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/director/package.json: Added.
+* Speedometer/resources/todomvc/functional-prog-examples/elm/index.html: Fix path to built Elm TodoMVC scripts.
+------------------------------------------------------------------------
+r216754 | commit-queue@webkit.org | 2017-05-12 17:00:44 +0800 (五, 12  5月 2017) | 36 lines
+
+Speedometer: Add a React.js TodoMVC implementation
+https://bugs.webkit.org/show_bug.cgi?id=171444
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-12
+Reviewed by Ryosuke Niwa.
+
+Adds a more recent React.js TodoMVC implemenation to Speedometer
+
+* Speedometer/resources/todomvc/architecture-examples/react/build.min.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/index.html: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/js/app.jsx: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/license.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/classnames/LICENSE: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/classnames/bind.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/classnames/bower.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/classnames/dedupe.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/classnames/index.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/classnames/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/director/LICENSE: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/director/bower.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/director/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/react-dom/LICENSE: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/react-dom/dist/react-dom-server.min.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/react-dom/dist/react-dom.min.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/react-dom/index.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/react/LICENSE: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/react/README.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/react/dist/react-with-addons.min.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/react/dist/react.min.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/react/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/todomvc-app-css/index.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/todomvc-common/base.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/node_modules/todomvc-common/base.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/npm-shrinkwrap.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/react/yarn.lock: Added.
+------------------------------------------------------------------------
+r216735 | commit-queue@webkit.org | 2017-05-12 14:32:48 +0800 (五, 12  5月 2017) | 88 lines
+
+Speedometer: Update the Ember.js TodoMVC to a more recent version
+https://bugs.webkit.org/show_bug.cgi?id=171342
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-11
+Reviewed by Ryosuke Niwa.
+
+Update the Ember TodoMVC app in Speedometer to latest
+
+* Speedometer/resources/todomvc/architecture-examples/emberjs/assets/todomvc.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/assets/todomvc.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/assets/vendor.css: Renamed from PerformanceTests/Speedometer/resources/todomvc/architecture-examples/emberjs/bower_components/todomvc-common/base.css.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/assets/vendor.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/bower.json: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/bower_components/ember-data/ember-data.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/bower_components/ember-localstorage-adapter/localstorage_adapter.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/bower_components/ember/ember.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/bower_components/handlebars/handlebars.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/bower_components/jquery/jquery.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/bower_components/todomvc-common/base.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/bower_components/todomvc-common/bg.png: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/crossdomain.xml: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/index.html:
+* Speedometer/resources/todomvc/architecture-examples/emberjs/js/app.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/js/controllers/todo_controller.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/js/controllers/todos_controller.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/js/helpers/pluralize.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/js/models/todo.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/js/router.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/js/views/edit_todo_view.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/js/views/todos_view.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/readme.md: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/robots.txt: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/.bowerrc: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/.editorconfig: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/.ember-cli: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/.gitignore: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/.jshintrc: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/.travis.yml: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/.watchmanconfig: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/README.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/app.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/components/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/components/todo-item.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/components/todo-list.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/controllers/active.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/controllers/application.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/controllers/completed.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/helpers/gt.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/helpers/pluralize.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/index.html: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/instance-initializers/global.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/models/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/resolver.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/router.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/routes/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/routes/application.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/services/memory.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/services/repo.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/styles/app.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/templates/active.hbs: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/templates/application.hbs: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/templates/completed.hbs: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/templates/components/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/templates/components/todo-item.hbs: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/templates/components/todo-list.hbs: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/app/templates/index.hbs: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/bower.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/config/environment.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/ember-cli-build.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/public/crossdomain.xml: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/public/robots.txt: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/testem.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/.jshintrc: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/helpers/destroy-app.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/helpers/module-for-acceptance.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/helpers/resolver.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/helpers/start-app.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/index.html: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/integration/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/test-helper.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/tests/unit/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/vendor/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/vendor/base.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/source/vendor/index.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/test.html: Removed.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/testem.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/emberjs/tests/index.html: Added.
+------------------------------------------------------------------------
+r216732 | commit-queue@webkit.org | 2017-05-12 13:50:32 +0800 (五, 12  5月 2017) | 34 lines
+
+Speedometer: Add a React + Redux TodoMVC implementation
+https://bugs.webkit.org/show_bug.cgi?id=171329
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-11
+Reviewed by Ryosuke Niwa.
+
+Adds React and Redux TodoMVC implementation for Speedometer
+
+* Speedometer/resources/todomvc/architecture-examples/react-redux/README.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/dist/index.html: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/dist/static/css/main.d43d2909.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/dist/static/js/main.946269ff.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/public/index.html: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/actions/index.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/actions/index.spec.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/components/Footer.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/components/Footer.spec.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/components/Header.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/components/Header.spec.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/components/MainSection.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/components/MainSection.spec.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/components/TodoItem.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/components/TodoItem.spec.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/components/TodoTextInput.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/components/TodoTextInput.spec.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/constants/ActionTypes.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/constants/TodoFilters.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/containers/App.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/index.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/reducers/index.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/reducers/todos.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/src/reducers/todos.spec.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/react-redux/yarn.lock: Added.
+------------------------------------------------------------------------
+r216727 | commit-queue@webkit.org | 2017-05-12 11:41:09 +0800 (五, 12  5月 2017) | 36 lines
+
+Speedometer: Add an ES2015 (Babel + Webpack) TodoMVC implementation
+https://bugs.webkit.org/show_bug.cgi?id=171452
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-11
+Reviewed by Ryosuke Niwa.
+
+Adds ES2015 Babel + Webpack TodoMVC implem
+
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/.babelrc: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/.eslintignore: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/bundle.app.73bcc5d3c1d07180f0e3.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/bundle.app.73bcc5d3c1d07180f0e3.js.map: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/bundle.manifest.112bf70a7f3deebf1f93.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/bundle.manifest.112bf70a7f3deebf1f93.js.map: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/bundle.vendor.efaa3e0e20077c8e7471.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/bundle.vendor.efaa3e0e20077c8e7471.js.map: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/index.html: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/styles.app.73bcc5d3c1d07180f0e3.css: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/styles.app.73bcc5d3c1d07180f0e3.css.map: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/styles.vendor.efaa3e0e20077c8e7471.css: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/dist/styles.vendor.efaa3e0e20077c8e7471.css.map: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/package.json: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/app.css: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/app.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/bootstrap.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/controller.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/controller.test.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/helpers.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/index.html: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/memory.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/model.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/store.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/template.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/todo.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/src/view.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015-babel-webpack/webpack.config.babel.js: Added.
+------------------------------------------------------------------------
+r216723 | rniwa@webkit.org | 2017-05-12 11:00:00 +0800 (五, 12  5月 2017) | 25 lines
+
+Speedometer: Add an Inferno TodoMVC implementation
+https://bugs.webkit.org/show_bug.cgi?id=171411
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-11
+Reviewed by Ryosuke Niwa.
+
+Adds a Inferno implem of TodoMVC to Speedometer
+
+* Speedometer/resources/todomvc/architecture-examples/inferno/dist/bundle.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/index.html: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/node_modules/todomvc-app-css/index.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/node_modules/todomvc-app-css/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/node_modules/todomvc-app-css/readme.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/node_modules/todomvc-common/base.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/node_modules/todomvc-common/base.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/node_modules/todomvc-common/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/node_modules/todomvc-common/readme.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/src/base.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/src/index.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/src/item.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/src/model.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/src/share.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/inferno/webpack.config.js: Added.
+
+------------------------------------------------------------------------
+r216721 | rniwa@webkit.org | 2017-05-12 10:55:38 +0800 (五, 12  5月 2017) | 52 lines
+
+Speedometer: Add an Angular 2 (4.x) TodoMVC implementation
+https://bugs.webkit.org/show_bug.cgi?id=171343
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-11
+Reviewed by Ryosuke Niwa.
+
+Add a TodoMVC Angular 2 (4.x) implem for the benchmark
+
+* Speedometer/resources/todomvc/architecture-examples/angular/.angular-cli.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/.editorconfig: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/README.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/dist/assets/css/todomvc-app.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/dist/assets/css/todomvc-common.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/dist/favicon.ico: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/dist/index.html: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/dist/inline.b342d102ba4a53bf2002.bundle.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/dist/main.779eb2f1ddbe23ac61c7.bundle.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/dist/polyfills.2d45a4c73c85e24fe474.bundle.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/dist/styles.d41d8cd98f00b204e980.bundle.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/dist/vendor.b4be818cb6d8028f9192.bundle.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/e2e/app.e2e-spec.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/e2e/app.po.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/e2e/tsconfig.e2e.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/karma.conf.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/protractor.conf.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/app/app.component.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/app/app.component.html: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/app/app.component.spec.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/app/app.component.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/app/app.module.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/app/todo-data.service.spec.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/app/todo-data.service.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/app/todo.spec.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/app/todo.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/assets/.gitkeep: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/assets/css/todomvc-app.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/assets/css/todomvc-common.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/environments/environment.prod.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/environments/environment.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/favicon.ico: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/index.html: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/main.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/polyfills.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/styles.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/test.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/tsconfig.app.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/tsconfig.spec.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/src/typings.d.ts: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/tsconfig.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/angular/tslint.json: Added.
+
+------------------------------------------------------------------------
+r216720 | rniwa@webkit.org | 2017-05-12 10:54:30 +0800 (五, 12  5月 2017) | 29 lines
+
+Speedometer: Add a Vue.js TodoMVC implementation
+https://bugs.webkit.org/show_bug.cgi?id=171325
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-11
+Reviewed by Ryosuke Niwa.
+
+Adds a Vue.js TodoMVC implementation to Speedometer
+
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/.babelrc: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/.editorconfig: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/.eslintignore: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/.eslintrc.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/README.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/config/dev.env.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/config/index.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/config/prod.env.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/dist/index.html: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/dist/static/css/app.677b45842d9f8b96e5b23c18969233b7.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/dist/static/js/app.b0e835874bc8949670d1.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/dist/static/js/manifest.84b2b4fceb74ab1f91f3.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/dist/static/js/vendor.a52517c5aa98e7fbea2e.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/index.html: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/src/App.vue: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/src/components/Todos.vue: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/src/components/todo.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/src/main.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/vuejs-cli/yarn.lock: Added.
+
+------------------------------------------------------------------------
+r216719 | rniwa@webkit.org | 2017-05-12 10:53:56 +0800 (五, 12  5月 2017) | 25 lines
+
+Speedometer: Update the vanilla JavaScript TodoMVC implem to a more recent version
+https://bugs.webkit.org/show_bug.cgi?id=171306
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-11
+Reviewed by Ryosuke Niwa.
+
+Update vanilla JS TodoMVC implementation to the latest.
+
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/bower.json: Removed.
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/bower_components/todomvc-common/base.css: Removed.
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/bower_components/todomvc-common/base.js: Removed.
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/bower_components/todomvc-common/bg.png: Removed.
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/index.html:
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/js/app.js:
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/js/controller.js:
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/js/helpers.js:
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/js/model.js:
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/js/store.js:
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/js/template.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/js/view.js:
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/node_modules/todomvc-app-css/index.css: Added.
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/node_modules/todomvc-common/base.css: Added.
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/node_modules/todomvc-common/base.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/vanillajs/package.json: Added.
+
+------------------------------------------------------------------------
+r216718 | rniwa@webkit.org | 2017-05-12 10:52:45 +0800 (五, 12  5月 2017) | 26 lines
+
+Speedometer: Add an ES2015 TodoMVC implementation
+https://bugs.webkit.org/show_bug.cgi?id=171448
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-11
+Reviewed by Ryosuke Niwa.
+
+Adds ES2015 TodoMVC implementation for Speedometer
+
+* Speedometer/resources/todomvc/vanilla-examples/es2015/index.html: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/node_modules/todomvc-app-css/index.css: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/node_modules/todomvc-app-css/package.json: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/node_modules/todomvc-app-css/readme.md: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/node_modules/todomvc-common/base.css: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/node_modules/todomvc-common/base.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/node_modules/todomvc-common/package.json: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/node_modules/todomvc-common/readme.md: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/package.json: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/src/.jshintrc: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/src/app.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/src/controller.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/src/helpers.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/src/model.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/src/store.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/src/template.js: Added.
+* Speedometer/resources/todomvc/vanilla-examples/es2015/src/view.js: Added.
+
+------------------------------------------------------------------------
+r216717 | rniwa@webkit.org | 2017-05-12 10:50:18 +0800 (五, 12  5月 2017) | 18 lines
+
+Speedometer: Add an Elm TodoMVC implementation
+https://bugs.webkit.org/show_bug.cgi?id=171464
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-11
+Reviewed by Ryosuke Niwa.
+
+Speedometer: Add Elm TodoMVC implementation
+
+* Speedometer/resources/todomvc/functional-prog-examples/elm/Todo.elm: Added.
+* Speedometer/resources/todomvc/functional-prog-examples/elm/Todo/Task.elm: Added.
+* Speedometer/resources/todomvc/functional-prog-examples/elm/dist/elm.js: Added.
+* Speedometer/resources/todomvc/functional-prog-examples/elm/index.html: Added.
+* Speedometer/resources/todomvc/functional-prog-examples/elm/node_modules/todomvc-app-css/index.css: Added.
+* Speedometer/resources/todomvc/functional-prog-examples/elm/node_modules/todomvc-common/base.css: Added.
+* Speedometer/resources/todomvc/functional-prog-examples/elm/node_modules/todomvc-common/base.js: Added.
+* Speedometer/resources/todomvc/functional-prog-examples/elm/package.json: Added.
+* Speedometer/resources/todomvc/functional-prog-examples/elm/readme.md: Added.
+
+------------------------------------------------------------------------
+r216716 | rniwa@webkit.org | 2017-05-12 10:46:47 +0800 (五, 12  5月 2017) | 31 lines
+
+Speedometer: Update the Backbone.js implementation to a more recent library version
+https://bugs.webkit.org/show_bug.cgi?id=171305
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-11
+Reviewed by Ryosuke Niwa.
+
+Updates the Backbone.js TodoMVC implementation to latest
+
+* Speedometer/resources/todomvc/architecture-examples/backbone/bower.json: Removed.
+* Speedometer/resources/todomvc/architecture-examples/backbone/bower_components/backbone.localStorage/backbone.localStorage.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/backbone/bower_components/jquery/jquery.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/backbone/bower_components/todomvc-common/base.css: Removed.
+* Speedometer/resources/todomvc/architecture-examples/backbone/bower_components/todomvc-common/base.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/backbone/bower_components/todomvc-common/bg.png: Removed.
+* Speedometer/resources/todomvc/architecture-examples/backbone/bower_components/underscore/underscore.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/backbone/index.html:
+* Speedometer/resources/todomvc/architecture-examples/backbone/js/app.js:
+* Speedometer/resources/todomvc/architecture-examples/backbone/js/backbone.sync.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/backbone/js/collections/todos.js:
+* Speedometer/resources/todomvc/architecture-examples/backbone/js/models/todo.js:
+* Speedometer/resources/todomvc/architecture-examples/backbone/js/routers/router.js:
+* Speedometer/resources/todomvc/architecture-examples/backbone/js/views/app-view.js:
+* Speedometer/resources/todomvc/architecture-examples/backbone/js/views/todo-view.js:
+* Speedometer/resources/todomvc/architecture-examples/backbone/node_modules/backbone/backbone.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/architecture-examples/backbone/bower_components/backbone/backbone.js.
+* Speedometer/resources/todomvc/architecture-examples/backbone/node_modules/jquery/dist/jquery.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/backbone/node_modules/todomvc-app-css/index.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/backbone/node_modules/todomvc-common/base.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/backbone/node_modules/todomvc-common/base.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/backbone/node_modules/underscore/underscore.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/backbone/package.json: Added.
+
+------------------------------------------------------------------------
+r216715 | rniwa@webkit.org | 2017-05-12 10:45:36 +0800 (五, 12  5月 2017) | 26 lines
+
+Speedometer: Add a Preact.js TodoMVC implementation
+https://bugs.webkit.org/show_bug.cgi?id=171323
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-11
+Reviewed by Ryosuke Niwa.
+
+Adds Preact.js TodoMVC implementation to Speedometer
+
+* Speedometer/resources/todomvc/architecture-examples/preact/.babelrc: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/README.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/dist/app.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/dist/index.html: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/dist/todomvc-common/base.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/dist/todomvc-common/base.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/dist/todomvc.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/rollup.config.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/src/app/footer.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/src/app/index.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/src/app/item.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/src/app/model.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/src/app/util.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/src/index.html: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/src/index.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/preact/webpack.config.babel.js: Added.
+
+------------------------------------------------------------------------
+r216713 | commit-queue@webkit.org | 2017-05-12 08:55:24 +0800 (五, 12  5月 2017) | 27 lines
+
+Speedometer: Update the jQuery implementation to a more recent library version
+https://bugs.webkit.org/show_bug.cgi?id=171308
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-11
+Reviewed by Ryosuke Niwa.
+
+Updates the jQuery implementation of TodoMVC to a more recent version
+
+* Speedometer/resources/todomvc/architecture-examples/jquery/bower.json: Removed.
+* Speedometer/resources/todomvc/architecture-examples/jquery/bower_components/handlebars/handlebars.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/jquery/bower_components/jquery/jquery.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/jquery/bower_components/todomvc-common/base.css: Removed.
+* Speedometer/resources/todomvc/architecture-examples/jquery/bower_components/todomvc-common/base.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/jquery/bower_components/todomvc-common/bg.png: Removed.
+* Speedometer/resources/todomvc/architecture-examples/jquery/index.html:
+* Speedometer/resources/todomvc/architecture-examples/jquery/js/app.js:
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/handlebars/dist/handlebars.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/jquery/dist/jquery.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/todomvc-app-css/index.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/todomvc-app-css/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/todomvc-app-css/readme.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/todomvc-common/base.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/todomvc-common/base.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/todomvc-common/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/jquery/node_modules/todomvc-common/readme.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/jquery/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/jquery/readme.md:
+------------------------------------------------------------------------
+r216708 | commit-queue@webkit.org | 2017-05-12 08:15:12 +0800 (五, 12  5月 2017) | 89 lines
+
+Speedometer: Update the Flight.js implementation to a more recent library version
+https://bugs.webkit.org/show_bug.cgi?id=171471
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-11
+Reviewed by Ryosuke Niwa.
+
+Speedometer: Update FlightJS TodoMVC implementation
+
+* Speedometer/resources/todomvc/dependency-examples/flight/.gitignore: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/.jshintrc: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/app/js/main.js: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/app/js/store.js: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/bower.json: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/bower_components/es5-shim/es5-shim.js: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/compose.js: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/index.js: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/logger.js: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/bower_components/jquery/jquery.js: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/bower_components/todomvc-common/base.css: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/bower_components/todomvc-common/bg.png: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/js/data/stats.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/app/js/data/stats.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/js/data/todos.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/app/js/data/todos.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/js/main.js: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/js/page/app.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/app/js/app.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/js/store.js: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/js/ui/main_selector.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/app/js/ui/main_selector.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/js/ui/new_item.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/app/js/ui/new_item.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/js/ui/stats.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/app/js/ui/stats.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/js/ui/todo_list.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/app/js/ui/todo_list.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/js/ui/toggle_all.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/app/js/ui/toggle_all.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/js/ui/with_filters.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/app/js/ui/with_filters.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/js/utils.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/app/js/utils.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/templates/stats.html: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/app/templates/stats.html.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/app/templates/todo.html: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/app/templates/todo.html.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/index.html: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/index.html.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/depot/README.md: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/depot/depot.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/bower_components/depot/depot.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/depot/depot.min.js: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/depot/package.json: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/es5-shim/LICENSE: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/es5-shim/es5-sham.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/bower_components/es5-shim/es5-sham.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/es5-shim/es5-sham.min.js: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/es5-shim/es5-shim.js: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/es5-shim/es5-shim.min.js: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/flight/LICENSE: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/flight/index.js: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/flight/lib/advice.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/advice.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/flight/lib/base.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/base.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/flight/lib/component.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/component.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/flight/lib/compose.js: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/flight/lib/debug.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/debug.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/flight/lib/logger.js: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/flight/lib/registry.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/registry.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/flight/lib/utils.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/utils.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/jquery/README.md: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/jquery/dist/jquery.js: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/jquery/dist/jquery.min.js: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/jquery/package.json: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/memorystorage/memorystorage.js: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/requirejs-text/LICENSE: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/requirejs-text/README.md: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/requirejs-text/bower.json: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/requirejs-text/package.json: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/requirejs-text/text.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/bower_components/requirejs-text/text.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/requirejs/README.md: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/requirejs/package.json: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/requirejs/require.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/bower_components/requirejs/require.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/todomvc-app-css/index.css: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/todomvc-app-css/package.json: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/todomvc-app-css/readme.md: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/todomvc-common/base.css: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/todomvc-common/base.js: Renamed from PerformanceTests/Speedometer/resources/todomvc/dependency-examples/flight/bower_components/todomvc-common/base.js.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/todomvc-common/package.json: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/node_modules/todomvc-common/readme.md: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/flight/package.json: Added.
+* Speedometer/resources/todomvc/dependency-examples/flight/karma.conf.js: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/package.json: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/readme.md: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/test/.jshintrc: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/test/fixture/footer.html: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/test/fixture/new_todo.html: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/test/fixture/toggle_all.html: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/test/mock/datastore.js: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/test/spec/data/stats_spec.js: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/test/spec/data/todos_spec.js: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/test/spec/ui/new_item_spec.js: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/test/spec/ui/stats_spec.js: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/test/spec/ui/toggle_all_spec.js: Removed.
+* Speedometer/resources/todomvc/dependency-examples/flight/test/test-main.js: Removed.
+------------------------------------------------------------------------
+r216706 | commit-queue@webkit.org | 2017-05-12 08:12:09 +0800 (五, 12  5月 2017) | 39 lines
+
+Speedometer: Update the AngularJS implementation to a more recent library version
+https://bugs.webkit.org/show_bug.cgi?id=171307
+
+Patch by Addy Osmani <addyosmani@gmail.com> on 2017-05-11
+Reviewed by Ryosuke Niwa.
+
+Updates the AngularJS implementation of TodoMVC to 1.4.x
+
+* Speedometer/resources/todomvc/architecture-examples/angularjs/bower.json: Removed.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/bower_components/angular-mocks/angular-mocks.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/bower_components/angular/angular.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/bower_components/todomvc-common/base.css: Removed.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/bower_components/todomvc-common/base.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/bower_components/todomvc-common/bg.png: Removed.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/index.html:
+* Speedometer/resources/todomvc/architecture-examples/angularjs/js/app.js:
+* Speedometer/resources/todomvc/architecture-examples/angularjs/js/controllers/todoCtrl.js:
+* Speedometer/resources/todomvc/architecture-examples/angularjs/js/directives/todoBlur.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/js/directives/todoEscape.js:
+* Speedometer/resources/todomvc/architecture-examples/angularjs/js/directives/todoFocus.js:
+* Speedometer/resources/todomvc/architecture-examples/angularjs/js/services/todoStorage.js:
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/angular-resource/angular-resource.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/angular-route/angular-route.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/angular/angular.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/todomvc-app-css/index.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/todomvc-app-css/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/todomvc-app-css/readme.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/todomvc-common/base.css: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/todomvc-common/base.js: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/todomvc-common/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/node_modules/todomvc-common/readme.md: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/package.json: Added.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/readme.md:
+* Speedometer/resources/todomvc/architecture-examples/angularjs/test/config/testacular.conf.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/test/package.json: Removed.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/test/readme.md: Removed.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/test/unit/directivesSpec.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/test/unit/todoCtrlSpec.js: Removed.
+* Speedometer/resources/todomvc/architecture-examples/angularjs/todomvc-index.html: Added.
+------------------------------------------------------------------------
+r183695 | commit-queue@webkit.org | 2015-05-02 06:53:09 +0800 (六, 02  5月 2015) | 8 lines
+
+Fix typo bug in Speedometer/resources/main.js
+https://bugs.webkit.org/show_bug.cgi?id=144504
+
+Patch by Dewei Zhu <dewei_zhu@apple.com> on 2015-05-01
+Reviewed by Ryosuke Niwa.
+
+* Speedometer/resources/main.js: Fix typo.
+(window.benchmarkClient.totalTimeInDisplayUnit):
+------------------------------------------------------------------------
+r183685 | commit-queue@webkit.org | 2015-05-02 03:42:35 +0800 (六, 02  5月 2015) | 9 lines
+
+Update speedometer patch to provide better UI, fix merge result bug and add "Score" metric to speedometer benchmark.
+https://bugs.webkit.org/show_bug.cgi?id=144487
+
+Patch by Dewei Zhu <dewei_zhu@apple.com> on 2015-05-01
+Reviewed by Ryosuke Niwa.
+
+* Scripts/webkitpy/benchmark_runner/benchmark_runner.py:
+(BenchmarkRunner.merge): Fix bug.
+* Scripts/webkitpy/benchmark_runner/data/patches/Speedometer.patch: Update appearance and add "Score" metric.
+------------------------------------------------------------------------
+r174046 | commit-queue@webkit.org | 2014-09-29 07:18:25 +0800 (一, 29  9月 2014) | 30 lines
+
+Fix some minor typos: psuedo -> pseudo
+https://bugs.webkit.org/show_bug.cgi?id=137192
+
+Patch by Sungmann Cho <sungmann.cho@navercorp.com> on 2014-09-28
+Reviewed by Alexey Proskuryakov.
+
+PerformanceTests:
+
+* Speedometer/resources/todomvc/architecture-examples/emberjs/bower_components/handlebars/handlebars.js:
+
+Source/WebCore:
+
+No new tests, no behavior change.
+
+* css/CSSSelector.cpp:
+(WebCore::CSSSelector::specificityForOneSelector):
+
+LayoutTests:
+
+* fast/dom/Window/getMatchedCSSRules-with-invalid-pseudo-elements-expected.txt:
+* fast/dom/Window/getMatchedCSSRules-with-invalid-pseudo-elements.html:
+* fast/dom/Window/getMatchedCSSRules-with-pseudo-elements-expected.txt:
+* fast/dom/Window/getMatchedCSSRules-with-pseudo-elements.html:
+* fast/selectors/159.html:
+* fast/selectors/160.html:
+* fast/selectors/166.html:
+* platform/efl/fast/selectors/166-expected.txt:
+* platform/gtk/fast/selectors/166-expected.txt:
+* platform/ios-sim/fast/selectors/166-expected.txt:
+* platform/mac/fast/selectors/166-expected.txt:
+------------------------------------------------------------------------
+r169541 | rniwa@webkit.org | 2014-06-03 04:08:52 +0800 (二, 03  6月 2014) | 17 lines
+
+Rename DoYouEvenBench 0.17 to Speedometer 1.0 and add a new look.
+https://bugs.webkit.org/show_bug.cgi?id=133455
+
+Reviewed by Timothy Hatcher.
+
+PerformanceTests: 
+* Speedometer/: Renamed from DoYouEvenBench.
+* Skipped: Updated the path for InteractiveRunner.html
+
+Tools: 
+Since the perf. dashboard doesn't support following renamed benchmarks,
+keep reporting Speedometer results as DoYouEvenBench results.
+
+* Scripts/webkitpy/performance_tests/perftestsrunner.py:
+(_generate_results_dict):
+
+
+------------------------------------------------------------------------
+r169540 | rniwa@webkit.org | 2014-06-03 03:57:39 +0800 (二, 03  6月 2014) | 54 lines
+
+Rename DoYouEvenBench 0.17 to Speedometer 1.0 and add a new look.
+https://bugs.webkit.org/show_bug.cgi?id=133455
+
+Reviewed by Timothy Hatcher.
+
+Renamed the benchmark to Speedometer and added the new look designed by Timothy Hatcher.
+
+Also changed the unit of measurements from milliseconds to runs-per-minute averaged over the number
+of the benchmark suites (7 for 1.0). You can divide 420000 by the old benchmark score (in milliseconds)
+to get the new value for the set of tests that are enabled by default in 1.0. You can continue to see
+results in milliseconds on Full.html#ms.
+
+* DoYouEvenBench/Full.html: Added a bunch of sections and the description of the benchmark.
+
+* DoYouEvenBench/resources/benchmark-report.js: Remove the newly added content when ran inside a DRT or
+WTR so that run-perf-tests wouldn't error.
+* DoYouEvenBench/resources/benchmark-runner.js:
+(BenchmarkRunner.prototype._appendFrame): Call a newly added willAddTestFrame callback when it exists.
+
+* DoYouEvenBench/resources/gauge.png: Added.
+* DoYouEvenBench/resources/gauge@2x.png: Added.
+* DoYouEvenBench/resources/logo.png: Added.
+* DoYouEvenBench/resources/logo@2x.png: Added.
+* DoYouEvenBench/resources/main.css: Replaced the style.
+
+* DoYouEvenBench/resources/main.js:
+(window.benchmarkClient.willAddTestFrame): Place the iframe right where #testContainer is shown.
+(window.benchmarkClient.willRunTest): Show the name of the suite (e.g. EmberJS-TodoMVC) to run next.
+(window.benchmarkClient.didRunSuites):
+(window.benchmarkClient.willStartFirstIteration): Initialize _timeValues and _finishedTestCount now that
+we have an UI to run the benchmark multiple times without reloading the page.
+(window.benchmarkClient.didFinishLastIteration): Split into smaller pieces.
+(window.benchmarkClient._computeResults): Computes the mean and the statistics for the given time values,
+and also format them in a human readable form.
+(window.benchmarkClient._computeResults.totalTimeInDisplayUnit): Converts ms to runs/min.
+(window.benchmarkClient._computeResults.sigFigFromPercentDelta): Given a percentage error (e.g. 1%),
+returns the number of significant digits required for the mean.
+(window.benchmarkClient._computeResults.toSigFigPrecision): Calls toPrecision with the specified precision
+constrained to be at least the number of non-decimal digits and at most 6.
+(window.benchmarkClient._addDetailedResultsRow): Renamed from _addResult. It now takes the table to which
+to add a row and the iteration number.
+(window.benchmarkClient._updateGaugeNeedle): Added. Controls the angle of the speed indicator.
+(window.benchmarkClient._populateDetailedResults): Added.
+(window.benchmarkClient.prepareUI): Added. It adds an event listener to show a specified section when
+the push state of the document changes, and shows a warning sign when the view port size is too small.
+We do this inside a callback to avoid running it inside DRT / WTR.
+(startBenchmark):
+(showSection): Added.
+(startTest): Added.
+(showResultsSummary): Added.
+(showResultDetails): Added.
+(showAbout): Added.
+
+
+------------------------------------------------------------------------
+r169517 | rniwa@webkit.org | 2014-06-02 05:12:00 +0800 (一, 02  6月 2014) | 18 lines
+
+DYEBench: Move test states into benchmarkClient and remove the closure
+https://bugs.webkit.org/show_bug.cgi?id=133438
+
+Reviewed by Benjamin Poulain.
+
+Moved all local variables in the closure wrapping benchmarkClient onto the object itself
+and removed the closure to improve the readability of the code.
+
+* DoYouEvenBench/Full.html:
+* DoYouEvenBench/resources/main.js:
+(window.benchmarkClient.willRunTest):
+(window.benchmarkClient.didRunTest):
+(window.benchmarkClient.didRunSuites):
+(window.benchmarkClient.willStartFirstIteration):
+(window.benchmarkClient.didFinishLastIteration):
+(window.benchmarkClient._addResult): Moved.
+(.): Deleted.
+
+------------------------------------------------------------------------
+r169516 | rniwa@webkit.org | 2014-06-02 04:38:55 +0800 (一, 02  6月 2014) | 16 lines
+
+DYEBench: Split stylesheets and scripts in Full.html into separate files
+https://bugs.webkit.org/show_bug.cgi?id=133437
+
+Reviewed by Benjamin Poulain.
+
+Extracted main.js and main.css.
+
+Also fixed a bug in startBenchmark that disabled suites were counted towards the total number of tests.
+
+* DoYouEvenBench/Full.html:
+* DoYouEvenBench/resources/main.css: Added.
+* DoYouEvenBench/resources/main.js: Added.
+(.addResult):
+(window.benchmarkClient):
+(startBenchmark): Renamed from startTest.
+
+------------------------------------------------------------------------
+r169514 | rniwa@webkit.org | 2014-06-01 21:44:32 +0800 (日, 01  6月 2014) | 26 lines
+
+DYEBench: CSS parser warning at line 106 of base.css
+https://bugs.webkit.org/show_bug.cgi?id=133433
+
+Reviewed by Maciej Stachowiak.
+
+Removed the old filter CSS property for Internet Explorer. The latest Internet Explorer supports -ms-linear-gradient
+on background CSS property anyways.
+
+It's interesting that some of the tests only have -webkit- prefixes. Perhaps we should update those subtests.
+
+* DoYouEvenBench/Full.html:
+* DoYouEvenBench/resources/todomvc/architecture-examples/angularjs/bower_components/todomvc-common/base.css:
+(#header:before):
+* DoYouEvenBench/resources/todomvc/architecture-examples/backbone/bower_components/todomvc-common/base.css:
+(#header:before):
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/bower_components/todomvc-common/base.css:
+(#header:before):
+* DoYouEvenBench/resources/todomvc/architecture-examples/jquery/bower_components/todomvc-common/base.css:
+(#header:before):
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/todomvc-common/base.css:
+(#header:before):
+* DoYouEvenBench/resources/todomvc/labs/architecture-examples/react/bower_components/todomvc-common/base.css:
+(#header:before):
+* DoYouEvenBench/resources/todomvc/vanilla-examples/vanillajs/bower_components/todomvc-common/base.css:
+(#header:before):
+
+------------------------------------------------------------------------
+r169513 | rniwa@webkit.org | 2014-06-01 15:01:52 +0800 (日, 01  6月 2014) | 13 lines
+
+DYEBench: Ember.js assertion hit at line 20593
+https://bugs.webkit.org/show_bug.cgi?id=133431
+
+Reviewed by Darin Adler.
+
+The assertion was hit because ToDoMVC includes jQuery 2.1 and Ember.js 1.3.1 only recognizes jQuery 2.0.
+Port the assertion from Ember.js 1.5.1 to suppress the assertion.
+
+We should update the entire Ember.js at some point but this would do the job for now.
+
+* DoYouEvenBench/Full.html:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/bower_components/ember/ember.js:
+
+------------------------------------------------------------------------
+r169507 | rniwa@webkit.org | 2014-06-01 11:04:10 +0800 (日, 01  6月 2014) | 11 lines
+
+DYEBench: Prevent frame flattening on iOS
+https://bugs.webkit.org/show_bug.cgi?id=133428
+
+Reviewed by Andreas Kling.
+
+Prevent frame flattening on iOS by setting scrolling=no.
+
+* DoYouEvenBench/Full.html:
+* DoYouEvenBench/resources/benchmark-runner.js:
+(BenchmarkRunner.prototype._appendFrame):
+
+------------------------------------------------------------------------
+r169502 | rniwa@webkit.org | 2014-05-31 13:12:21 +0800 (六, 31  5月 2014) | 12 lines
+
+DYEBench spits out 404 errors for learn.json
+https://bugs.webkit.org/show_bug.cgi?id=133416
+
+Reviewed by Oliver Hunt.
+
+Add an empty learn.json file so that it won't cause a 404 error when hosted on a http server.
+
+Bumped the version number to 0.12.
+
+* DoYouEvenBench/Full.html:
+* DoYouEvenBench/resources/todomvc/learn.json:
+
+------------------------------------------------------------------------
+r168732 | rniwa@webkit.org | 2014-05-14 05:08:10 +0800 (三, 14  5月 2014) | 22 lines
+
+DYEBench should run 20 iterations in browser
+https://bugs.webkit.org/show_bug.cgi?id=132795
+
+Reviewed by Gavin Barraclough.
+
+Right now, run-perf-tests runs BYEBench 4 times with different instances of DRT/WTR to get
+a more stable time and account for differences in the runtime environment, particularly,
+ASLR (Address Space Layout Randomization).
+
+While we can't account for the latter effect when the benchmark is ran inside a browser,
+we can at least run 20 iterations to get a more stable (but perhaps biased by ALSR) number.
+
+While the sample size of 20 is statistically unsound to compute the arithmetic mean from,
+it's MUCH better than the current sample size of 5.
+
+* DoYouEvenBench/Full.html:
+(benchmarkClient.iterationCount): Set the default iteration count to 20.
+(startTest): Use benchmarkClient.iterationCount as the iteration count.
+* DoYouEvenBench/resources/benchmark-report.js:
+(benchmarkClient.iterationCount): Continue to use the old iteration count of 5 when ran
+inside run-perf-tests.
+
+------------------------------------------------------------------------
+r168564 | rniwa@webkit.org | 2014-05-10 09:23:43 +0800 (六, 10  5月 2014) | 10 lines
+
+DYEBench should show 95th percentile right next to the mean with ±
+https://bugs.webkit.org/show_bug.cgi?id=132729
+
+Reviewed by Darin Adler.
+
+Before this patch, Full.html showed the 95th percentile delta for the arthemtic mean in a separate row
+but this was confusing for some people. Show it right next to mean in the same row separated by ±.
+
+* DoYouEvenBench/Full.html:
+
+------------------------------------------------------------------------
+r168521 | rniwa@webkit.org | 2014-05-09 14:01:06 +0800 (五, 09  5月 2014) | 88 lines
+
+DYEBench should use TodoMVC to test FlightJS for consistency
+https://bugs.webkit.org/show_bug.cgi?id=132727
+
+Reviewed by Andreas Kling.
+
+Add a test suite for the FlightJS version of TodoMVC, and disable FlightJS-MailClient by default.
+
+I initially intended to include a wider variety of demo apps in DYEBench
+but that's not happening any time soon so let us use TodoMVC for all frameworks for now.
+
+We can add more demo apps in v2.
+
+* DoYouEvenBench/Full.html: Increment the version to 0.10.
+* DoYouEvenBench/InteractiveRunner.html: Don't check disabled suites by default.
+* DoYouEvenBench/resources/tests.js:
+* DoYouEvenBench/resources/todomvc/dependency-examples: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/.gitignore: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/.jshintrc: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js/app.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js/data: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js/data/stats.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js/data/todos.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js/main.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js/store.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js/ui: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js/ui/main_selector.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js/ui/new_item.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js/ui/stats.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js/ui/todo_list.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js/ui/toggle_all.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js/ui/with_filters.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/js/utils.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/templates: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/templates/stats.html: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/app/templates/todo.html: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower.json: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/depot: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/depot/depot.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/es5-shim: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/es5-shim/es5-sham.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/es5-shim/es5-shim.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/flight: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/flight/lib: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/advice.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/base.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/component.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/compose.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/debug.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/index.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/logger.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/registry.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/flight/lib/utils.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/jquery: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/jquery/jquery.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/requirejs: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/requirejs-text: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/requirejs-text/text.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/requirejs/require.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/todomvc-common: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/todomvc-common/base.css: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/todomvc-common/base.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/bower_components/todomvc-common/bg.png: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/index.html: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/karma.conf.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/package.json: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/readme.md: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/.jshintrc: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/fixture: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/fixture/footer.html: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/fixture/new_todo.html: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/fixture/toggle_all.html: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/mock: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/mock/datastore.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/spec: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/spec/data: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/spec/data/stats_spec.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/spec/data/todos_spec.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/spec/ui: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/spec/ui/new_item_spec.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/spec/ui/stats_spec.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/spec/ui/toggle_all_spec.js: Added.
+* DoYouEvenBench/resources/todomvc/dependency-examples/flight/test/test-main.js: Added.
+
+------------------------------------------------------------------------
+r164157 | rniwa@webkit.org | 2014-02-15 13:45:26 +0800 (六, 15  2月 2014) | 20 lines
+
+Improve the appearance of DYEBench
+https://bugs.webkit.org/show_bug.cgi?id=128866
+
+Reviewed by Antti Koivisto.
+
+Add a div that shows progress during the test. Also show 95th percentile,
+and use a table instead of pre to show results.
+
+* DoYouEvenBench/Full.html:
+(.addResult): Added. Shows results in a table.
+(benchmarkClient.willRunTest): Added to show the progress bar.
+(benchmarkClient.didRunTest):
+(benchmarkClient.didRunSuites):
+(benchmarkClient.didFinishLastIteration): Compute 95th percentile using Statistics.js
+
+* DoYouEvenBench/resources/benchmark-runner.js:
+(BenchmarkRunner.prototype._appendFrame): Fix the bug where marginLeft and marginTop
+weren't correctly parsed. We were treating top as left and bottom as top somehow.
+(BenchmarkRunner.prototype._runTestAndRecordResults): Fixed a typo.
+
+------------------------------------------------------------------------
+r163431 | rniwa@webkit.org | 2014-02-05 15:11:57 +0800 (三, 05  2月 2014) | 10 lines
+
+PerformanceTests: Undelete the "build" directory erroneously removed in r163427.
+
+* DoYouEvenBench/resources/todomvc/labs/architecture-examples/react/bower_components/director/build:
+
+LayoutTests: Undelete the "build" directories erroneously removed in r163427.
+
+* webgl/1.0.2/conformance/ogles/GL/build:
+* webgl/1.0.2/resources/webgl_test_files/conformance/ogles/GL/build:
+* webgl/resources/webgl_test_files/conformance/ogles/GL/build:
+
+------------------------------------------------------------------------
+r163430 | rniwa@webkit.org | 2014-02-05 15:00:45 +0800 (三, 05  2月 2014) | 3 lines
+
+Revert the change made in r162216 as it broke the benchmark on shipping Safari.
+
+* DoYouEvenBench/resources/benchmark-runner.js:
+------------------------------------------------------------------------
+r163429 | rniwa@webkit.org | 2014-02-05 13:36:04 +0800 (三, 05  2月 2014) | 29 lines
+
+DoYouEvenBench: Update Ember.js test case
+https://bugs.webkit.org/show_bug.cgi?id=128227
+
+Reviewed by Benjamin Poulain.
+
+Updated the Ember.js TodoMVC implementation.
+
+* DoYouEvenBench/resources/tests.js:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/bower.json:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/bower_components/ember-data/ember-data.js: Added.
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/bower_components/ember-localstorage-adapter/localstorage_adapter.js:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/bower_components/ember/ember.js:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/bower_components/handlebars/handlebars.js:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/bower_components/jquery/jquery.js:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/bower_components/todomvc-common/base.css:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/bower_components/todomvc-common/base.js:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/index.html:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/js/app.js:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/js/controllers/todo_controller.js:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/js/controllers/todos_controller.js:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/js/helpers/pluralize.js: Added.
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/js/libs/ember-data.js: Removed.
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/js/models/store.js: Removed.
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/js/models/todo.js:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/js/router.js:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/js/views/edit_todo_view.js:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/js/views/todos_view.js: Added.
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/readme.md:
+* DoYouEvenBench/resources/todomvc/architecture-examples/emberjs/test.html:
+------------------------------------------------------------------------
+r163427 | akling@apple.com | 2014-02-05 12:59:20 +0800 (三, 05  2月 2014) | 263 lines
+
+Remove <iframe seamless> support.
+<https://webkit.org/b/128213>
+
+.:
+
+Rubber-stamped by Antti Koivisto.
+
+* Source/autotools/SetupWebKitFeatures.m4:
+* Source/cmake/WebKitFeatures.cmake:
+* Source/cmakeconfig.h.cmake:
+
+Source/JavaScriptCore:
+
+Rubber-stamped by Antti Koivisto.
+
+* Configurations/FeatureDefines.xcconfig:
+
+Source/WebCore:
+
+Seamless iframes were behind a runtime flag that we never enabled,
+and the only other engine that implemented them (Blink) recently
+removed them. Since the feature is very invasive, let's take it
+out for now.
+
+Rubber-stamped by Antti Koivisto.
+
+* Configurations/FeatureDefines.xcconfig:
+* accessibility/AccessibilityObject.h:
+* accessibility/AccessibilityRenderObject.cpp:
+(WebCore::AccessibilityRenderObject::parentObjectIfExists):
+(WebCore::AccessibilityRenderObject::parentObject):
+(WebCore::AccessibilityRenderObject::boundingBoxRect):
+(WebCore::AccessibilityRenderObject::computeAccessibilityIsIgnored):
+(WebCore::AccessibilityRenderObject::determineAccessibilityRole):
+* accessibility/mac/WebAccessibilityObjectWrapperMac.mm:
+(createAccessibilityRoleMap):
+* bindings/generic/RuntimeEnabledFeatures.cpp:
+(WebCore::RuntimeEnabledFeatures::RuntimeEnabledFeatures):
+* bindings/generic/RuntimeEnabledFeatures.h:
+* css/CSSComputedStyleDeclaration.cpp:
+(WebCore::ComputedStyleExtractor::propertyValue):
+* css/CSSSelector.cpp:
+(WebCore::CSSSelector::pseudoId):
+(WebCore::populatePseudoTypeByNameMap):
+(WebCore::CSSSelector::extractPseudoType):
+* css/CSSSelector.h:
+* css/SelectorChecker.cpp:
+(WebCore::SelectorChecker::checkOne):
+* css/StyleResolver.cpp:
+(WebCore::StyleResolver::adjustRenderStyle):
+* css/html.css:
+(iframe):
+* dom/Document.cpp:
+(WebCore::Document::scheduleStyleRecalc):
+(WebCore::Document::implicitOpen):
+(WebCore::Document::initSecurityContext):
+* dom/Document.h:
+* dom/DocumentStyleSheetCollection.cpp:
+(WebCore::DocumentStyleSheetCollection::updateActiveStyleSheets):
+* dom/SecurityContext.cpp:
+(WebCore::SecurityContext::SecurityContext):
+* dom/SecurityContext.h:
+* html/HTMLAttributeNames.in:
+* html/HTMLIFrameElement.cpp:
+(WebCore::HTMLIFrameElement::HTMLIFrameElement):
+(WebCore::HTMLIFrameElement::isPresentationAttribute):
+(WebCore::HTMLIFrameElement::parseAttribute):
+* html/HTMLIFrameElement.h:
+* html/HTMLIFrameElement.idl:
+* loader/FrameLoader.cpp:
+(WebCore::FrameLoader::findFrameForNavigation):
+* page/FrameView.cpp:
+(WebCore::FrameView::calculateScrollbarModesForLayout):
+(WebCore::FrameView::isInChildFrameWithFrameFlattening):
+* page/Location.cpp:
+(WebCore::Location::setLocation):
+* rendering/RenderBox.h:
+(WebCore::RenderBox::stretchesToViewport):
+* rendering/RenderIFrame.cpp:
+(WebCore::RenderIFrame::shouldComputeSizeAsReplaced):
+(WebCore::RenderIFrame::isInlineBlockOrInlineTable):
+(WebCore::RenderIFrame::flattenFrame):
+(WebCore::RenderIFrame::layout):
+* rendering/RenderIFrame.h:
+* rendering/RenderView.cpp:
+(WebCore::RenderView::initializeLayoutState):
+(WebCore::RenderView::layout):
+* rendering/RenderView.h:
+* style/StyleResolveForDocument.cpp:
+(WebCore::Style::resolveForDocument):
+* style/StyleResolveTree.cpp:
+(WebCore::Style::resolveTree):
+
+Source/WebKit/efl:
+
+Rubber-stamped by Antti Koivisto.
+
+* WebCoreSupport/DumpRenderTreeSupportEfl.cpp:
+* WebCoreSupport/DumpRenderTreeSupportEfl.h:
+* ewk/ewk_view.cpp:
+(_ewk_view_priv_new):
+
+Source/WebKit/gtk:
+
+Rubber-stamped by Antti Koivisto.
+
+* WebCoreSupport/DumpRenderTreeSupportGtk.cpp:
+* WebCoreSupport/DumpRenderTreeSupportGtk.h:
+
+Source/WebKit/mac:
+
+Rubber-stamped by Antti Koivisto.
+
+* Configurations/FeatureDefines.xcconfig:
+* WebView/WebPreferenceKeysPrivate.h:
+* WebView/WebPreferences.mm:
+* WebView/WebPreferencesPrivate.h:
+* WebView/WebView.mm:
+(-[WebView _preferencesChanged:]):
+
+Source/WebKit/win:
+
+Rubber-stamped by Antti Koivisto.
+
+* WebPreferences.h:
+* WebView.cpp:
+(WebView::notifyPreferencesChanged):
+
+Source/WebKit2:
+
+Rubber-stamped by Antti Koivisto.
+
+* Configurations/FeatureDefines.xcconfig:
+* WebProcess/InjectedBundle/API/c/WKBundle.cpp:
+* WebProcess/InjectedBundle/API/c/WKBundlePrivate.h:
+* WebProcess/InjectedBundle/InjectedBundle.cpp:
+* WebProcess/InjectedBundle/InjectedBundle.h:
+
+Source/WTF:
+
+Rubber-stamped by Antti Koivisto.
+
+* wtf/FeatureDefines.h:
+
+Tools:
+
+Rubber-stamped by Antti Koivisto.
+
+* DumpRenderTree/efl/DumpRenderTreeChrome.cpp:
+(DumpRenderTreeChrome::resetDefaultsToConsistentValues):
+* DumpRenderTree/gtk/DumpRenderTree.cpp:
+(resetDefaultsToConsistentValues):
+* DumpRenderTree/mac/DumpRenderTree.mm:
+(resetWebPreferencesToConsistentValues):
+* DumpRenderTree/win/DumpRenderTree.cpp:
+(resetDefaultsToConsistentValues):
+* Scripts/webkitperl/FeatureList.pm:
+* WebKitTestRunner/InjectedBundle/InjectedBundle.cpp:
+(WTR::InjectedBundle::beginTesting):
+
+WebKitLibraries:
+
+Rubber-stamped by Antti Koivisto.
+
+* win/tools/vsprops/FeatureDefines.props:
+
+LayoutTests:
+
+Rubber-stamped by Antti Koivisto.
+
+* fast/frames/seamless/resources/css-cascade-child.html: Removed.
+* fast/frames/seamless/resources/done.html: Removed.
+* fast/frames/seamless/resources/nested-seamless.html: Removed.
+* fast/frames/seamless/resources/percent-square.html: Removed.
+* fast/frames/seamless/resources/quirks-square.html: Removed.
+* fast/frames/seamless/resources/span.html: Removed.
+* fast/frames/seamless/resources/square.html: Removed.
+* fast/frames/seamless/resources/two-inline-blocks.html: Removed.
+* fast/frames/seamless/seamless-basic-expected.txt: Removed.
+* fast/frames/seamless/seamless-basic.html: Removed.
+* fast/frames/seamless/seamless-body-margin-expected.txt: Removed.
+* fast/frames/seamless/seamless-body-margin.html: Removed.
+* fast/frames/seamless/seamless-border-padding-expected.txt: Removed.
+* fast/frames/seamless/seamless-border-padding.html: Removed.
+* fast/frames/seamless/seamless-contenteditable-not-inherited-expected.txt: Removed.
+* fast/frames/seamless/seamless-contenteditable-not-inherited.html: Removed.
+* fast/frames/seamless/seamless-css-cascade-expected.txt: Removed.
+* fast/frames/seamless/seamless-css-cascade.html: Removed.
+* fast/frames/seamless/seamless-custom-font-pruning-crash-expected.txt: Removed.
+* fast/frames/seamless/seamless-custom-font-pruning-crash.html: Removed.
+* fast/frames/seamless/seamless-designMode-expected.txt: Removed.
+* fast/frames/seamless/seamless-designMode.html: Removed.
+* fast/frames/seamless/seamless-document-write-expected.txt: Removed.
+* fast/frames/seamless/seamless-document-write.html: Removed.
+* fast/frames/seamless/seamless-float-expected.txt: Removed.
+* fast/frames/seamless/seamless-float.html: Removed.
+* fast/frames/seamless/seamless-form-get-expected.txt: Removed.
+* fast/frames/seamless/seamless-form-get-named-expected.txt: Removed.
+* fast/frames/seamless/seamless-form-get-named.html: Removed.
+* fast/frames/seamless/seamless-form-get-override-expected.txt: Removed.
+* fast/frames/seamless/seamless-form-get-override.html: Removed.
+* fast/frames/seamless/seamless-form-get.html: Removed.
+* fast/frames/seamless/seamless-form-post-expected.txt: Removed.
+* fast/frames/seamless/seamless-form-post-named-expected.txt: Removed.
+* fast/frames/seamless/seamless-form-post-named.html: Removed.
+* fast/frames/seamless/seamless-form-post-override-expected.txt: Removed.
+* fast/frames/seamless/seamless-form-post-override.html: Removed.
+* fast/frames/seamless/seamless-form-post.html: Removed.
+* fast/frames/seamless/seamless-hyperlink-expected.txt: Removed.
+* fast/frames/seamless/seamless-hyperlink-named-expected.txt: Removed.
+* fast/frames/seamless/seamless-hyperlink-named.html: Removed.
+* fast/frames/seamless/seamless-hyperlink-override-expected.txt: Removed.
+* fast/frames/seamless/seamless-hyperlink-override.html: Removed.
+* fast/frames/seamless/seamless-hyperlink.html: Removed.
+* fast/frames/seamless/seamless-inherited-document-style-expected.txt: Removed.
+* fast/frames/seamless/seamless-inherited-document-style.html: Removed.
+* fast/frames/seamless/seamless-inherited-origin-expected.txt: Removed.
+* fast/frames/seamless/seamless-inherited-origin.html: Removed.
+* fast/frames/seamless/seamless-inline-expected.txt: Removed.
+* fast/frames/seamless/seamless-inline.html: Removed.
+* fast/frames/seamless/seamless-min-max-expected.txt: Removed.
+* fast/frames/seamless/seamless-min-max.html: Removed.
+* fast/frames/seamless/seamless-nested-crash-expected.txt: Removed.
+* fast/frames/seamless/seamless-nested-crash.html: Removed.
+* fast/frames/seamless/seamless-nested-expected.txt: Removed.
+* fast/frames/seamless/seamless-nested.html: Removed.
+* fast/frames/seamless/seamless-percent-height-expected.txt: Removed.
+* fast/frames/seamless/seamless-percent-height.html: Removed.
+* fast/frames/seamless/seamless-quirks-expected.txt: Removed.
+* fast/frames/seamless/seamless-quirks.html: Removed.
+* fast/frames/seamless/seamless-sandbox-flag-expected.txt: Removed.
+* fast/frames/seamless/seamless-sandbox-flag.html: Removed.
+* fast/frames/seamless/seamless-sandbox-srcdoc-expected.txt: Removed.
+* fast/frames/seamless/seamless-sandbox-srcdoc.html: Removed.
+* fast/frames/seamless/seamless-srcdoc-expected.txt: Removed.
+* fast/frames/seamless/seamless-srcdoc.html: Removed.
+* fast/frames/seamless/seamless-window-location-expected.txt: Removed.
+* fast/frames/seamless/seamless-window-location-href-expected.txt: Removed.
+* fast/frames/seamless/seamless-window-location-href.html: Removed.
+* fast/frames/seamless/seamless-window-location-replace-expected.txt: Removed.
+* fast/frames/seamless/seamless-window-location-replace.html: Removed.
+* fast/frames/seamless/seamless-window-location-sandbox-expected.txt: Removed.
+* fast/frames/seamless/seamless-window-location-sandbox.html: Removed.
+* fast/frames/seamless/seamless-window-location.html: Removed.
+* fast/frames/seamless/seamless-window-open-expected.txt: Removed.
+* fast/frames/seamless/seamless-window-open-override-expected.txt: Removed.
+* fast/frames/seamless/seamless-window-open-override.html: Removed.
+* fast/frames/seamless/seamless-window-open.html: Removed.
+* fast/multicol/resources/seamless.html: Removed.
+* fast/multicol/seamless-flowed-through-columns-expected.html: Removed.
+* fast/multicol/seamless-flowed-through-columns.html: Removed.
+* fast/regions/resources/seamless.html: Removed.
+* fast/regions/seamless-iframe-flowed-into-regions-expected.html: Removed.
+* fast/regions/seamless-iframe-flowed-into-regions.html: Removed.
+* http/tests/security/seamless/resources/square.html: Removed.
+* http/tests/security/seamless/seamless-cross-origin-expected.txt: Removed.
+* http/tests/security/seamless/seamless-cross-origin.html: Removed.
+* http/tests/security/seamless/seamless-sandbox-srcdoc-expected.txt: Removed.
+* http/tests/security/seamless/seamless-sandbox-srcdoc.html: Removed.
+* platform/efl/TestExpectations:
+* platform/gtk/TestExpectations:
+* platform/mac/TestExpectations:
+
+------------------------------------------------------------------------
+r162216 | rniwa@webkit.org | 2014-01-18 05:10:37 +0800 (六, 18  1月 2014) | 21 lines
+
+Host DoYouEvenBench on webkit.org
+https://bugs.webkit.org/show_bug.cgi?id=127185
+
+Reviewed by Benjamin Poulain.
+
+PerformanceTests: 
+
+Compute the resources directory relative to the benchmark-runner's location
+so that we can load tests even if the runner HTML was located elsewhere.
+
+* DoYouEvenBench/Full.html:
+* DoYouEvenBench/resources/benchmark-runner.js:
+(BenchmarkState._containingDirectory):
+
+Websites/webkit.org: 
+
+Added webkit.org/perf/DoYouEvenBench.
+
+* perf/DoYouEvenBench: Added.
+* perf/DoYouEvenBench/index.html: Copied from PerformanceTests/DoYouEvenBench/Full.html.
+
+------------------------------------------------------------------------
+r162214 | rniwa@webkit.org | 2014-01-18 04:43:26 +0800 (六, 18  1月 2014) | 268 lines
+
+DoYouEvenBench: Move flightjs-example-app and todomvc into resources
+https://bugs.webkit.org/show_bug.cgi?id=127183
+
+Rubber-stamped by Anders Carlsson.
+
+* DoYouEvenBench/InteractiveRunner.html: Copied from PerformanceTests/DoYouEvenBench/benchmark.html.
+* DoYouEvenBench/benchmark.html: Removed.
+* DoYouEvenBench/flightjs-example-app: Removed.
+* DoYouEvenBench/flightjs-example-app/LICENSE.md: Removed.
+* DoYouEvenBench/flightjs-example-app/README.md: Removed.
+* DoYouEvenBench/flightjs-example-app/app: Removed.
+* DoYouEvenBench/flightjs-example-app/app/boot: Removed.
+* DoYouEvenBench/flightjs-example-app/app/boot/page.js: Removed.
+* DoYouEvenBench/flightjs-example-app/app/component_data: Removed.
+* DoYouEvenBench/flightjs-example-app/app/component_data/compose_box.js: Removed.
+* DoYouEvenBench/flightjs-example-app/app/component_data/mail_items.js: Removed.
+* DoYouEvenBench/flightjs-example-app/app/component_data/move_to.js: Removed.
+* DoYouEvenBench/flightjs-example-app/app/component_ui: Removed.
+* DoYouEvenBench/flightjs-example-app/app/component_ui/compose_box.js: Removed.
+* DoYouEvenBench/flightjs-example-app/app/component_ui/folders.js: Removed.
+* DoYouEvenBench/flightjs-example-app/app/component_ui/mail_controls.js: Removed.
+* DoYouEvenBench/flightjs-example-app/app/component_ui/mail_items.js: Removed.
+* DoYouEvenBench/flightjs-example-app/app/component_ui/move_to_selector.js: Removed.
+* DoYouEvenBench/flightjs-example-app/app/component_ui/with_select.js: Removed.
+* DoYouEvenBench/flightjs-example-app/app/css: Removed.
+* DoYouEvenBench/flightjs-example-app/app/css/custom.css: Removed.
+* DoYouEvenBench/flightjs-example-app/app/data.js: Removed.
+* DoYouEvenBench/flightjs-example-app/app/templates.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components: Removed.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap: Removed.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/css: Removed.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/css/bootstrap-responsive.css: Removed.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/css/bootstrap-responsive.min.css: Removed.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/css/bootstrap.css: Removed.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/css/bootstrap.min.css: Removed.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/img: Removed.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/img/glyphicons-halflings-white.png: Removed.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/img/glyphicons-halflings.png: Removed.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/js/bootstrap.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/js/bootstrap.min.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/.gitignore: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/CHANGES: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/CONTRIBUTORS.md: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/LICENSE: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/README.md: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/component.json: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/es5-sham.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/es5-sham.min.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/es5-shim.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/es5-shim.min.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/package.json: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/helpers: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/helpers/h-kill.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/helpers/h-matchers.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/helpers/h.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/index.html: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/lib: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/lib/jasmine-html.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/lib/jasmine.css: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/lib/jasmine.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/lib/jasmine_favicon.png: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/lib/json2.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/spec: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/spec/s-array.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/spec/s-date.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/spec/s-function.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/spec/s-object.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/spec/s-string.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/flight: Removed.
+* DoYouEvenBench/flightjs-example-app/components/flight/.travis.yml: Removed.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib: Removed.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib/advice.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib/component.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib/compose.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib/index.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib/logger.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib/registry.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib/utils.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/flight/tools: Removed.
+* DoYouEvenBench/flightjs-example-app/components/flight/tools/debug: Removed.
+* DoYouEvenBench/flightjs-example-app/components/flight/tools/debug/debug.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-flight: Removed.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-flight/LICENSE.md: Removed.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-flight/README.md: Removed.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-flight/bower.json: Removed.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-flight/lib: Removed.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-flight/lib/jasmine-flight.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-jquery: Removed.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-jquery/lib: Removed.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-jquery/lib/jasmine-jquery.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/jquery: Removed.
+* DoYouEvenBench/flightjs-example-app/components/jquery/component.json: Removed.
+* DoYouEvenBench/flightjs-example-app/components/jquery/composer.json: Removed.
+* DoYouEvenBench/flightjs-example-app/components/jquery/jquery.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/jquery/jquery.min.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/mustache: Removed.
+* DoYouEvenBench/flightjs-example-app/components/mustache/mustache.js: Removed.
+* DoYouEvenBench/flightjs-example-app/components/requirejs: Removed.
+* DoYouEvenBench/flightjs-example-app/components/requirejs/require.js: Removed.
+* DoYouEvenBench/flightjs-example-app/index.html: Removed.
+* DoYouEvenBench/flightjs-example-app/karma.conf.js: Removed.
+* DoYouEvenBench/flightjs-example-app/package.json: Removed.
+* DoYouEvenBench/flightjs-example-app/requireMain.js: Removed.
+* DoYouEvenBench/resources/benchmark-runner.js:
+* DoYouEvenBench/resources/flightjs-example-app: Copied from PerformanceTests/DoYouEvenBench/flightjs-example-app.
+* DoYouEvenBench/resources/todomvc: Copied from PerformanceTests/DoYouEvenBench/todomvc.
+* DoYouEvenBench/todomvc: Removed.
+* DoYouEvenBench/todomvc/architecture-examples: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower.json: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/angular: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/angular-mocks: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/angular-mocks/angular-mocks.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/angular/angular.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/todomvc-common: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/todomvc-common/base.css: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/todomvc-common/base.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/todomvc-common/bg.png: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/index.html: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/app.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/controllers: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/controllers/todoCtrl.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/directives: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/directives/todoBlur.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/directives/todoEscape.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/directives/todoFocus.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/services: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/services/todoStorage.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/readme.md: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test/config: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test/config/testacular.conf.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test/package.json: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test/readme.md: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test/unit: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test/unit/directivesSpec.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test/unit/todoCtrlSpec.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower.json: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/backbone: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/backbone.localStorage: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/backbone.localStorage/backbone.localStorage.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/backbone/backbone.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/jquery: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/jquery/jquery.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/todomvc-common: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/todomvc-common/base.css: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/todomvc-common/base.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/todomvc-common/bg.png: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/underscore: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/underscore/underscore.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/index.html: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/app.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/collections: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/collections/todos.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/models: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/models/todo.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/routers: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/routers/router.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/views: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/views/app-view.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/views/todo-view.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/readme.md: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower.json: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/ember: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/ember-localstorage-adapter: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/ember-localstorage-adapter/localstorage_adapter.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/ember/ember.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/handlebars: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/handlebars/handlebars.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/jquery: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/jquery/jquery.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/todomvc-common: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/todomvc-common/base.css: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/todomvc-common/base.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/todomvc-common/bg.png: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/index.html: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/app.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/controllers: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/controllers/todo_controller.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/controllers/todos_controller.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/libs: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/libs/ember-data.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/models: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/models/store.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/models/todo.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/router.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/views: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/views/edit_todo_view.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/readme.md: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/test.html: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower.json: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/handlebars: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/handlebars/handlebars.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/jquery: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/jquery/jquery.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/todomvc-common: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/todomvc-common/base.css: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/todomvc-common/base.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/todomvc-common/bg.png: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/css: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/css/app.css: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/index.html: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/js/app.js: Removed.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/readme.md: Removed.
+* DoYouEvenBench/todomvc/labs: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower.json: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/director: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/director/LICENSE: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/director/README.md: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/director/build: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/director/build/director.js: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/director/build/director.min.js: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/director/build/ender.js: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/react: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/react/JSXTransformer.js: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/react/bower.json: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/react/react.js: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/react/react.min.js: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/todomvc-common: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/todomvc-common/base.css: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/todomvc-common/base.js: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/todomvc-common/bg.png: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/index.html: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/js: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/js/app.jsx: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/js/footer.jsx: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/js/todoItem.jsx: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/js/utils.jsx: Removed.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/readme.md: Removed.
+* DoYouEvenBench/todomvc/license.md: Removed.
+* DoYouEvenBench/todomvc/readme.md: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/bower.json: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/bower_components: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/bower_components/todomvc-common: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/bower_components/todomvc-common/base.css: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/bower_components/todomvc-common/base.js: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/bower_components/todomvc-common/bg.png: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/index.html: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/js: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/js/app.js: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/js/controller.js: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/js/helpers.js: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/js/model.js: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/js/store.js: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/js/view.js: Removed.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/readme.md: Removed.
+* Skipped:
+
+
+------------------------------------------------------------------------
+r162183 | rniwa@webkit.org | 2014-01-17 14:06:36 +0800 (五, 17  1月 2014) | 36 lines
+
+Automate DoYouEvenBench
+https://bugs.webkit.org/show_bug.cgi?id=124497
+
+Reviewed by Geoffrey Garen.
+
+PerformanceTests:
+
+Enable DoYouEvenBench/Full.html on perf bots by default.
+
+Put a space between the time and ms, and fixed a typo in runner.js so that the aggregator name will be reported.
+
+* DoYouEvenBench/Full.html:
+* Skipped:
+* resources/runner.js:
+
+Tools:
+
+* Scripts/webkitpy/performance_tests/perftest.py:
+(PerfTestMetric.__init__): Added the aggregator name as an argument.
+(PerfTestMetric.aggregator): Added.
+(PerfTest._metrics_regex): Made the subtest name match non-greedy so that the metric names will be
+won't be eagerly parsed as a part of the subtest name. e.g. "Time" and "Total" in "a:Time:Total"
+should be parsed as the metric and the aggregator respectively.
+(PerfTest._run_with_driver): Pass in the aggregator name.
+(PerfTest._ensure_metrics): Ditto. Also split the subtest name by / as required by DoYouEvenBench
+which generates subtests of subtests within a single test file.
+
+* Scripts/webkitpy/performance_tests/perftest_unittest.py:
+(test_parse_output_with_subtests_and_total): Added.
+
+* Scripts/webkitpy/performance_tests/perftestsrunner.py:
+(_generate_results_dict): Add the aggregator name to the JSON when one is available.
+
+* Scripts/webkitpy/performance_tests/perftestsrunner_integrationtest.py:
+(TestWithSubtestsData): Added a sub test with an aggregator and a sub-sub test.
+
+------------------------------------------------------------------------
+r162058 | rniwa@webkit.org | 2014-01-15 16:01:52 +0800 (三, 15  1月 2014) | 55 lines
+
+Make DoYouEvenBench runnable by run-perf-tests
+https://bugs.webkit.org/show_bug.cgi?id=127030
+
+Reviewed by Andreas Kling.
+
+PerformanceTests:
+
+Added Full.html that runs 5 iterations of DoYouEvenBench. This is the canonical DoYouEvenBench,
+which is also runnable by run-perf-tests.
+
+* DoYouEvenBench/Full.html: Added.
+
+* DoYouEvenBench/benchmark.html:
+(startTest): Updated the code to account for the fact old measuredValues is pushed down to tests
+property and we now have total property so that we don't have to manually compute the total.
+
+* DoYouEvenBench/resources/benchmark-report.js: Added. When we're inside a DRT/WTR, use
+PerfTestRunner to output that can be parsed by run-perf-tests. Do the same when the query part
+or the fragment part of the current URL is "webkit" for debugging purposes.
+
+* DoYouEvenBench/resources/benchmark-runner.js:
+(BenchmarkRunner):
+(BenchmarkRunner.prototype._appendFrame): Position the frame at (0, 0) inside DRT and WTR since
+we have exactly 800px by 600px inside those two test runners. Also always insert the iframe as
+the first child of body to avoid inserting it after the pre inserted by the test runner.
+(BenchmarkRunner.prototype.step): Initializes _measuredValues.
+(BenchmarkRunner.prototype.runAllSteps): Merged callNextStep in benchmark.html.
+(BenchmarkRunner.prototype.runMultipleIterations): Added.
+(BenchmarkRunner.prototype._runTestAndRecordResults): Compute the grand total among suites.
+Also push down the sync and async time into tests property for consistency.
+(BenchmarkRunner.prototype._finalize):
+
+* Dromaeo/resources/dromaeorunner.js:
+(DRT.testObject): Renamed dromaeoIterationCount to customIterationCount as this option is also
+used by DoYouEvenBench.
+
+* resources/runner.js: Ditto.
+(.finish): Spit out the aggregator name.
+
+Tools:
+
+Ignore console messages spit out by DoYouEvenBench and support aggregator names such as
+":Total" to appear at the end of a test name. We don't do anything with it for now.
+
+* Scripts/webkitpy/performance_tests/perftest.py:
+(PerfTest._metrics_regex): Handle aggregator names such as ":Total". We'll pass it down
+to the JSON in a follow up patch for the perf dashboard.
+(PerfTest._lines_to_ignore_in_parser_result): Added lines to ignore for DoYouEvenBench.
+
+LayoutTests:
+
+Use customIterationCount as it has been renamed from dromaeoIterationCount.
+
+* fast/harness/perftests/runs-per-second-iterations.html:
+
+------------------------------------------------------------------------
+r161480 | rniwa@webkit.org | 2014-01-08 11:58:16 +0800 (三, 08  1月 2014) | 25 lines
+
+DoYouEvenBench: Turn BenchmarkRunner into a real class
+https://bugs.webkit.org/show_bug.cgi?id=126613
+
+Reviewed by Stephanie Lewis.
+
+Made BenchmarkRunner an instantiatable class. Made tests.js simply create an array of suite objects
+instead of calling BenchmarkRunner.Suite now that we can have mulitple instances of BenchmarkRunner.
+
+* DoYouEvenBench/benchmark.html:
+(formatTestName): Moved and renamed from BenchmarkRunner._testName.
+(createUIForSuites): Extracted from a giant blob of code.
+(startTest): Ditto.
+* DoYouEvenBench/resources/benchmark-runner.js:
+(BenchmarkRunner): Added.
+(BenchmarkRunner.prototype.waitForElement):
+(BenchmarkRunner.prototype._removeFrame):
+(BenchmarkRunner.prototype._appendFrame):
+(BenchmarkRunner.prototype._waitAndWarmUp):
+(BenchmarkRunner.prototype._runTest):
+(BenchmarkState.prototype.prepareCurrentSuite):
+(BenchmarkRunner.prototype.step):
+(BenchmarkRunner.prototype._runTestAndRecordResults):
+(BenchmarkRunner.prototype._finalize):
+* DoYouEvenBench/resources/tests.js:
+
+------------------------------------------------------------------------
+r161458 | rniwa@webkit.org | 2014-01-08 07:22:22 +0800 (三, 08  1月 2014) | 43 lines
+
+DoYouEvenBench: Extract tests and runner code from benchmark.js/html
+https://bugs.webkit.org/show_bug.cgi?id=126596
+
+Reviewed by Stephanie Lewis.
+        
+Extracted benchmark-runner.js and tests.js out of benchmark.js and benchmark.html.
+
+Added a "client" interface to BenchmarkRunner so that benchmark.html could register necessary hooks to
+update its UI. Also made BenchmarkRunner store a tree of results so that the serialization of test names
+could be isolated from BenchmarkRunner itself in the future.
+
+* DoYouEvenBench/benchmark.html:
+Moved the code to instantiate and update UI here from benchmark.js. The test code was moved out of this
+file into resources/tests.js.
+
+* DoYouEvenBench/resources/benchmark-runner.js: Renamed from PerformanceTests/DoYouEvenBench/benchmark.js.
+(SimplePromise): Moved from benchmark.js
+(SimplePromise.prototype.then): Ditto.
+(SimplePromise.prototype.resolve): Ditto.
+(BenchmarkTestStep): Added. Wraps each test step.
+(BenchmarkRunner.suite): Moved from benchmark.js.
+(BenchmarkRunner.setClient): Added.
+(BenchmarkRunner.waitForElement): Moved.
+(BenchmarkRunner._removeFrame): Ditto.
+(BenchmarkRunner._appendFrame): Ditto. Set the width and the height of the iframe as they're more than
+presentational as they affect performance.
+(BenchmarkRunner._waitAndWarmUp): Ditto.
+(BenchmarkRunner._runTest): Ditto.
+(BenchmarkRunner._testName): Ditto.
+(BenchmarkState): Ditto.
+(BenchmarkState.prototype.currentSuite): Ditto.
+(BenchmarkState.prototype.currentTest): Ditto.
+(BenchmarkState.prototype.next): Ditto.
+(BenchmarkState.prototype.isFirstTest): Ditto.
+(BenchmarkState.prototype.prepareCurrentSuite): Ditto.
+(BenchmarkRunner.step): Ditto.
+(BenchmarkRunner._runTestAndRecordResults): Ditto. Note the code to update the UI has been move to
+benchmark.html. Also moved the code to accumulate the totals here from _finalize.
+(BenchmarkRunner._finalize): Moved. 
+
+* DoYouEvenBench/resources/tests.js: Copied from PerformanceTests/DoYouEvenBench/benchmark.html.
+Uses BenchmarkTestStep instead of an array for each test step.
+
+------------------------------------------------------------------------
+r157009 | rniwa@webkit.org | 2013-10-07 06:07:48 +0800 (一, 07 10月 2013) | 14 lines
+
+DoYouEvenBench: Make it work on Internet Explorer 11 Release Preview
+https://bugs.webkit.org/show_bug.cgi?id=122406
+
+Reviewed by Darin Adler.
+
+On Internet Explorer 11, $(elem).closest('li').data('id') fails to find the containig li of elem once
+the first item is marked complete or deleted until we get back to the event loop in the jQuery/TodoMVC.
+Worked around this limitation by overriding app.getTodo to use each item's id computed in advance.
+
+Also use $.text instead of execCommand('InsertText') in FlightJS/MailClient since Internet Explorer
+doesn't support execCommand('InsertText'). Also select the recipient to avoid exceptions.
+
+* DoYouEvenBench/benchmark.html:
+
+------------------------------------------------------------------------
+r156951 | rniwa@webkit.org | 2013-10-05 17:41:19 +0800 (六, 05 10月 2013) | 37 lines
+
+DoYouEvenBench: Add Facebook's React TodoMVC test case
+https://bugs.webkit.org/show_bug.cgi?id=122379
+
+Reviewed by Andreas Kling.
+
+Add React/TodoMVC as a new test case. Somehow we beat Firefox on this one as well.
+
+* DoYouEvenBench/benchmark.html:
+* DoYouEvenBench/todomvc/labs: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower.json: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/director: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/director/LICENSE: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/director/README.md: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/director/build: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/director/build/director.js: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/director/build/director.min.js: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/director/build/ender.js: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/react: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/react/JSXTransformer.js: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/react/bower.json: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/react/react.js: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/react/react.min.js: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/todomvc-common: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/todomvc-common/base.css: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/todomvc-common/base.js: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/bower_components/todomvc-common/bg.png: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/index.html: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/js: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/js/app.jsx: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/js/footer.jsx: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/js/todoItem.jsx: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/js/utils.jsx: Added.
+* DoYouEvenBench/todomvc/labs/architecture-examples/react/readme.md: Added.
+
+------------------------------------------------------------------------
+r156425 | rniwa@webkit.org | 2013-09-26 06:18:52 +0800 (四, 26  9月 2013) | 109 lines
+
+DoYouEvenBench: Add a test case for FlightJS
+https://bugs.webkit.org/show_bug.cgi?id=121926
+
+Reviewed by Antti Koivisto.
+
+Add a FlightJS test case.
+
+* DoYouEvenBench/benchmark.html:
+* DoYouEvenBench/benchmark.js:
+* DoYouEvenBench/flightjs-example-app: Added.
+* DoYouEvenBench/flightjs-example-app/LICENSE.md: Added.
+* DoYouEvenBench/flightjs-example-app/README.md: Added.
+* DoYouEvenBench/flightjs-example-app/app: Added.
+* DoYouEvenBench/flightjs-example-app/app/boot: Added.
+* DoYouEvenBench/flightjs-example-app/app/boot/page.js: Added.
+* DoYouEvenBench/flightjs-example-app/app/component_data: Added.
+* DoYouEvenBench/flightjs-example-app/app/component_data/compose_box.js: Added.
+* DoYouEvenBench/flightjs-example-app/app/component_data/mail_items.js: Added.
+* DoYouEvenBench/flightjs-example-app/app/component_data/move_to.js: Added.
+* DoYouEvenBench/flightjs-example-app/app/component_ui: Added.
+* DoYouEvenBench/flightjs-example-app/app/component_ui/compose_box.js: Added.
+* DoYouEvenBench/flightjs-example-app/app/component_ui/folders.js: Added.
+* DoYouEvenBench/flightjs-example-app/app/component_ui/mail_controls.js: Added.
+* DoYouEvenBench/flightjs-example-app/app/component_ui/mail_items.js: Added.
+* DoYouEvenBench/flightjs-example-app/app/component_ui/move_to_selector.js: Added.
+* DoYouEvenBench/flightjs-example-app/app/component_ui/with_select.js: Added.
+* DoYouEvenBench/flightjs-example-app/app/css: Added.
+* DoYouEvenBench/flightjs-example-app/app/css/custom.css: Added.
+* DoYouEvenBench/flightjs-example-app/app/data.js: Added.
+* DoYouEvenBench/flightjs-example-app/app/templates.js: Added.
+* DoYouEvenBench/flightjs-example-app/components: Added.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap: Added.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/css: Added.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/css/bootstrap-responsive.css: Added.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/css/bootstrap-responsive.min.css: Added.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/css/bootstrap.css: Added.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/css/bootstrap.min.css: Added.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/img: Added.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/img/glyphicons-halflings-white.png: Added.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/img/glyphicons-halflings.png: Added.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/js: Added.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/js/bootstrap.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/bootstrap/js/bootstrap.min.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/.gitignore: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/CHANGES: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/CONTRIBUTORS.md: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/LICENSE: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/README.md: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/component.json: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/es5-sham.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/es5-sham.min.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/es5-shim.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/es5-shim.min.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/package.json: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/helpers: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/helpers/h-kill.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/helpers/h-matchers.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/helpers/h.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/index.html: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/lib: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/lib/jasmine-html.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/lib/jasmine.css: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/lib/jasmine.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/lib/jasmine_favicon.png: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/lib/json2.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/spec: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/spec/s-array.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/spec/s-date.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/spec/s-function.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/spec/s-object.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/es5-shim/tests/spec/s-string.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/flight: Added.
+* DoYouEvenBench/flightjs-example-app/components/flight/.travis.yml: Added.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib: Added.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib/advice.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib/component.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib/compose.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib/index.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib/logger.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib/registry.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/flight/lib/utils.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/flight/tools: Added.
+* DoYouEvenBench/flightjs-example-app/components/flight/tools/debug: Added.
+* DoYouEvenBench/flightjs-example-app/components/flight/tools/debug/debug.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-flight: Added.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-flight/LICENSE.md: Added.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-flight/README.md: Added.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-flight/bower.json: Added.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-flight/lib: Added.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-flight/lib/jasmine-flight.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-jquery: Added.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-jquery/lib: Added.
+* DoYouEvenBench/flightjs-example-app/components/jasmine-jquery/lib/jasmine-jquery.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/jquery: Added.
+* DoYouEvenBench/flightjs-example-app/components/jquery/component.json: Added.
+* DoYouEvenBench/flightjs-example-app/components/jquery/composer.json: Added.
+* DoYouEvenBench/flightjs-example-app/components/jquery/jquery.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/jquery/jquery.min.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/mustache: Added.
+* DoYouEvenBench/flightjs-example-app/components/mustache/mustache.js: Added.
+* DoYouEvenBench/flightjs-example-app/components/requirejs: Added.
+* DoYouEvenBench/flightjs-example-app/components/requirejs/require.js: Added.
+* DoYouEvenBench/flightjs-example-app/index.html: Added.
+* DoYouEvenBench/flightjs-example-app/karma.conf.js: Added.
+* DoYouEvenBench/flightjs-example-app/package.json: Added.
+* DoYouEvenBench/flightjs-example-app/requireMain.js: Added.
+
+------------------------------------------------------------------------
+r156104 | rniwa@webkit.org | 2013-09-20 01:57:47 +0800 (五, 20  9月 2013) | 16 lines
+
+DoYouEvenBench: Indentations in benchmark.js and benchmark.html are all messed up
+https://bugs.webkit.org/show_bug.cgi?id=121597
+
+Reviewed by Anders Carlsson.
+
+Fixed indentations.
+
+* DoYouEvenBench/benchmark.html:
+* DoYouEvenBench/benchmark.js:
+(SimplePromise.prototype.resolve.else):
+(SimplePromise.prototype.resolve):
+(BenchmarkRunner.waitForElement.resolveIfReady):
+(BenchmarkRunner.waitForElement):
+(BenchmarkRunner._waitAndWarmUp.Fibonacci):
+(BenchmarkRunner._finalize):
+
+------------------------------------------------------------------------
+r156088 | rniwa@webkit.org | 2013-09-19 16:07:48 +0800 (四, 19  9月 2013) | 38 lines
+
+Add an AngularJS test to DoYouEvenBench
+https://bugs.webkit.org/show_bug.cgi?id=121595
+
+Reviewed by Antti Koivisto.
+
+* DoYouEvenBench/benchmark.html:
+* DoYouEvenBench/todomvc/architecture-examples/angularjs: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower.json: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/angular: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/angular-mocks: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/angular-mocks/angular-mocks.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/angular/angular.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/todomvc-common: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/todomvc-common/base.css: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/todomvc-common/base.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/bower_components/todomvc-common/bg.png: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/index.html: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/app.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/controllers: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/controllers/todoCtrl.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/directives: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/directives/todoBlur.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/directives/todoEscape.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/directives/todoFocus.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/services: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/js/services/todoStorage.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/readme.md: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test/config: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test/config/testacular.conf.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test/package.json: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test/readme.md: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test/unit: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test/unit/directivesSpec.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/angularjs/test/unit/todoCtrlSpec.js: Added.
+
+------------------------------------------------------------------------
+r156073 | rniwa@webkit.org | 2013-09-19 08:15:35 +0800 (四, 19  9月 2013) | 134 lines
+
+Add a not completely unrealistic DOM Benchmark
+https://bugs.webkit.org/show_bug.cgi?id=121361
+
+Reviewed by Filip Pizlo.
+
+Add a DOM benchmark based on TodoMVC for vanilla JS, Ember.js, Backbone.js, and jQuery.
+We'll add more frameworks and demo apps as we go.
+
+* DoYouEvenBench: Added.
+* DoYouEvenBench/benchmark.html: Added.
+* DoYouEvenBench/benchmark.js: Added.
+(SimplePromise): 
+(SimplePromise.prototype.then):
+(SimplePromise.prototype.resolve.else):
+(SimplePromise.prototype.resolve):
+(BenchmarkRunner.suite):
+(BenchmarkRunner.waitForElement.resolveIfReady):
+(BenchmarkRunner.waitForElement):
+(BenchmarkRunner._removeFrame):
+(BenchmarkRunner._appendFrame):
+(BenchmarkRunner._waitAndWarmUp.Fibonacci):
+(BenchmarkRunner._testName):
+(BenchmarkRunner._testItemId):
+(BenchmarkRunner.listSuites.button.onclick):
+(BenchmarkRunner.listSuites.callNextStep):
+(BenchmarkRunner.listSuites):
+(BenchmarkState):
+(BenchmarkState.prototype.currentSuite):
+(BenchmarkState.prototype.currentTest):
+(BenchmarkState.prototype.next):
+(BenchmarkState.prototype.isFirstTest):
+(BenchmarkState.prototype.prepareCurrentSuite.frame.onload):
+(BenchmarkRunner.step):
+(BenchmarkRunner._runTestAndRecordResults):
+(BenchmarkRunner._finalize):
+* DoYouEvenBench/todomvc: Added.
+* DoYouEvenBench/todomvc/architecture-examples: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower.json: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/backbone: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/backbone.localStorage: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/backbone.localStorage/backbone.localStorage.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/backbone/backbone.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/jquery: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/jquery/jquery.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/todomvc-common: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/todomvc-common/base.css: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/todomvc-common/base.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/todomvc-common/bg.png: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/underscore: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/bower_components/underscore/underscore.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/index.html: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/app.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/collections: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/collections/todos.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/models: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/models/todo.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/routers: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/routers/router.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/views: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/views/app-view.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/js/views/todo-view.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/backbone/readme.md: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower.json: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/ember: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/ember-localstorage-adapter: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/ember-localstorage-adapter/localstorage_adapter.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/ember/ember.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/handlebars: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/handlebars/handlebars.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/jquery: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/jquery/jquery.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/todomvc-common: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/todomvc-common/base.css: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/todomvc-common/base.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/bower_components/todomvc-common/bg.png: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/index.html: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/app.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/controllers: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/controllers/todo_controller.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/controllers/todos_controller.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/libs: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/libs/ember-data.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/models: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/models/store.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/models/todo.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/views: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/js/views/edit_todo_view.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/readme.md: Added.
+* DoYouEvenBench/todomvc/architecture-examples/emberjs/test.html: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower.json: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/handlebars: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/handlebars/handlebars.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/jquery: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/jquery/jquery.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/todomvc-common: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/todomvc-common/base.css: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/todomvc-common/base.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/bower_components/todomvc-common/bg.png: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/css: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/css/app.css: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/index.html: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/js/app.js: Added.
+* DoYouEvenBench/todomvc/architecture-examples/jquery/readme.md: Added.
+* DoYouEvenBench/todomvc/license.md: Added.
+* DoYouEvenBench/todomvc/readme.md: Added.
+* DoYouEvenBench/todomvc/vanilla-examples: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/bower.json: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/bower_components: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/bower_components/todomvc-common: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/bower_components/todomvc-common/base.css: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/bower_components/todomvc-common/base.js: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/bower_components/todomvc-common/bg.png: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/index.html: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/js: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/js/app.js: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/js/controller.js: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/js/helpers.js: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/js/model.js: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/js/store.js: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/js/view.js: Added.
+* DoYouEvenBench/todomvc/vanilla-examples/vanillajs/readme.md: Added.
+* Skipped:
+
+
+------------------------------------------------------------------------
