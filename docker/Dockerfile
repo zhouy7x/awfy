@@ -7,7 +7,7 @@ ENV http_proxy http://10.239.4.80:913
 ENV https_proxy http://10.239.4.80:913
 
 # install related packages
-RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb tornado apache2 git expect software-properties-common && \
+RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb python-tornado apache2 git software-properties-common && \
     add-apt-repository ppa:ondrej/php && apt-get install -y php5.6 php5.6-mysql
 
 # download depot_tools
