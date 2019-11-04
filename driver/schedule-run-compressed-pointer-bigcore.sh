@@ -15,7 +15,7 @@
 #     screen -r
 #     (wait for it to confirm that it's no longer running)
 #     ctrl a+d
-lockfile=/tmp/awfy-daemon-compressed-pointer-bigcore
+lockfile=/tmp/awfy-daemon-bigcore
 if [ -e "$lockfile" ]
 then
   echo "awfy: Already running"
@@ -40,7 +40,7 @@ do
         hasUpdate="false"
 
         # First, check v8 update
-        pushd /home/user/work/repos/compressed-pointer/v8-2/v8
+        pushd /home/user/work/repos/v8/bigcore/v8
         git fetch
         list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
         if [ -z "$list" ]; then
@@ -58,7 +58,7 @@ do
 
                 STARTT=$(date +%s)
 
-                python dostuff-compressed-pointer-bigcore.py --config=client/bigcore-v8.config --config2=client/bigcore-v8-patch.config $id &
+                python dostuff-compressed-pointer-bigcore.py --config=client/v8/bigcore-v8.config --config2=client/v8/bigcore-v8-patch.config $id &
 
                 wait
 
@@ -85,7 +85,7 @@ do
         popd
 
         # Second, check chromium update
-#        pushd /home/user/work/repos/compressed-pointer/x64/chromium/src
+#        pushd /home/user/work/repos/chrome/bigcore/chromium/src
 #        git fetch
 #        list=`git rev-list origin/master ^master | tac`
 #        if [ -z "$list" ]; then
@@ -103,7 +103,7 @@ do
 #
 #                    STARTT=$(date +%s)
 #
-#                    python dostuff-compressed-pointer-cyan.py  --config=client/machine_config/cyan-x64.config --config2=client/machine_config/cyan-x64-patch.config
+#                    python dostuff-compressed-pointer-cyan.py  --config=client/chrome/cyan-x64.config --config2=client/chrome/cyan-x64-patch.config
 #                    popd
 #
 #                    wait

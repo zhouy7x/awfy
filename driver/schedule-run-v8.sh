@@ -78,16 +78,10 @@ do
                     tmp=$[tmp+1];
                 fi
 
-                python dostuff-v8.py --config=client/hsw-nuc-x64$string.config --config2=client/hsw-nuc-x86.config --config3=client/hsw-nuc-x64-patch.config $id &
-                #python dostuff-v8.py --config=client/hsw-nuc-x64$string.config $id &
-                python dostuff-v8.py --config=client/chromeos-arm$string.config $id &
-                python dostuff-v8.py --config=client/apl-nuc-x64$string.config --config2=client/apl-nuc-x64-patch.config $id &
+                python dostuff-v8.py --config=client/v8/hsw-nuc-x64$string.config --config2=client/v8/hsw-nuc-x86.config --config3=client/v8/hsw-nuc-x64-patch.config $id &
+                python dostuff-v8.py --config=client/v8/chromeos-arm$string.config $id &
+                python dostuff-v8.py --config=client/v8/apl-nuc-x64$string.config --config2=client/v8/apl-nuc-x64-patch.config $id &
 
-                #python dostuff.py --config=client/atom-nuc-x64.config --config2=client/atom-nuc-x86.config $id &
-                #python dostuff.py --config=client/atom-nuc-2-x64.config --config2=client/atom-nuc-2-x86.config $id &
-                #python dostuff-v8.py --config=client/apl-nuc-x64-patch.config $id &
-                # python dostuff.py --config=client/chrubuntu-arm.config $id &
-                # python dostuff.py --config=client/fc-interp-x64.config $id &
                 echo $tmp > tmp/v8-count;
 
                 wait
@@ -140,8 +134,8 @@ do
 #
 #                    STARTT=$(date +%s)
 #
-#                    python dostuff.py  --config=client/machine_config/electro-x64.config
-#                    python dostuff.py  --config=client/machine_config/elm-arm.config
+#                    python dostuff.py  --config=client/chrome/electro-x64.config
+#                    python dostuff.py  --config=client/chrome/elm-arm.config
 #                    popd
 #
 #                    wait

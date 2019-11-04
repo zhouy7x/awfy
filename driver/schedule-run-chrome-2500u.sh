@@ -105,7 +105,7 @@ do
 #        popd
 
         # Second, check chromium update
-        pushd /home/user/work/repos/chrome/amd64/chromium/src
+        pushd /home/user/work/repos/chrome/2500u/chromium/src
         git fetch
         list=`git rev-list origin/master ^master | tac`
         if [ -z "$list" ]; then
@@ -123,10 +123,7 @@ do
 
                     STARTT=$(date +%s)
 
-                    # python dostuff-chrome.py  --config=client/machine_config/electro-x64.config --config2=client/machine_config/electro-x64-patch.config
-                    # python dostuff-chrome.py  --config=client/machine_config/electro-x64-patch.config
-                    # python dostuff-chrome.py  --config=client/machine_config/elm-arm.config
-                    python dostuff-chrome-amd64.py  --config=client/machine_config/amd-2500u.config
+                    python dostuff-chrome-2500u.py  --config=client/chrome/amd-2500u.config
                     popd
 
                     wait
