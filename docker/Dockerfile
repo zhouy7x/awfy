@@ -2,10 +2,9 @@ FROM ubuntu:18.04
 LABEL maintainer "zhouy7x@gmail.com"
 
 
-# set dns & proxy
-ADD resolv.conf /etc/resolv.conf
-ENV http_proxy http://child-prc.intel.com:913
-ENV https_proxy http://child-prc.intel.com:913
+# set proxy
+ENV http_proxy http://10.239.4.80:913
+ENV https_proxy http://10.239.4.80:913
 
 # install related packages
 RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb tornado apache2 git expect software-properties-common && \
