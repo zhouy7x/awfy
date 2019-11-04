@@ -29,25 +29,28 @@ def kill_all(repos):
             continue
         elif param == 'query':
             str_list = ["python query_server.py"]
-        elif param == 'v8':
+        elif param in ['v8', '1800x']:
             str_list = [
                 "python build_server_%s.py" % param,
                 "bash schedule-run-%s.sh" % param,
-                "python dostuff-%s.py" % param
+                "python dostuff-%s.py" % param,
+                "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/%s" % param,
+                "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/v8/%s" % param,
             ]
         elif param in ['cyan', 'bigcore']:
             str_list = [
                 "bash schedule-run-compressed-pointer-%s.sh" % param,
                 "python build_server_compressed_pointer_%s.py" % param,
                 "python dostuff-compressed-pointer-%s.py" % param,
-                "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/compressed-pointer/chromium/src/out/"
+                "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/v8/%s" % param,
+                "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/%s" % param,
             ]
         else:
             str_list = [
                 "bash schedule-run-chrome-%s.sh" % param,
                 "python build_server_chrome_%s.py" % param,
                 "python dostuff-chrome-%s.py" % param,
-                "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/%s/chromium/src/out/" % param
+                "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/%s" % param,
             ]
 
         for tmp in str_list:

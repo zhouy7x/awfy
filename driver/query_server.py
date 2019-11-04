@@ -35,7 +35,7 @@ class Handler(tornado.web.RequestHandler):
                 else:
                         try:
                                 repo = {
-                                        "V8": "/home/user/work/repos/v8/v8",
+                                        "V8": "/home/user/work/repos/v8/base/v8",
                                         "JerryScript": "/home/user/work/repos/jerryscript",
                                         "Chromium": "/home/user/work/repos/chrome/glm/chromium/src"
                                 }
