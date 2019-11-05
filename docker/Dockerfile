@@ -8,7 +8,7 @@ ENV https_proxy http://10.239.4.80:913
 ENV DEBIAN_FRONTEND noninteractive
 
 # install related packages
-RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb python-tornado git curl wget tzdata software-properties-common && \
+RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb python-tornado git curl expect wget tzdata software-properties-common && \
     LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/apache2 && \
     apt-get install -y apache2 php5.6 php5.6-mysql
 

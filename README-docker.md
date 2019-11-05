@@ -54,12 +54,12 @@ Download submodule and repos, install dependence
     cd /home/user/work/repos/chrome && cp -r x64 arm && cp -r x64 glm && cp -r x64 1800x && cp -r x64 cyan
 ```
 
-Run
+Init and run
 --------
 get the start commit id of each slave.
 ```text
 cd /home/user/work/awfy/driver
+ssh-keygen
 ./init.py
 ./all_run.py cyan x64  
-
 ```
