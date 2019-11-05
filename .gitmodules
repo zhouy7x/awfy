@@ -1,6 +1,3 @@
-[submodule "benchmarks/web-tooling-benchmark"]
-	path = benchmarks/web-tooling-benchmark
-	url = https://github.com/v8/web-tooling-benchmark.git
 [submodule "benchmarks/ARES-6"]
 	path = benchmarks/ARES-6
 	url = https://github.com/bmeurer/ARES-6.git
