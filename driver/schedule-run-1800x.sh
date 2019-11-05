@@ -58,7 +58,27 @@ do
 
                 STARTT=$(date +%s)
 
-                python dostuff-1800x.py --config=client/v8/amd-1800x.config $id &
+                if [ ! -e tmp/1800x-v8-count ];
+                then
+                    touch tmp/1800x-v8-count
+                fi
+                tmp=`cat tmp/1800x-v8-count`;
+                if [ -z "$tmp" ];
+                then
+                    tmp=0;
+                fi
+                echo $tmp;
+
+                if [ $tmp == 70 ];
+                then
+                    string='-long-time';
+                    tmp=0
+                else
+                    string='';
+                    tmp=$[tmp+1];
+                fi
+
+                python dostuff-1800x.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config --config3=client/v8/amd-1800x-x64-patch.config $id &
 
                 wait
 
