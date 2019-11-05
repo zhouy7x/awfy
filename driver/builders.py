@@ -524,11 +524,11 @@ class Headless(Engine):
                 while(syncAgain):
                     syncAgain = False
                     try:
-                        if self.cpu == 'arm':
-                            in_cddl = os.path.join(utils.RepoPath, 'cddl')
-                            out_cddl = os.path.join(utils.RepoPath, self.source, 'out', self.cpu)
-                            Run(['cp', in_cddl, out_cddl])
-                        else:
+                        # if self.cpu == 'arm':
+                        #     in_cddl = os.path.join(utils.RepoPath, 'cddl')
+                        #     out_cddl = os.path.join(utils.RepoPath, self.source, 'out', self.cpu)
+                        #     Run(['cp', in_cddl, out_cddl])
+                        # else:
                             # add 3 steps:
                             # 1. perl -pi -e "s/sudo //g" ./build/install-build-deps.sh
                             Run(['perl', '-pi', '-e', '"s/sudo //g"', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])

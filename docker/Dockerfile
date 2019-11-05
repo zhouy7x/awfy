@@ -8,12 +8,12 @@ ENV https_proxy http://10.239.4.80:913
 ENV DEBIAN_FRONTEND noninteractive
 
 # install related packages
-RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb python-tornado git tzdata software-properties-common && \
+RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb python-tornado git curl wget tzdata software-properties-common && \
     LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/apache2 && \
     apt-get install -y apache2 php5.6 php5.6-mysql
 
 # download depot_tools
-RUN cd / && git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+RUN cd / && git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git && update_depot_tools
 
 # environment variables
 ENV PATH /depot_tools:$PATH
@@ -28,7 +28,6 @@ RUN mkdir /repos /logs && mkdir -p /home/user/work && cd /home/user/work && ln -
 # set apache2 config
 ADD 000-default.conf /etc/apache2/sites-available/000-default.conf
 ADD ports.conf /etc/apache2/ports.conf
-ADD .ssh /root/.ssh
 
 # run
 WORKDIR $WORKHOME
