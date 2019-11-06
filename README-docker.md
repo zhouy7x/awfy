@@ -69,7 +69,8 @@ Init DB
 ```
 ```sql
     use dvander;
-    SELECT `value` FROM awfy_config WHERE `key` = 'version';  
+    SELECT `value` FROM awfy_config WHERE `key` = 'version';
+    exit  
 ```
 Get result '3'.
 
@@ -80,10 +81,10 @@ Download submodule and repos, install dependence
     cd /home/user/work/awfy
     git submodule update --init --recursive
     cd /home/user/work/repos && mkdir -p v8/base
-    cd v8/base && fetch v8 && cd v8 && git checkout master && sed -i -e 's/sudo//' build/install-build-deps.sh && ./build/install-build-deps.sh
+    cd v8/base && fetch v8 && cd v8 && git checkout master && sed -i -e 's/sudo//' build/install-build-deps.sh && ./build/install-build-deps.sh && build/linux/sysroot_scripts/install-sysroot.py --arch=arm
     cd /home/user/work/repos/v8 && cp -r base 1800x && cp -r base bigcore && cp -r base cyan
     cd /home/user/work/repos && mkdir -p chrome/x64/chromium
-    cd chrome/x64/chromium && fetch chromium && cd src && git checkout master && sed -i -e 's/sudo//' build/install-build-deps.sh && ./build/install-build-deps.sh
+    cd chrome/x64/chromium && fetch chromium && cd src && git checkout master && sed -i -e 's/sudo//' build/install-build-deps.sh && ./build/install-build-deps.sh $$ build/linux/sysroot_scripts/install-sysroot.py --arch=arm
     cd /home/user/work/repos/chrome && cp -r x64 arm && cp -r x64 glm && cp -r x64 1800x && cp -r x64 cyan
 ```
 
