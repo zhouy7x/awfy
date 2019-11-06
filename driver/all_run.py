@@ -30,7 +30,7 @@ def run_command(param, log_string):
         str3 = 'bash schedule-run-%s.sh > %s/schedule-run-%s-log%s.txt 2>&1 &' % (param, log_path, param, log_string)
     elif param in ['cyan', 'bigcore']:
         str1 = 'python build_server_compressed_pointer_%s.py > %s/build_server_compressed_pointer_%s_log%s.txt 2>&1 &' % (param, log_path, param, log_string)
-        str2 = 'rm -f /tmp/awfy-daemon-compressed-pointer-%s /tmp/awfy-lock' % param
+        str2 = 'rm -f /tmp/awfy-daemon-%s /tmp/awfy-lock' % param
         str3 = 'bash schedule-run-compressed-pointer-%s.sh > %s/schedule-run-compressed-pointer-%s-log%s.txt 2>&1 &' % (param, log_path, param, log_string)
     else:
         str1 = 'python build_server_chrome_%s.py > %s/build_server_chrome_%s_log%s.txt 2>&1 &' % (param, log_path, param, log_string)
