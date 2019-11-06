@@ -2,6 +2,9 @@ FROM debian:stretch-slim
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN groupadd -r mysql && useradd -r -g mysql mysql
+# environment variables
+ENV http_proxy http://10.239.4.80:913
+ENV https_proxy http://10.239.4.80:913
 
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg dirmngr && rm -rf /var/lib/apt/lists/*
 
