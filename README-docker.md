@@ -14,8 +14,8 @@ Keep in mind, most of this documentation is for posterity. AWFY was never intend
 Installation
 ============
 
-Build docker image
---------
+Build awfy docker image
+----------------------
 ```text
     mkdir -p /mnt/work/docker/
     cd /mnt/work/docker/
@@ -23,9 +23,16 @@ Build docker image
     cd awfy/docker
     docker build -t test/awfy:18.04 .
 ```
+Build mysql docker image
+-----------------------
+```text
+    /etc/init.d/mysql stop
+    cd /mnt/work/docker/awfy/database
+    docker build -t test/mysql:5.7 .
+```
 
 Run docker container
---------
+-------------------
 ```text
     cd /mnt/work/docker/awfy
     mkdir -p VOLUMNS/repos
@@ -37,11 +44,38 @@ Run docker container
             -v /mnt/work/docker/awfy/VOLUMES/logs:/logs \
             test/awfy:18.04 \
             /bin/bash
-           
+    mkdir database/data
+    docker run -it -d \
+            -v /mnt/work/docker/awfy/database/data:/var/lib/mysql \
+            -e MYSQL_ROOT_HOST="%" \
+            -e MYSQL_ROOT_PASSWORD="mkk" \
+            -p 3306:3306/tcp \
+            test/mysql:5.7
 ```
 
+Check DB
+-------
+```text
+    mysql -uroot -pmkk -h `hostname -s` -P 3306
+```
+```sql
+    CREATE DATABASE dvander CHARSET="UTF8";
+    exit
+```
+```text
+    cd /mnt/work/docker/awfy/database
+    mysql -uroot -pmkk -h `hostname -s` -P 3306 dvander < dvander-base.sql
+    mysql -uroot -pmkk -h `hostname -s` -P 3306
+
+```
+```sql
+    use dvander;
+    SELECT `value` FROM awfy_config WHERE `key` = 'version';  
+```
+Get result '3'.
+
 Download submodule and repos, install dependence
---------
+-----------------------------------------------
 ```text
     docker exec -it awfy /bin/bash
     cd /home/user/work/awfy
@@ -55,7 +89,7 @@ Download submodule and repos, install dependence
 ```
 
 Init and run
---------
+-----------
 get the start commit id of each slave.
 ```text
 cd /home/user/work/awfy/driver
