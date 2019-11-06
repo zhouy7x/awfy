@@ -53,7 +53,7 @@ Run docker container
             test/mysql:5.7
 ```
 
-Check DB
+Init DB
 -------
 ```text
     mysql -uroot -pmkk -h `hostname -s` -P 3306
@@ -66,7 +66,6 @@ Check DB
     cd /mnt/work/docker/awfy/database
     mysql -uroot -pmkk -h `hostname -s` -P 3306 dvander < dvander-base.sql
     mysql -uroot -pmkk -h `hostname -s` -P 3306
-
 ```
 ```sql
     use dvander;
