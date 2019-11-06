@@ -17,6 +17,7 @@ Installation
 Build awfy docker image
 ----------------------
 ```text
+    /etc/init.d/apache2 stop
     mkdir -p /mnt/work/docker/
     cd /mnt/work/docker/
     git clone https://gitlab.devtools.intel.com/zhouy7x/awfy.git
