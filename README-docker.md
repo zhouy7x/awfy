@@ -81,6 +81,7 @@ Download submodule and repos, install dependence
     docker exec -it awfy /bin/bash
     cd /home/user/work/awfy
     git submodule update --init --recursive
+    python replace_host.py  ssgs5-test.sh.intel.com  `hostname -s`
     cd /home/user/work/repos && mkdir -p v8/base
     cd v8/base && fetch v8 && cd v8 && git checkout master && sed -i -e 's/sudo//' build/install-build-deps.sh && ./build/install-build-deps.sh && build/linux/sysroot_scripts/install-sysroot.py --arch=arm
     cd /home/user/work/repos/v8 && cp -r base 1800x && cp -r base bigcore && cp -r base cyan

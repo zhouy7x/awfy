@@ -19,8 +19,8 @@ RUN cd / && git clone https://chromium.googlesource.com/chromium/tools/depot_too
 
 # download awfy scripts
 RUN mkdir /repos /logs && mkdir -p /home/user/work && cd /home/user/work && ln -s /repos && ln -s /logs && \
-    git clone https://zhouy7x:intel.234@gitlab.devtools.intel.com/zhouy7x/awfy.git && cd awfy && \
-    python replace_host.py  ssgs5-test.sh.intel.com  `hostname -s`
+    git clone https://zhouy7x:intel.234@gitlab.devtools.intel.com/zhouy7x/awfy.git
+#    && cd awfy && python replace_host.py  ssgs5-test.sh.intel.com  `hostname -s`
 #RUN git submodule update --init --recursive
 
 # set apache2 config
