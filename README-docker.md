@@ -34,14 +34,14 @@ Build mysql docker image
 Run docker container
 -------------------
 ```text
-    cd /mnt/work/docker/awfy
+    cd /mnt/work/docker/awfy/docker
     mkdir -p VOLUMNS/repos
     mkdir -p VOLUMNS/logs
     docker run -it -d \
             --network host \
             --name  awfy \
-            -v /mnt/work/docker/awfy/VOLUMES/repos:/repos \
-            -v /mnt/work/docker/awfy/VOLUMES/logs:/logs \
+            -v /mnt/work/docker/awfy/docker/VOLUMES/repos:/repos \
+            -v /mnt/work/docker/awfy/docker/VOLUMES/logs:/logs \
             test/awfy:18.04 \
             /bin/bash
     mkdir database/data
