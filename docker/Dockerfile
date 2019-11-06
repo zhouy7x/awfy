@@ -27,6 +27,9 @@ RUN mkdir /repos /logs && mkdir -p /home/user/work && cd /home/user/work && ln -
 ADD 000-default.conf /etc/apache2/sites-available/000-default.conf
 ADD ports.conf /etc/apache2/ports.conf
 
+VOLUME /repos
+VOLUME /logs
+
 # run
 WORKDIR $WORKHOME
 EXPOSE 8000 7777

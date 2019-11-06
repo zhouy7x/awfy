@@ -35,13 +35,13 @@ Run docker container
 -------------------
 ```text
     cd /mnt/work/docker/awfy/docker
-    mkdir -p VOLUMNS/repos
-    mkdir -p VOLUMNS/logs
+    mkdir -p VOLUMES/repos
+    mkdir -p VOLUMES/logs
     docker run -it -d \
             --network host \
             --name  awfy \
-            -v /mnt/work/docker/awfy/docker/VOLUMNS/repos:/repos \
-            -v /mnt/work/docker/awfy/docker/VOLUMNS/logs:/logs \
+            -v /mnt/work/docker/awfy/docker/VOLUMES/repos:/repos \
+            -v /mnt/work/docker/awfy/docker/VOLUMES/logs:/logs \
             test/awfy:18.04 \
             /bin/bash
     mkdir database/data
