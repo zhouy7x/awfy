@@ -16,6 +16,7 @@ Installation
 
 Build awfy docker image
 ----------------------
+* in localhost
 ```text
     /etc/init.d/apache2 stop
     mkdir -p /mnt/work/docker/
@@ -26,6 +27,7 @@ Build awfy docker image
 ```
 Build mysql docker image
 -----------------------
+* in localhost
 ```text
     /etc/init.d/mysql stop
     cd /mnt/work/docker/awfy/database
@@ -34,21 +36,22 @@ Build mysql docker image
 
 Run docker container
 -------------------
+* in localhost
 ```text
-    cd /mnt/work/docker/awfy/docker
+    cd /mnt/work/docker/
     mkdir -p VOLUMES/repos
     mkdir -p VOLUMES/logs
+    mkdir -p VOLUMES/data
     docker run -it -d \
             --network host \
             --name  awfy \
-            -v /mnt/work/docker/awfy/docker/VOLUMES/repos:/repos \
-            -v /mnt/work/docker/awfy/docker/VOLUMES/logs:/logs \
+            -v /mnt/work/docker/VOLUMES/repos:/repos \
+            -v /mnt/work/docker/VOLUMES/logs:/logs \
             test/awfy:18.04 \
             /bin/bash
-    mkdir database/data
     docker run -it -d \
             --name awfy_mysql \
-            -v /mnt/work/docker/awfy/database/data:/var/lib/mysql \
+            -v /mnt/work/docker/VOLUMES/data:/var/lib/mysql \
             -e MYSQL_ROOT_HOST="%" \
             -e MYSQL_ROOT_PASSWORD="mkk" \
             -p 3306:3306/tcp \
@@ -57,18 +60,23 @@ Run docker container
 
 Init DB
 -------
+* enter to awfy docker
 ```text
+    docker exec -it awfy /bin/bash
     mysql -uroot -pmkk -h `hostname -s` -P 3306
 ```
+* in awfy_mysql
 ```sql
     CREATE DATABASE dvander CHARSET="UTF8";
     exit
 ```
+* exit to awfy docker
 ```text
-    cd /mnt/work/docker/awfy/database
+    cd /home/user/work/awfy/database
     mysql -uroot -pmkk -h `hostname -s` -P 3306 dvander < dvander-base.sql
     mysql -uroot -pmkk -h `hostname -s` -P 3306
 ```
+* in awfy_mysql
 ```sql
     use dvander;
     SELECT `value` FROM awfy_config WHERE `key` = 'version';
@@ -78,8 +86,8 @@ Get result '3'.
 
 Download submodule and repos, install dependence
 -----------------------------------------------
+* exit to awfy docker
 ```text
-    docker exec -it awfy /bin/bash
     cd /home/user/work/awfy
     git submodule update --init --recursive
     python replace_host.py  ssgs5-test.sh.intel.com  `hostname -s`
@@ -95,6 +103,7 @@ Download submodule and repos, install dependence
 Init and run
 -----------
 get the start commit id of each slave.
+* in awfy docker
 ```text
 cd /home/user/work/awfy/driver
 ssh-keygen
