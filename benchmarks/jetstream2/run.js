@@ -32,7 +32,7 @@ function launchChrome(headless = true) {
 }
 (async function() {
 
-    console.log(111);
+    console.log('');
     const chrome = await launchChrome();
     const protocol = await CDP({ port: chrome.port });
 
@@ -41,7 +41,7 @@ function launchChrome(headless = true) {
     const { Page, Runtime } = protocol;
     await Promise.all([Page.enable(), Runtime.enable()]);
 
-    console.log(222);
+    console.log('');
     var path = process.argv[2]
     var path2 = "http://user-awfy.sh.intel.com/awfy/ARCworkloads/Speedometer/Speedometer/Full.html"
     var path3 = "http://user-awfy.sh.intel.com/awfy/ARCworkloads/Speedometer-Angular/Speedometer/Full.html"
@@ -54,12 +54,12 @@ function launchChrome(headless = true) {
 	await sleep(1000);
         await Runtime.evaluate({ expression: js });
 
-    	console.log(333);
+    	console.log('');
         var log_file = "./logs/log-" + Date.now() + ".txt"
         var tmp = undefined;
 	var i = 0;
         while (true) {
-    	    console.log(444);
+    	    console.log('');
             await sleep(1000);
             const js_res = "document.querySelector('#result-summary .score').innerHTML";
             const result = await Runtime.evaluate({ expression: js_res });
