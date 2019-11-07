@@ -10,7 +10,7 @@ ENV NO_AUTH_BOTO_CONFIG /home/user/work/awfy/docker/.boto
 ENV WORKHOME /home/user/work
 
 # install related packages
-RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb python-tornado git curl expect wget tzdata software-properties-common && \
+RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb python-tornado git curl mysql-client-5.7 expect wget tzdata software-properties-common && \
     LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/apache2 && \
     apt-get install -y apache2 php5.6 php5.6-mysql
 
@@ -24,6 +24,7 @@ RUN mkdir /repos /logs && mkdir -p /home/user/work && cd /home/user/work && ln -
 #RUN git submodule update --init --recursive
 
 # set apache2 config
+ADD apache2.conf /etc/apache2/apache2.conf
 ADD 000-default.conf /etc/apache2/sites-available/000-default.conf
 ADD ports.conf /etc/apache2/ports.conf
 
@@ -33,5 +34,4 @@ VOLUME /logs
 # run
 WORKDIR $WORKHOME
 EXPOSE 8000 7777
-#EXPOSE 7777
 CMD ["/bin/bash"]

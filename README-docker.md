@@ -47,6 +47,7 @@ Run docker container
             /bin/bash
     mkdir database/data
     docker run -it -d \
+            --name awfy_mysql \
             -v /mnt/work/docker/awfy/database/data:/var/lib/mysql \
             -e MYSQL_ROOT_HOST="%" \
             -e MYSQL_ROOT_PASSWORD="mkk" \
@@ -82,6 +83,7 @@ Download submodule and repos, install dependence
     cd /home/user/work/awfy
     git submodule update --init --recursive
     python replace_host.py  ssgs5-test.sh.intel.com  `hostname -s`
+    ./server/run-clean-and-update.sh
     cd /home/user/work/repos && mkdir -p v8/base
     cd v8/base && fetch v8 && cd v8 && git checkout master && sed -i -e 's/sudo//' build/install-build-deps.sh && ./build/install-build-deps.sh && build/linux/sysroot_scripts/install-sysroot.py --arch=arm
     cd /home/user/work/repos/v8 && cp -r base 1800x && cp -r base bigcore && cp -r base cyan
