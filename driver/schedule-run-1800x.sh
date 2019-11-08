@@ -80,6 +80,8 @@ do
 
                 python dostuff-1800x.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config --config3=client/v8/amd-1800x-x64-patch.config $id &
 
+                echo $tmp > tmp/v8-count;
+
                 wait
 
                 SECS=$(($(date +%s) - $STARTT))
