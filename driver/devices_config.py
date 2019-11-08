@@ -23,14 +23,16 @@ REPOS = {
     "2500u": "%s/chrome/2500u/chromium/src" % REPO_PATH,
     "cyan-v8": "%s/v8/cyan/v8" % REPO_PATH,
     "cyan-chrome": "%s/chrome/cyan/chromium/src" % REPO_PATH,
-    "bigcore": "%s/v8/bigcore/v8" % REPO_PATH,
+    "bigcore-v8": "%s/v8/bigcore/v8" % REPO_PATH,
+    "bigcore-chrome": "%s/chrome/bigcore/chromium/src" % REPO_PATH,
     "1800x-v8": "%s/v8/1800x/v8" % REPO_PATH,
     "1800x-chrome": "%s/chrome/1800x/chromium/src" % REPO_PATH,
 }
 MACHINES = {
     "1800x-v8": 15,
     "1800x-chrome": 15,
-    'bigcore': 14,
+    'bigcore-v8': 14,
+    'bigcore-chrome': 14,
     'cyan-v8': 13,
     'cyan-chrome': 13,
     'amd64': 12,
@@ -44,6 +46,8 @@ MODES = {
     'cyan-chrome': 18,
     "1800x-v8": 22,
     "1800x-chrome": 18,
+    "bicore-v8": 22,
+    "bigcore-chrome": 18,
 }
 RELATED = {
     'apache2': "/etc/init.d/apache2 start",

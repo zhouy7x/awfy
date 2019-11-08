@@ -196,7 +196,7 @@ def run_list(param, log_string):
 
     print("now reset the git commit version...")
     try:
-        if param in ['cyan', '1800x']:
+        if param in ['cyan', '1800x', 'bigcore']:
             params = ['%s-v8' % param, '%s-chrome' % param]
             for tmp in params:
                 reset_git(tmp)
