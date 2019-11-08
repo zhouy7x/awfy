@@ -46,7 +46,7 @@ MODES = {
     'cyan-chrome': 18,
     "1800x-v8": 22,
     "1800x-chrome": 18,
-    "bicore-v8": 22,
+    "bigcore-v8": 22,
     "bigcore-chrome": 18,
 }
 RELATED = {
