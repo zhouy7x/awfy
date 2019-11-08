@@ -16,6 +16,7 @@
 #     (wait for it to confirm that it's no longer running)
 #     ctrl a+d
 lockfile=/tmp/awfy-daemon-1800x
+v8countfile=tmp/1800x-v8-count
 if [ -e "$lockfile" ]
 then
   echo "awfy: Already running"
@@ -58,19 +59,16 @@ do
 
                 STARTT=$(date +%s)
 
-                if [ ! -e tmp/1800x-v8-count ];
-                then
-                    touch tmp/1800x-v8-count
+                if [ ! -e $v8countfile ]; then
+                    touch $v8countfile
                 fi
-                tmp=`cat tmp/1800x-v8-count`;
-                if [ -z "$tmp" ];
-                then
+                tmp=`cat $v8countfile`;
+                if [ -z "$tmp" ]; then
                     tmp=0;
                 fi
                 echo $tmp;
 
-                if [ $tmp == 70 ];
-                then
+                if [ $tmp == 70 ]; then
                     string='-long-time';
                     tmp=0
                 else
@@ -80,7 +78,7 @@ do
 
                 python dostuff-1800x.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config --config3=client/v8/amd-1800x-x64-patch.config $id &
 
-                echo $tmp > tmp/1800x-v8-count;
+                echo $tmp > $v8countfile;
 
                 wait
 

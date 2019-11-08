@@ -16,6 +16,7 @@
 #     (wait for it to confirm that it's no longer running)
 #     ctrl a+d
 lockfile=/tmp/awfy-daemon-v8
+v8countfile=tmp/v8-count
 if [ -e "$lockfile" ]
 then
   echo "awfy: Already running"
@@ -27,7 +28,6 @@ touch $lockfile
 trap "kill 0" EXIT
 
 python print_env.py
-
 
 #count=0
 while :
@@ -58,19 +58,16 @@ do
 
                 STARTT=$(date +%s)
 
-                if [ ! -e tmp/v8-count ];
-                then
-                    touch tmp/v8-count
+                if [ ! -e $v8countfile ]; then
+                    touch $v8countfile
                 fi
-                tmp=`cat tmp/v8-count`;
-                if [ -z "$tmp" ];
-                then
+                tmp=`cat $v8countfile`;
+                if [ -z "$tmp" ]; then
                     tmp=0;
                 fi
                 echo $tmp;
 
-                if [ $tmp == 70 ];
-                then
+                if [ $tmp == 70 ]; then
                     string='-long-time';
                     tmp=0
                 else
@@ -82,7 +79,7 @@ do
                 python dostuff-v8.py --config=client/v8/chromeos-arm$string.config $id &
                 python dostuff-v8.py --config=client/v8/apl-nuc-x64$string.config --config2=client/v8/apl-nuc-x64-patch.config $id &
 
-                echo $tmp > tmp/v8-count;
+                echo $tmp > $v8countfile;
 
                 wait
 
