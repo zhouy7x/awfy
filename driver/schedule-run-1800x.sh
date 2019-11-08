@@ -5,7 +5,7 @@
 # (1) If you want to stop it immediately:
 #     screen -r
 #     ctrl+c
-#     rm /tmp/awfy-daemon-chrome
+#     rm /tmp/awfy-daemon
 #     rm /tmp/awfy
 #     ctrl a+d
 #     Remember to start it again later!
@@ -96,7 +96,7 @@ do
 
                 if [ -e /tmp/awfy-stop ]
                 then
-                    rm /tmp/awfy-daemon-chrome /tmp/awfy-stop
+                    rm $lockfile /tmp/awfy-stop
                     echo "awfy: Already stoped"
                     exit 0
                 fi

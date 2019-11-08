@@ -76,7 +76,7 @@ do
 
                 if [ -e /tmp/awfy-stop ]
                 then
-                    rm /tmp/awfy-daemon-chrome /tmp/awfy-stop
+                    rm $lockfile /tmp/awfy-stop
                     echo "awfy: Already stoped"
                     exit 0
                 fi
