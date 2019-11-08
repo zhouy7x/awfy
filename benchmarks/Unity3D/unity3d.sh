@@ -33,6 +33,9 @@ fi
 if [ "$(cat /proc/cpuinfo  | grep N3350)" != "" ]
 then
 	export DISPLAY=":1"
+elif [ "$(cat /proc/cpuinfo  | grep 1800X)" != "" ]
+then
+	export DISPLAY=":1"
 elif [ "$(cat /proc/cpuinfo  | grep N3450)" != "" ]
 then
 	export DISPLAY=":0"
