@@ -30,14 +30,11 @@ then
 fi
 
 # lanuch chrome
-if [ "$(cat /proc/cpuinfo  | grep N3350)" != "" ]
-then
+if [ "$(cat /proc/cpuinfo  | grep N3350)" != "" ] ;then
 	export DISPLAY=":1"
-elif [ "$(cat /proc/cpuinfo  | grep 1800X)" != "" ]
-then
-	export DISPLAY=":1"
-elif [ "$(cat /proc/cpuinfo  | grep N3450)" != "" ]
-then
+#elif [ "$(cat /proc/cpuinfo  | grep 1800X)" != "" ] ;then
+#	export DISPLAY=":1"
+elif [ "$(cat /proc/cpuinfo  | grep N3450)" != "" ] ;then
 	export DISPLAY=":0"
 else
 	export DISPLAY=":0"
