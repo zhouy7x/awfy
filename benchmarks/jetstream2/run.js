@@ -31,8 +31,6 @@ function launchChrome(headless = true) {
     });
 }
 (async function() {
-
-    console.log('');
     const chrome = await launchChrome();
     const protocol = await CDP({ port: chrome.port });
 
@@ -41,87 +39,93 @@ function launchChrome(headless = true) {
     const { Page, Runtime } = protocol;
     await Promise.all([Page.enable(), Runtime.enable()]);
 
-    console.log('');
     var path = process.argv[2]
-    var path2 = "http://user-awfy.sh.intel.com/awfy/ARCworkloads/Speedometer/Speedometer/Full.html"
+    var path2 = "http://user-awfy.sh.intel.com:8080/awfy/ARCworkloads/JetStream2-JSTC/"
     var path3 = "http://user-awfy.sh.intel.com/awfy/ARCworkloads/Speedometer-Angular/Speedometer/Full.html"
 
     Page.navigate({ url: path });
 
     // Wait for window.onload before doing stuff.
     Page.loadEventFired(async() => {
-        const js = "JetStream.start()";
-	await sleep(1000);
-        await Runtime.evaluate({ expression: js });
-
-    	console.log('');
-        var log_file = "./logs/log-" + Date.now() + ".txt"
-        var tmp = undefined;
-	var i = 0;
+        await sleep(1000);
+	    var i = 0;
         while (true) {
-    	    console.log('');
+            console.log('loading page ...')
+            const js_prepare = "document.querySelector('#status a').innerHTML";
             await sleep(1000);
-            const js_res = "document.querySelector('#result-summary .score').innerHTML";
-            const result = await Runtime.evaluate({ expression: js_res });
-            // const js_info = "document.querySelector('#results').innerHTML";
-            // const info = await Runtime.evaluate({ expression: js_info });
-            // console.log(result.result)
-            // console.log("Running...")
-            const js_info = "document.querySelector('#results .benchmark-done h3.benchmark-name a').innerHTML";
-            const info = await Runtime.evaluate({ expression: js_info });
-	    console.log(info.result.value);
-            if (tmp != info.result.value) {
-                tmp = await info.result.value;
-                console.log("Running " + tmp + " ...");
+            const status = await Runtime.evaluate({ expression: js_prepare });
+            if (status.result.value == "Start Test") {
+                console.log(status.result.value);
+                break
+            } else {
+                if (i > 60) break ;
+                // console.log(i);
+                i++;
             }
-            // console.log(detail2.result.value)
-            i++
-            if (result.result.value == undefined) continue
-            // console.log(result.result.value)
-            console.log("Score: " + result.result.value)
-            var i = 0;
-            // fs.writeFileSync(log_file, JSON.stringify(info.result.value) + "\r\n", { flag: 'a' })
-            if (result.result.value) {
-                while (true) {
-                    // const js_detail = "document.querySelector('#results').innerHTML";
-                    // const detail = await Runtime.evaluate({ expression: js_detail });
-                    // console.log(detail.result.value)
-                    // const js_detail2 = detail.result.value.querySelectorAll('div.benchmark-done');
-                    // console.log(js_detail2)
-                    // const js_detail2 = "document.querySelectorAll('div.benchmark-done')[1].innerHTML";
-                    const js_detail = "document.querySelectorAll('div.benchmark-done')["+i+"].innerHTML";
-                    const detail = await Runtime.evaluate({ expression: js_detail });
-                    //console.log(result.result.value)
-                    
-                    if (detail.result.value == undefined) break
-                    // console.log(detail.result.value)
-                    i++
-                    
-                    var arr = (convert.regex(detail.result.value))
-                    
-                    if (arr == undefined) {
-                        fs.writeFileSync(log_file, 'Wrong data!' + "\r\n", { flag: 'a' });
-                        console.log('Wrong data!');
-                    } else {
-                        fs.writeFileSync(log_file, arr[0] + ": " + arr[1] + "\r\n", { flag: 'a' });
-                        console.log(arr[0] + ": " + arr[1]);
-                    }
-                } break;
-                // var arr = (convert.html(detail.result.value))
-                
-                // arr.unshift(result.result.value)
-                // console.log(arr)
-                //     //fs.writeFileSync("./results.json", JSON.stringify(arr))
-                // console.log("Score: " + arr[0])
-                // fs.writeFileSync(log_file, arr[0] + "\r\n", { flag: 'a' })
-                // arr[2].shift()
-                // arr[2].forEach((a) => {
-                //     fs.writeFileSync(log_file, a['0'] + ": " + a["1"] + "\r\n", { flag: 'a' })
-                //     console.log(a['0'] + ": " + a["1"])
-                // })
-                // break;
+        }
+        if (i <= 6) {
+
+            const js = "JetStream.start()";
+            await Runtime.evaluate({ expression: js });
+
+            var log_file = "./logs/log-" + Date.now() + ".txt"
+            var tmp = undefined;
+            while (true) {
+                await sleep(1000);
+                const js_res = "document.querySelector('#result-summary .score').innerHTML";
+                const result = await Runtime.evaluate({ expression: js_res });
+                const js_info = "document.querySelector('#results .benchmark-done h3.benchmark-name a').innerHTML";
+                const info = await Runtime.evaluate({ expression: js_info });
+                // console.log(info.result.value);
+                if (tmp != info.result.value) {
+                    tmp = await info.result.value;
+                    console.log("Running " + tmp + " ...");
+                }
+                // console.log(detail2.result.value)
+                i++;
+                if (result.result.value == undefined) continue
+                // console.log(result.result.value)
+                console.log("Score: " + result.result.value)
+                // var i = 0;
+                // fs.writeFileSync(log_file, JSON.stringify(info.result.value) + "\r\n", { flag: 'a' })
+                if (result.result.value) {
+                    while (true) {
+                        const js_detail = "document.querySelectorAll('div.benchmark-done')["+i+"].innerHTML";
+                        const detail = await Runtime.evaluate({ expression: js_detail });
+                        //console.log(result.result.value)
+
+                        if (detail.result.value == undefined) break
+                        // console.log(detail.result.value)
+                        // i++
+
+                        var arr = (convert.regex(detail.result.value))
+
+                        if (arr == undefined) {
+                            fs.writeFileSync(log_file, 'Wrong data!' + "\r\n", { flag: 'a' });
+                            console.log('Wrong data!');
+                        } else {
+                            fs.writeFileSync(log_file, arr[0] + ": " + arr[1] + "\r\n", { flag: 'a' });
+                            console.log(arr[0] + ": " + arr[1]);
+                        }
+                    } break;
+                    // var arr = (convert.html(detail.result.value))
+
+                    // arr.unshift(result.result.value)
+                    // console.log(arr)
+                    //     //fs.writeFileSync("./results.json", JSON.stringify(arr))
+                    // console.log("Score: " + arr[0])
+                    // fs.writeFileSync(log_file, arr[0] + "\r\n", { flag: 'a' })
+                    // arr[2].shift()
+                    // arr[2].forEach((a) => {
+                    //     fs.writeFileSync(log_file, a['0'] + ": " + a["1"] + "\r\n", { flag: 'a' })
+                    //     console.log(a['0'] + ": " + a["1"])
+                    // })
+                    // break;
+                }
+                //if (i > 5) break;
             }
-            //if (i > 5) break;
+        } else {
+            console.log('loading page failed, killed.')
         }
 
         protocol.close();

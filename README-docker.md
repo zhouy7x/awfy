@@ -20,7 +20,7 @@ Build awfy docker image
 ```text
     /etc/init.d/apache2 stop
     mkdir -p /mnt/work/docker/
-    cd /mnt/work/docker/
+    cd /mnt/work/docker/  # replace "<YOUR_USERNAME>:<YOUR_PASSWORD>" to your own gitlab username and password 
     git clone https://gitlab.devtools.intel.com/zhouy7x/awfy.git
     cd awfy/docker
     docker build -t test/awfy:18.04 .
@@ -89,6 +89,7 @@ Download submodule and repos, install dependence
 * exit to awfy docker
 ```text
     cd /home/user/work/awfy
+    git pull
     git submodule update --init --recursive
     python replace_host.py  ssgs5-test.sh.intel.com  `hostname -s`
     ./server/run-clean-and-update.sh
