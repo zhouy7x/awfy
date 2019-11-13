@@ -979,6 +979,8 @@ class Speedometer2(Benchmark):
             if not m:
                 continue
             name = m.group(1)
+            if name in ['  port', 'Unknown type']:
+                continue
             score = m.group(2)
             if name[0:5] == "Score":
                 name = "__total__"
@@ -1008,6 +1010,8 @@ class JetStream2(Benchmark):
             if not m:
                 continue
             name = m.group(1)
+            if name in ['  port', 'Unknown type']:
+                continue
             score = m.group(2)
             if name[0:5] == "Score":
                 name = "__total__"
@@ -1041,6 +1045,8 @@ class WebTooling(Benchmark):
                 print(x, 'is wrong!')
                 continue
             name = m.group(1).lstrip()
+            if name in ['  port', 'Unknown type']:
+                continue
             score = m.group(2)
             if name[0:9] == "Geometric":  # Geometric mean:  2.78 runs/sec
                 name = "__total__"
