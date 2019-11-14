@@ -710,6 +710,51 @@ class Headless_patch(Engine):
         return [{'path': p, 'exclude': ['obj', 'gen', 'clang_x64', 'clang_x86_v8_arm', 'pyproto', 'resources']}]
 
 
+# add Headless Engine
+class JavaScriptCore(Engine):
+    def __init__(self):
+        super(JavaScriptCore, self).__init__()
+        self.puller = 'git'
+        self.source = utils.config.get('jsc', 'source')
+        self.args = []
+        self.important = True
+
+        if self.cpu == 'x64':
+            cpu_mode = '-x64'
+        elif self.cpu == 'x86':
+            cpu_mode = '-x86'
+        elif self.cpu == 'arm':
+            cpu_mode = '-arm'
+        elif self.cpu == 'amd64':
+            cpu_mode = '-amd64'
+        self.output_dir = 'WebKitBuild/Release'
+        self.modes = [{'mode': 'jsc' + cpu_mode, 'args': None}]
+
+    def build(self):
+        env = os.environ.copy()
+
+        try:
+            with utils.FolderChanger(os.path.isdir(os.path.join(utils.RepoPath, self.source))):
+                Run(['Tools/Scripts/build-webkit', '--jsc-only', '-j40'], env)
+        except subprocess.CalledProcessError as e:
+            print "Dirty build failed!"
+            # remove output dir
+            if os.path.isdir(os.path.join(utils.RepoPath, self.source, self.output_dir)):
+                os.rmdir(os.path.join(utils.RepoPath, self.source, self.output_dir))
+
+            try:
+                with utils.FolderChanger(os.path.isdir(os.path.join(utils.RepoPath, self.source))):
+                    Run(['Tools/Scripts/build-webkit', '--jsc-only', '-j40'], env)
+            except subprocess.CalledProcessError as e:
+                print "Clean build also failed!"
+
+    def shell(self):
+        return os.path.join(utils.RepoPath, self.source, self.output_dir, 'bin', 'jsc')
+
+    def libpaths(self):
+        return [{'path': os.path.join(utils.RepoPath, self.source, self.output_dir, 'bin', 'jsc'), 'exclude': []}]
+
+
 class IoTjs(Engine):
     def __init__(self):
         super(IoTjs, self).__init__()

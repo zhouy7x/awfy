@@ -75,6 +75,18 @@ class RemoteSlave(Slave):
                         self.runRemote(["rm", "-rf", rlib])
                         self.runRemote(["mkdir", "-p", rlib])
                         self.pushRemote(llib, rlib2, follow=True, excludes=libp['exclude'])
+            elif engine.source == "webkit":
+                shell = os.path.join(utils.RepoPath, engine.source, engine.shell())
+                rshell = os.path.join(self.RepoPath, engine.source, engine.shell())
+                self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
+                self.pushRemote(shell, rshell, follow=True)
+                libpaths = engine.libpaths()
+                for libp in libpaths:
+                    llib = os.path.join(utils.RepoPath, engine.source, libp['path'])
+                    rlib = os.path.join(self.RepoPath, engine.source, libp['path'])
+                    if os.path.isfile(llib) or os.path.isdir(llib):
+                        self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
+                        self.pushRemote(llib, rlib, follow=True, excludes=libp['exclude'])
 
     def benchmark(self, submit, native, modes):
         state_p = "/tmp/__awfy_" + self.name + "_state.p";

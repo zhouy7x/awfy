@@ -1097,7 +1097,7 @@ class ARES6(Benchmark):
         if args:
             full_args.extend(args)
         full_args.append('cli.js')
-        
+
         print(os.getcwd())
         output = utils.RunTimedCheckOutput(full_args, env=env)
         return self.parse(output)
@@ -1140,7 +1140,12 @@ class JetStream2D8(Benchmark):
         super(JetStream2D8, self).__init__('Jetstream2D8', '', 'jetstream2-d8')
 
     def benchmark(self, shell, env, args):
-        full_args = [shell, './cli.js']
+        full_args = [shell]
+        if shell.endswith('jsc'):
+            full_args.append('cli-jsc.js')
+        else:
+            full_args.append('cli.js')
+
         if args:
             full_args.extend(args)
         print(os.getcwd())

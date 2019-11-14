@@ -17,6 +17,7 @@
 #     ctrl a+d
 lockfile=/tmp/awfy-daemon-v8
 v8countfile=tmp/v8-count
+jsccountfile=tmp/jsc-count
 if [ -e "$lockfile" ]
 then
   echo "awfy: Already running"
@@ -147,6 +148,63 @@ do
 #            done
 #        fi
 #        popd
+
+
+        # Third, check jsc update
+        pushd /home/user/work/repos/jsc/base/webkit
+        git fetch
+        # list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
+        list=`git rev-list origin/master ^master | tac`
+        if [ -z "$list" ]; then
+            echo "jsc: no update"
+        else
+
+            hasUpdate="true"
+            # Get every commit of jsc
+            for id in $list
+            do
+                git reset --hard -q $id && git clean -fd
+                git log -1 --pretty=short
+
+                pushd /home/user/work/awfy/driver
+
+                STARTT=$(date +%s)
+
+                if [ ! -e $jsccountfile ]; then
+                    touch $jsccountfile
+                fi
+                tmp=`cat $jsccountfile`;
+                if [ -z "$tmp" ]; then
+                    tmp=0;
+                fi
+                echo $tmp;
+
+                if [ $tmp == 70 ]; then
+                    string='-long-time';
+                    tmp=0
+                else
+                    string='';
+                    tmp=$[tmp+1];
+                fi
+
+                python dostuff-v8.py --config=client/jsc/hsw-nuc-jsc-x64$string.config  $id &
+                python dostuff-v8.py --config=client/jsc/apl-nuc-jsc-x64$string.config  $id &
+
+                echo $tmp > $jsccountfile;
+
+                wait
+
+                SECS=$(($(date +%s) - $STARTT))
+                printf "\n++++++++++++++++ %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
+                popd
+
+                pushd /home/user/work/awfy/server
+                ./run-update.sh
+                popd
+
+            done
+        fi
+        popd
 
         if [ "$hasUpdate" = "false" ]; then
             echo "awfy: no source update, sleep 15m"
