@@ -16,6 +16,7 @@ REPO_PATH = "%s/repos" % WORK_DIR
 REPOS = {
     "home": "%s/awfy/driver" % WORK_DIR,
     "v8": "%s/v8/base/v8" % REPO_PATH,
+    "v8-jsc": "%s/jsc/base/webkit" % REPO_PATH,
     "jerryscript": "%s/jerryscript" % REPO_PATH,
     "x64": "%s/chrome/x64/chromium/src" % REPO_PATH,
     "glm": "%s/chrome/glm/chromium/src" % REPO_PATH,
@@ -39,7 +40,8 @@ MACHINES = {
     'glm': 11,
     'x64': 10,
     'arm': 9,
-    'v8': 8
+    'v8': 8,
+    'v8-jsc': 8,
 }
 MODES = {
     'cyan-v8': 22,
@@ -48,6 +50,7 @@ MODES = {
     "1800x-chrome": 18,
     "bigcore-v8": 22,
     "bigcore-chrome": 18,
+    "v8-jsc": 35,
 }
 RELATED = {
     'apache2': "/etc/init.d/apache2 start",

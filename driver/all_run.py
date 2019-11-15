@@ -104,7 +104,7 @@ def get_cur_git_rev(vendor):
              WHERE r.status > 0                                                       
              AND r.machine = %s
              """
-    if vendor.endswith('-v8') or vendor.endswith('-chrome'):
+    if vendor.endswith('-v8') or vendor.endswith('-chrome') or vendor.endswith('-jsc'):
         query += """
                  AND b.mode_id = %s 
                  """ % MODES[vendor]
@@ -198,6 +198,10 @@ def run_list(param, log_string):
     try:
         if param in ['cyan', '1800x', 'bigcore']:
             params = ['%s-v8' % param, '%s-chrome' % param]
+            for tmp in params:
+                reset_git(tmp)
+        elif param in ['v8']:
+            params = ['v8', 'v8-jsc']
             for tmp in params:
                 reset_git(tmp)
         else:

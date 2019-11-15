@@ -36,6 +36,7 @@ def kill_all(repos):
                 "python dostuff-%s.py" % param,
                 "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/%s" % param,
                 "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/v8/%s" % param,
+                "Tools/Scripts/build-webkit --jsc-only",
             ]
         elif param in ['cyan', 'bigcore']:
             str_list = [
