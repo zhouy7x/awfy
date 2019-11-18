@@ -729,7 +729,9 @@ class JavaScriptCore(Engine):
             cpu_mode = '-amd64'
         self.output_dir = 'WebKitBuild/Release'
         self.modes = [{'mode': 'jsc' + cpu_mode, 'args': None}]
-        self.env = {
+
+    def env(self):
+        return {
             "LD_LIBRARY_PATH": os.path.join(utils.RepoPath, self.source, "WebKitBuild/Release/lib") + ":/home/user/jsc-dependence:$LD_LIBRARY_PATH"
         }
 
