@@ -104,7 +104,7 @@ def get_cur_git_rev(vendor):
              WHERE r.status > 0                                                       
              AND r.machine = %s
              """
-    if vendor.endswith('-v8') or vendor.endswith('-chrome') or vendor.endswith('-jsc'):
+    if vendor.endswith('v8') or vendor.endswith('-chrome') or vendor.endswith('-jsc'):
         query += """
                  AND b.mode_id = %s 
                  """ % MODES[vendor]

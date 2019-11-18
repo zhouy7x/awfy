@@ -50,6 +50,7 @@ MODES = {
     "1800x-chrome": 18,
     "bigcore-v8": 22,
     "bigcore-chrome": 18,
+    "v8": 22,
     "v8-jsc": 35,
 }
 RELATED = {
