@@ -188,7 +188,7 @@ do
                 fi
 
                 python dostuff-v8.py --config=client/jsc/hsw-nuc-jsc-x64$string.config  $id &
-                python dostuff-v8.py --config=client/jsc/apl-nuc-jsc-x64$string.config  $id &
+                # python dostuff-v8.py --config=client/jsc/apl-nuc-jsc-x64$string.config  $id &
 
                 echo $tmp > $jsccountfile;
 

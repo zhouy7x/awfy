@@ -112,14 +112,14 @@ class RemoteSlave(Slave):
         # send the pickled data over the wire so we can make a call
         self.pushRemote(state_p, os.path.join(self.DriverPath, "state.p"))
         # cd into the driver's directory, then start running the module.
-        if utils.config.has_section('jsc'):
-            cmds = ["cd", self.DriverPath, ";",
-                    "LD_LIBRARY_PATH=" +
-                    os.path.join(self.RepoPath, utils.config.get('jsc', 'source'), "WebKitBuild/Release/lib") +
-                    ":/home/user/jsc-dependence:$LD_LIBRARY_PATH",
-                    self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p")]
-        else:
-            cmds = ["cd", self.DriverPath, ";", self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p")]
+        # if utils.config.has_section('jsc'):
+        #     cmds = ["cd", self.DriverPath, ";",
+        #             "LD_LIBRARY_PATH=" +
+        #             os.path.join(self.RepoPath, utils.config.get('jsc', 'source'), "WebKitBuild/Release/lib") +
+        #             ":/home/user/jsc-dependence:$LD_LIBRARY_PATH",
+        #             self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p")]
+        # else:
+        cmds = ["cd", self.DriverPath, ";", self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p")]
         self.runRemote(cmds, async=True)
 
     def runRemote(self, cmds, async=False):
