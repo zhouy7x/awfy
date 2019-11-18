@@ -734,7 +734,7 @@ class JavaScriptCore(Engine):
         env = os.environ.copy()
 
         try:
-            with utils.FolderChanger(os.path.isdir(os.path.join(utils.RepoPath, self.source))):
+            with utils.FolderChanger(os.path.join(os.path.join(utils.RepoPath, self.source))):
                 Run(['Tools/Scripts/build-webkit', '--jsc-only', '-j40'], env)
         except subprocess.CalledProcessError as e:
             print "Dirty build failed!"
@@ -743,7 +743,7 @@ class JavaScriptCore(Engine):
                 os.rmdir(os.path.join(utils.RepoPath, self.source, self.output_dir))
 
             try:
-                with utils.FolderChanger(os.path.isdir(os.path.join(utils.RepoPath, self.source))):
+                with utils.FolderChanger(os.path.join(os.path.join(utils.RepoPath, self.source))):
                     Run(['Tools/Scripts/build-webkit', '--jsc-only', '-j40'], env)
             except subprocess.CalledProcessError as e:
                 print "Clean build also failed!"
