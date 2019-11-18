@@ -78,6 +78,7 @@ class RemoteSlave(Slave):
             elif engine.source == "webkit":
                 shell = os.path.join(utils.RepoPath, engine.source, engine.shell())
                 rshell = os.path.join(self.RepoPath, engine.source, engine.shell())
+                self.runRemote(["rm", "-rf", os.path.dirname(rshell)])
                 self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
                 self.pushRemote(shell, rshell, follow=True)
                 libpaths = engine.libpaths()
@@ -111,16 +112,24 @@ class RemoteSlave(Slave):
         # send the pickled data over the wire so we can make a call
         self.pushRemote(state_p, os.path.join(self.DriverPath, "state.p"))
         # cd into the driver's directory, then start running the module.
-        self.runRemote(["cd", self.DriverPath, ";", self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p")], async=True)
+        if utils.config.has_section('jsc'):
+            cmds = ["cd", self.DriverPath, ";",
+                    "LD_LIBRARY_PATH=" +
+                    os.path.join(self.RepoPath, utils.config.get('jsc', 'source'), "WebKitBuild/Release/lib") +
+                    ":/home/user/jsc-dependence:$LD_LIBRARY_PATH",
+                    self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p")]
+        else:
+            cmds = ["cd", self.DriverPath, ";", self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p")]
+        self.runRemote(cmds, async=True)
 
-    def runRemote(self, cmds, async = False):
+    def runRemote(self, cmds, async=False):
         # no matter what, we don't want to start running a new command until the old one is gone.
         self.synchronize()
 
         fullcmd = ["ssh", self.HostName, "--"] + cmds
         if async:
             print ("ASYNC: " + " ".join(fullcmd))
-            #self.delayed = subprocess.Popen(fullcmd, stderr = subprocess.STDOUT, stdout = subprocess.PIPE)
+            # self.delayed = subprocess.Popen(fullcmd, stderr = subprocess.STDOUT, stdout = subprocess.PIPE)
             self.delayed = subprocess.Popen(fullcmd, stderr = subprocess.STDOUT, stdout = subprocess.PIPE)
             subprocess.Popen(['sed', '-e', 's/^/' + self.name + ': /'], stdin = self.delayed.stdout)
             self.delayedCommand = str(fullcmd)
@@ -155,9 +164,9 @@ class RemoteSlave(Slave):
     def synchronize(self):
         if self.delayed:
             print("Waiting for: "+self.delayedCommand)
-            #retval = self.delayed.wait()
+            # retval = self.delayed.wait()
             output, retval = self.delayed.communicate() 
-            #if retval != 0:
+            # if retval != 0:
             if self.delayed.returncode != 0:
                 #raise Exception(self.delayedCommand + ": failed with exit code" + str(retval))
                 raise Exception(self.delayedCommand + ": failed with exit code" + str(self.delayed.returncode))
