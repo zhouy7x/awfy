@@ -55,7 +55,7 @@ def kill_all(repos):
             ]
 
         for tmp in str_list:
-            command = 'ps aux | grep -E "%s" | grep -v grep' % tmp
+            command = 'ps ax | grep -E "%s" | grep -v grep' % tmp
             # command = 'ps aux | grep -E "chrome.py|chrome.sh"'
             data = os.popen(command)
             data_list = data.read().splitlines()
