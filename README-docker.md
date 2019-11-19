@@ -23,7 +23,7 @@ Build awfy docker image
     cd /mnt/work/docker/  # replace "<YOUR_USERNAME>:<YOUR_PASSWORD>" to your own gitlab username and password 
     git clone https://gitlab.devtools.intel.com/zhouy7x/awfy.git
     cd awfy/docker
-    docker build -t test/awfy:18.04 .
+    docker build -t awfy:18.04 .
 ```
 Build mysql docker image
 -----------------------
@@ -31,7 +31,7 @@ Build mysql docker image
 ```text
     /etc/init.d/mysql stop
     cd /mnt/work/docker/awfy/database
-    docker build -t test/mysql:5.7 .
+    docker build -t awfy-mysql:5.7 .
 ```
 
 Run docker container
@@ -50,7 +50,7 @@ Run docker container
             test/awfy:18.04 \
             /bin/bash
     docker run -it -d \
-            --name awfy_mysql \
+            --name awfy-mysql \
             -v /mnt/work/docker/VOLUMES/data:/var/lib/mysql \
             -e MYSQL_ROOT_HOST="%" \
             -e MYSQL_ROOT_PASSWORD="mkk" \
@@ -65,7 +65,7 @@ Init DB
     docker exec -it awfy /bin/bash
     mysql -uroot -pmkk -h `hostname -s` -P 3306
 ```
-* in awfy_mysql
+* in awfy-mysql
 ```sql
     CREATE DATABASE dvander CHARSET="UTF8";
     exit
@@ -109,5 +109,5 @@ get the start commit id of each slave.
 cd /home/user/work/awfy/driver
 ssh-keygen
 ./init.py
-./all_run.py cyan x64  
+./all_run.py cyan x64 
 ```
