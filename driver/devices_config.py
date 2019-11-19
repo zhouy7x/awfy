@@ -41,7 +41,7 @@ MACHINES = {
     'x64': 10,
     'arm': 9,
     'v8': 1,
-    'v8-jsc': 1,
+    'v8-jsc': 16,
 }
 MODES = {
     'cyan-v8': 22,
