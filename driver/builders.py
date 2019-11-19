@@ -757,8 +757,7 @@ class JavaScriptCore(Engine):
         return os.path.join(utils.RepoPath, self.source, self.output_dir, 'bin', 'jsc')
 
     def libpaths(self):
-        return [{'path': os.path.join(utils.RepoPath, self.source, self.output_dir, 'bin', 'jsc'), 'exclude': []},
-                {'path': os.path.join(utils.RepoPath, self.source, self.output_dir, 'lib'), 'exclude': []}]
+        return [{'path': os.path.join(utils.RepoPath, self.source, self.output_dir, 'lib'), 'exclude': []}]
 
 
 class IoTjs(Engine):
