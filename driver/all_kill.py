@@ -63,7 +63,7 @@ def kill_all(repos):
             if not data_list:
                 continue
             else:
-                pid_list = map(lambda x: x.split()[1], data_list)
+                pid_list = map(lambda x: x.split()[0], data_list)
                 print("%s was in operation, its PID is: " % tmp + ",".join(pid_list))
                 for pid in pid_list:
                     command = 'kill -9 %s' % str(pid)
