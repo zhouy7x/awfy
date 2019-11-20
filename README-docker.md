@@ -20,9 +20,9 @@ Build awfy docker image
 ```text
     /etc/init.d/apache2 stop
     mkdir -p /mnt/work/docker/
-    cd /mnt/work/docker/  # replace "<YOUR_USERNAME>:<YOUR_PASSWORD>" to your own gitlab username and password 
+    cd /mnt/work/docker/   
     git clone https://gitlab.devtools.intel.com/zhouy7x/awfy.git
-    cd awfy/docker
+    cd awfy/docker  # replace "<YOUR_USERNAME>:<YOUR_PASSWORD>" to your own gitlab username and password
     docker build -t awfy:18.04 .
 ```
 Build mysql docker image
@@ -44,10 +44,10 @@ Run docker container
     mkdir -p VOLUMES/data
     docker run -it -d \
             --network host \
-            --name  awfy \
+            --name awfy \
             -v /mnt/work/docker/VOLUMES/repos:/repos \
             -v /mnt/work/docker/VOLUMES/logs:/logs \
-            test/awfy:18.04 \
+            awfy:18.04 \
             /bin/bash
     docker run -it -d \
             --name awfy-mysql \
@@ -55,7 +55,7 @@ Run docker container
             -e MYSQL_ROOT_HOST="%" \
             -e MYSQL_ROOT_PASSWORD="mkk" \
             -p 3306:3306/tcp \
-            test/mysql:5.7
+            awfy-mysql:5.7
 ```
 
 Init DB
