@@ -77,7 +77,7 @@ do
 #                wait
 #
 #                SECS=$(($(date +%s) - $STARTT))
-#                printf "\n++++++++++++++++ %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
+#                printf "\n++++++++++++++++ $0: %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
 #
 #                #sleep 10h
 #
@@ -131,7 +131,7 @@ do
                     wait
 
                     SECS=$(($(date +%s) - $STARTT))
-                    printf "\n++++++++++++++++ %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
+                    printf "\n++++++++++++++++ $0: %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
 
                     pushd /home/user/work/awfy/server
                     bash ./run-update.sh
