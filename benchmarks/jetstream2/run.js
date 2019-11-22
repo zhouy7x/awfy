@@ -86,17 +86,17 @@ function launchChrome(headless = true) {
                 if (result.result.value == undefined) continue
                 // console.log(result.result.value)
                 console.log("Score: " + result.result.value)
-                // var i = 0;
+                var j = 0;
                 // fs.writeFileSync(log_file, JSON.stringify(info.result.value) + "\r\n", { flag: 'a' })
                 if (result.result.value) {
                     while (true) {
-                        const js_detail = "document.querySelectorAll('div.benchmark-done')["+i+"].innerHTML";
+                        const js_detail = "document.querySelectorAll('div.benchmark-done')["+j+"].innerHTML";
                         const detail = await Runtime.evaluate({ expression: js_detail });
                         //console.log(result.result.value)
 
                         if (detail.result.value == undefined) break
                         // console.log(detail.result.value)
-                        // i++
+                        j++;
 
                         var arr = (convert.regex(detail.result.value))
 

@@ -972,6 +972,7 @@ class Speedometer2(Benchmark):
         print(cmd)
         output = utils.RunTimedCheckOutput(cmd, env=env)
         tests = []
+        test_names = []
         lines = output.splitlines()
         
         for x in lines:
@@ -984,8 +985,10 @@ class Speedometer2(Benchmark):
             score = m.group(2)
             if name[0:5] == "Score":
                 name = "__total__"
-            tests.append({'name': name, 'time': score})
-            print(score + '   - ' + name)
+            if name not in test_names:
+                test_names.append(name)
+                tests.append({'name': name, 'time': score})
+                print(score + '   - ' + name)
         #print(cmd)
         return tests
 
@@ -1003,6 +1006,7 @@ class JetStream2(Benchmark):
         print(cmd)
         output = utils.RunTimedCheckOutput(cmd, env=env, timeout=25*60)
         tests = []
+        test_names = []
         lines = output.splitlines()
 
         for x in lines:
@@ -1015,8 +1019,10 @@ class JetStream2(Benchmark):
             score = m.group(2)
             if name[0:5] == "Score":
                 name = "__total__"
-            tests.append({'name': name, 'time': score})
-            print(score + '   - ' + name)
+            if name not in test_names:
+                test_names.append(name)
+                tests.append({'name': name, 'time': score})
+                print(score + '   - ' + name)
         # print(cmd)
         return tests
 
@@ -1071,6 +1077,7 @@ class Unity3D(Benchmark):
         output = utils.RunTimedCheckOutput(cmd, env=env)
 
         tests = []
+        test_names = []
         lines = output.splitlines()
         
         for x in lines:
@@ -1081,8 +1088,10 @@ class Unity3D(Benchmark):
             score = m.group(2)
             if name == "Overall":
                 name = "__total__"
-            tests.append({'name': name, 'time':score})
-            print(score + '     - '+ name)
+            if name not in test_names:
+                test_names.append(name)
+                tests.append({'name': name, 'time':score})
+                print(score + '     - '+ name)
         return tests
 
 
