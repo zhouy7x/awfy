@@ -22,7 +22,7 @@ Build awfy docker image
     mkdir -p /mnt/work/docker/
     cd /mnt/work/docker/   
     git clone https://gitlab.devtools.intel.com/zhouy7x/awfy.git
-    cd awfy/docker  # replace "<YOUR_USERNAME>:<YOUR_PASSWORD>" to your own gitlab username and password
+    cd awfy/docker  # replace "<YOUR_GITLAB_USERNAME>:<YOUR_GITLAB_PASSWORD>" in Dockerfile to your own gitlab username and password
     docker build -t awfy:18.04 .
 ```
 Build mysql docker image
