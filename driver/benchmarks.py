@@ -1189,7 +1189,7 @@ class Polybench(Benchmark):
             full_args.extend(args)
 
         print(os.getcwd())
-        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=int(2.6*3600))
+        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=int(3.5*3600))
 
         tests = []
 
