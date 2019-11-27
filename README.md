@@ -94,8 +94,9 @@ Download submodule and repos, install dependence
     cd /home/user/work/awfy
     git pull
     git submodule update --init --recursive
-    python replace_host.py  ssgs5-test.sh.intel.com  `hostname -s`
-    ./server/run-clean-and-update.sh
+    /etc/init.d/apache2 start
+    python replace_host.py  ssgs5-test.sh.intel.com  `hostname -s`  
+    ./server/run-clean-and-update.sh  # load http://localhost:8000 in browser, you will see awfy report page.
     cd /home/user/work/repos && mkdir -p v8/base
     cd v8/base && fetch v8 && cd v8 && git checkout master && sed -i -e 's/sudo//' build/install-build-deps.sh && ./build/install-build-deps.sh && build/linux/sysroot_scripts/install-sysroot.py --arch=arm
     cd /home/user/work/repos/v8 && cp -r base 1800x && cp -r base bigcore && cp -r base cyan 
