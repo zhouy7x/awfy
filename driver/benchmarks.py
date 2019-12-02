@@ -1251,7 +1251,7 @@ class Spec2k6(Benchmark):
 
 class D8Size(Benchmark):
     def __init__(self):
-        super(D8Size, self).__init__('d8', '', '')
+        super(D8Size, self).__init__('d8Size', '', '')
 
     def benchmark(self, shell, env, args):
         full_args = ['ls', '-l', shell]
@@ -1270,7 +1270,7 @@ class D8Size(Benchmark):
 
 class BinSize(Benchmark):
     def __init__(self):
-        super(BinSize, self).__init__('snapshot_blob', '', '')
+        super(BinSize, self).__init__('binSize', '', '')
 
     def benchmark(self, shell, env, args):
         shell = shell.replace('d8', 'snapshot_blob.bin')
