@@ -980,7 +980,7 @@ class Speedometer2(Benchmark):
             if not m:
                 continue
             name = m.group(1)
-            if name in ['  port', 'Unknown type']:
+            if name in ['  port', ' port', 'Unknown type']:
                 continue
             score = m.group(2)
             if name[0:5] == "Score":
@@ -1014,7 +1014,7 @@ class JetStream2(Benchmark):
             if not m:
                 continue
             name = m.group(1)
-            if name in ['  port', 'Unknown type']:
+            if name in ['  port', ' port', 'Unknown type']:
                 continue
             score = m.group(2)
             if name[0:5] == "Score":
