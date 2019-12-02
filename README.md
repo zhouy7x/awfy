@@ -104,7 +104,7 @@ Download submodule and repos, install dependence
     cd chrome/x64/chromium && fetch chromium && cd src && git checkout master && sed -i -e 's/sudo//' build/install-build-deps.sh && ./build/install-build-deps.sh && build/linux/sysroot_scripts/install-sysroot.py --arch=arm
     cd /home/user/work/repos/chrome && cp -r x64 arm && cp -r x64 glm && cp -r x64 1800x && cp -r x64 cyan
     cd /home/user/work/repos && mkdir -p jsc/base
-    cd jsc/base && git clone https://github.com/WebKit/webkit.git && cd wekit && Tools/gtk/install-dependencies
+    cd jsc/base && git clone https://github.com/WebKit/webkit.git && cd webkit && Tools/gtk/install-dependencies
 ```
 
 Init and run
