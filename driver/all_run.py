@@ -1,10 +1,24 @@
 #!/usr/bin/python
 # -*-coding:utf-8-*-
 import signal
+import time
 from sys import argv
 import os, sys
 import datetime
 from devices_config import *
+
+
+def check_build_server_status(tmp):
+    time.sleep(2)
+    command = 'ps ax | grep -E "%s" | grep -v grep' % tmp
+    data = os.popen(command)
+    data_list = data.read().splitlines()
+    # print(data_list)
+    if not data_list:
+        print "ERROR: start %s failed, retry..." % tmp
+        return 1
+    else:
+        return 0
 
 
 def run_command(param, log_string):
@@ -39,12 +53,14 @@ def run_command(param, log_string):
 
     print(str1)
     if not os.system(str1):
-        print(str2)
-        os.system(str2)
-        print(str3)
-        if not os.system(str3):
-            return 0
-
+        if not check_build_server_status(str1):
+            print(str2)
+            os.system(str2)
+            print(str3)
+            if not os.system(str3):
+                return 0
+        else:
+            return 3
     return 2
 
 
@@ -210,7 +226,8 @@ def run_list(param, log_string):
         print e
         return 1
     print("run command...")
-    run_command(param, log_string)
+    if run_command(param, log_string) == 3:
+        run_command(param, log_string)
     return 0
 
 
