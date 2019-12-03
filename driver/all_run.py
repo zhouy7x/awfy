@@ -9,6 +9,7 @@ from devices_config import *
 
 
 def check_build_server_status(tmp):
+    tmp = tmp[:tmp.find(" >")]
     time.sleep(2)
     command = 'ps ax | grep -E "%s" | grep -v grep' % tmp
     data = os.popen(command)
