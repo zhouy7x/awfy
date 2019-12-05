@@ -1048,7 +1048,7 @@ class WebTooling(Benchmark):
         for x in lines:
             m = re.search("(.+):  ?(\d+\.?\d+)", x)
             if not m:
-                print(x, 'is wrong!')
+                # print(x, 'is wrong!')
                 continue
             name = m.group(1).lstrip()
             if name in ['  port', 'Unknown type']:
