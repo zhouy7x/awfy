@@ -114,6 +114,6 @@ get the start commit id of each slave.
 ```text
 cd /home/user/work/awfy/driver
 ssh-keygen
-./init.py
+./init.py  #TODO you must run next few commands one by one by yourself!!!
 ./all_run.py cyan x64 
 ```
