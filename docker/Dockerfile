@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-LABEL maintainer "yangx.a.zhou@intel.com"
+LABEL maintainer="yangx.a.zhou@intel.com"
 
 # environment variables
 ENV http_proxy http://10.239.4.80:913
