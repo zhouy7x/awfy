@@ -85,7 +85,7 @@ do
 
                 echo $id
                 #1800x runs slower than v8, so let 1800x change the longtime bench freq.
-                #list_include_item $base_v8_longtime_bench_commit_dir $id
+                list_include_item $base_v8_longtime_bench_commit_dir $id
 
                 if [ ! -e $v8countfile ]; then
                     touch $v8countfile
