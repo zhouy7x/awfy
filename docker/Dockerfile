@@ -12,7 +12,7 @@ ENV WORKHOME /home/user/work
 # install related packages
 RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb python-tornado git curl mysql-client-5.7 expect wget tzdata software-properties-common && \
     LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/apache2 && \
-    apt-get install -y apache2 php5.6 php5.6-mysql
+    apt-get update && apt-get install -y apache2 php5.6 php5.6-mysql
 
 # download depot_tools
 RUN cd / && git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git && update_depot_tools
