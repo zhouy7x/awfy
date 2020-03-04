@@ -19,7 +19,7 @@ const convert = require('./convert')
  */
 function launchChrome(headless = true) {
     return chromeLauncher.launch({
-        port: 9223, // Uncomment to force a specific port of your choice.
+        port: 9224, // Uncomment to force a specific port of your choice.
         chromePath: process.argv[3] || '/opt/google/chrome/google-chrome',
         chromeFlags: [
             '--window-size=412,7as32',
@@ -51,11 +51,13 @@ function launchChrome(headless = true) {
         await sleep(1000);
 	    var i = 0;
         while (true) {
-            console.log('loading page ...')
-            const js_prepare = "document.querySelector('#status a').innerHTML";
+            // console.log('loading page ...')
+            // const js_url = "document.URL";
+            // const current_url = await Runtime.evaluate({ expression: js_url });
+            const js_prepare = "document.querySelector('.wx-button-text').innerHTML";
             await sleep(1000);
             const status = await Runtime.evaluate({ expression: js_prepare });
-            if (status.result.value == "Start Test") {
+            if (status.result.value == " Start ") {
                 console.log(status.result.value);
                 break
             } else {
@@ -64,23 +66,29 @@ function launchChrome(headless = true) {
                 i++;
             }
         }
-        if (i <= 6) {
-
-            const js = "JetStream.start()";
+        if (i <= 60) {
+            // console.log(1);
+            // const js = "document.getElementsByClassName('wx-start-button').trigger('click')";
+            // document.getElementsByClassName('wx-start-button').
+            const js = "startTest()";
             await Runtime.evaluate({ expression: js });
-
+            // console.log(2);
             var log_file = "./logs/log-" + Date.now() + ".txt"
             var tmp = undefined;
             while (true) {
+                // console.log(3);
                 await sleep(1000);
-                const js_res = "document.querySelector('#result-summary .score').innerHTML";
+                // const js_url = "document.URL";
+                // const current_url = await Runtime.evaluate({ expression: js_url });
+                // console.log(current_url.result.value);
+                const js_res = "document.querySelector('p.text-center.results-score-text').innerHTML";
                 const result = await Runtime.evaluate({ expression: js_res });
-                const js_info = "document.querySelector('#results .benchmark-done h3.benchmark-name a').innerHTML";
+                const js_info = "document.querySelector('h5[wx-workload-desc-txt] strong').innerHTML";
                 const info = await Runtime.evaluate({ expression: js_info });
                 // console.log(info.result.value);
                 if (tmp != info.result.value) {
                     tmp = await info.result.value;
-                    console.log("Running " + tmp + " ...");
+                    console.log("Running " + tmp);
                 }
                 // console.log(detail2.result.value)
                 i++;

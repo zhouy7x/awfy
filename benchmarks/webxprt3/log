@@ -1,0 +1,21 @@
+(node:41081) UnhandledPromiseRejectionWarning: Error: not opened
+    at WebSocket.send (/home/user/awfy/benchmarks/webxprt3/node_modules/chrome-remote-interface/node_modules/ws/lib/WebSocket.js:356:18)
+    at Chrome.enqueueCommand (/home/user/awfy/benchmarks/webxprt3/node_modules/chrome-remote-interface/lib/chrome.js:103:16)
+    at /home/user/awfy/benchmarks/webxprt3/node_modules/chrome-remote-interface/lib/chrome.js:67:28
+    at new Promise (<anonymous>)
+    at Chrome.send (/home/user/awfy/benchmarks/webxprt3/node_modules/chrome-remote-interface/lib/chrome.js:66:16)
+    at Object.handler [as evaluate] (/home/user/awfy/benchmarks/webxprt3/node_modules/chrome-remote-interface/lib/api.js:32:23)
+    at Chrome.<anonymous> (/home/user/awfy/benchmarks/webxprt3/run.js:59:42)
+    at runNextTicks (internal/process/task_queues.js:62:5)
+    at listOnTimeout (internal/timers.js:518:9)
+    at processTimers (internal/timers.js:492:7)
+(node:41081) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 12)
+(node:41081) UnhandledPromiseRejectionWarning: Error: not opened
+    at WebSocket.send (/home/user/awfy/benchmarks/webxprt3/node_modules/chrome-remote-interface/node_modules/ws/lib/WebSocket.js:356:18)
+    at Chrome.enqueueCommand (/home/user/awfy/benchmarks/webxprt3/node_modules/chrome-remote-interface/lib/chrome.js:103:16)
+    at /home/user/awfy/benchmarks/webxprt3/node_modules/chrome-remote-interface/lib/chrome.js:67:28
+    at new Promise (<anonymous>)
+    at Chrome.send (/home/user/awfy/benchmarks/webxprt3/node_modules/chrome-remote-interface/lib/chrome.js:66:16)
+    at Object.handler [as evaluate] (/home/user/awfy/benchmarks/webxprt3/node_modules/chrome-remote-interface/lib/api.js:32:23)
+    at Chrome.<anonymous> (/home/user/awfy/benchmarks/webxprt3/run.js:59:42)
+(node:41081) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 14)
