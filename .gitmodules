@@ -14,3 +14,7 @@
 	path = website/ARCworkloads/webxprt3
 	url = https://gitlab.devtools.intel.com/web-technology-optimization/webxprt3-wro
 	branch = jstc
+[submodule "webxprt3-headless"]
+	path = benchmarks/webxprt3
+	url = https://gitlab.devtools.intel.com/web-technology-optimization/webxprt3-wro
+	branch = jstc-headless
