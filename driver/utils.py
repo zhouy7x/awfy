@@ -182,12 +182,12 @@ def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenar
                         # in case someone looks at the logs...
                         print ("WARNING: Timed Out 2nd.")
                         # try to get any partial output
-                        output = p.communicate()[0]
+                        # output = p.communicate()[0]
 
         else:
             import subprocess32
             p = subprocess32.Popen(args, bufsize=-1, shell=True, env=env, close_fds=True, preexec_fn=os.setsid,
-                    stdout=subprocess.PIPE, **popenargs)
+                    stdout=subprocess32.PIPE, stderr=subprocess32.PIPE, **popenargs)
             # with Handler(signal.SIGALRM, timeout_handler):
             try:
                 output = p.communicate(timeout=timeout)[0]
@@ -206,7 +206,7 @@ def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenar
 
                 # try again.
                 p = subprocess32.Popen(args, bufsize=-1, shell=True, env=env, close_fds=True, preexec_fn=os.setsid,
-                            stdout=subprocess.PIPE, **popenargs)
+                            stdout=subprocess32.PIPE, stderr=subprocess32.PIPE, **popenargs)
                 try:
                     output = p.communicate(timeout=timeout)[0]
                     # if we get an alarm right here, nothing too bad should happen
@@ -219,7 +219,7 @@ def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenar
                     # in case someone looks at the logs...
                     print ("WARNING: Timed Out 2nd.")
                     # try to get any partial output
-                    output = p.communicate()[0]
+                    # output = p.communicate()[0]
 
         # print ('output final =',output)
         return output
