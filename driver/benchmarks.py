@@ -1027,6 +1027,38 @@ class JetStream2(Benchmark):
         return tests
 
 
+class WebXPRT3(Benchmark):
+    def __init__(self):
+        super(WebXPRT3, self).__init__('webxprt3', '', 'webxprt3')
+
+    def benchmark(self, shell, env, args):
+        kill_port = "for p in $(lsof -t -i:9224);do kill -9 $p; done ;"
+        run_shell = "/home/user/.nvm/versions/node/v8.1.2/bin/node run.js "
+        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/webxprt3/ "
+
+        cmd = kill_port + run_shell + url + shell
+        print(cmd)
+        output = utils.RunTimedCheckOutput(cmd, env=env, timeout=25*60)
+        tests = []
+        test_names = []
+        lines = output.splitlines()
+
+        for x in lines:
+            m = re.search("(.+): (\d+\.?\d?)", x)
+            if not m:
+                continue
+            name = m.group(1).split(' (ms')[0].replace(' ', '_')
+            score = m.group(2)
+            if name == "Score":
+                name = "__total__"
+            if name not in test_names:
+                test_names.append(name)
+                tests.append({'name': name, 'time': score})
+                print(score + '   - ' + name)
+        # print(cmd)
+        return tests
+
+
 # add WebTooling benchmark
 class WebTooling(Benchmark):
     def __init__(self):
@@ -1315,6 +1347,7 @@ Benchmarks = [
     Octane(),
     Speedometer2(),
     JetStream2(),
+    WebXPRT3(),
     WebTooling(),
     ARES6(),
     JetStream2D8(),

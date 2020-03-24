@@ -176,9 +176,8 @@ class V8(Engine):
         if self.ar is not None:
             env['AR'] = self.ar
 
-        
         Run(['git', 'log', '-1', '--pretty=short'])
-        
+
         gn_shell = os.path.join(utils.DriverPath, 'gn-cmd.sh')
         Run([gn_shell, self.slaveMachine, self.cpu], env)
 
@@ -494,7 +493,7 @@ class Headless(Engine):
                 try:
                     print 'env=%s' % env
                     Run(['cp', in_argns, out_argns])
-                    Run(['gclient', 'sync', '-j25', '-f'], env)
+                    Run(['gclient', 'sync', '-D', '-j25', '-f'], env)
                     # if self.cpu == 'arm':
                         #Run(['sed', '-i',
                         #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
@@ -541,7 +540,7 @@ class Headless(Engine):
                             Run(['mkdir', os.path.join(sourcePath, 'out', self.cpu)])
                             Run(['cp', in_argns, out_argns])
                             print 'env=%s'%env
-                            Run(['gclient', 'sync', '-j25', '-f'], env)
+                            Run(['gclient', 'sync', '-D', '-j25', '-f'], env)
                             # if self.cpu == 'arm':
                                 #Run(['sed', '-i',
                                 #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
@@ -616,7 +615,7 @@ class Headless_patch(Engine):
                 try:
                     print 'env=%s' % env
                     Run(['cp', in_argns, out_argns])
-                    Run(['gclient', 'sync', '-j25', '-f'], env)
+                    Run(['gclient', 'sync', '-D', '-j25', '-f'], env)
 
                     # add patch to v8.
                     """
@@ -672,7 +671,7 @@ class Headless_patch(Engine):
                         Run(['mkdir', os.path.join(sourcePath, 'out', self.cpu + '-patch')])
                         Run(['cp', in_argns, out_argns])
                         print 'env=%s' % env
-                        Run(['gclient', 'sync', '-j25', '-f'], env)
+                        Run(['gclient', 'sync', '-D', '-j25', '-f'], env)
 
                         # add patch to v8. move to args.gn
                         # with utils.FolderChanger(os.path.join(utils.RepoPath, self.source, 'v8')):
