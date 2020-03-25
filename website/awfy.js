@@ -211,6 +211,13 @@ AWFY.loadAggregateGraph = function (blobgraph) {
                   earliest: blobgraph.earliest,
                   info: info
                 };
+    if (graph.direction === 2) {
+        if (this.view == 'breakdown') {
+            graph.direction = -1
+        } else {
+            graph.direction = 1
+        }
+    }
     return graph;
 }
 
