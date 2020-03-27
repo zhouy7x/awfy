@@ -22,7 +22,7 @@ function launchChrome(headless = true) {
         port: 9222, // Uncomment to force a specific port of your choice.
         chromePath: process.argv[3] || '/opt/google/chrome/google-chrome',
         chromeFlags: [
-            '--window-size=412,7as32',
+            '--window-size=412,732',
             '--disable-gpu',
             '--no-sandbox',
             "--enable-logging",
