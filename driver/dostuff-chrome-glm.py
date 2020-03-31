@@ -19,12 +19,13 @@ import slaves
 import submitter
 
 parser = OptionParser(usage="usage: %prog [options] [cset]")
-parser.add_option("-c", "--config", dest="config_name", type="string", default="awfy.config", help="Config file (default: awfy.config)")
+parser.add_option("-c", "--config", dest="config_name", type="string", default="awfy.config",
+                  help="Config file (default: awfy.config)")
 parser.add_option("-2", "--config2", dest="config2_name", type="string", default="", help="Second config file")
 parser.add_option("-3", "--config3", dest="config3_name", type="string", default="", help="Third config file")
 (options, progargs) = parser.parse_args()
 
-#print (options, progargs)
+# print (options, progargs)
 # Set resource limits for child processes
 resource.setrlimit(resource.RLIMIT_AS, (-1, -1))
 resource.setrlimit(resource.RLIMIT_RSS, (-1, -1))
@@ -32,6 +33,7 @@ resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 
 # A mode is a configuration of an engine we just built.
 Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset'])
+
 
 # Get the timestamp of commiting patch
 def getPatchTime(src_path, cset):
@@ -43,6 +45,7 @@ def getPatchTime(src_path, cset):
     timeArrary = time.strptime(time_str, "%Y-%b-%d %H:%M:%S")
     timeStamp = int(time.mktime(timeArray))
     return timeStamp
+
 
 def dostuff(config_name):
     print "dostuff"
@@ -67,8 +70,6 @@ def dostuff(config_name):
     if utils.config.has_section('headless-patch'):
         Engine = builders.Headless_patch()
 
-
-
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
@@ -82,7 +83,6 @@ def dostuff(config_name):
 
     print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
 
-
     # The native compiler is a special thing, for now.
     native = builders.NativeCompiler()
 
@@ -94,7 +94,6 @@ def dostuff(config_name):
     print "***************************************"
     print cset
     print "***************************************"
-
 
     # Make a list of all modes.
     modes = []

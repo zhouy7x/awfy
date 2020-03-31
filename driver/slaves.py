@@ -13,7 +13,7 @@ import benchmarks
 class Slave(object):
     def __init__(self, name):
         self.name = name
-        self.machine = utils.config.get(name,'machine')
+        self.machine = utils.config.get(name, 'machine')
 
     def prepare(self, engines):
         pass
@@ -124,12 +124,12 @@ class RemoteSlave(Slave):
         if async:
             print ("ASYNC: " + " ".join(fullcmd))
             # self.delayed = subprocess.Popen(fullcmd, stderr = subprocess.STDOUT, stdout = subprocess.PIPE)
-            self.delayed = subprocess.Popen(fullcmd, stderr = subprocess.STDOUT, stdout = subprocess.PIPE)
-            subprocess.Popen(['sed', '-e', 's/^/' + self.name + ': /'], stdin = self.delayed.stdout)
+            self.delayed = subprocess.Popen(fullcmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+            subprocess.Popen(['sed', '-e', 's/^/' + self.name + ': /'], stdin=self.delayed.stdout)
             self.delayedCommand = str(fullcmd)
         else:
             utils.Run(fullcmd)
-        
+
     def pushRemote(self, file_loc, file_remote, follow=False, excludes=[]):
         rsync_flags = "-aP"
         # if they asked us to follow symlinks, then add '-L' into the arguments.
@@ -137,7 +137,7 @@ class RemoteSlave(Slave):
             rsync_flags += "L"
         sync_cmd = ["rsync", rsync_flags]
         for exclude in excludes:
-            sync_cmd.append("--exclude"+"="+exclude)
+            sync_cmd.append("--exclude" + "=" + exclude)
 
         sync_cmd += [file_loc, self.HostName + ":" + file_remote]
         try:
@@ -157,9 +157,9 @@ class RemoteSlave(Slave):
 
     def synchronize(self):
         if self.delayed:
-            print("Waiting for: "+self.delayedCommand)
+            print("Waiting for: " + self.delayedCommand)
             # retval = self.delayed.wait()
-            output, retval = self.delayed.communicate() 
+            output, retval = self.delayed.communicate()
             # if retval != 0:
             if self.delayed.returncode != 0:
                 # raise Exception(self.delayedCommand + ": failed with exit code" + str(retval))
@@ -168,7 +168,7 @@ class RemoteSlave(Slave):
             self.delayedCommand = None
 
 
-def init(): 
+def init():
     slaves = []
     slaveNames = utils.config_get_default('main', 'slaves', None)
     if slaveNames:
@@ -184,8 +184,8 @@ def init():
             else:
                 slaves.append(Slave(name))
 
-    #if not slaves:
-        #slaves = [Slave("main")]
+    # if not slaves:
+    # slaves = [Slave("main")]
     return slaves
 
 

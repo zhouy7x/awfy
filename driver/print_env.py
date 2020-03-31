@@ -12,4 +12,3 @@ import ConfigParser
 
 env = os.environ.copy()
 print(str(env))
-

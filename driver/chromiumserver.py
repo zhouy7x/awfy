@@ -21,6 +21,7 @@ Timeout = 20
 # last start time
 StartTime = 0
 
+
 # use to handle time out
 def TimeoutHandler(elapsedTime):
     global Chromiump, Lockv, ALock
@@ -30,11 +31,12 @@ def TimeoutHandler(elapsedTime):
         print "Timeout Stop after running", elapsedTime, "s"
         Chromiump.kill()
         Chromiump = None
-        #ALock.release()
+        # ALock.release()
         # use a new lock
         ALock = thread.allocate_lock()
     Lockv.release()
-        
+
+
 # start chromium socket server
 def StartChromiumServer(port=50005):
     HOST = ''
@@ -54,6 +56,7 @@ def StartChromiumServer(port=50005):
 
     s.close()
 
+
 # handle connected client
 def ClientThreadHandle(conn, addr):
     global Chromiump, StartTime, ALock
@@ -65,35 +68,36 @@ def ClientThreadHandle(conn, addr):
 
         print 'From:', addr
         print 'Recv:', data
-      
+
         args = data.split(";");
         if args[0] == "start":
-          print "start request"
-          run_cmd = [ChromiumShell] + args[1:]
+            print "start request"
+            run_cmd = [ChromiumShell] + args[1:]
 
-          elapsedTime = time.time() - StartTime
-          if elapsedTime > Timeout:
-              TimeoutHandler(elapsedTime)
+            elapsedTime = time.time() - StartTime
+            if elapsedTime > Timeout:
+                TimeoutHandler(elapsedTime)
 
-          # one chromium at a time
-          ALock.acquire()
-          # start chromium
-          Lockv.acquire()
-          Chromiump = subprocess.Popen(run_cmd, env=os.environ.copy())
-          StartTime = time.time()
-          Lockv.release()
+            # one chromium at a time
+            ALock.acquire()
+            # start chromium
+            Lockv.acquire()
+            Chromiump = subprocess.Popen(run_cmd, env=os.environ.copy())
+            StartTime = time.time()
+            Lockv.release()
         elif args[0] == "end":
-          print "end request"
-          # if chromium is running, kill it and release the lock 
-          Lockv.acquire()
-          if Chromiump:
-              Chromiump.kill()
-              Chromiump = None
-              ALock.release()
-          Lockv.release()
+            print "end request"
+            # if chromium is running, kill it and release the lock
+            Lockv.acquire()
+            if Chromiump:
+                Chromiump.kill()
+                Chromiump = None
+                ALock.release()
+            Lockv.release()
 
     conn.close()
     print "Disconnected by", addr
 
+
 if __name__ == "__main__":
-   StartChromiumServer() 
+    StartChromiumServer()

@@ -6,6 +6,7 @@ import awfy
 import time
 from email.mime.text import MIMEText
 from smtplib import SMTP
+
 try:
     import ConfigParser
 except:
@@ -28,16 +29,16 @@ for machine_row in machines:
 
     # Find the last time this machine submitted any data.
     c.execute(
-      """
-        select stamp
-         from awfy_run
-        where
-         machine = %s and
-         status = 1
-        order by stamp desc
-        limit 1
-      """,
-      (machine_id,)
+        """
+          select stamp
+           from awfy_run
+          where
+           machine = %s and
+           status = 1
+          order by stamp desc
+          limit 1
+        """,
+        (machine_id,)
     )
     row = c.fetchone()
     if not row:
@@ -75,9 +76,9 @@ for machine_row in machines:
 
     mailer = SMTP('localhost')
     mailer.sendmail(
-      'AreWeFastYet <no-reply@arewefastyet.com>',
-      machine_contact.split(','),
-      message.as_string()
+        'AreWeFastYet <no-reply@arewefastyet.com>',
+        machine_contact.split(','),
+        message.as_string()
     )
 
     print(message.as_string())

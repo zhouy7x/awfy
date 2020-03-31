@@ -23,7 +23,7 @@ import pserver
 class Benchmark(object):
     def __init__(self, suite, version, folder):
         self.suite = suite
-        self.version = suite+" "+version
+        self.version = suite + " " + version
         self.folder = folder
 
     def run(self, submit, native, modes, includes, excludes):
@@ -107,8 +107,8 @@ class AsmJS(Benchmark):
             name = m.group(1)
             score = m.group(2)
             total += float(score)
-            tests.append({ 'name': name, 'time': score })
-        tests.append({ 'name': '__total__', 'time': total })
+            tests.append({'name': name, 'time': score})
+        tests.append({'name': '__total__', 'time': total})
         return tests
 
 
@@ -146,7 +146,7 @@ class Octane(Benchmark):
             score = m.group(2)
             if name[0:5] == "Score":
                 name = "__total__"
-            tests.append({ 'name': name, 'time': score})
+            tests.append({'name': name, 'time': score})
             print(score + '    - ' + name)
 
         return tests
@@ -179,16 +179,16 @@ class SunSpiderBased(Benchmark):
         found = False
         for x in lines:
             if x == "--------------------------------------------" or \
-               x == "-----------------------------------------------":
+                    x == "-----------------------------------------------":
                 found = True
             if x[0:5] == "Total":
                 m = re.search(":\s+(\d+\.\d+)ms", x)
-                tests.append({ 'name': '__total__', 'time': m.group(1)})
+                tests.append({'name': '__total__', 'time': m.group(1)})
                 print(m.group(1) + '    - __total__')
             elif found == True and x[0:4] == "    ":
                 m = re.search("    (.+):\s+(\d+\.\d+)ms", x)
                 if m != None:
-                    tests.append({ 'name': m.group(1), 'time': m.group(2)})
+                    tests.append({'name': m.group(1), 'time': m.group(2)})
                     print(m.group(2) + '    - ' + m.group(1))
 
         if found == False:
@@ -238,8 +238,8 @@ class Embenchen(Benchmark):
             name = m.group(1)
             score = m.group(2)
             total += float(score)
-            tests.append({ 'name': name, 'time': score })
-        tests.append({ 'name': '__total__', 'time': total })
+            tests.append({'name': name, 'time': score})
+        tests.append({'name': '__total__', 'time': total})
         return tests
 
 
@@ -264,8 +264,8 @@ class JetStream(Benchmark):
             name = m.group(1)
             score = m.group(2)
             total += float(score)
-            tests.append({ 'name': name, 'time': score })
-        tests.append({ 'name': '__total__', 'time': total })
+            tests.append({'name': name, 'time': score})
+        tests.append({'name': '__total__', 'time': total})
         return tests
 
 
@@ -292,11 +292,11 @@ class BrowserMark(Benchmark):
                 continue
             name = m.group(1)
             score = m.group(3)
-            tests.append({ 'name': name, 'time': score})
+            tests.append({'name': name, 'time': score})
             print(score + '    - ' + name)
             total += float(score);
 
-        tests.append({ 'name': "__total__", 'time': total})
+        tests.append({'name': "__total__", 'time': total})
 
         return tests
 
@@ -324,11 +324,11 @@ class Robohornet(Benchmark):
                 continue
             name = m.group(1)
             score = m.group(2)
-            tests.append({ 'name': name, 'time': score})
+            tests.append({'name': name, 'time': score})
             print(score + '    - ' + name)
             total += float(score);
 
-        tests.append({ 'name': "__total__", 'time': total})
+        tests.append({'name': "__total__", 'time': total})
 
         return tests
 
@@ -356,11 +356,11 @@ class VellamoSurfWaxBinder(Benchmark):
                 continue
             name = m.group(1)
             score = m.group(2)
-            tests.append({ 'name': name, 'time': score})
+            tests.append({'name': name, 'time': score})
             print(score + '    - ' + name)
             total += float(score);
 
-        tests.append({ 'name': "__total__", 'time': total})
+        tests.append({'name': "__total__", 'time': total})
 
         return tests
 
@@ -368,7 +368,7 @@ class VellamoSurfWaxBinder(Benchmark):
 class VellamoKruptein(Benchmark):
     def __init__(self):
         super(VellamoKruptein, self).__init__('VellamoKruptein', '3.1',
-                'Vellamo')
+                                              'Vellamo')
 
     def benchmark(self, shell, env, args):
         full_args = [shell]
@@ -391,7 +391,7 @@ class VellamoKruptein(Benchmark):
 
             if name == "vscore":
                 name = "__total__"
-            tests.append({ 'name': name, 'time': score})
+            tests.append({'name': name, 'time': score})
 
         return tests
 
@@ -399,7 +399,7 @@ class VellamoKruptein(Benchmark):
 class VellamoDeepCrossfader(Benchmark):
     def __init__(self):
         super(VellamoDeepCrossfader, self).__init__('VellamoDeepCrossfader', '3.0',
-                'Vellamo')
+                                                    'Vellamo')
 
     def benchmark(self, shell, env, args):
         full_args = [shell]
@@ -422,7 +422,7 @@ class VellamoDeepCrossfader(Benchmark):
 
             if name == "total":
                 name = "__total__"
-            tests.append({ 'name': name, 'time': score})
+            tests.append({'name': name, 'time': score})
 
         return tests
 
@@ -430,7 +430,7 @@ class VellamoDeepCrossfader(Benchmark):
 class WebXPRTStock(Benchmark):
     def __init__(self):
         super(WebXPRTStock, self).__init__('WebXPRTStock', '2013',
-                'WebXPRT2013')
+                                           'WebXPRT2013')
 
     def benchmark(self, shell, env, args):
         full_args = [shell]
@@ -452,10 +452,10 @@ class WebXPRTStock(Benchmark):
                 continue
             cnt = cnt + 1
             score = m.group(1)
-            tests.append({ 'name': cnt, 'time': score})
+            tests.append({'name': cnt, 'time': score})
             total += float(score)
 
-        tests.append({ 'name': '__total__', 'time': total})
+        tests.append({'name': '__total__', 'time': total})
 
         return tests
 
@@ -463,7 +463,7 @@ class WebXPRTStock(Benchmark):
 class WebXPRTStorage(Benchmark):
     def __init__(self):
         super(WebXPRTStorage, self).__init__('WebXPRTStorage', '2013',
-                'WebXPRT2013')
+                                             'WebXPRT2013')
 
     def benchmark(self, shell, env, args):
         full_args = [shell]
@@ -485,10 +485,10 @@ class WebXPRTStorage(Benchmark):
                 continue
             cnt = cnt + 1
             score = m.group(1)
-            tests.append({ 'name': cnt, 'time': score})
+            tests.append({'name': cnt, 'time': score})
             total += float(score)
 
-        tests.append({ 'name': '__total__', 'time': total})
+        tests.append({'name': '__total__', 'time': total})
 
         return tests
 
@@ -517,8 +517,8 @@ class ContentShellBased(Benchmark):
             print "CONTENT SHELL TEST TIME OUT!"
             data = ''
         finally:
-            #phttpserver.kill()
-            #pcontentshell.kill()
+            # phttpserver.kill()
+            # pcontentshell.kill()
             chromiumclient.stopChromium()
 
         return data
@@ -527,7 +527,7 @@ class ContentShellBased(Benchmark):
 class BmDom(ContentShellBased):
     def __init__(self):
         super(BmDom, self).__init__('browsermark1', '2.1',
-                'contentshell-bm')
+                                    'contentshell-bm')
 
     def benchmark(self, shell, env, args):
         url = ''
@@ -551,7 +551,7 @@ class BmDom(ContentShellBased):
             if name == 'overall':
                 name = '__total__'
 
-            tests.append({ 'name': name, 'time': score})
+            tests.append({'name': name, 'time': score})
 
         return tests
 
@@ -559,7 +559,7 @@ class BmDom(ContentShellBased):
 class BmScalable(ContentShellBased):
     def __init__(self):
         super(BmScalable, self).__init__('browsermark2', '2.1',
-                'contentshell-bm')
+                                         'contentshell-bm')
 
     def benchmark(self, shell, env, args):
         url = ''
@@ -583,7 +583,7 @@ class BmScalable(ContentShellBased):
             if name == 'overall':
                 name = '__total__'
 
-            tests.append({ 'name': name, 'time': score})
+            tests.append({'name': name, 'time': score})
 
         return tests
 
@@ -591,7 +591,7 @@ class BmScalable(ContentShellBased):
 class JerrySimple(Benchmark):
     def __init__(self):
         super(JerrySimple, self).__init__('JerryBasic', '1.0',
-                'JerryTest')
+                                          'JerryTest')
 
     def omit(self, mode):
         if 'JerryScript' not in mode.name and 'IoTjs' not in mode.name:
@@ -620,9 +620,9 @@ class JerrySimple(Benchmark):
 
             print(name + '    - ' + score)
             if name == 'binary_size':
-                tests.append({ 'name': '__total__', 'time': score})
+                tests.append({'name': '__total__', 'time': score})
 
-            tests.append({ 'name': name, 'time': score})
+            tests.append({'name': name, 'time': score})
 
         return tests
 
@@ -652,11 +652,11 @@ class JerrySunspider(Benchmark):
             utils.RunTimedCheckOutput(full_args, env=env)
             passTime = (time.time() - beginTime) * 1000
 
-            tests.append({ 'name': subcase, 'time': passTime})
+            tests.append({'name': subcase, 'time': passTime})
             total += passTime
 
-        tests.append({ 'name': 'overall', 'time': total})
-        tests.append({ 'name': '__total__', 'time': total})
+        tests.append({'name': 'overall', 'time': total})
+        tests.append({'name': '__total__', 'time': total})
         return tests
 
 
@@ -675,29 +675,29 @@ class JerrySunspiderPerf(Benchmark):
         lines = output.splitlines()
 
         scorebase = {
-            '3d-cube.js':1.88,
+            '3d-cube.js': 1.88,
             # '3d-morph.js':4.268,
-            '3d-raytrace.js':0.052,
-            'access-binary-trees.js':1.108,
-            'access-fannkuch.js':5.936,
-            'access-nbody.js':2.696,
+            '3d-raytrace.js': 0.052,
+            'access-binary-trees.js': 1.108,
+            'access-fannkuch.js': 5.936,
+            'access-nbody.js': 2.696,
             # 'access-nsieve.js':8.6,
-            'bitops-3bit-bits-in-byte.js':1.54,
-            'bitops-bits-in-byte.js':2.092,
-            'bitops-bitwise-and.js':2.116,
-            'bitops-nsieve-bits.js':1,
-            'controlflow-recursive.js':0.964,
-            'crypto-aes.js':3.356,
-            'crypto-md5.js':13.772,
-            'crypto-sha1.js':6.444,
-            'date-format-tofte.js':1.98,
-            'date-format-xparb.js':1.08,
-            'math-cordic.js':2.208,
-            'math-partial-sums.js':1.224,
-            'math-spectral-norm.js':1.348,
+            'bitops-3bit-bits-in-byte.js': 1.54,
+            'bitops-bits-in-byte.js': 2.092,
+            'bitops-bitwise-and.js': 2.116,
+            'bitops-nsieve-bits.js': 1,
+            'controlflow-recursive.js': 0.964,
+            'crypto-aes.js': 3.356,
+            'crypto-md5.js': 13.772,
+            'crypto-sha1.js': 6.444,
+            'date-format-tofte.js': 1.98,
+            'date-format-xparb.js': 1.08,
+            'math-cordic.js': 2.208,
+            'math-partial-sums.js': 1.224,
+            'math-spectral-norm.js': 1.348,
             # 'regexp-dna.js':0.092,
-            'string-base64.js':1,
-            'string-fasta.js':3.504,
+            'string-base64.js': 1,
+            'string-fasta.js': 3.504,
             # 'string-tagcloud.js':0.028,
             # 'string-unpack-code.js':1,
             # 'string-validate-input.js':1.424,
@@ -741,29 +741,29 @@ class JerrySunspiderMem(Benchmark):
         lines = output.splitlines()
 
         scorebase = {
-            '3d-cube.js':116,
+            '3d-cube.js': 116,
             # '3d-morph.js':50,
-            '3d-raytrace.js':50 ,
-            'access-binary-trees.js':84,
-            'access-fannkuch.js':40,
-            'access-nbody.js':50,
+            '3d-raytrace.js': 50,
+            'access-binary-trees.js': 84,
+            'access-fannkuch.js': 40,
+            'access-nbody.js': 50,
             # 'access-nsieve.js':50,
-            'bitops-3bit-bits-in-byte.js':28,
-            'bitops-bits-in-byte.js':28,
-            'bitops-bitwise-and.js':32,
-            'bitops-nsieve-bits.js':50,
-            'controlflow-recursive.js':256,
-            'crypto-aes.js':124,
-            'crypto-md5.js':50,
-            'crypto-sha1.js':132,
-            'date-format-tofte.js':76,
-            'date-format-xparb.js':76,
-            'math-cordic.js':36,
-            'math-partial-sums.js':50,
-            'math-spectral-norm.js':32,
+            'bitops-3bit-bits-in-byte.js': 28,
+            'bitops-bits-in-byte.js': 28,
+            'bitops-bitwise-and.js': 32,
+            'bitops-nsieve-bits.js': 50,
+            'controlflow-recursive.js': 256,
+            'crypto-aes.js': 124,
+            'crypto-md5.js': 50,
+            'crypto-sha1.js': 132,
+            'date-format-tofte.js': 76,
+            'date-format-xparb.js': 76,
+            'math-cordic.js': 36,
+            'math-partial-sums.js': 50,
+            'math-spectral-norm.js': 32,
             # 'regexp-dna.js':50,
-            'string-base64.js':50,
-            'string-fasta.js':48,
+            'string-base64.js': 50,
+            'string-fasta.js': 48,
             # 'string-tagcloud.js':50,
             # 'string-unpack-code.js':50,
             # 'string-validate-input.js':50,
@@ -784,17 +784,17 @@ class JerrySunspiderMem(Benchmark):
             if name in scorebase:
                 refscore = float(score) / scorebase[name]
 
-            tests.append({ 'name': name, 'time': score})
+            tests.append({'name': name, 'time': score})
             total += refscore
 
-        tests.append({ 'name': '__total__', 'time': total})
+        tests.append({'name': '__total__', 'time': total})
         return tests
 
 
 class JerryPassrate(Benchmark):
     def __init__(self):
         super(JerryPassrate, self).__init__('JerryPassrate', '1.0',
-                'test262')
+                                            'test262')
 
     def omit(self, mode):
         if 'JerryScript' not in mode.name:
@@ -821,8 +821,8 @@ class JerryPassrate(Benchmark):
             print('passed    - ' + passed)
             print('passrate    - ' + passrate)
 
-            tests.append({ 'name': '__total__', 'time': passrate})
-            tests.append({ 'name': 'passrate', 'time': passrate})
+            tests.append({'name': '__total__', 'time': passrate})
+            tests.append({'name': 'passrate', 'time': passrate})
 
             break
 
@@ -832,7 +832,7 @@ class JerryPassrate(Benchmark):
 class JetStreamShell(Benchmark):
     def __init__(self):
         super(JetStreamShell, self).__init__('JetStreamShell', '1.0',
-                'jetstream-shell')
+                                             'jetstream-shell')
 
     def benchmark(self, shell, env, args):
         full_args = [shell]
@@ -858,7 +858,7 @@ class JetStreamShell(Benchmark):
             if name == 'Geometric-Mean':
                 name = '__total__'
 
-            tests.append({ 'name': name, 'time': score})
+            tests.append({'name': name, 'time': score})
 
         return tests
 
@@ -866,7 +866,7 @@ class JetStreamShell(Benchmark):
 class WebXPRTStockLib(Benchmark):
     def __init__(self):
         super(WebXPRTStockLib, self).__init__('WebXPRTStockLib', '2015',
-                'WebXPRT2015')
+                                              'WebXPRT2015')
 
     def benchmark(self, shell, env, args):
         full_args = [shell]
@@ -888,10 +888,10 @@ class WebXPRTStockLib(Benchmark):
                 continue
             cnt = cnt + 1
             score = m.group(1)
-            tests.append({ 'name': cnt, 'time': score})
+            tests.append({'name': cnt, 'time': score})
             total += float(score)
 
-        tests.append({ 'name': '__total__', 'time': total})
+        tests.append({'name': '__total__', 'time': total})
 
         return tests
 
@@ -899,7 +899,7 @@ class WebXPRTStockLib(Benchmark):
 class WebXPRTDNA(Benchmark):
     def __init__(self):
         super(WebXPRTDNA, self).__init__('WebXPRTDNA', '2015',
-                'WebXPRT2015')
+                                         'WebXPRT2015')
 
     def benchmark(self, shell, env, args):
         full_args = [shell]
@@ -921,10 +921,10 @@ class WebXPRTDNA(Benchmark):
                 continue
             cnt = cnt + 1
             score = m.group(1)
-            tests.append({ 'name': cnt, 'time': score})
+            tests.append({'name': cnt, 'time': score})
             total += float(score)
 
-        tests.append({ 'name': '__total__', 'time': total})
+        tests.append({'name': '__total__', 'time': total})
 
         return tests
 
@@ -939,7 +939,7 @@ class Speedometer1(Benchmark):
         run_shell = "/home/user/.nvm/versions/node/v8.1.2/bin/node run.js "
         url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/Speedometer-Old-Version/Speedometer/Speedometer/Full.html"
         print(os.getcwd())
-        cmd = kill_port+run_shell+url+shell
+        cmd = kill_port + run_shell + url + shell
         print(cmd)
         output = utils.RunTimedCheckOutput(cmd, env=env)
         tests = []
@@ -967,14 +967,14 @@ class Speedometer2(Benchmark):
         run_shell = "/home/user/.nvm/versions/node/v8.1.2/bin/node run.js "
         url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/Speedometer2-226694-jstc/ "
         print(os.getcwd())
-        
-        cmd = kill_port+run_shell+url+shell
+
+        cmd = kill_port + run_shell + url + shell
         print(cmd)
         output = utils.RunTimedCheckOutput(cmd, env=env)
         tests = []
         test_names = []
         lines = output.splitlines()
-        
+
         for x in lines:
             m = re.search("(.+): (\d+\.?\d?)", x)
             if not m:
@@ -989,7 +989,7 @@ class Speedometer2(Benchmark):
                 test_names.append(name)
                 tests.append({'name': name, 'time': score})
                 print(score + '   - ' + name)
-        #print(cmd)
+        # print(cmd)
         return tests
 
 
@@ -1004,7 +1004,7 @@ class JetStream2(Benchmark):
 
         cmd = kill_port + run_shell + url + shell
         print(cmd)
-        output = utils.RunTimedCheckOutput(cmd, env=env, timeout=25*60)
+        output = utils.RunTimedCheckOutput(cmd, env=env, timeout=25 * 60)
         tests = []
         test_names = []
         lines = output.splitlines()
@@ -1038,7 +1038,7 @@ class WebXPRT3(Benchmark):
 
         cmd = kill_port + run_shell + url + shell
         print(cmd)
-        output = utils.RunTimedCheckOutput(cmd, env=env, timeout=25*60)
+        output = utils.RunTimedCheckOutput(cmd, env=env, timeout=25 * 60)
         tests = []
         test_names = []
         lines = output.splitlines()
@@ -1066,17 +1066,17 @@ class WebTooling(Benchmark):
 
     def benchmark(self, shell, env, args):
         full_args = [shell]
-        
+
         if args:
             full_args.extend(args)
         full_args.append('dist/cli.js')
-        
+
         print(os.getcwd())
         output = utils.RunTimedCheckOutput(full_args, env=env)
-        
+
         tests = []
         lines = output.splitlines()
-        print('lines=',lines)
+        print('lines=', lines)
         for x in lines:
             m = re.search("(.+):  ?(\d+\.?\d+)", x)
             if not m:
@@ -1088,8 +1088,8 @@ class WebTooling(Benchmark):
             score = m.group(2)
             if name[0:9] == "Geometric":  # Geometric mean:  2.78 runs/sec
                 name = "__total__"
-            tests.append({'name':name, 'time':score}) 
-            print(score + '     - '+ name)
+            tests.append({'name': name, 'time': score})
+            print(score + '     - ' + name)
 
         return tests
 
@@ -1100,10 +1100,10 @@ class Unity3D(Benchmark):
         super(Unity3D, self).__init__('Unity3D', '', 'Unity3D')
 
     def benchmark(self, shell, env, args):
-        
+
         url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/unity3d-release"
         run_shell = "./unity3d.sh"
-        cmd = run_shell+" "+shell+" "+url
+        cmd = run_shell + " " + shell + " " + url
 
         print(os.getcwd())
         output = utils.RunTimedCheckOutput(cmd, env=env)
@@ -1111,7 +1111,7 @@ class Unity3D(Benchmark):
         tests = []
         test_names = []
         lines = output.splitlines()
-        
+
         for x in lines:
             m = re.search("(.+): (\d+)", x)
             if not m:
@@ -1122,8 +1122,8 @@ class Unity3D(Benchmark):
                 name = "__total__"
             if name not in test_names:
                 test_names.append(name)
-                tests.append({'name': name, 'time':score})
-                print(score + '     - '+ name)
+                tests.append({'name': name, 'time': score})
+                print(score + '     - ' + name)
         return tests
 
 
@@ -1134,7 +1134,7 @@ class ARES6(Benchmark):
 
     def benchmark(self, shell, env, args):
         full_args = [shell]
-        
+
         if args:
             full_args.extend(args)
         full_args.append('cli.js')
@@ -1142,7 +1142,7 @@ class ARES6(Benchmark):
         print(os.getcwd())
         output = utils.RunTimedCheckOutput(full_args, env=env)
         return self.parse(output)
-        
+
     def parse(self, output):
         tests = []
         remainStr = output
@@ -1151,7 +1151,7 @@ class ARES6(Benchmark):
             strList = remainStr.split(sep)
             scoreStr = strList[1]
             remainStr = strList[0]
-                
+
             lines = scoreStr.splitlines()
             for x in lines:
                 m = re.search("(.+):(\s+)(\d+(.\d+))", x)
@@ -1164,7 +1164,7 @@ class ARES6(Benchmark):
                     name = subcase + "-worst4iterations"
                 elif m.group(1) == "steadyState":
                     name = subcase + "-average"
-                
+
                 if name != "":
                     score = m.group(3)
                     tests.append({'name': name, 'time': score})
@@ -1190,7 +1190,7 @@ class JetStream2D8(Benchmark):
         if args:
             full_args.extend(args)
         print(os.getcwd())
-        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=25*60)
+        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=25 * 60)
 
         tests = []
         subcases = re.findall(r'Running *(.+):\n[\w\W]+?Score: (\d+\.\d*)', output)
@@ -1221,7 +1221,7 @@ class Polybench(Benchmark):
             full_args.extend(args)
 
         print(os.getcwd())
-        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=int(3.5*3600))
+        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=int(3.5 * 3600))
 
         tests = []
 
@@ -1255,7 +1255,7 @@ class Spec2k6(Benchmark):
         full_args += ['--', 'awfy']
 
         print(os.getcwd())
-        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=int(7*3600))
+        output = utils.RunTimedCheckOutput(full_args, env=env, timeout=int(7 * 3600))
 
         tests = []
 
@@ -1364,9 +1364,10 @@ def run(submit, native, modes, includes, excludes):
         benchmark.run(submit, native, modes, includes, excludes)
     submit.Finish(1)
 
-#def run(slave, submit, native, modes):
+
+# def run(slave, submit, native, modes):
 #    slave.rpc(sys.modules[__name__], submit, native, modes, async=True)
 #
-#default_function = run_
+# default_function = run_
 if __name__ == "__main__":
     remote.takerpc()

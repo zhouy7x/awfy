@@ -38,7 +38,7 @@ def run_command(param, log_string):
         cmd = 'rm -rf %s && mkdir -p %s' % (log_path, log_path)
         print(cmd)
         if os.system(cmd):
-          return 'ERROR: make log dir error.'
+            return 'ERROR: make log dir error.'
     if param in ['v8', '1800x']:
         str1 = 'python build_server_%s.py > %s/build_server_%s_log%s.txt 2>&1 &' % (param, log_path, param, log_string)
         str2 = 'rm -f /tmp/awfy-daemon-%s /tmp/awfy-lock' % param

@@ -7,7 +7,9 @@ try:
     import cjson
 except:
     import json
+
     cjson = None
+
 
 def json_dump(j, fp):
     if cjson:
@@ -16,11 +18,13 @@ def json_dump(j, fp):
     else:
         json.dump(j, fp)
 
+
 def json_load(fp):
     if cjson:
         text = fp.read()
         return cjson.decode(text)
     return json.load(fp)
+
 
 def json_dumps(obj):
     if cjson:

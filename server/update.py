@@ -15,6 +15,7 @@ import condenser, json
 from profiler import Profiler
 from builder import Builder
 
+
 def export(name, j):
     path = os.path.join(awfy.path, name)
     if os.path.exists(path):
@@ -23,27 +24,31 @@ def export(name, j):
         util.json_dump(j, fp)
     print('Exported: ' + name)
 
+
 def load_metadata(prefix):
     try:
         with open(os.path.join(awfy.path, 'metadata-' + prefix + '.json'), 'r') as fp:
             cache = util.json_load(fp)
     except:
-        cache = { 'last_stamp': 0 }
+        cache = {'last_stamp': 0}
 
     return cache
+
 
 def save_metadata(prefix, data):
     with open(os.path.join(awfy.path, 'metadata-' + prefix + '.json'), 'w') as fp:
         util.json_dump(data, fp)
+
 
 def delete_metadata(prefix, data):
     name = os.path.join(awfy.path, 'metadata-' + prefix + '.json')
     if os.path.exists(name):
         os.remove(name)
 
+
 def fetch_test_scores(machine_id, suite_id, name,
-                      finish_stamp = (0,"UNIX_TIMESTAMP()"),
-                      test_stamp = (0, "UNIX_TIMESTAMP()")):
+                      finish_stamp=(0, "UNIX_TIMESTAMP()"),
+                      test_stamp=(0, "UNIX_TIMESTAMP()")):
     query = "SELECT STRAIGHT_JOIN r.id, r.stamp, b.cset, s.score, b.mode_id, v.id   \
              FROM awfy_run r                                                        \
              JOIN awfy_build b ON r.id = b.run_id                                   \
@@ -54,19 +59,20 @@ def fetch_test_scores(machine_id, suite_id, name,
              AND t.name = %s                                                        \
              AND r.status > 0                                                       \
              AND r.machine = %s                                                     \
-             AND r.finish_stamp >= "+str(finish_stamp[0])+"                         \
-             AND r.finish_stamp <= "+str(finish_stamp[1])+"                         \
-             AND r.stamp >= "+str(test_stamp[0])+"                                  \
-             AND r.stamp <= "+str(test_stamp[1])+"                                  \
+             AND r.finish_stamp >= " + str(finish_stamp[0]) + "                         \
+             AND r.finish_stamp <= " + str(finish_stamp[1]) + "                         \
+             AND r.stamp >= " + str(test_stamp[0]) + "                                  \
+             AND r.stamp <= " + str(test_stamp[1]) + "                                  \
              ORDER BY r.stamp ASC                                                   \
              "
     c = awfy.db.cursor()
     c.execute(query, [suite_id, name, machine_id])
     return c.fetchall()
 
+
 def fetch_suite_scores(machine_id, suite_id,
-                       finish_stamp = (0,"UNIX_TIMESTAMP()"),
-                       test_stamp = (0, "UNIX_TIMESTAMP()")):
+                       finish_stamp=(0, "UNIX_TIMESTAMP()"),
+                       test_stamp=(0, "UNIX_TIMESTAMP()")):
     query = "SELECT STRAIGHT_JOIN r.id, r.stamp, b.cset, s.score, b.mode_id, v.id   \
              FROM awfy_run r                                                        \
              JOIN awfy_build b ON r.id = b.run_id                                   \
@@ -75,18 +81,20 @@ def fetch_suite_scores(machine_id, suite_id,
              WHERE v.suite_id = %s                                                  \
              AND r.status > 0                                                       \
              AND r.machine = %s                                                     \
-             AND r.finish_stamp >= "+str(finish_stamp[0])+"                         \
-             AND r.finish_stamp <= "+str(finish_stamp[1])+"                         \
-             AND r.stamp >= "+str(test_stamp[0])+"                                  \
-             AND r.stamp <= "+str(test_stamp[1])+"                                  \
+             AND r.finish_stamp >= " + str(finish_stamp[0]) + "                         \
+             AND r.finish_stamp <= " + str(finish_stamp[1]) + "                         \
+             AND r.stamp >= " + str(test_stamp[0]) + "                                  \
+             AND r.stamp <= " + str(test_stamp[1]) + "                                  \
              ORDER BY r.stamp ASC                                                   \
              "
     c = awfy.db.cursor()
     c.execute(query, [suite_id, machine_id])
     return c.fetchall()
 
+
 def delete_cache(prefix):
     os.remove(os.path.join(awfy.path, prefix + '.json'))
+
 
 def open_cache(suite, prefix):
     try:
@@ -94,17 +102,19 @@ def open_cache(suite, prefix):
             cache = util.json_load(fp)
             return cache['graph']
     except:
-        return { 'timelist': [],
-                 'lines': [],
-                 'direction': suite.direction
-               }
+        return {'timelist': [],
+                'lines': [],
+                'direction': suite.direction
+                }
+
 
 def save_cache(prefix, cache):
-    j = { 'graph': cache,
-          'version': awfy.version
-        }
+    j = {'graph': cache,
+         'version': awfy.version
+         }
     with open(os.path.join(awfy.path, prefix + '.json'), 'w') as fp:
         util.json_dump(j, fp)
+
 
 def update_cache(cx, suite, prefix, when, rows):
     # Sort everything into separate modes.
@@ -123,7 +133,7 @@ def update_cache(cx, suite, prefix, when, rows):
         line.append(row)
 
     # Build our actual datasets.
-    lines = [ ]
+    lines = []
     builder = Builder()
     for modeid in modes:
         rows = modes[modeid]
@@ -140,9 +150,9 @@ def update_cache(cx, suite, prefix, when, rows):
                              None,
                              score,
                              row[5])
-        line = { 'modeid': modeid,
-                 'data': points
-               }
+        line = {'modeid': modeid,
+                'data': points
+                }
         lines.append(line)
     builder.prune()
     builder.finish(lines)
@@ -166,16 +176,15 @@ def update_cache(cx, suite, prefix, when, rows):
             for line in lines:
                 line['data'] = line['data'][i:]
 
-
     # For any of our lines that are not in the cache, prepend null points so
     # the line width matches the existing lines.
     for line in lines:
         if line['modeid'] in cache_modes:
             continue
 
-        data = { 'data': [None] * len(cache['timelist']),
-                 'modeid': line['modeid']
-               }
+        data = {'data': [None] * len(cache['timelist']),
+                'modeid': line['modeid']
+                }
         cache['lines'].append(data)
         cache_modes[line['modeid']] = data
 
@@ -205,6 +214,7 @@ def update_cache(cx, suite, prefix, when, rows):
     save_cache(prefix, cache)
     return True
 
+
 def renew_cache(cx, machine, suite, prefix, when, last_stamp, fetch):
     delete_cache(prefix + '-' + str(when[0]) + '-' + str(when[1]));
 
@@ -229,13 +239,14 @@ def renew_cache(cx, machine, suite, prefix, when, last_stamp, fetch):
     sys.stdout.write('Querying ' + prefix + '... ')
     sys.stdout.flush()
     with Profiler() as p:
-        rows = fetch(machine, test_stamp=(start_stamp,stop_stamp))
+        rows = fetch(machine, test_stamp=(start_stamp, stop_stamp))
         diff = p.time()
     new_rows = len(rows)
     print('found ' + str(new_rows) + ' rows in ' + diff)
 
     name = prefix + '-' + str(when[0]) + '-' + str(when[1])
-    update_cache(cx, suite, name, when, rows) 
+    update_cache(cx, suite, name, when, rows)
+
 
 def perform_update(cx, machine, suite, prefix, fetch):
     # Fetch the actual data.
@@ -246,7 +257,7 @@ def perform_update(cx, machine, suite, prefix, fetch):
     sys.stdout.write('Querying ' + prefix + '... ')
     sys.stdout.flush()
     with Profiler() as p:
-        rows = fetch(machine, finish_stamp=(last_stamp+1, current_stamp))
+        rows = fetch(machine, finish_stamp=(last_stamp + 1, current_stamp))
         diff = p.time()
     new_rows = len(rows)
     print('found ' + str(new_rows) + ' new rows in ' + diff)
@@ -286,11 +297,13 @@ def perform_update(cx, machine, suite, prefix, fetch):
     save_metadata(prefix, metadata)
 
     return new_rows
+
+
 # Done
 
 def update(cx, machine, suite):
-    def fetch_aggregate(machine, finish_stamp = (0,"UNIX_TIMESTAMP()"),
-                                 test_stamp = (0, "UNIX_TIMESTAMP()")):
+    def fetch_aggregate(machine, finish_stamp=(0, "UNIX_TIMESTAMP()"),
+                        test_stamp=(0, "UNIX_TIMESTAMP()")):
         return fetch_suite_scores(machine.id, suite.id, finish_stamp, test_stamp)
 
     prefix = ""
@@ -306,8 +319,8 @@ def update(cx, machine, suite):
         return
 
     for test_name in suite.tests:
-        def fetch_test(machine, finish_stamp = (0,"UNIX_TIMESTAMP()"),
-                                test_stamp = (0, "UNIX_TIMESTAMP()")):
+        def fetch_test(machine, finish_stamp=(0, "UNIX_TIMESTAMP()"),
+                       test_stamp=(0, "UNIX_TIMESTAMP()")):
             return fetch_test_scores(machine.id, suite.id, test_name.replace(' and ', ' & '), finish_stamp, test_stamp)
 
         prefix = ""
@@ -319,14 +332,15 @@ def update(cx, machine, suite):
         prefix += 'bk-raw-' + suite.name + '-' + test_name + '-' + str(machine.id)
         perform_update(cx, machine, suite, prefix, fetch_test)
 
+
 def export_master(cx):
-    j = { "version": awfy.version,
-          "modes": cx.exportModes(),
-          "vendors": cx.exportVendors(),
-          "machines": cx.exportMachines(),
-          "suites": cx.exportSuites(),
-          "suiteversions" : cx.exportSuiteVersions()
-        }
+    j = {"version": awfy.version,
+         "modes": cx.exportModes(),
+         "vendors": cx.exportVendors(),
+         "machines": cx.exportMachines(),
+         "suites": cx.exportSuites(),
+         "suiteversions": cx.exportSuiteVersions()
+         }
 
     text = "var AWFYMaster = " + json.dumps(j) + ";\n"
     text = text.replace(' & ', ' and ')
@@ -337,6 +351,7 @@ def export_master(cx):
     with open(path, 'w') as fp:
         fp.write(text)
 
+
 def update_all(cx):
     for machine in cx.machines:
         # Don't try to update machines that we're no longer tracking.
@@ -345,6 +360,7 @@ def update_all(cx):
 
         for benchmark in cx.benchmarks:
             update(cx, machine, benchmark)
+
 
 def main(argv):
     sys.stdout.write('Computing master properties... ')
@@ -358,6 +374,6 @@ def main(argv):
     condenser.condense_all(cx)
     export_master(cx)
 
+
 if __name__ == '__main__':
     main(sys.argv[1:])
-

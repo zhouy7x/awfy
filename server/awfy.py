@@ -16,6 +16,7 @@ db = None
 version = None
 path = None
 
+
 def Startup():
     global db, version, path
     config = ConfigParser.RawConfigParser()
@@ -25,7 +26,7 @@ def Startup():
     user = config.get('mysql', 'user')
     pw = config.get('mysql', 'pass')
     name = config.get('mysql', 'name')
-    
+
     if host != None:
         db = mdb.connect(host=host, user=user, passwd=pw, db=name, use_unicode=True)
     else:
@@ -35,8 +36,8 @@ def Startup():
     c.execute("SELECT `value` FROM awfy_config WHERE `key` = 'version'")
     row = c.fetchone()
     version = int(row[0])
-    print "version:",version
+    print "version:", version
     path = config.get('general', 'path')
 
-Startup()
 
+Startup()

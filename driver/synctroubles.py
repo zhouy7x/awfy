@@ -2,11 +2,12 @@ import urllib2
 import re
 import os
 
+
 def fetchGsFileByHttp(output, repo_path):
     lines = output.splitlines()
 
     for l in lines:
-        #m = re.search("Failed to fetch file gs://(.+) for ([\w/\-]+(\.tar\.bz2)?)", l)
+        # m = re.search("Failed to fetch file gs://(.+) for ([\w/\-]+(\.tar\.bz2)?)", l)
         m = re.search("Failed to fetch file gs://(.+) for ([\w/\-\.]+)(\.$|,|\. )", l)
 
         if m:
@@ -25,4 +26,3 @@ def fetchGsFileByHttp(output, repo_path):
             return True
 
     return False
-

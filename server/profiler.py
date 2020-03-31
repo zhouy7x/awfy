@@ -5,8 +5,9 @@
 
 import datetime
 
+
 class Profiler(object):
-    def __init__(self, text = None):
+    def __init__(self, text=None):
         self.text = text
         self.end = None
 
@@ -31,4 +32,3 @@ class Profiler(object):
             end = datetime.datetime.now()
         diff = end - self.begin
         return str(diff.seconds) + 's' + str(diff.microseconds // 1000) + 'ms'
-

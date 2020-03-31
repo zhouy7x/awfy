@@ -36,5 +36,4 @@ if __name__ == '__main__':
 
             break
 
-        time.sleep(5*60)
-
+        time.sleep(5 * 60)

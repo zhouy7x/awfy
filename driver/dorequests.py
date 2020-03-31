@@ -44,7 +44,7 @@ for slave in slaves.init():
     revs = submit.RequestedRevs();
 
     for rev in revs:
-        Engines, NumUpdated = builders.build(KnownEngines, rev = rev["cset"])
+        Engines, NumUpdated = builders.build(KnownEngines, rev=rev["cset"])
 
         # Make a list of all modes.
         modes = []

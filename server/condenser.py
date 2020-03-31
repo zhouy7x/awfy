@@ -14,6 +14,7 @@ from datetime import datetime
 SecondsPerDay = 60 * 60 * 24
 MaxRecentRuns = 30
 
+
 def should_export(name, when):
     path = os.path.join(awfy.path, name)
     if not os.path.exists(path):
@@ -23,12 +24,14 @@ def should_export(name, when):
         return True
     return False
 
+
 def export(name, j):
     path = os.path.join(awfy.path, name)
     if os.path.exists(path):
         os.remove(path)
     with open(path, 'w') as fp:
         util.json_dump(j, fp)
+
 
 def find_all_months(cx, prefix, name):
     pattern = prefix + 'raw-' + name + '-(\d\d\d\d)-(\d+)\.json'
@@ -52,6 +55,7 @@ def find_all_months(cx, prefix, name):
 
     return graphs
 
+
 # Take a timelist and split it into lists of which times correspond to days.
 def split_into_days(timelist):
     if not len(timelist):
@@ -69,14 +73,15 @@ def split_into_days(timelist):
 
     return days
 
+
 # Aggregate the datapoints in a graph into the supplied regions. Line ordering
 # stays the same.
 def condense_graph(graph, regions):
     # Prefill the new graph.
-    new_graph = { 'direction': graph['direction'],
-                  'timelist': [],
-                  'lines': []
-                }
+    new_graph = {'direction': graph['direction'],
+                 'timelist': [],
+                 'lines': []
+                 }
 
     for line in graph['lines']:
         points = []
@@ -99,12 +104,12 @@ def condense_graph(graph, regions):
             if count == 0:
                 avg = 0
             else:
-                avg = total/count
+                avg = total / count
             points.append([avg, first, last, suite_version])
 
-        newline = { 'modeid': line['modeid'],
-                    'data': points
-                  }
+        newline = {'modeid': line['modeid'],
+                   'data': points
+                   }
         new_graph['lines'].append(newline)
 
     for start, end in regions:
@@ -112,35 +117,37 @@ def condense_graph(graph, regions):
 
     return new_graph
 
+
 def condense_month(cx, suite, graph, prefix, name):
     days = split_into_days(graph['timelist'])
     new_graph = condense_graph(graph, days)
 
-    j = { 'version': awfy.version,
-          'graph': new_graph
-        }
+    j = {'version': awfy.version,
+         'graph': new_graph
+         }
     export(name + '.json', j)
 
+
 def combine(graphs):
-    combined = { 'lines': [],
-                 'timelist': [],
-                 'direction': graphs[0]['direction']
-               }
+    combined = {'lines': [],
+                'timelist': [],
+                'direction': graphs[0]['direction']
+                }
 
     # Pre-fill modes.
-    modes = { }
+    modes = {}
     for graph in graphs:
         for line in graph['lines']:
             if line['modeid'] in modes:
                 continue
-            obj = { 'modeid': line['modeid'],
-                    'data': []
-                  }
+            obj = {'modeid': line['modeid'],
+                   'data': []
+                   }
             modes[line['modeid']] = obj
             combined['lines'].append(obj)
 
     for graph in graphs:
-        updated = { }
+        updated = {}
         for line in graph['lines']:
             newline = modes[line['modeid']]
             newline['data'].extend(line['data'])
@@ -161,6 +168,7 @@ def combine(graphs):
 
     return combined
 
+
 def aggregate(graph):
     graph['aggregate'] = True
 
@@ -178,11 +186,11 @@ def aggregate(graph):
     runs = []
     for i in range(len(graph['lines'])):
         runs.append(0)
-    for i in range(len(graph['timelist'])-1, -1, -1):
+    for i in range(len(graph['timelist']) - 1, -1, -1):
         for j in range(len(graph['lines'])):
             if graph['lines'] and i < len(graph['lines'][j]["data"]) and graph['lines'][j]["data"][i]:
                 runs[j] += 1
-        recentRuns += 1 
+        recentRuns += 1
         if max(runs) == MaxRecentRuns:
             break
 
@@ -223,6 +231,7 @@ def aggregate(graph):
 
     return new_graph
 
+
 def condense(cx, suite, prefix, name):
     sys.stdout.write('Importing all datapoints for ' + name + '... ')
     sys.stdout.flush()
@@ -259,6 +268,7 @@ def condense(cx, suite, prefix, name):
 
     return summary
 
+
 def condense_suite(cx, machine, suite):
     name = suite.name + '-' + str(machine.id)
     prefix = ""
@@ -267,21 +277,22 @@ def condense_suite(cx, machine, suite):
 
     suite_aggregate = condense(cx, suite, prefix, name)
 
-    j = { 'version': awfy.version,
-          'graph': suite_aggregate
-        }
+    j = {'version': awfy.version,
+         'graph': suite_aggregate
+         }
     export(prefix + 'aggregate-' + suite.name + '-' + str(machine.id) + '.json', j)
 
     for test_name in suite.tests:
         test_path = suite.name + '-' + test_name + '-' + str(machine.id)
         test_path = test_path.replace(' & ', ' and ')
         test_aggregate = condense(cx, suite, prefix + 'bk-', test_path)
-        j = { 'version': awfy.version,
-              'graph': test_aggregate
-            }
+        j = {'version': awfy.version,
+             'graph': test_aggregate
+             }
         export(prefix + 'bk-aggregate-' + test_path + '.json', j)
 
     return suite_aggregate
+
 
 def condense_all(cx):
     for machine in cx.machines:
@@ -289,7 +300,7 @@ def condense_all(cx):
         if machine.active == 2:
             continue
 
-        aggregates = { }
+        aggregates = {}
         for suite in cx.benchmarks:
             if suite.name == 'v8':
                 continue
@@ -300,8 +311,7 @@ def condense_all(cx):
                 continue
             aggregates[suite.name] = suite_aggregate
 
-        j = { 'version': awfy.version,
-              'graphs': aggregates
-            }
+        j = {'version': awfy.version,
+             'graphs': aggregates
+             }
         export('aggregate-' + str(machine.id) + '.json', j)
-

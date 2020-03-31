@@ -1,14 +1,15 @@
-import smtplib  
-import sys  
+import smtplib
+import sys
 import email.mime.text
 import awfy
 import datetime
 import data
 import time
 
+
 def fetch_test_scores(machine_id, suite_id, name,
-                      finish_stamp = (0,"UNIX_TIMESTAMP()"),
-                      test_stamp = (0, "UNIX_TIMESTAMP()"), mode_id = 0):
+                      finish_stamp=(0, "UNIX_TIMESTAMP()"),
+                      test_stamp=(0, "UNIX_TIMESTAMP()"), mode_id=0):
     query = "SELECT STRAIGHT_JOIN r.id, r.stamp, b.cset, s.score, b.mode_id, v.id   \
              FROM awfy_run r                                                        \
              JOIN awfy_build b ON r.id = b.run_id                                   \
@@ -19,10 +20,10 @@ def fetch_test_scores(machine_id, suite_id, name,
              AND t.name = %s                                                        \
              AND r.status > 0                                                       \
              AND r.machine = %s                                                     \
-             AND r.finish_stamp >= "+str(finish_stamp[0])+"                         \
-             AND r.finish_stamp <= "+str(finish_stamp[1])+"                         \
-             AND r.stamp >= "+str(test_stamp[0])+"                                  \
-             AND r.stamp <= "+str(test_stamp[1])+"                                  \
+             AND r.finish_stamp >= " + str(finish_stamp[0]) + "                         \
+             AND r.finish_stamp <= " + str(finish_stamp[1]) + "                         \
+             AND r.stamp >= " + str(test_stamp[0]) + "                                  \
+             AND r.stamp <= " + str(test_stamp[1]) + "                                  \
              AND b.mode_id = %s                                                     \
              ORDER BY r.stamp ASC                                                   \
              "
@@ -30,9 +31,10 @@ def fetch_test_scores(machine_id, suite_id, name,
     c.execute(query, [suite_id, name, machine_id, mode_id])
     return c.fetchall()
 
+
 def fetch_suite_scores(machine_id, suite_id,
-                       finish_stamp = (0,"UNIX_TIMESTAMP()"),
-                       test_stamp = (0, "UNIX_TIMESTAMP()"), mode_id = 0):
+                       finish_stamp=(0, "UNIX_TIMESTAMP()"),
+                       test_stamp=(0, "UNIX_TIMESTAMP()"), mode_id=0):
     query = "SELECT STRAIGHT_JOIN r.id, r.stamp, b.cset, s.score, b.mode_id, v.id   \
              FROM awfy_run r                                                        \
              JOIN awfy_build b ON r.id = b.run_id                                   \
@@ -41,16 +43,17 @@ def fetch_suite_scores(machine_id, suite_id,
              WHERE v.suite_id = %s                                                  \
              AND r.status > 0                                                       \
              AND r.machine = %s                                                     \
-             AND r.finish_stamp >= "+str(finish_stamp[0])+"                         \
-             AND r.finish_stamp <= "+str(finish_stamp[1])+"                         \
-             AND r.stamp >= "+str(test_stamp[0])+"                                  \
-             AND r.stamp <= "+str(test_stamp[1])+"                                  \
+             AND r.finish_stamp >= " + str(finish_stamp[0]) + "                         \
+             AND r.finish_stamp <= " + str(finish_stamp[1]) + "                         \
+             AND r.stamp >= " + str(test_stamp[0]) + "                                  \
+             AND r.stamp <= " + str(test_stamp[1]) + "                                  \
              AND b.mode_id = %s                                                     \
              ORDER BY r.stamp ASC                                                   \
              "
     c = awfy.db.cursor()
     c.execute(query, [suite_id, machine_id, mode_id])
     return c.fetchall()
+
 
 def generateScore(start, end, name):
     score_template = '<div><b>%s</b> %s ~ %s delta:<span style="color:%s;">%.2f</span></div>\n'
@@ -69,7 +72,8 @@ def generateScore(start, end, name):
     score = score_template % (name, start, end, color, delta)
     return score
 
-def report(cx, machine, suite, date_range=(None,None)):
+
+def report(cx, machine, suite, date_range=(None, None)):
     startdate, endate = date_range
 
     # construct yesterday and today's timestamp
@@ -86,7 +90,7 @@ def report(cx, machine, suite, date_range=(None,None)):
     # machine and suite
     suite_title = '<h3>%s</h3>' % suite.description
     suite_content = ''
-    
+
     for mode in cx.modes:
         rows = fetch_suite_scores(machine.id, suite.id, finish_stamp=(start_stamp, end_stamp), mode_id=mode.id)
         if rows:
@@ -94,7 +98,8 @@ def report(cx, machine, suite, date_range=(None,None)):
             suite_content += generateScore(rows[0][3], rows[-1][3], 'TOTAL')
 
             for test_name in suite.tests:
-                rows = fetch_test_scores(machine.id, suite.id, test_name, finish_stamp=(start_stamp, end_stamp), mode_id=mode.id)
+                rows = fetch_test_scores(machine.id, suite.id, test_name, finish_stamp=(start_stamp, end_stamp),
+                                         mode_id=mode.id)
                 if rows:
                     suite_content += generateScore(rows[0][3], rows[-1][3], test_name)
 
@@ -103,47 +108,49 @@ def report(cx, machine, suite, date_range=(None,None)):
 
     return suite_content
 
+
 def sentV8Email(subject, message):
-    mail_username='APKAutoBuildNotification@intel.com'  
-    mail_password='whatever'  
+    mail_username = 'APKAutoBuildNotification@intel.com'
+    mail_password = 'whatever'
     from_addr = mail_username
-    #to_addrs='kanghua.yu@intel.com'
-    to_addrs='''tianyou.li@intel.com;pan.deng@intel.com;jing.bao@intel.com;
+    # to_addrs='kanghua.yu@intel.com'
+    to_addrs = '''tianyou.li@intel.com;pan.deng@intel.com;jing.bao@intel.com;
     chunyang.dai@intel.com;shiyu.zhang@intel.com;kanghua.yu@intel.com;weiliang.lin@intel.com;zidong.jiang@intel.com'''
 
     # HOST & PORT  
     HOST = 'smtp.intel.com'
     PORT = 25
-      
+
     # Create SMTP Object  
     smtp = smtplib.SMTP()
     print 'connecting ...'
 
     # show the debug log  
     # smtp.set_debuglevel(1)  
-      
+
     # connet
     try:
-        print smtp.connect(HOST,PORT)
+        print smtp.connect(HOST, PORT)
     except:
-        print 'CONNECT ERROR ****'  
-    # gmail uses ssl
-    #smtp.starttls()
+        print 'CONNECT ERROR ****'
+        # gmail uses ssl
+    # smtp.starttls()
     # login with username & password
     try:
         print 'loginning ...'
-        smtp.login(mail_username,mail_password)
-    except:  
+        smtp.login(mail_username, mail_password)
+    except:
         print 'LOGIN ERROR ****'
     # fill content with MIMEText's object
 
-    msg = email.mime.text.MIMEText(message,'html')
+    msg = email.mime.text.MIMEText(message, 'html')
     msg['From'] = from_addr
     msg['To'] = to_addrs
     msg['Subject'] = subject
-    #print msg.as_string()
-    smtp.sendmail(from_addr,to_addrs.split(';'),msg.as_string())
+    # print msg.as_string()
+    smtp.sendmail(from_addr, to_addrs.split(';'), msg.as_string())
     smtp.quit()
+
 
 if __name__ == "__main__":
     # yesterday ~ today
@@ -186,7 +193,7 @@ if __name__ == "__main__":
             tab_content += machine_data
 
         tab_content += '</div>'
-        #sentV8Email('AwfyReport-' + machine.description, content)
+        # sentV8Email('AwfyReport-' + machine.description, content)
 
     ul_content += '</ul>'
     content += ul_content + tab_content + '</div>'
@@ -206,4 +213,3 @@ if __name__ == "__main__":
         </body></html>''' % endate
 
         sentV8Email('Awfy Report', mailmsg)
-

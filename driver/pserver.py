@@ -1,8 +1,10 @@
 import socket
 
+
 def getMyName():
     name = socket.gethostname()
     return name + '.sh.intel.com'
+
 
 def getTestDataBySocket(port=50007, timeout=None):
     HOST = ''

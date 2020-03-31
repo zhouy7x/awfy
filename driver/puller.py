@@ -9,9 +9,10 @@ import sys
 import subprocess
 from utils import Run
 
+
 class HG:
     @staticmethod
-    def Update(rev = None):
+    def Update(rev=None):
         output = Run(['hg', 'pull', '-u'])
         succeeded = re.search("no changes found", output) == None
         if not rev:
@@ -29,9 +30,10 @@ class HG:
             raise Exception('unknown output from hg: ' + output)
         return m.group(1)
 
+
 class SVN:
     @staticmethod
-    def Update(rev = None):
+    def Update(rev=None):
         output = Run(['svn', 'update'])
         succeeded = re.search("At revision", output) == None
         if not rev:
@@ -49,9 +51,10 @@ class SVN:
             raise Exception('unknown output from svn: ' + output)
         return m.group(1)
 
+
 class GIT:
     @staticmethod
-    def Update(rev = None):
+    def Update(rev=None):
         assert rev == None
         output = Run(['git', 'pull'])
         return re.search("Already up-to-date", output) == None
@@ -63,4 +66,3 @@ class GIT:
         if m == None:
             raise Exception('unknown output from git: ' + output)
         return m.group(1)
-

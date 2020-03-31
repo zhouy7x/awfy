@@ -1,4 +1,4 @@
-#_*_coding=utf-8_*_
+# _*_coding=utf-8_*_
 import json
 
 try:
@@ -42,7 +42,7 @@ def get_no_score_run_id_list2(run_id_list):
     """
     c = awfy.db.cursor()
     for run_id in run_id_list:
-        c.execute(query, [run_id]+machine_id.split("-"))
+        c.execute(query, [run_id] + machine_id.split("-"))
         a = c.fetchall()
         # print(a)
         if not a:
@@ -52,14 +52,13 @@ def get_no_score_run_id_list2(run_id_list):
     return
 
 
-
 def delete_all(id_list, machine_id):
     """
     delete data from mysql according to the id_list.
     :param id_list:
     :return:
     """
-    #awfy_breakdown
+    # awfy_breakdown
     query0 = """DELETE FROM s 
                     USING awfy_breakdown s, awfy_run r, awfy_build b
                   WHERE r.id = b.run_id 
@@ -98,12 +97,13 @@ def delete_all(id_list, machine_id):
             c.execute(query2, [id, machine_id])
             c.execute(query3, [id, machine_id])
 
-            print('delete point commit, id=%s'%str(id))
+            print('delete point commit, id=%s' % str(id))
             awfy.db.commit()
         except Exception as e:
             print(e)
             print('delete point rollback')
             awfy.db.rollback()
+
 
 def delete_all2(id_list):
     """
@@ -111,7 +111,7 @@ def delete_all2(id_list):
     :param id_list:
     :return:
     """
-    #awfy_breakdown
+    # awfy_breakdown
     query0 = """DELETE FROM s 
                     USING awfy_breakdown s, awfy_run r, awfy_build b
                   WHERE r.id = b.run_id 
@@ -149,12 +149,12 @@ def delete_all2(id_list):
     c = awfy.db.cursor()
     for id in id_list:
         try:
-            c.execute(query0, [id]+machine_id.split("-"))
-            c.execute(query1, [id]+machine_id.split("-"))
-            c.execute(query2, [id]+machine_id.split("-"))
+            c.execute(query0, [id] + machine_id.split("-"))
+            c.execute(query1, [id] + machine_id.split("-"))
+            c.execute(query2, [id] + machine_id.split("-"))
             c.execute(query3, [id, machine_id[0]])
 
-            print('commit, id=%s'%str(id))
+            print('commit, id=%s' % str(id))
             awfy.db.commit()
         except:
             print('rollback')
@@ -171,7 +171,7 @@ def get_error_equal_id_dict(error_equal_list):
     while i < len(error_equal_list):
         val_list = []
         val_list.append(error_equal_list[i][0])
-        j = i+1
+        j = i + 1
         while j < len(error_equal_list):
             if error_equal_list[i][2] == error_equal_list[j][2]:
                 if error_equal_list[j][0] not in val_list:
@@ -184,7 +184,7 @@ def get_error_equal_id_dict(error_equal_list):
         if not error_equal_id_dict.has_key(error_equal_list[i][2]):
             error_equal_id_dict[error_equal_list[i][2]] = val_list
         else:
-            print('has key %s'%error_equal_list[i][2])
+            print('has key %s' % error_equal_list[i][2])
         i = j
 
 
@@ -209,7 +209,7 @@ def get_delete_error_equal_id_list(error_equal_id_dict):
     }
     c = awfy.db.cursor()
     # right_point_id_list = []
-    for k,v in error_equal_id_dict.iteritems():
+    for k, v in error_equal_id_dict.iteritems():
         v_list = []
         for id in v:
             lines = c.execute(query, [id, machine_id])
@@ -245,10 +245,10 @@ def get_delete_error_equal_id_list2(error_equal_id_dict):
     }
     c = awfy.db.cursor()
     # right_point_id_list = []
-    for k,v in error_equal_id_dict.iteritems():
+    for k, v in error_equal_id_dict.iteritems():
         v_list = []
         for id in v:
-            lines = c.execute(query, [id]+machine_id.split("-"))
+            lines = c.execute(query, [id] + machine_id.split("-"))
             if lines == base_lines[machine_id]:
                 v.remove(id)
                 error_equal_id_list.extend(v)
@@ -259,8 +259,6 @@ def get_delete_error_equal_id_list2(error_equal_id_dict):
         else:
             res_list = list(map(lambda x: x[0], sorted(v_list, key=lambda x: x[1], reverse=True)))[1:]
             error_equal_id_list.extend(res_list)
-
-
 
 
 def select_points(data_list):
@@ -287,7 +285,6 @@ def select_points(data_list):
             #     break
         # i = j
         i += 1
-
 
 
 if __name__ == '__main__':
@@ -318,8 +315,7 @@ if __name__ == '__main__':
             get_delete_error_equal_id_list(error_equal_id_dict)
             # print("machine %s's error_equal_id_list=%s"%(machine_id, str(error_equal_id_list)))                 # must delete
 
-
-            no_score_run_id_list = []                  # must delete
+            no_score_run_id_list = []  # must delete
             get_no_score_run_id_list(run_id_list)
             # print("machine %s's no_score_run_id_list=%s"%(machine_id, str(no_score_run_id_list)))                 # must delete
 
@@ -334,7 +330,8 @@ if __name__ == '__main__':
                 if id not in all_delete_point_id_list:
                     all_delete_point_id_list.append(id)
 
-            print("machine %s's all_delete_point_id=%s, %d"%(machine_id,all_delete_point_id_list,len(all_delete_point_id_list)))
+            print("machine %s's all_delete_point_id=%s, %d" % (
+            machine_id, all_delete_point_id_list, len(all_delete_point_id_list)))
             # delete_all(all_delete_point_id_list, machine_id)
             # delete_all([140857])
         else:
@@ -352,8 +349,7 @@ if __name__ == '__main__':
             get_delete_error_equal_id_list2(error_equal_id_dict)
             # print("machine %s's error_equal_id_list=%s"%(machine_id, str(error_equal_id_list)))                 # must delete
 
-
-            no_score_run_id_list = []                  # must delete
+            no_score_run_id_list = []  # must delete
             get_no_score_run_id_list2(run_id_list)
             # print("machine %s's no_score_run_id_list=%s"%(machine_id, str(no_score_run_id_list)))                 # must delete
 
@@ -368,10 +364,8 @@ if __name__ == '__main__':
                 if id not in all_delete_point_id_list:
                     all_delete_point_id_list.append(id)
 
-            print("machine %s's all_delete_point_id=%s, %d"%(machine_id,all_delete_point_id_list,len(all_delete_point_id_list)))
+            print("machine %s's all_delete_point_id=%s, %d" % (
+            machine_id, all_delete_point_id_list, len(all_delete_point_id_list)))
             # delete_all2(all_delete_point_id_list)
 
             pass
-
-
-

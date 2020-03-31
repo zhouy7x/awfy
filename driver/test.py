@@ -17,6 +17,6 @@ import utils
 wx = benchmarks.WebXPRT3()
 os.chdir('/home/user/work/awfy/benchmarks/webxprt3')
 ret = wx.benchmark(shell="/home/user/work/repos/chrome/arm/chromium/src/out/arm/chrome",
-             env=os.environ.copy(),
+                   env=os.environ.copy(),
                    args=None)
 print ret

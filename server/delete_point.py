@@ -13,6 +13,6 @@ with open(FILE) as f:
 point_ls = json.loads(data)
 replace_all.delete_all(point_ls, machine_id)
 
-#point_ls = [167572]
-#machine_id = 9
-#replace_all.delete_all(point_ls, machine_id)
+# point_ls = [167572]
+# machine_id = 9
+# replace_all.delete_all(point_ls, machine_id)

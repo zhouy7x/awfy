@@ -1,15 +1,15 @@
 ALL_DEVICES = ['v8', 'x64', 'arm', 'glm', '2500u', '1800x', 'cyan', 'bigcore']
 ALL_PROCESSES = ALL_DEVICES + ['apache2', 'query']
 LOG_DIR = {
-        'v8': 'v8',
-        'x64': 'chrome/x64',
-        'arm': 'chrome/arm',
-        'glm': 'chrome/glm',
-        '2500u': 'chrome/2500u',
-        '1800x': 'mixture/1800x',
-        'cyan': 'mixture/cyan',
-        'bigcore': 'mixture/bigcore',
-    }
+    'v8': 'v8',
+    'x64': 'chrome/x64',
+    'arm': 'chrome/arm',
+    'glm': 'chrome/glm',
+    '2500u': 'chrome/2500u',
+    '1800x': 'mixture/1800x',
+    'cyan': 'mixture/cyan',
+    'bigcore': 'mixture/bigcore',
+}
 WORK_DIR = "/home/user/work"
 LOG_PATH = "%s/logs" % WORK_DIR
 REPO_PATH = "%s/repos" % WORK_DIR
@@ -61,4 +61,4 @@ TIMEOUT = 30
 ERROR_MSG = "ERROR: You can choose one or two or all of the params from %s, " \
             "or none param means run them all." % ','.join(ALL_DEVICES)
 KILL_ERROR_MSG = "ERROR: You can choose any of these params from %s, " \
-            "or 'all' means run them all." % ','.join(ALL_PROCESSES)
+                 "or 'all' means run them all." % ','.join(ALL_PROCESSES)

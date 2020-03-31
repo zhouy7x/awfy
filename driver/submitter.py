@@ -9,6 +9,7 @@ import urllib
 import urllib2
 import json
 
+
 class Submitter:
     def __init__(self, slave):
         self.machine = slave.machine
@@ -62,17 +63,17 @@ class Submitter:
                     print self.runIds[i]
             except urllib2.URLError:
                 self.runIds[i] = None
-                        
+
     def AddEngine(self, name, cset):
         for i in range(len(self.urls)):
             if not self.runIds[i]:
                 continue
 
-            args = { 'run': 'addEngine',
-                     'runid': str(self.runIds[i]),
-                     'name': name,
-                     'cset': cset
-                   }
+            args = {'run': 'addEngine',
+                    'runid': str(self.runIds[i]),
+                    'name': name,
+                    'cset': cset
+                    }
             url = self.urls[i] + '?' + urllib.urlencode(args)
             urllib2.urlopen(url)
 
@@ -85,13 +86,13 @@ class Submitter:
             if not self.runIds[i]:
                 continue
 
-            args = { 'name': name,
-                     'run': str(self.runIds[i]),
-                     'suite': suite,
-                     'version': suiteversion,
-                     'mode': mode,
-                     'time': str(time)
-                   }
+            args = {'name': name,
+                    'run': str(self.runIds[i]),
+                    'suite': suite,
+                    'version': suiteversion,
+                    'mode': mode,
+                    'time': str(time)
+                    }
             url = self.urls[i] + '?' + urllib.urlencode(args)
             urllib2.urlopen(url)
 

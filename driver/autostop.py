@@ -10,7 +10,7 @@ except:
     raise Exception('Must input log file path and commit id!')
 
 while True:
-    #file = "/logs/v8/schedule-run-v8-log--20190628150834.txt"
+    # file = "/logs/v8/schedule-run-v8-log--20190628150834.txt"
     with open(file) as f:
         data = f.read()
 

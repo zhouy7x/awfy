@@ -6,10 +6,11 @@
 import awfy
 import time
 
+
 class Benchmark(object):
     def __init__(self, suite_id, name, description, direction, sort_order, visible):
         self.id = suite_id
-        self.name =  name
+        self.name = name
         self.description = description
         self.direction = direction
         self.sort_order = sort_order
@@ -28,14 +29,15 @@ class Benchmark(object):
             self.tests.append(row[0])
 
     def export(self):
-        return { "id": self.id,
-                 "name": self.name,
-                 "description": self.description,
-                 "direction": self.direction,
-                 "tests": self.tests,
-                 "sort_order": self.sort_order,
-                 "visible": self.visible
-               }
+        return {"id": self.id,
+                "name": self.name,
+                "description": self.description,
+                "direction": self.direction,
+                "tests": self.tests,
+                "sort_order": self.sort_order,
+                "visible": self.visible
+                }
+
 
 class Vendor(object):
     def __init__(self, id, name, vendor, url, browser, rangeURL):
@@ -45,6 +47,7 @@ class Vendor(object):
         self.url = url
         self.browser = browser
         self.rangeURL = rangeURL
+
 
 class Machine(object):
     def __init__(self, id, os, cpu, description, active, frontpage, pushed_separate, message):
@@ -75,23 +78,24 @@ class Machine(object):
                    WHERE machine = %s", (id,))
         ids = [str(row[0]) for row in c.fetchall()]
         if len(ids) > 0:
-                c.execute("SELECT DISTINCT(awfy_suite.name) FROM awfy_suite                       \
+            c.execute("SELECT DISTINCT(awfy_suite.name) FROM awfy_suite                       \
                            JOIN `awfy_suite_version` ON suite_id = awfy_suite.id                  \
-                           WHERE awfy_suite_version.id in ("+(",".join(ids))+")")
-                for row in c.fetchall():
-                    self.suites.append(row[0])
+                           WHERE awfy_suite_version.id in (" + (",".join(ids)) + ")")
+            for row in c.fetchall():
+                self.suites.append(row[0])
 
     def export(self):
-        return { "id": self.id,
-                 "os": self.os,
-                 "cpu": self.cpu,
-                 "description": self.description,
-                 "frontpage": self.frontpage,
-                 "pushed_separate": self.pushed_separate,
-                 "message": self.message,
-                 "recent_runs": self.recent_runs,
-                 "suites": self.suites
-               }
+        return {"id": self.id,
+                "os": self.os,
+                "cpu": self.cpu,
+                "description": self.description,
+                "frontpage": self.frontpage,
+                "pushed_separate": self.pushed_separate,
+                "message": self.message,
+                "recent_runs": self.recent_runs,
+                "suites": self.suites
+                }
+
 
 class Mode(object):
     def __init__(self, id, vendor, mode, name, color, level):
@@ -101,6 +105,7 @@ class Mode(object):
         self.name = name
         self.color = color
         self.level = level
+
 
 class Runs(object):
     def __init__(self, machine_id):
@@ -138,6 +143,7 @@ class Runs(object):
             list.append(t)
         return list
 
+
 class Context(object):
     def __init__(self):
         # Get a list of vendors, and map vendor IDs -> vendor info
@@ -149,76 +155,76 @@ class Context(object):
             v = Vendor(row[0], row[1], row[2], row[3], row[4], row[5])
             self.vendors.append(v)
 
-
         # Get a list of modes, and a reverse mapping from DB ids.
         self.modes = []
-        self.modemap = { }
+        self.modemap = {}
         c.execute("SELECT id, vendor_id, mode, name, color, level FROM awfy_mode WHERE level <= 10")
         for row in c.fetchall():
             m = Mode(row[0], row[1], row[2], row[3], row[4], row[5])
             self.modemap[int(row[0])] = m
             self.modes.append(m)
-        
+
         # Get a list of benchmark suites.
         self.suitemap = {}
         self.benchmarks = []
-        c.execute("SELECT id, name, description, better_direction, sort_order, visible FROM awfy_suite WHERE visible > 0")
+        c.execute(
+            "SELECT id, name, description, better_direction, sort_order, visible FROM awfy_suite WHERE visible > 0")
         for row in c.fetchall():
             b = Benchmark(row[0], row[1], row[2], row[3], row[4], row[5])
             self.suitemap[row[0]] = b
             self.benchmarks.append(b)
-        
+
         # Get a list of suite versions
         self.suiteversions = []
         c.execute("SELECT id, name, suite_id FROM awfy_suite_version")
         for row in c.fetchall():
             if row[2] in self.suitemap:
                 self.suiteversions.append([row[0], row[1], self.suitemap[row[2]].name])
-        
+
         # Get a list of machines.
         self.machines = []
-        c.execute("SELECT id, os, cpu, description, active, frontpage, pushed_separate, message FROM awfy_machine WHERE active >= 1")
+        c.execute(
+            "SELECT id, os, cpu, description, active, frontpage, pushed_separate, message FROM awfy_machine WHERE active >= 1")
         for row in c.fetchall():
             m = Machine(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
             self.machines.append(m)
-    
+
     def exportModes(self):
-        o = { }
+        o = {}
         for mode in self.modes:
-            o[mode.id] = { "vendor_id": mode.vendor_id,
-                           "mode": mode.mode,
-                           "name": mode.name,
-                           "color": mode.color
-                         }
+            o[mode.id] = {"vendor_id": mode.vendor_id,
+                          "mode": mode.mode,
+                          "name": mode.name,
+                          "color": mode.color
+                          }
         return o
 
     def exportVendors(self):
-        o = { }
+        o = {}
         for vendor in self.vendors:
-            o[vendor.id] = { "name": vendor.name,
-                             "url": vendor.url,
-                             "browser": vendor.browser,
-                             "rangeURL": vendor.rangeURL
-                           }
+            o[vendor.id] = {"name": vendor.name,
+                            "url": vendor.url,
+                            "browser": vendor.browser,
+                            "rangeURL": vendor.rangeURL
+                            }
         return o
 
     def exportMachines(self):
-        o = { }
+        o = {}
         for machine in self.machines:
             o[machine.id] = machine.export()
         return o
 
     def exportSuites(self):
-        o = { }
+        o = {}
         for b in self.benchmarks:
             o[b.name] = b.export()
         return o
 
     def exportSuiteVersions(self):
-        o = { }
+        o = {}
         for v in self.suiteversions:
-            o[v[0]] = { "name": v[1],
-                        "suite": v[2]
-                      }
+            o[v[0]] = {"name": v[1],
+                       "suite": v[2]
+                       }
         return o
-

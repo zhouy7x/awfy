@@ -7,11 +7,11 @@ class Builder:
         self.timemap = {}
 
     def addPoint(self, points, time, first, last, score, suite_version):
-        point = { 'time': time,
-                  'first': first,
-                  'score': score,
-                  'suite_version': suite_version
-                }
+        point = {'time': time,
+                 'first': first,
+                 'score': score,
+                 'suite_version': suite_version
+                 }
         if last:
             point['last'] = last
         if not time in self.timemap:

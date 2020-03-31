@@ -13,10 +13,11 @@ config = None
 RepoPath = None
 BenchmarkPath = None
 DriverPath = None
-Timeout = 15*60
+Timeout = 15 * 60
 PythonName = None
 Includes = None
 Excludes = None
+
 
 def InitConfig(name):
     global config, RepoPath, BenchmarkPath, DriverPath, Timeout, PythonName, Includes, Excludes
@@ -34,6 +35,7 @@ def InitConfig(name):
     Includes = config_get_default(name, 'includes', None)
     Excludes = config_get_default(name, 'excludes', None)
 
+
 class FolderChanger:
     def __init__(self, folder):
         self.old = os.getcwd()
@@ -44,6 +46,7 @@ class FolderChanger:
 
     def __exit__(self, type, value, traceback):
         os.chdir(self.old)
+
 
 def chdir(folder):
     return FolderChanger(folder)
@@ -69,7 +72,7 @@ def get_result_of_spec2k6(ls, digit=2):
         if e:
             e_times.append(e)
 
-    compilation_time = myround(sum(c_times)/len(c_times), digit)
+    compilation_time = myround(sum(c_times) / len(c_times), digit)
     execution_time = myround(sum(e_times), digit)
 
     return compilation_time, execution_time
@@ -84,7 +87,8 @@ def myround(num, digit=2):
     else:
         return str(round(num, digit))
 
-def Run(vec, env = os.environ.copy()):
+
+def Run(vec, env=os.environ.copy()):
     print(">> Executing in " + os.getcwd())
     print(' '.join(vec))
     # print("with: " + str(env))
@@ -101,22 +105,27 @@ def Run(vec, env = os.environ.copy()):
         print("print exception...")
     return o
 
+
 def Shell(string):
     print(string)
     status, output = commands.getstatusoutput(string)
     print(output)
     return output
 
+
 def config_get_default(section, name, default=None):
     if config.has_option(section, name):
         return config.get(section, name)
     return default
 
+
 class TimeException(Exception):
     pass
 
+
 def timeout_handler(signum, frame):
     raise TimeException()
+
 
 class Handler():
     def __init__(self, signum, lam):
@@ -129,22 +138,22 @@ class Handler():
 
     def __exit__(self, type, value, traceback):
         signal.signal(self.signum, self.old)
-        
-    
-def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenargs):
+
+
+def RunTimedCheckOutput(args, env=os.environ.copy(), timeout=None, **popenargs):
     if timeout is None:
         timeout = Timeout
     if type(args) == list:
-        print('Running: "'+ '" "'.join(args) + '" with timeout: ' + str(timeout)+'s')
+        print('Running: "' + '" "'.join(args) + '" with timeout: ' + str(timeout) + 's')
     elif type(args) == str:
-        print('Running: "'+ args + '" with timeout: ' + str(timeout) + 's')
+        print('Running: "' + args + '" with timeout: ' + str(timeout) + 's')
     else:
         print('Running: ' + args)
     try:
         if type(args) == list:
             print("list......................")
-            p = subprocess.Popen(args, bufsize=-1,  env=env, close_fds=True, preexec_fn=os.setsid, 
-                    stdout=subprocess.PIPE, **popenargs)
+            p = subprocess.Popen(args, bufsize=-1, env=env, close_fds=True, preexec_fn=os.setsid,
+                                 stdout=subprocess.PIPE, **popenargs)
 
             with Handler(signal.SIGALRM, timeout_handler):
                 try:
@@ -166,8 +175,8 @@ def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenar
 
                     # try again.
                     p = subprocess.Popen(args, bufsize=-1, shell=True, env=env, close_fds=True,
-                                             preexec_fn=os.setsid,
-                                             stdout=subprocess.PIPE, **popenargs)
+                                         preexec_fn=os.setsid,
+                                         stdout=subprocess.PIPE, **popenargs)
                     try:
                         signal.alarm(timeout)
                         output = p.communicate()[0]
@@ -187,7 +196,7 @@ def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenar
         else:
             import subprocess32
             p = subprocess32.Popen(args, bufsize=-1, shell=True, env=env, close_fds=True, preexec_fn=os.setsid,
-                    stdout=subprocess32.PIPE, stderr=subprocess32.PIPE, **popenargs)
+                                   stdout=subprocess32.PIPE, stderr=subprocess32.PIPE, **popenargs)
             # with Handler(signal.SIGALRM, timeout_handler):
             try:
                 output = p.communicate(timeout=timeout)[0]
@@ -206,7 +215,7 @@ def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenar
 
                 # try again.
                 p = subprocess32.Popen(args, bufsize=-1, shell=True, env=env, close_fds=True, preexec_fn=os.setsid,
-                            stdout=subprocess32.PIPE, stderr=subprocess32.PIPE, **popenargs)
+                                       stdout=subprocess32.PIPE, stderr=subprocess32.PIPE, **popenargs)
                 try:
                     output = p.communicate(timeout=timeout)[0]
                     # if we get an alarm right here, nothing too bad should happen
@@ -226,4 +235,3 @@ def RunTimedCheckOutput(args, env = os.environ.copy(), timeout = None, **popenar
     except Exception as e:
         print e
         pass
-

@@ -14,8 +14,8 @@ import smtplib
 
 def _format_addr(s):
     name, addr = parseaddr(s)
-    return formataddr(( \
-        Header(name, 'utf-8').encode(), \
+    return formataddr((
+        Header(name, 'utf-8').encode(),
         addr.encode('utf-8') if isinstance(addr, unicode) else addr))
 
 

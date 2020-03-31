@@ -10,7 +10,6 @@ import os
 import awfy
 import argparse
 
-
 help = """
 Manual to the script of %s, you need:
    - A machine id:

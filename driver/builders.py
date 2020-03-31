@@ -43,7 +43,7 @@ class Engine(object):
 
         if not os.path.isfile(shell):
             forceRebuild = True
-    
+
         if update:
             self.updated = scm.Update(rev)
         else:
@@ -62,8 +62,9 @@ class Engine(object):
 
             self.updated = True
             secs = int(time.time() - beginTime)
-            print('\n++++++++ Build-Time: ' + str(secs/3600) + "h:" + str(secs%3600/60) + "m:" + str(secs%60) + "s ++++++++\n\n")
-    
+            print('\n++++++++ Build-Time: ' + str(secs / 3600) + "h:" + str(secs % 3600 / 60) + "m:" + str(
+                secs % 60) + "s ++++++++\n\n")
+
         if not os.path.isfile(shell):
             print(shell)
             raise Exception('could not find shell')
@@ -88,13 +89,13 @@ class Nitro(Engine):
         else:
             self.extra = []
         self.args = None
-        self.important = False # WebKit changes too frequently, we'd need to detect JSC changes.
+        self.important = False  # WebKit changes too frequently, we'd need to detect JSC changes.
         self.modes = [
-                {
-                    'mode': 'jsc',
-                    'args': None
-                }
-            ]
+            {
+                'mode': 'jsc',
+                'args': None
+            }
+        ]
 
     def env(self):
         env = os.environ.copy()
@@ -103,11 +104,14 @@ class Nitro(Engine):
 
     def build(self):
         # Hack 1: Remove reporting errors for warnings that currently are present.
-        Run(["sed","-i.bac","s/GCC_TREAT_WARNINGS_AS_ERRORS = YES;/GCC_TREAT_WARNINGS_AS_ERRORS=NO;/","Source/JavaScriptCore/Configurations/Base.xcconfig"])
-        Run(["sed","-i.bac","s/GCC_TREAT_WARNINGS_AS_ERRORS = YES;/GCC_TREAT_WARNINGS_AS_ERRORS=NO;/","Source/bmalloc/Configurations/Base.xcconfig"])
-        Run(["sed","-i.bac","s/GCC_TREAT_WARNINGS_AS_ERRORS = YES;/GCC_TREAT_WARNINGS_AS_ERRORS=NO;/","Source/WTF/Configurations/Base.xcconfig"])
-        Run(["sed","-i.bac","s/std::numeric_limits<unsigned char>::max()/255/","Source/bmalloc/bmalloc/Line.h"])
-        Run(["sed","-i.bac","s/std::numeric_limits<unsigned char>::max()/255/","Source/bmalloc/bmalloc/Page.h"])
+        Run(["sed", "-i.bac", "s/GCC_TREAT_WARNINGS_AS_ERRORS = YES;/GCC_TREAT_WARNINGS_AS_ERRORS=NO;/",
+             "Source/JavaScriptCore/Configurations/Base.xcconfig"])
+        Run(["sed", "-i.bac", "s/GCC_TREAT_WARNINGS_AS_ERRORS = YES;/GCC_TREAT_WARNINGS_AS_ERRORS=NO;/",
+             "Source/bmalloc/Configurations/Base.xcconfig"])
+        Run(["sed", "-i.bac", "s/GCC_TREAT_WARNINGS_AS_ERRORS = YES;/GCC_TREAT_WARNINGS_AS_ERRORS=NO;/",
+             "Source/WTF/Configurations/Base.xcconfig"])
+        Run(["sed", "-i.bac", "s/std::numeric_limits<unsigned char>::max()/255/", "Source/bmalloc/bmalloc/Line.h"])
+        Run(["sed", "-i.bac", "s/std::numeric_limits<unsigned char>::max()/255/", "Source/bmalloc/bmalloc/Page.h"])
 
         with utils.FolderChanger(os.path.join('Tools', 'Scripts')):
             # Hack 2: This check fails currently. Disable checking to still have a build.
@@ -122,11 +126,11 @@ class Nitro(Engine):
 
             os.rename("check-for-weak-vtables-and-externals2", "check-for-weak-vtables-and-externals");
 
-        Run(["svn","revert","Source/JavaScriptCore/Configurations/Base.xcconfig"])
-        Run(["svn","revert","Source/bmalloc/Configurations/Base.xcconfig"])
-        Run(["svn","revert","Source/WTF/Configurations/Base.xcconfig"])
-        Run(["svn","revert","Source/bmalloc/bmalloc/Line.h"])
-        Run(["svn","revert","Source/bmalloc/bmalloc/Page.h"])
+        Run(["svn", "revert", "Source/JavaScriptCore/Configurations/Base.xcconfig"])
+        Run(["svn", "revert", "Source/bmalloc/Configurations/Base.xcconfig"])
+        Run(["svn", "revert", "Source/WTF/Configurations/Base.xcconfig"])
+        Run(["svn", "revert", "Source/bmalloc/bmalloc/Line.h"])
+        Run(["svn", "revert", "Source/bmalloc/bmalloc/Page.h"])
 
     def shell(self):
         return os.path.join('WebKitBuild', 'Release', 'jsc')
@@ -150,11 +154,11 @@ class V8(Engine):
         self.args = ['--expose-gc']
         self.important = True
         self.hardfp = (utils.config.has_option('main', 'flags')) and \
-                       ("hardfp" in utils.config.get('main', 'flags'))
+                      ("hardfp" in utils.config.get('main', 'flags'))
 
         slaves = utils.config.get('main', 'slaves')
         self.slaveMachine = utils.config.get(slaves, 'machine')
-        
+
     def build(self):
         env = os.environ.copy()
         if self.cxx is not None:
@@ -182,14 +186,14 @@ class V8(Engine):
         Run([gn_shell, self.slaveMachine, self.cpu], env)
 
     def shell(self):
-        return os.path.join('out.gn', self.slaveMachine, self.cpu+".release", 'd8')
+        return os.path.join('out.gn', self.slaveMachine, self.cpu + ".release", 'd8')
 
     def libpaths(self):
         otgt = self.slaveMachine + "/" + self.cpu + ".release"
-        return [{"path" : os.path.join('out.gn', otgt, 'natives_blob.bin'), "exclude" : []},
-                {"path" : os.path.join('out.gn', otgt, 'snapshot_blob.bin'), "exclude" : []},
-                {"path" : os.path.join('out.gn', otgt, 'icudtl.dat'), "exclude" : []}
-               ]
+        return [{"path": os.path.join('out.gn', otgt, 'natives_blob.bin'), "exclude": []},
+                {"path": os.path.join('out.gn', otgt, 'snapshot_blob.bin'), "exclude": []},
+                {"path": os.path.join('out.gn', otgt, 'icudtl.dat'), "exclude": []}
+                ]
 
 
 class V8_patch(Engine):
@@ -240,7 +244,7 @@ class V8_patch(Engine):
         Run(['git', 'log', '-1', '--pretty=short'])
         print env
         # add patch.
-        #with utils.FolderChanger(os.path.join(utils.RepoPath, self.source)):
+        # with utils.FolderChanger(os.path.join(utils.RepoPath, self.source)):
         # Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
 
         gn_shell = os.path.join(utils.DriverPath, 'gn-cmd.sh')
@@ -275,8 +279,7 @@ class V8_gyp(Engine):
         self.args = ['--expose-gc']
         self.important = True
         self.hardfp = (utils.config.has_option('main', 'flags')) and \
-                       ("hardfp" in utils.config.get('main', 'flags'))
-
+                      ("hardfp" in utils.config.get('main', 'flags'))
 
     def build(self):
         env = os.environ.copy()
@@ -322,19 +325,19 @@ class V8_gyp(Engine):
             Run(['make', 'x64.release', 'werror=no', '-j30'], env)
         elif self.cpu == 'arm':
             make_cmd = ['make', 'werror=no', '-j30', 'arm.release',
-                    'armv7=true',
-                    'armfloatabi=hard',
-                    'disassembler=on',
-                    'CC=\"arm-linux-gnueabihf-gcc-4.8\"',
-                    'AR=\"arm-linux-gnueabihf-ar\"',
-                    'CXX=\"arm-linux-gnueabihf-g++-4.8\"',
-                    'LINK=\"arm-linux-gnueabihf-g++-4.8\"']
+                        'armv7=true',
+                        'armfloatabi=hard',
+                        'disassembler=on',
+                        'CC=\"arm-linux-gnueabihf-gcc-4.8\"',
+                        'AR=\"arm-linux-gnueabihf-ar\"',
+                        'CXX=\"arm-linux-gnueabihf-g++-4.8\"',
+                        'LINK=\"arm-linux-gnueabihf-g++-4.8\"']
             if self.hardfp:
                 make_cmd.append('hardfp=on')
             Run(make_cmd, env)
         elif self.cpu == 'x86':
             Run(['make', 'ia32.release', 'werror=no', '-j30'], env)
-  
+
     def shell(self):
         if self.cpu == 'x64':
             return os.path.join('out', 'x64.release', 'd8')
@@ -352,10 +355,10 @@ class V8_gyp(Engine):
         elif self.cpu == 'x86':
             otgt = 'ia32.release'
 
-        return [{"path" : os.path.join('out', otgt, 'natives_blob.bin'), "exclude" : []},
-                {"path" : os.path.join('out', otgt, 'snapshot_blob.bin'), "exclude" : []},
-                {"path" : os.path.join('out', otgt, 'icudtl.dat'), "exclude" : []}
-               ]
+        return [{"path": os.path.join('out', otgt, 'natives_blob.bin'), "exclude": []},
+                {"path": os.path.join('out', otgt, 'snapshot_blob.bin'), "exclude": []},
+                {"path": os.path.join('out', otgt, 'icudtl.dat'), "exclude": []}
+                ]
 
 
 class ContentShell(Engine):
@@ -375,10 +378,11 @@ class ContentShell(Engine):
             cpu_mode = '-arm'
 
         self.modes = [{
-                        'mode': 'ContentShell' + cpu_mode,
-                        'args': None
-                      }]
-#        self.modes = [{'mode': 'ContentShell-temp-test', 'args': None}]
+            'mode': 'ContentShell' + cpu_mode,
+            'args': None
+        }]
+
+    #        self.modes = [{'mode': 'ContentShell-temp-test', 'args': None}]
 
     def build(self):
         env = os.environ.copy()
@@ -395,7 +399,7 @@ class ContentShell(Engine):
 
         with utils.FolderChanger('../'):
             syncAgain = True
-            #sourcePath = os.path.join(utils.RepoPath, self.source)
+            # sourcePath = os.path.join(utils.RepoPath, self.source)
             while (syncAgain):
                 syncAgain = False
                 try:
@@ -407,13 +411,13 @@ class ContentShell(Engine):
                         raise e
 
         Run(['ninja', '-C', 'out/Release', 'content_shell'], env)
-  
+
     def shell(self):
         return os.path.join('out', 'Release', 'content_shell')
 
     def libpaths(self):
         p = os.path.join('out', 'Release/')
-        return [{'path' : p, 'exclude' : ['obj', 'gen']}]
+        return [{'path': p, 'exclude': ['obj', 'gen']}]
 
 
 class JerryScript(Engine):
@@ -433,9 +437,9 @@ class JerryScript(Engine):
             cpu_mode = '-arm'
 
         self.modes = [{
-                        'mode': 'JerryScript' + cpu_mode,
-                        'args': None
-                      }]
+            'mode': 'JerryScript' + cpu_mode,
+            'args': None
+        }]
 
     def build(self):
         env = os.environ.copy()
@@ -488,19 +492,19 @@ class Headless(Engine):
             out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu, 'args.gn')
             if not os.path.isdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu)):
                 os.mkdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu))
-            while(syncAgain):
+            while (syncAgain):
                 syncAgain = False
                 try:
                     print 'env=%s' % env
                     Run(['cp', in_argns, out_argns])
                     Run(['gclient', 'sync', '-D', '-j25', '-f'], env)
                     # if self.cpu == 'arm':
-                        #Run(['sed', '-i',
-                        #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
-                        #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
-                        # Run(['sed', '-i',
-                        #      '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
-                        #      os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
+                    # Run(['sed', '-i',
+                    #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                    #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                    # Run(['sed', '-i',
+                    #      '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
+                    #      os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
                     Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
                     # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                 except subprocess.CalledProcessError as e:
@@ -520,7 +524,7 @@ class Headless(Engine):
                 # in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
                 in_argns = os.path.join(WORK_DIR, 'awfy', 'gn_file', in_argns_name)
                 out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu, 'args.gn')
-                while(syncAgain):
+                while (syncAgain):
                     syncAgain = False
                     try:
                         # if self.cpu == 'arm':
@@ -528,28 +532,29 @@ class Headless(Engine):
                         #     out_cddl = os.path.join(utils.RepoPath, self.source, 'out', self.cpu)
                         #     Run(['cp', in_cddl, out_cddl])
                         # else:
-                            # add 3 steps:
-                            # 1. perl -pi -e "s/sudo //g" ./build/install-build-deps.sh
-                            Run(['perl', '-pi', '-e', '"s/sudo //g"', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
-                            # 2. run build/install-build-deps.sh
-                            Run(['/bin/bash', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
-                            # 3. git checkout build/install-build-deps.sh
-                            Run(['git', 'checkout', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+                        # add 3 steps:
+                        # 1. perl -pi -e "s/sudo //g" ./build/install-build-deps.sh
+                        Run(['perl', '-pi', '-e', '"s/sudo //g"',
+                             os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+                        # 2. run build/install-build-deps.sh
+                        Run(['/bin/bash', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+                        # 3. git checkout build/install-build-deps.sh
+                        Run(['git', 'checkout', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
 
-                            Run(['rm', os.path.join(sourcePath, 'out', self.cpu), '-rf'])
-                            Run(['mkdir', os.path.join(sourcePath, 'out', self.cpu)])
-                            Run(['cp', in_argns, out_argns])
-                            print 'env=%s'%env
-                            Run(['gclient', 'sync', '-D', '-j25', '-f'], env)
-                            # if self.cpu == 'arm':
-                                #Run(['sed', '-i',
-                                #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
-                                #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
-                                # Run(['sed', '-i',
-                                #      '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
-                                #      os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
-                            Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
-                            # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
+                        Run(['rm', os.path.join(sourcePath, 'out', self.cpu), '-rf'])
+                        Run(['mkdir', os.path.join(sourcePath, 'out', self.cpu)])
+                        Run(['cp', in_argns, out_argns])
+                        print 'env=%s' % env
+                        Run(['gclient', 'sync', '-D', '-j25', '-f'], env)
+                        # if self.cpu == 'arm':
+                        # Run(['sed', '-i',
+                        #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                        #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                        # Run(['sed', '-i',
+                        #      '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
+                        #      os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
+                        Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
+                        # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                     except subprocess.CalledProcessError as e:
                         if synctroubles.fetchGsFileByHttp(e.output, ''):
                             syncAgain = True
@@ -607,9 +612,9 @@ class Headless_patch(Engine):
             in_argns_name = self.cpu + '-patch' + ".gn"
             # in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
             in_argns = os.path.join(WORK_DIR, 'awfy', 'gn_file', in_argns_name)
-            out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-patch', 'args.gn')
-            if not os.path.isdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-patch')):
-                os.mkdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-patch'))
+            out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu + '-patch', 'args.gn')
+            if not os.path.isdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu + '-patch')):
+                os.mkdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu + '-patch'))
             while (syncAgain):
                 syncAgain = False
                 try:
@@ -630,13 +635,13 @@ class Headless_patch(Engine):
                     #     Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
 
                     # if self.cpu == 'arm':
-                        #Run(['sed', '-i',
-                        #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
-                        #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
-                        # Run(['sed', '-i',
-                        #      '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
-                        #      os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
-                    Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu+'-patch')], env)
+                    # Run(['sed', '-i',
+                    #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                    #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                    # Run(['sed', '-i',
+                    #      '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
+                    #      os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
+                    Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu + '-patch')], env)
                     # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                 except subprocess.CalledProcessError as e:
                     if synctroubles.fetchGsFileByHttp(e.output, ''):
@@ -654,7 +659,7 @@ class Headless_patch(Engine):
                 in_argns_name = self.cpu + '-patch' + ".gn"
                 # in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
                 in_argns = os.path.join(WORK_DIR, 'awfy', 'gn_file', in_argns_name)
-                out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu+'-patch', 'args.gn')
+                out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu + '-patch', 'args.gn')
                 while (syncAgain):
                     syncAgain = False
                     try:
@@ -678,12 +683,12 @@ class Headless_patch(Engine):
                         #     Run(['patch', '-p', '1', '-i', '/repos/enable-compressed-pointer.patch'], env)
 
                         # if self.cpu == 'arm':
-                            #Run(['sed', '-i',
-                            #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
-                            #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
-                            # Run(['sed', '-i',
-                            #      '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
-                            #      os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
+                        # Run(['sed', '-i',
+                        #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
+                        #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
+                        # Run(['sed', '-i',
+                        #      '/use_lld && target_cpu == "x86"/{s/target_cpu == "x86"/(target_cpu == "x86" || target_cpu == "arm")/g}',
+                        #      os.path.join(sourcePath, "third_party", "ffmpeg", "BUILD.gn")], env)
                         Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu + '-patch')], env)
                         # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                     except subprocess.CalledProcessError as e:
@@ -731,7 +736,8 @@ class JavaScriptCore(Engine):
 
     def env(self):
         return {
-            "LD_LIBRARY_PATH": os.path.join(utils.RepoPath, self.source, "WebKitBuild/Release/lib") + ":/home/user/jsc-dependence:$LD_LIBRARY_PATH"
+            "LD_LIBRARY_PATH": os.path.join(utils.RepoPath, self.source,
+                                            "WebKitBuild/Release/lib") + ":/home/user/jsc-dependence:$LD_LIBRARY_PATH"
         }
 
     def build(self):
@@ -776,9 +782,9 @@ class IoTjs(Engine):
             cpu_mode = '-arm'
 
         self.modes = [{
-                        'mode': 'IoTjs' + cpu_mode,
-                        'args': None
-                      }]
+            'mode': 'IoTjs' + cpu_mode,
+            'args': None
+        }]
 
     def build(self):
         env = os.environ.copy()
@@ -811,7 +817,7 @@ class Mozilla(Engine):
 
         # Step 2. configure
         if not os.path.exists(os.path.join('js', 'src', self.objdir)):
-            os.mkdir(os.path.join('js', 'src', self.objdir)) 
+            os.mkdir(os.path.join('js', 'src', self.objdir))
         with utils.FolderChanger(os.path.join('js', 'src', self.objdir)):
             utils.Shell(self.config_line)
 
@@ -828,15 +834,15 @@ class MozillaInbound(Mozilla):
     def __init__(self):
         super(MozillaInbound, self).__init__('mi')
         self.modes = [
-                {
-                    'mode': 'jmim',
-                    'args': ['--ion-offthread-compile=on', '-W']
-                },
-                {
-                    'mode': 'noasmjs',
-                    'args': ['--ion-offthread-compile=on', '-W', '--no-asmjs']
-                }
-            ]
+            {
+                'mode': 'jmim',
+                'args': ['--ion-offthread-compile=on', '-W']
+            },
+            {
+                'mode': 'noasmjs',
+                'args': ['--ion-offthread-compile=on', '-W', '--no-asmjs']
+            }
+        ]
 
 
 class MozillaInboundGGC(Mozilla):
@@ -845,11 +851,11 @@ class MozillaInboundGGC(Mozilla):
         self.config_line += ' --enable-exact-rooting --enable-gcgenerational'
         self.objdir = 'OptGGC'
         self.modes = [
-                {
-                    'mode': 'ggc',
-                    'args': ['--ion-offthread-compile=on', '-W']
-                }
-            ]
+            {
+                'mode': 'ggc',
+                'args': ['--ion-offthread-compile=on', '-W']
+            }
+        ]
 
 
 class NativeCompiler(Engine):
@@ -860,8 +866,8 @@ class NativeCompiler(Engine):
         self.args = utils.config.get('native', 'options').split(' ')
         self.mode = utils.config.get('native', 'mode')
 
-        #output = Run([self.cxx, '--version'])
-        self.signature = 'gcc 5.4.0' #output.splitlines()[0].strip()
+        # output = Run([self.cxx, '--version'])
+        self.signature = 'gcc 5.4.0'  # output.splitlines()[0].strip()
 
 
 def build(engines, updateRepo=True, forceBuild=False, rev=None):
