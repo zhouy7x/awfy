@@ -124,8 +124,8 @@ do
 
                     STARTT=$(date +%s)
 
-                    python dostuff-chrome-x64.py  --config=client/chrome/electro-x64.config --config2=client/chrome/electro-x64-patch.config
-                    # python dostuff-chrome-x64.py  --config=client/chrome/electro-x64-patch.config
+                    # python dostuff-chrome-x64.py  --config=client/chrome/electro-x64.config --config2=client/chrome/electro-x64-patch.config
+                    python dostuff-chrome-x64.py  --config=client/chrome/electro-x64.config
                     popd
 
                     wait
