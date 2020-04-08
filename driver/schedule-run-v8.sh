@@ -184,8 +184,8 @@ do
         # Third, check jsc update
         pushd /home/user/work/repos/jsc/base/webkit
         git fetch
-        # list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
-        list=`git rev-list origin/master ^master | tac`
+        list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/jsc-filter.py`
+        # list=`git rev-list origin/master ^master | tac`
         if [ -z "$list" ]; then
             echo "jsc: no update"
         else

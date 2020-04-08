@@ -182,8 +182,8 @@ do
         # Third, check jsc update
         pushd /home/user/work/repos/jsc/base/webkit
         git fetch
-        # list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
-        list=`git rev-list origin/master ^master | tac`
+        list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/jsc-filter.py`
+        # list=`git rev-list origin/master ^master | tac`
         if [ -z "$list" ]; then
             echo "jsc: no update"
         else
@@ -216,8 +216,8 @@ do
                     tmp=$[tmp+1];
                 fi
 
-                python dostuff-v8.py --config=client/jsc/hsw-nuc-jsc-x64$string.config  $id &
-                # python dostuff-v8.py --config=client/jsc/apl-nuc-jsc-x64$string.config  $id &
+                # python dostuff-v8.py --config=client/jsc/hsw-nuc-jsc-x64$string.config  $id &
+                python dostuff-v8.py --config=client/jsc/apl-nuc-jsc-x64$string.config  $id &
 
                 echo $tmp > $jsccountfile;
 
