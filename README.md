@@ -51,7 +51,6 @@ Run docker container
             -v /mnt/work/docker/VOLUMES/repos:/repos \
             -v /mnt/work/docker/VOLUMES/logs:/logs \
             awfy:18.04 \
-            /bin/bash
     docker run -it -d \
             --name awfy-mysql \
             -v /mnt/work/docker/VOLUMES/data:/var/lib/mysql \
@@ -66,6 +65,7 @@ Init DB
 * enter to awfy docker
 ```text
     docker exec -it awfy /bin/bash
+    ./all_kill.py devices
     mysql -uroot -pmkk -h `hostname -s` -P 3306
 ```
 * in awfy-mysql
@@ -94,7 +94,6 @@ Download submodule and repos, install dependence
     cd /home/user/work/awfy
     git pull
     git submodule update --init --recursive
-    /etc/init.d/apache2 start
     python replace_host.py  ssgs5-test.sh.intel.com  `hostname -s`  
     ./server/run-clean-and-update.sh  # load http://localhost:8000 in browser, you will see awfy report page.
     cd /home/user/work/repos && mkdir -p v8/base

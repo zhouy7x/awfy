@@ -248,7 +248,7 @@ def run_all(repos):
     run_related_progress()
 
     if not repos:
-        repos = ALL_DEVICES
+        repos = ALL_AVAILABLE_DEVICES
     print(repos)
 
     for param in repos:

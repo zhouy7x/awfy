@@ -15,6 +15,8 @@ def kill_all(repos):
         return
     elif repos == ['all']:
         repos = ALL_PROCESSES
+    elif repos == ['devices']:
+        repos = ALL_DEVICES
 
     for param in repos:
         param = param.lower()

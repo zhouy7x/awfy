@@ -7,7 +7,7 @@ ENV https_proxy http://10.239.4.80:913
 ENV DEBIAN_FRONTEND noninteractive
 ENV PATH /depot_tools:$PATH
 ENV NO_AUTH_BOTO_CONFIG /home/user/work/awfy/docker/.boto
-ENV WORKHOME /home/user/work
+ENV WORKHOME /home/user/work/awfy/driver
 
 # install related packages
 RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb python-tornado git curl mysql-client-5.7 expect wget tzdata software-properties-common && \
@@ -33,5 +33,6 @@ VOLUME /logs
 
 # run
 WORKDIR $WORKHOME
+ENTRYPOINT ["./all_run.py"]
 EXPOSE 8000 7777
-CMD ["/bin/bash"]
+#CMD ["/bin/bash"]
