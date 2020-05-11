@@ -1113,7 +1113,38 @@ class Unity3D(Benchmark):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search("(.+): (\d+)", x)
+            m = re.search(r"(.+): (\d+)", x)
+            if not m:
+                continue
+            name = m.group(1)
+            score = m.group(2)
+            if name == "Overall":
+                name = "__total__"
+            if name not in test_names:
+                test_names.append(name)
+                tests.append({'name': name, 'time': score})
+                print(score + '     - ' + name)
+        return tests
+
+
+class Unity3D2018(Benchmark):
+    def __init__(self):
+        super(Unity3D2018, self).__init__('Unity3D', '2018', 'Unity3D')
+
+    def benchmark(self, shell, env, args):
+        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/benchamrk2018.2.5f1-autorun/"
+        run_shell = "./unity3d.sh"
+        cmd = run_shell + " " + shell + " " + url
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(cmd, env=env)
+
+        tests = []
+        test_names = []
+        lines = output.splitlines()
+
+        for x in lines:
+            m = re.search(r"(.+): (\d+)", x)
             if not m:
                 continue
             name = m.group(1)
@@ -1154,7 +1185,7 @@ class ARES6(Benchmark):
 
             lines = scoreStr.splitlines()
             for x in lines:
-                m = re.search("(.+):(\s+)(\d+(.\d+))", x)
+                m = re.search(r"(.+):(\s+)(\d+(.\d+))", x)
                 if not m:
                     continue
                 name = ""
@@ -1353,7 +1384,8 @@ Benchmarks = [
     JetStream2D8(),
     Polybench(),
     Spec2k6(),
-    Unity3D(),
+    # Unity3D(),
+    Unity3D2018(),
     D8Size(),
     BinSize()
 ]
