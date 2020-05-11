@@ -63,6 +63,7 @@ do
         hasUpdate="false"
 
         # First, check v8 update
+        count=0
         pushd /home/user/work/repos/v8/1800x/v8
         git fetch
         list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
@@ -121,6 +122,10 @@ do
                 ./run-update.sh
                 popd
 
+                count=`expr $count + 1`
+                if [ "$count" -ge 20 ]; then
+                    break
+                fi
 
                 if [ -e /tmp/awfy-stop ]
                 then
@@ -133,6 +138,7 @@ do
         popd
 
         # Second, check chromium update
+        count=0
         pushd /home/user/work/repos/chrome/1800x/chromium/src
         git fetch
         list=`git rev-list origin/master ^master | tac`
@@ -162,6 +168,10 @@ do
                     pushd /home/user/work/awfy/server
                     bash ./run-update.sh
                     popd
+                fi
+                count=`expr $count + 1`
+                if [ "$count" -ge 10 ]; then
+                    break
                 fi
             done
         fi
