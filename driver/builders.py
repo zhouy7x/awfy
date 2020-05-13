@@ -536,10 +536,11 @@ class Headless(Engine):
                         # 1. perl -pi -e "s/sudo //g" ./build/install-build-deps.sh
                         Run(['perl', '-pi', '-e', '"s/sudo //g"',
                              os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
-                        # 2. run build/install-build-deps.sh
+                        # 2. run build/install-build-deps.sh and reset
                         Run(['/bin/bash', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
-                        # 3. git checkout build/install-build-deps.sh
                         Run(['git', 'checkout', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+                        # 3. ./build/linux/sysroot_scripts/install-sysroot.py --arch=arm
+                        Run([os.path.join(sourcePath, 'build/linux/sysroot_scripts/install-sysroot.py'), '--arch=arm'])
 
                         Run(['rm', os.path.join(sourcePath, 'out', self.cpu), '-rf'])
                         Run(['mkdir', os.path.join(sourcePath, 'out', self.cpu)])
@@ -671,6 +672,8 @@ class Headless_patch(Engine):
                         Run(['/bin/bash', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
                         # 3. git checkout build/install-build-deps.sh
                         Run(['git', 'checkout', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+                        # 4. ./build/linux/sysroot_scripts/install-sysroot.py --arch=arm
+                        Run([os.path.join(sourcePath, 'build/linux/sysroot_scripts/install-sysroot.py'), '--arch=arm'])
 
                         Run(['rm', os.path.join(sourcePath, 'out', self.cpu + '-patch'), '-rf'])
                         Run(['mkdir', os.path.join(sourcePath, 'out', self.cpu + '-patch')])

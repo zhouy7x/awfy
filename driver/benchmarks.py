@@ -1129,7 +1129,7 @@ class Unity3D(Benchmark):
 
 class Unity3D2018(Benchmark):
     def __init__(self):
-        super(Unity3D2018, self).__init__('Unity3D', '2018', 'Unity3D')
+        super(Unity3D2018, self).__init__('Unity3D2018', '', 'Unity3D')
 
     def benchmark(self, shell, env, args):
         url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/benchamrk2018.2.5f1-autorun/"
