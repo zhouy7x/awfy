@@ -12,6 +12,8 @@ Components (2), (3), and (5) must be on the same webserver, otherwise timestamps
 Keep in mind, most of this documentation is for posterity. AWFY was never intended to be a drag-and-drop all-in-one released product, 
 so the procedures and scripts may be pretty rough.
 
+Source repo: `git clone https://gitlab.devtools.intel.com/zhouy7x/awfy.git`
+
 Official source repo: `git clone http://github.com/dvander/arewefastyet awfy`
 
 Installation

@@ -35,4 +35,4 @@ VOLUME /logs
 WORKDIR $WORKHOME
 ENTRYPOINT ["./all_run.py"]
 EXPOSE 8000 7777
-#CMD ["/bin/bash"]
+CMD ["v8", "1800x", "glm", "arm"]
