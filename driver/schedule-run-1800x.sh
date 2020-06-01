@@ -168,10 +168,11 @@ do
                     pushd /home/user/work/awfy/server
                     bash ./run-update.sh
                     popd
-                fi
-                count=`expr $count + 1`
-                if [ "$count" -ge 10 ]; then
-                    break
+
+                    count=`expr $count + 1`
+                    if [ "$count" -ge 10 ]; then
+                        break
+                    fi
                 fi
             done
         fi
