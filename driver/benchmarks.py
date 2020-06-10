@@ -1099,8 +1099,20 @@ class Unity3D(Benchmark):
     def __init__(self):
         super(Unity3D, self).__init__('Unity3D', '', 'Unity3D')
 
-    def benchmark(self, shell, env, args):
+    def clean_old_processes(self, shell):
+        try:
+            lines = os.popen('ps ax | grep -E "%s " | grep -v grep' % shell).readlines()
+            if lines:
+                for line in lines:
+                    print line
+                    pid = int(line.split()[0])
+                    os.killpg(pid, signal.SIGINT)
+        except Exception as e:
+            # print e
+            pass
 
+    def benchmark(self, shell, env, args):
+        self.clean_old_processes(shell)
         url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/unity3d-release"
         run_shell = "./unity3d.sh"
         cmd = run_shell + " " + shell + " " + url
@@ -1127,11 +1139,25 @@ class Unity3D(Benchmark):
         return tests
 
 
-class Unity3D2018(Benchmark):
+class Unity3D2018(Unity3D):
     def __init__(self):
-        super(Unity3D2018, self).__init__('Unity3D-2018', '', 'Unity3D')
+        # super(Unity3D2018, self).__init__('Unity3D-2018', '', 'Unity3D')
+        Benchmark.__init__(self, 'Unity3D-2018', '', 'Unity3D')
+
+    def clean_old_processes(self, shell):
+        try:
+            lines = os.popen('ps ax | grep -E "%s " | grep -v grep' % shell).readlines()
+            if lines:
+                for line in lines:
+                    print line
+                    pid = int(line.split()[0])
+                    os.killpg(pid, signal.SIGINT)
+        except Exception as e:
+            # print e
+            pass
 
     def benchmark(self, shell, env, args):
+        self.clean_old_processes(shell)
         url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/benchamrk2018.2.5f1-autorun/"
         run_shell = "./unity3d.sh"
         cmd = run_shell + " " + shell + " " + url
