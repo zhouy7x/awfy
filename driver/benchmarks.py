@@ -62,6 +62,18 @@ class Benchmark(object):
             if tests:
                 submit.AddTests(tests, self.suite, self.version, mode.name)
 
+    def clean_old_processes(self, shell):
+        try:
+            lines = os.popen('ps ax | grep -E "%s " | grep -v grep' % shell).readlines()
+            if lines:
+                for line in lines:
+                    print line
+                    pid = int(line.split()[0])
+                    os.killpg(pid, signal.SIGINT)
+        except Exception as e:
+            # print e
+            pass
+
 
 class AsmJS(Benchmark):
     def __init__(self, suite, version, folder):
@@ -1099,18 +1111,6 @@ class Unity3D(Benchmark):
     def __init__(self):
         super(Unity3D, self).__init__('Unity3D', '', 'Unity3D')
 
-    def clean_old_processes(self, shell):
-        try:
-            lines = os.popen('ps ax | grep -E "%s " | grep -v grep' % shell).readlines()
-            if lines:
-                for line in lines:
-                    print line
-                    pid = int(line.split()[0])
-                    os.killpg(pid, signal.SIGINT)
-        except Exception as e:
-            # print e
-            pass
-
     def benchmark(self, shell, env, args):
         self.clean_old_processes(shell)
         url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/unity3d-release"
@@ -1143,18 +1143,6 @@ class Unity3D2018(Unity3D):
     def __init__(self):
         # super(Unity3D2018, self).__init__('Unity3D-2018', '', 'Unity3D')
         Benchmark.__init__(self, 'Unity3D-2018', '', 'Unity3D')
-
-    def clean_old_processes(self, shell):
-        try:
-            lines = os.popen('ps ax | grep -E "%s " | grep -v grep' % shell).readlines()
-            if lines:
-                for line in lines:
-                    print line
-                    pid = int(line.split()[0])
-                    os.killpg(pid, signal.SIGINT)
-        except Exception as e:
-            # print e
-            pass
 
     def benchmark(self, shell, env, args):
         self.clean_old_processes(shell)
