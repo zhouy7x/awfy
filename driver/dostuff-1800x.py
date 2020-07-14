@@ -4,17 +4,15 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import os
-import sys
 import resource
 import utils
 import time
 import socket
+import threading
 from optparse import OptionParser
 from collections import namedtuple
 
-import benchmarks
 import builders
-import puller
 import slaves
 import submitter
 
@@ -35,53 +33,11 @@ resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset'])
 
 
-# Get the timestamp of commiting patch
-def getPatchTime(src_path, cset):
-    cmd = 'cd ' + src_path + ' && git log -1 ' + cset + ' | grep -i Date'
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=None, shell=True)
-    out = p.communicate()[0]
-    arr = re.split('\s+', out)
-    time_str = arr[5] + '-' + arr[2] + '-' + arr[3] + ' ' + arr[4]
-    timeArrary = time.strptime(time_str, "%Y-%b-%d %H:%M:%S")
-    timeStamp = int(time.mktime(timeArray))
-    return timeStamp
-
-
-def dostuff(config_name):
+def dostuff(config_name, Engine):
     print "dostuff"
     print config_name
     utils.InitConfig(config_name)
-
-    # Set of engines that get build.
-    Engine = None
-
-    if utils.config.has_section('v8'):
-        Engine = builders.V8()
-    if utils.config.has_section('v8-patch'):
-        Engine = builders.V8_patch()
-    if utils.config.has_section('contentshell'):
-        Engine = builders.ContentShell()
-    if utils.config.has_section('jerryscript'):
-        Engine = builders.JerryScript()
-    if utils.config.has_section('iotjs'):
-        Engine = builders.IoTjs()
-    if utils.config.has_section('headless'):
-        Engine = builders.Headless()
-    if utils.config.has_section('headless-patch'):
-        Engine = builders.Headless_patch()
-
     myself = utils.config_get_default('main', 'slaves', '')
-    print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
-
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(('127.0.0.1', 8792))
-    hello = s.recv(1024)
-    s.sendall(config_name)
-    print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
-    reply = s.recv(1024)
-    s.close();
-
-    print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
 
     # The native compiler is a special thing, for now.
     native = builders.NativeCompiler()
@@ -140,10 +96,99 @@ def dostuff(config_name):
         slave.synchronize()
 
 
-dostuff(options.config_name)
+def get_config_to_dict(config):
+    utils.InitConfig(config)
+    # Set of engines that get build.
+    Engine = None
+
+    if utils.config.has_section('v8'):
+        Engine = builders.V8()
+    if utils.config.has_section('v8-patch'):
+        Engine = builders.V8_patch()
+    if utils.config.has_section('contentshell'):
+        Engine = builders.ContentShell()
+    if utils.config.has_section('jerryscript'):
+        Engine = builders.JerryScript()
+    if utils.config.has_section('iotjs'):
+        Engine = builders.IoTjs()
+    if utils.config.has_section('headless'):
+        Engine = builders.Headless()
+    if utils.config.has_section('headless-patch'):
+        Engine = builders.Headless_patch()
+
+    ret = dict()
+    ret['cpu'] = utils.config.get('main', 'cpu')
+    ret['RepoPath'] = utils.RepoPath
+    ret['modes'] = utils.config.get('main', 'modes')
+    ret['hostname'] = utils.config.get(utils.config.get('main', 'slaves'), 'hostname')
+    ret['source'] = Engine.source
+    ret['engine'] = Engine
+    return ret
+
+
+def build(config_name):
+    print('build')
+    utils.InitConfig(config_name)
+    myself = utils.config_get_default('main', 'slaves', '')
+    print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect(('127.0.0.1', 8792))
+    hello = s.recv(1024)
+    s.sendall(config_name)
+    print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
+    reply = s.recv(1024)
+    # time.sleep(5)
+    # reply = 'reply'
+    s.close()
+    print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
+
+
+config1 = get_config_to_dict(options.config_name)
+build(options.config_name)
+thread1 = threading.Thread(target=dostuff, args=(options.config_name, config1['engine']))
+thread1.start()
+# dostuff(options.config_name)
 
 if options.config2_name:
-    dostuff(options.config2_name)
+    config2 = get_config_to_dict(options.config2_name)
+    # if build the same chrome, skip build step.
+    if config2['cpu'] != config1['cpu'] or config2['RepoPath'] != config1['RepoPath'] or \
+            config2['modes'] != config1['modes'] or config2['source'] != config1['source']:
+        build(options.config2_name)
+    if config2['hostname'] == config1['hostname']:
+        print "before thread2, thread1 join"
+        thread1.join()
+
+    thread2 = threading.Thread(target=dostuff, args=(options.config2_name, config2['engine']))
+    thread2.start()
 
 if options.config3_name:
-    dostuff(options.config3_name)
+    config3 = get_config_to_dict(options.config3_name)
+    # if build the same chrome, skip build step.
+    if config3['cpu'] != config1['cpu'] or config3['RepoPath'] != config1['RepoPath'] or \
+            config3['modes'] != config1['modes'] or config3['source'] != config1['source']:
+        if options.config2_name:
+            if config3['cpu'] != config2['cpu'] or config3['RepoPath'] != config2['RepoPath'] or \
+                    config3['modes'] != config2['modes'] or config3['source'] != config2['source']:
+                    build(options.config3_name)
+        else:
+            build(options.config3_name)
+
+    # if remote run in the same slave, wait until previous thread over.
+    if config3['hostname'] == config1['hostname']:
+        print "before thread3, thread1 join"
+        thread1.join()
+    if options.config2_name:
+        if config3['hostname'] == config2['hostname']:
+            print "before thread3, thread2 join"
+            thread2.join()
+
+    thread3 = threading.Thread(target=dostuff, args=(options.config3_name, config3['engine']))
+    thread3.start()
+
+thread1.join()
+if options.config2_name:
+    thread2.join()
+if options.config3_name:
+    thread3.join()

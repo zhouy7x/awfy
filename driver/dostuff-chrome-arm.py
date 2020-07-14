@@ -34,18 +34,6 @@ resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset'])
 
 
-# Get the timestamp of commiting patch
-def getPatchTime(src_path, cset):
-    cmd = 'cd ' + src_path + ' && git log -1 ' + cset + ' | grep -i Date'
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=None, shell=True)
-    out = p.communicate()[0]
-    arr = re.split('\s+', out)
-    time_str = arr[5] + '-' + arr[2] + '-' + arr[3] + ' ' + arr[4]
-    timeArrary = time.strptime(time_str, "%Y-%b-%d %H:%M:%S")
-    timeStamp = int(time.mktime(timeArray))
-    return timeStamp
-
-
 def dostuff(config_name):
     print "dostuff"
     print config_name
