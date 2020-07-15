@@ -105,8 +105,8 @@ do
                 fi
 
                 # python dostuff-x64.py --config=client/v8/electro-x64$string.config --config2=client/v8/electro-x86.config $id &
-                python dostuff-x64.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config $id &
-                # python dostuff-x64.py --config=client/v8/amd-3800x-x64$string.config --config2=client/v8/amd-3800x-x86.config $id &
+                # python dostuff-x64.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config $id &
+                python dostuff-x64.py --config=client/v8/amd-3800x-x64$string.config --config2=client/v8/amd-3800x-x86.config $id &
                 python dostuff-x64.py --config=client/v8/intel-8700k-x64$string.config --config2=client/v8/intel-8700k-x86.config $id &
 
                 echo $tmp > $v8countfile;
@@ -141,7 +141,7 @@ do
 
         # Second, check chromium update
         count=0
-        pushd /home/user/work/repos/chrome/1800x/chromium/src
+        pushd /home/user/work/repos/chrome/x64/chromium/src
         git fetch
         list=`git rev-list origin/master ^master | tac`
         if [ -z "$list" ]; then

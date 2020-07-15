@@ -35,6 +35,7 @@ Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset'])
 
 def build(config_name):
     print('build')
+    print(config_name)
     utils.InitConfig(config_name)
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
@@ -56,6 +57,7 @@ def dostuff(config_name, Engine):
     print config_name
     utils.InitConfig(config_name)
     myself = utils.config_get_default('main', 'slaves', '')
+    print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
     # The native compiler is a special thing, for now.
     native = builders.NativeCompiler()
