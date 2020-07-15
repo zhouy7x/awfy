@@ -3,7 +3,7 @@ ALL_AVAILABLE_DEVICES = ['v8', 'arm', 'glm', '1800x']
 ALL_PROCESSES = ALL_DEVICES + ['apache2', 'query']
 LOG_DIR = {
     'v8': 'v8',
-    'x64': 'chrome/x64',
+    'x64': 'mixture/x64',
     'arm': 'chrome/arm',
     'glm': 'chrome/glm',
     '2500u': 'chrome/2500u',
@@ -19,7 +19,8 @@ REPOS = {
     "v8": "%s/v8/base/v8" % REPO_PATH,
     "v8-jsc": "%s/jsc/base/webkit" % REPO_PATH,
     "jerryscript": "%s/jerryscript" % REPO_PATH,
-    "x64": "%s/chrome/x64/chromium/src" % REPO_PATH,
+    "x64-v8": "%s/v8/x64/v8" % REPO_PATH,
+    "x64-chrome": "%s/chrome/x64/chromium/src" % REPO_PATH,
     "glm": "%s/chrome/glm/chromium/src" % REPO_PATH,
     "arm": "%s/chrome/arm/chromium/src" % REPO_PATH,
     "2500u": "%s/chrome/2500u/chromium/src" % REPO_PATH,

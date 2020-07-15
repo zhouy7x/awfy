@@ -39,7 +39,7 @@ def run_command(param, log_string):
         print(cmd)
         if os.system(cmd):
             return 'ERROR: make log dir error.'
-    if param in ['v8', '1800x']:
+    if param in ['v8', '1800x', 'x64']:
         str1 = 'python build_server_%s.py > %s/build_server_%s_log%s.txt 2>&1 &' % (param, log_path, param, log_string)
         str2 = 'rm -f /tmp/awfy-daemon-%s /tmp/awfy-lock' % param
         str3 = 'bash schedule-run-%s.sh > %s/schedule-run-%s-log%s.txt 2>&1 &' % (param, log_path, param, log_string)
@@ -146,7 +146,7 @@ def check_all(param):
     :return:
     """
     param = param.lower()
-    if param in ['v8', '1800x']:
+    if param in ['v8', '1800x', 'x64']:
         str_list = [
             "python build_server_%s.py" % param,
             "bash schedule-run-%s.sh" % param,
@@ -213,7 +213,7 @@ def run_list(param, log_string):
 
     print("now reset the git commit version...")
     try:
-        if param in ['cyan', '1800x', 'bigcore']:
+        if param in ['cyan', '1800x', 'bigcore', 'x64']:
             params = ['%s-v8' % param, '%s-chrome' % param]
             for tmp in params:
                 reset_git(tmp)
