@@ -156,7 +156,7 @@ thread1.start()
 if options.config2_name:
     config2 = get_config_to_dict(options.config2_name)
     if not config2['chrome-related']:
-        build(options.config3_name)
+        build(options.config2_name)
     else:
         # if build the same chrome, skip build step.
         if config2['cpu'] != config1['cpu'] or config2['RepoPath'] != config1['RepoPath'] or \
