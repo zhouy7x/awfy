@@ -5,7 +5,7 @@
 # (1) If you want to stop it immediately:
 #     screen -r
 #     ctrl+c
-#     rm /tmp/awfy-daemon-chrome
+#     rm /tmp/awfy-daemon
 #     rm /tmp/awfy
 #     ctrl a+d
 #     Remember to start it again later!
@@ -15,7 +15,31 @@
 #     screen -r
 #     (wait for it to confirm that it's no longer running)
 #     ctrl a+d
-lockfile=/tmp/awfy-daemon-chrome-x64
+
+function list_include_item(){
+  local list=`ls $1`
+  local item="$2"
+  if [[ $list =~ (^|[[:space:]])"$item"($|[[:space:]]) ]] ; then
+    # yes, list include item, reset the freq.
+    echo $v8_longtime_bench_freq > $v8countfile
+  fi
+}
+
+function create_position(){
+    if [ ! -e $v8_longtime_bench_commit_dir ]; then
+        mkdir -p $v8_longtime_bench_commit_dir
+    fi
+    pushd $v8_longtime_bench_commit_dir
+    touch $1
+    popd
+}
+
+v8_longtime_bench_commit_dir=tmp/v8_x64_longtime_bench_commit
+base_v8_longtime_bench_commit_dir=tmp/v8_longtime_bench_commit
+lockfile=/tmp/awfy-daemon-1800x
+v8countfile=tmp/x64-v8-count
+v8_longtime_bench_freq=70
+
 if [ -e "$lockfile" ]
 then
   echo "awfy: Already running"
@@ -29,7 +53,6 @@ trap "kill 0" EXIT
 python print_env.py
 
 
-count=0
 while :
 do
     if [ -e /tmp/awfy ]
@@ -39,74 +62,86 @@ do
     else
         hasUpdate="false"
 
-#        # First, check v8 update
-#        pushd /home/user/work/repos/v8
-#        git fetch
-#        list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
-#        if [ -z "$list" ]; then
-#            echo "v8: no update"
-#        else
-#
-#            hasUpdate="true"
-#            # Get every commit of v8
-#            for id in $list
-#            do
-#                git reset --hard -q $id && gclient sync -D -f -j10
-#                git log -1 --pretty=short
-#
-#                pushd /home/user/work/awfy/driver
-#
-#                STARTT=$(date +%s)
-#
-#                python dostuff.py --config=client/hsw-nuc-x64.config --config2=client/hsw-nuc-x86.config $id &
-#
-#                #sleep 5s
-#
-#                #python dostuff.py --config=client/atom-nuc-x64.config --config2=client/atom-nuc-x86.config $id &
-#
-#                #python dostuff.py --config=client/atom-nuc-2-x64.config --config2=client/atom-nuc-2-x86.config $id &
-#
-#                python dostuff.py --config=client/apl-nuc-x64.config $id &
-#
-#                # python dostuff.py --config=client/chrubuntu-arm.config $id &
-#
-#                python dostuff.py --config=client/chromeos-arm.config $id &
-#
-#                # python dostuff.py --config=client/fc-interp-x64.config $id &
-#
-#                wait
-#
-#                SECS=$(($(date +%s) - $STARTT))
-#                printf "\n++++++++++++++++ $0: %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
-#
-#                #sleep 10h
-#
-#                popd
-#
-#                pushd /home/user/work/awfy/server
-#                ./run-update.sh
-#                popd
-#                # count=`expr $count + 1`
-#                # mod5=`expr $count % 5`
-#                # if [ "$mod5" = "1" ]
-#                # then
-#                #   pushd /home/user/work/awfy/server
-#                #   ./run-update.sh
-#                #   popd
-#                # fi
-#
-#                if [ -e /tmp/awfy-stop ]
-#                then
-#                    rm $lockfile /tmp/awfy-stop
-#                    echo "awfy: Already stoped"
-#                    exit 0
-#                fi
-#            done
-#        fi
-#        popd
+        # First, check v8 update
+        count=0
+        pushd /home/user/work/repos/v8/x64/v8
+        git fetch
+        list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
+        if [ -z "$list" ]; then
+            echo "v8: no update"
+        else
+
+            hasUpdate="true"
+            # Get every commit of v8
+            for id in $list
+            do
+                git reset --hard -q $id && gclient sync -D -f -j10
+                git log -1 --pretty=short
+
+                pushd /home/user/work/awfy/driver
+
+                STARTT=$(date +%s)
+
+                echo $id
+                #check that if it is necessary to change the longtime bench freq.
+                list_include_item $base_v8_longtime_bench_commit_dir $id
+
+                if [ ! -e $v8countfile ]; then
+                    touch $v8countfile
+                fi
+                tmp=`cat $v8countfile`;
+                if [ -z "$tmp" ]; then
+                    tmp=0;
+                fi
+                echo $tmp;
+
+                if [ $tmp == $v8_longtime_bench_freq ]; then
+                    create_position $id;
+                    string='-long-time';
+                    tmp=0
+                else
+                    string='';
+                    tmp=$[tmp+1];
+                fi
+
+                python dostuff-x64.py --config=client/v8/electro-x64$string.config --config2=client/v8/electro-x86.config $id &
+                # python dostuff-x64.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config $id &
+                # python dostuff-x64.py --config=client/v8/amd-3800x-x64$string.config --config2=client/v8/amd-3800x-x86.config $id &
+                python dostuff-x64.py --config=client/v8/intel-8700k-x64$string.config --config2=client/v8/intel-8700k-x86.config $id &
+
+                echo $tmp > $v8countfile;
+
+                wait
+
+                SECS=$(($(date +%s) - $STARTT))
+                printf "\n++++++++++++++++ $0: %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
+
+                #sleep 10h
+
+                popd
+
+                pushd /home/user/work/awfy/server
+                ./run-update.sh
+                popd
+
+                count=`expr $count + 1`
+                if [ "$count" -ge 20 ]; then
+                    break
+                fi
+
+                if [ -e /tmp/awfy-stop ]
+                then
+                    rm $lockfile /tmp/awfy-stop
+                    echo "awfy: Already stoped"
+                    exit 0
+                fi
+            done
+        fi
+        popd
 
         # Second, check chromium update
-        pushd /home/user/work/repos/chrome/x64/chromium/src
+        count=0
+        pushd /home/user/work/repos/chrome/1800x/chromium/src
         git fetch
         list=`git rev-list origin/master ^master | tac`
         if [ -z "$list" ]; then
@@ -124,8 +159,9 @@ do
 
                     STARTT=$(date +%s)
 
-                    # python dostuff-chrome-x64.py  --config=client/chrome/electro-x64.config --config2=client/chrome/electro-x64-patch.config
-                    python dostuff-chrome-x64.py  --config=client/chrome/electro-x64.config
+                    # python dostuff-x64.py --config=client/chrome/amd-1800x.config --config2=client/chrome/intel-8700k-x64.config --config3=client/chrome/amd-3800x-x64.config
+                    python dostuff-x64.py --config=client/chrome/electro-x64.config --config2=client/chrome/intel-8700k-x64.config
+
                     popd
 
                     wait
@@ -136,6 +172,11 @@ do
                     pushd /home/user/work/awfy/server
                     bash ./run-update.sh
                     popd
+
+                    count=`expr $count + 1`
+                    if [ "$count" -ge 10 ]; then
+                        break
+                    fi
                 fi
             done
         fi

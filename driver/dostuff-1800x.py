@@ -33,6 +33,24 @@ resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset'])
 
 
+def build(config_name):
+    print('build')
+    utils.InitConfig(config_name)
+    myself = utils.config_get_default('main', 'slaves', '')
+    print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect(('127.0.0.1', 8792))
+    hello = s.recv(1024)
+    s.sendall(config_name)
+    print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
+    reply = s.recv(1024)
+    # time.sleep(5)
+    # reply = 'reply'
+    s.close()
+    print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
+
+
 def dostuff(config_name, Engine):
     print "dostuff"
     print config_name
@@ -124,24 +142,6 @@ def get_config_to_dict(config):
     ret['source'] = Engine.source
     ret['engine'] = Engine
     return ret
-
-
-def build(config_name):
-    print('build')
-    utils.InitConfig(config_name)
-    myself = utils.config_get_default('main', 'slaves', '')
-    print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
-
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(('127.0.0.1', 8792))
-    hello = s.recv(1024)
-    s.sendall(config_name)
-    print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
-    reply = s.recv(1024)
-    # time.sleep(5)
-    # reply = 'reply'
-    s.close()
-    print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
 
 
 config1 = get_config_to_dict(options.config_name)
