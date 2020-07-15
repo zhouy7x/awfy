@@ -36,7 +36,7 @@ function create_position(){
 
 v8_longtime_bench_commit_dir=tmp/v8_x64_longtime_bench_commit
 base_v8_longtime_bench_commit_dir=tmp/v8_longtime_bench_commit
-lockfile=/tmp/awfy-daemon-1800x
+lockfile=/tmp/awfy-daemon-x64
 v8countfile=tmp/x64-v8-count
 v8_longtime_bench_freq=70
 
@@ -104,8 +104,8 @@ do
                     tmp=$[tmp+1];
                 fi
 
-                python dostuff-x64.py --config=client/v8/electro-x64$string.config --config2=client/v8/electro-x86.config $id &
-                # python dostuff-x64.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config $id &
+                # python dostuff-x64.py --config=client/v8/electro-x64$string.config --config2=client/v8/electro-x86.config $id &
+                python dostuff-x64.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config $id &
                 # python dostuff-x64.py --config=client/v8/amd-3800x-x64$string.config --config2=client/v8/amd-3800x-x86.config $id &
                 python dostuff-x64.py --config=client/v8/intel-8700k-x64$string.config --config2=client/v8/intel-8700k-x86.config $id &
 
@@ -160,7 +160,7 @@ do
                     STARTT=$(date +%s)
 
                     # python dostuff-x64.py --config=client/chrome/amd-1800x.config --config2=client/chrome/intel-8700k-x64.config --config3=client/chrome/amd-3800x-x64.config
-                    python dostuff-x64.py --config=client/chrome/electro-x64.config --config2=client/chrome/intel-8700k-x64.config
+                    python dostuff-x64.py --config=client/chrome/electro-x64.config --config2=client/chrome/intel-8700k-x64.config --config3=client/chrome/amd-3800x-x64.config
 
                     popd
 

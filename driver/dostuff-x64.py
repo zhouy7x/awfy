@@ -117,10 +117,12 @@ def dostuff(config_name, Engine):
 def get_config_to_dict(config):
     utils.InitConfig(config)
     # Set of engines that get build.
+    ret = dict()
     Engine = None
-
+    ret['chrome-related'] = False
     if utils.config.has_section('v8'):
         Engine = builders.V8()
+
     if utils.config.has_section('v8-patch'):
         Engine = builders.V8_patch()
     if utils.config.has_section('contentshell'):
@@ -131,10 +133,11 @@ def get_config_to_dict(config):
         Engine = builders.IoTjs()
     if utils.config.has_section('headless'):
         Engine = builders.Headless()
+        ret['chrome-related'] = True
     if utils.config.has_section('headless-patch'):
         Engine = builders.Headless_patch()
+        ret['chrome-related'] = True
 
-    ret = dict()
     ret['cpu'] = utils.config.get('main', 'cpu')
     ret['RepoPath'] = utils.RepoPath
     ret['modes'] = utils.config.get('main', 'modes')
@@ -152,10 +155,13 @@ thread1.start()
 
 if options.config2_name:
     config2 = get_config_to_dict(options.config2_name)
-    # if build the same chrome, skip build step.
-    if config2['cpu'] != config1['cpu'] or config2['RepoPath'] != config1['RepoPath'] or \
-            config2['modes'] != config1['modes'] or config2['source'] != config1['source']:
-        build(options.config2_name)
+    if not config2['chrome-related']:
+        build(options.config3_name)
+    else:
+        # if build the same chrome, skip build step.
+        if config2['cpu'] != config1['cpu'] or config2['RepoPath'] != config1['RepoPath'] or \
+                config2['modes'] != config1['modes'] or config2['source'] != config1['source']:
+            build(options.config2_name)
     if config2['hostname'] == config1['hostname']:
         print "before thread2, thread1 join"
         thread1.join()
@@ -165,15 +171,18 @@ if options.config2_name:
 
 if options.config3_name:
     config3 = get_config_to_dict(options.config3_name)
-    # if build the same chrome, skip build step.
-    if config3['cpu'] != config1['cpu'] or config3['RepoPath'] != config1['RepoPath'] or \
-            config3['modes'] != config1['modes'] or config3['source'] != config1['source']:
-        if options.config2_name:
-            if config3['cpu'] != config2['cpu'] or config3['RepoPath'] != config2['RepoPath'] or \
-                    config3['modes'] != config2['modes'] or config3['source'] != config2['source']:
-                    build(options.config3_name)
-        else:
-            build(options.config3_name)
+    if not config3['chrome-related']:
+        build(options.config3_name)
+    else:
+        # if build the same chrome, skip build step.
+        if config3['cpu'] != config1['cpu'] or config3['RepoPath'] != config1['RepoPath'] or \
+                config3['modes'] != config1['modes'] or config3['source'] != config1['source']:
+            if options.config2_name:
+                if config3['cpu'] != config2['cpu'] or config3['RepoPath'] != config2['RepoPath'] or \
+                        config3['modes'] != config2['modes'] or config3['source'] != config2['source']:
+                        build(options.config3_name)
+            else:
+                build(options.config3_name)
 
     # if remote run in the same slave, wait until previous thread over.
     if config3['hostname'] == config1['hostname']:
