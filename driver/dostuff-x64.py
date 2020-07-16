@@ -8,7 +8,7 @@ import resource
 import utils
 import time
 import socket
-import threading
+# import threading
 from optparse import OptionParser
 from collections import namedtuple
 
@@ -117,6 +117,8 @@ def dostuff(config_name, Engine):
 
 
 def get_config_to_dict(config):
+    print 'get_config_to_dict'
+    print config
     utils.InitConfig(config)
     # Set of engines that get build.
     ret = dict()
@@ -151,9 +153,7 @@ def get_config_to_dict(config):
 
 config1 = get_config_to_dict(options.config_name)
 build(options.config_name)
-thread1 = threading.Thread(target=dostuff, args=(options.config_name, config1['engine']))
-thread1.start()
-# dostuff(options.config_name)
+dostuff(options.config_name, config1['engine'])
 
 if options.config2_name:
     config2 = get_config_to_dict(options.config2_name)
@@ -164,12 +164,7 @@ if options.config2_name:
         if config2['cpu'] != config1['cpu'] or config2['RepoPath'] != config1['RepoPath'] or \
                 config2['modes'] != config1['modes'] or config2['source'] != config1['source']:
             build(options.config2_name)
-    if config2['hostname'] == config1['hostname']:
-        print "before thread2, thread1 join"
-        thread1.join()
-
-    thread2 = threading.Thread(target=dostuff, args=(options.config2_name, config2['engine']))
-    thread2.start()
+    dostuff(options.config2_name, config2['engine'])
 
 if options.config3_name:
     config3 = get_config_to_dict(options.config3_name)
@@ -185,21 +180,4 @@ if options.config3_name:
                         build(options.config3_name)
             else:
                 build(options.config3_name)
-
-    # if remote run in the same slave, wait until previous thread over.
-    if config3['hostname'] == config1['hostname']:
-        print "before thread3, thread1 join"
-        thread1.join()
-    if options.config2_name:
-        if config3['hostname'] == config2['hostname']:
-            print "before thread3, thread2 join"
-            thread2.join()
-
-    thread3 = threading.Thread(target=dostuff, args=(options.config3_name, config3['engine']))
-    thread3.start()
-
-thread1.join()
-if options.config2_name:
-    thread2.join()
-if options.config3_name:
-    thread3.join()
+    dostuff(options.config3_name, config3['engine'])

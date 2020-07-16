@@ -105,7 +105,7 @@ do
                 fi
 
                 # python dostuff-x64.py --config=client/v8/electro-x64$string.config --config2=client/v8/electro-x86.config $id &
-                # python dostuff-x64.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config $id &
+                python dostuff-x64.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config $id &
                 python dostuff-x64.py --config=client/v8/amd-3800x-x64$string.config --config2=client/v8/amd-3800x-x86.config $id &
                 python dostuff-x64.py --config=client/v8/intel-8700k-x64$string.config --config2=client/v8/intel-8700k-x86.config $id &
 
@@ -121,7 +121,9 @@ do
                 popd
 
                 pushd /home/user/work/awfy/server
-                ./run-update.sh
+                printf "\n+++++ start run-update.sh"
+                ./run-update.sh > /dev/null
+                printf "\n+++++ finish run-update.sh"
                 popd
 
                 count=`expr $count + 1`
@@ -159,8 +161,8 @@ do
 
                     STARTT=$(date +%s)
 
-                    # python dostuff-x64.py --config=client/chrome/amd-1800x.config --config2=client/chrome/intel-8700k-x64.config --config3=client/chrome/amd-3800x-x64.config
-                    python dostuff-x64.py --config=client/chrome/electro-x64.config --config2=client/chrome/intel-8700k-x64.config --config3=client/chrome/amd-3800x-x64.config
+                    python dostuff-x64.py --config=client/chrome/amd-1800x.config --config2=client/chrome/intel-8700k-x64.config --config3=client/chrome/amd-3800x-x64.config
+                    # python dostuff-x64.py --config=client/chrome/electro-x64.config --config2=client/chrome/intel-8700k-x64.config --config3=client/chrome/amd-3800x-x64.config
 
                     popd
 
@@ -170,7 +172,9 @@ do
                     printf "\n++++++++++++++++ $0: %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
 
                     pushd /home/user/work/awfy/server
-                    bash ./run-update.sh
+                    printf "\n+++++ start run-update.sh"
+                    ./run-update.sh > /dev/null
+                    printf "\n+++++ finish run-update.sh"
                     popd
 
                     count=`expr $count + 1`

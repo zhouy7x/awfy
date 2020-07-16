@@ -862,8 +862,7 @@ class MozillaInboundGGC(Mozilla):
 
 
 class NativeCompiler(Engine):
-    def __init__(self, config_name):
-        utils.InitConfig(config_name)
+    def __init__(self):
         super(NativeCompiler, self).__init__()
         self.cc = utils.config.get('native', 'cc')
         self.cxx = utils.config.get('native', 'cxx')
