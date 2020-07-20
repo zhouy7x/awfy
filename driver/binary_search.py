@@ -23,7 +23,7 @@ begin_master = 666190
 err_id = begin_master
 ok_id = end_master
 
-config_name = "client/machine_config/elm-arm.config"
+config_name = "client/v8/elm-arm.config"
 work_place = '/home/user/work/awfy/driver'
 src_path = '/repos/chrome/arm/chromium/src'
 
