@@ -83,7 +83,7 @@ do
                 STARTT=$(date +%s)
 
                 echo $id
-                #1800x runs slower than v8, so let 1800x change the longtime bench freq.
+                #check that if it is necessary to change the longtime bench freq.
                 list_include_item $base_v8_longtime_bench_commit_dir $id
 
                 if [ ! -e $v8countfile ]; then
@@ -105,7 +105,9 @@ do
                 fi
 
                 # python dostuff-1800x.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config --config3=client/v8/amd-1800x-x64-patch.config $id &
-                python dostuff-1800x.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config $id &
+                python dostuff-x64.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config $id &
+                python dostuff-x64.py --config=client/v8/amd-3800x-x64$string.config --config2=client/v8/amd-3800x-x86.config $id &
+                python dostuff-x64.py --config=client/v8/intel-8700k-x64$string.config --config2=client/v8/intel-8700k-x86.config $id &
 
                 echo $tmp > $v8countfile;
 
@@ -119,7 +121,9 @@ do
                 popd
 
                 pushd /home/user/work/awfy/server
-                ./run-update.sh
+                printf "\n+++++ start run-update.sh"
+                ./run-update.sh > /dev/null
+                printf "\n+++++ finish run-update.sh"
                 popd
 
                 count=`expr $count + 1`
@@ -157,7 +161,8 @@ do
 
                     STARTT=$(date +%s)
 
-                    python dostuff-1800x.py  --config=client/chrome/amd-1800x.config
+                    python dostuff-x64.py --config=client/chrome/amd-1800x.config --config2=client/chrome/intel-8700k.config --config3=client/chrome/amd-3800x.config
+                    # python dostuff-x64.py --config=client/chrome/electro-x64.config --config2=client/chrome/intel-8700k.config --config3=client/chrome/amd-3800x.config
                     popd
 
                     wait
@@ -166,7 +171,9 @@ do
                     printf "\n++++++++++++++++ $0: %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
 
                     pushd /home/user/work/awfy/server
-                    bash ./run-update.sh
+                    printf "\n+++++ start run-update.sh"
+                    ./run-update.sh > /dev/null
+                    printf "\n+++++ finish run-update.sh"
                     popd
 
                     count=`expr $count + 1`
