@@ -34,7 +34,7 @@ function create_position(){
     popd
 }
 
-v8_longtime_bench_commit_dir=tmp/v8_x64_longtime_bench_commit
+v8_longtime_bench_commit_dir=tmp/v8_1800x_longtime_bench_commit
 base_v8_longtime_bench_commit_dir=tmp/v8_longtime_bench_commit
 lockfile=/tmp/awfy-daemon-x64
 v8countfile=tmp/x64-v8-count
@@ -161,8 +161,8 @@ do
 
                     STARTT=$(date +%s)
 
-                    python dostuff-x64.py --config=client/chrome/amd-1800x.config --config2=client/chrome/intel-8700k-x64.config --config3=client/chrome/amd-3800x-x64.config
-                    # python dostuff-x64.py --config=client/chrome/electro-x64.config --config2=client/chrome/intel-8700k-x64.config --config3=client/chrome/amd-3800x-x64.config
+                    python dostuff-x64.py --config=client/chrome/amd-1800x.config --config2=client/chrome/intel-8700k.config --config3=client/chrome/amd-3800x.config
+                    # python dostuff-x64.py --config=client/chrome/electro-x64.config --config2=client/chrome/intel-8700k.config --config3=client/chrome/amd-3800x.config
 
                     popd
 
