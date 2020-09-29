@@ -12,6 +12,7 @@ LOG_DIR = {
     'bigcore': 'mixture/bigcore',
 }
 WORK_DIR = "/home/user/work"
+WIN_WORK_DIR = "c:\work"
 LOG_PATH = "%s/logs" % WORK_DIR
 REPO_PATH = "%s/repos" % WORK_DIR
 REPOS = {

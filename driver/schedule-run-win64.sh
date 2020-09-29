@@ -1,0 +1,196 @@
+#!/bin/bash -xv
+
+# Protocol for stopping AWFY:
+#
+# (1) If you want to stop it immediately:
+#     screen -r
+#     ctrl+c
+#     rm /tmp/awfy-daemon
+#     rm /tmp/awfy
+#     ctrl a+d
+#     Remember to start it again later!
+#
+# (2) If you want to it to stop when possible:
+#     touch /tmp/awfy
+#     screen -r
+#     (wait for it to confirm that it's no longer running)
+#     ctrl a+d
+
+function list_include_item(){
+  local list=`ls $1`
+  local item="$2"
+  if [[ $list =~ (^|[[:space:]])"$item"($|[[:space:]]) ]] ; then
+    # yes, list include item, reset the freq.
+    echo $v8_longtime_bench_freq > $v8countfile
+  fi
+}
+
+function create_position(){
+    if [ ! -e $v8_longtime_bench_commit_dir ]; then
+        mkdir -p $v8_longtime_bench_commit_dir
+    fi
+    pushd $v8_longtime_bench_commit_dir
+    touch $1
+    popd
+}
+
+v8_longtime_bench_commit_dir=tmp/v8_1800x_longtime_bench_commit
+base_v8_longtime_bench_commit_dir=tmp/v8_longtime_bench_commit
+lockfile=/tmp/awfy-daemon-x64
+v8countfile=tmp/x64-v8-count
+v8_longtime_bench_freq=70
+
+if [ -e "$lockfile" ]
+then
+  echo "awfy: Already running"
+  exit 0
+fi
+
+touch $lockfile
+
+trap "kill 0" EXIT
+
+python print_env.py
+
+
+while :
+do
+    if [ -e /tmp/awfy ]
+    then
+        echo "awfy: /tmp/awfy lock in place"
+        sleep 30m
+    else
+        hasUpdate="false"
+
+        # First, check v8 update
+#        count=0
+#        pushd /home/user/work/repos/v8/x64/v8
+#        git fetch
+#        list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
+#        if [ -z "$list" ]; then
+#            echo "v8: no update"
+#        else
+#
+#            hasUpdate="true"
+#            # Get every commit of v8
+#            for id in $list
+#            do
+#                git reset --hard -q $id && gclient sync -D -f -j10
+#                git log -1 --pretty=short
+#
+#                pushd /home/user/work/awfy/driver
+#
+#                STARTT=$(date +%s)
+#
+#                echo $id
+#                #check that if it is necessary to change the longtime bench freq.
+#                list_include_item $base_v8_longtime_bench_commit_dir $id
+#
+#                if [ ! -e $v8countfile ]; then
+#                    touch $v8countfile
+#                fi
+#                tmp=`cat $v8countfile`;
+#                if [ -z "$tmp" ]; then
+#                    tmp=0;
+#                fi
+#                echo $tmp;
+#
+#                if [ $tmp == $v8_longtime_bench_freq ]; then
+#                    create_position $id;
+#                    string='-long-time';
+#                    tmp=0
+#                else
+#                    string='';
+#                    tmp=$[tmp+1];
+#                fi
+#
+#                # python dostuff-x64.py --config=client/v8/electro-x64$string.config --config2=client/v8/electro-x86.config $id &
+#                python dostuff-x64.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config $id &
+#                python dostuff-x64.py --config=client/v8/amd-3800x-x64$string.config --config2=client/v8/amd-3800x-x86.config $id &
+#                python dostuff-x64.py --config=client/v8/intel-8700k-x64$string.config --config2=client/v8/intel-8700k-x86.config $id &
+#
+#                echo $tmp > $v8countfile;
+#
+#                wait
+#
+#                SECS=$(($(date +%s) - $STARTT))
+#                printf "\n++++++++++++++++ $0: %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
+#
+#                #sleep 10h
+#
+#                popd
+#
+#                pushd /home/user/work/awfy/server
+#                printf "\n+++++ start run-update.sh"
+#                ./run-update.sh > /dev/null
+#                printf "\n+++++ finish run-update.sh"
+#                popd
+#
+#                count=`expr $count + 1`
+#                if [ "$count" -ge 20 ]; then
+#                    break
+#                fi
+#
+#                if [ -e /tmp/awfy-stop ]
+#                then
+#                    rm $lockfile /tmp/awfy-stop
+#                    echo "awfy: Already stoped"
+#                    exit 0
+#                fi
+#            done
+#        fi
+#        popd
+
+        # Second, check chromium update
+        count=0
+        ssh ssgs3@10.239.61.100 powershell "cd d:/src/chromium/src/ ; git fetch"
+        list=`ssh ssgs3@10.239.61.100 powershell "cd d:/src/chromium/src/ ; git rev-list origin/master...master" | tac`
+        if [ -z "$list" ]; then
+            echo "chromium: no update"
+        else
+            for i in $list
+            do
+                # Only check v8 changed chromium
+                v8find=`ssh ssgs3@10.239.61.100 powershell "cd d:/src/chromium/src/ ; git show $i "| grep -P "^\+\s+.v8_revision."`
+                if [[ -n $v8find ]]; then
+                    hasUpdate="true"
+                    echo $i
+                    ssh ssgs3@10.239.61.100 powershell "cd d:/src/chromium/src/ ; git reset --hard $i"
+                    pushd /home/user/work/awfy/driver
+
+                    STARTT=$(date +%s)
+
+                    #python dostuff-win64.py --config=client/win64-chrome/amd-1800x.config --config2=client/win64-chrome/intel-8700k.config --config3=client/win64-chrome/amd-3800x.config $i
+                    python dostuff-win64.py --config=client/win64-chrome/amd-1800x.config $i
+
+                    popd
+
+                    wait
+
+                    SECS=$(($(date +%s) - $STARTT))
+                    printf "\n++++++++++++++++ $0: %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
+
+                    pushd /home/user/work/awfy/server
+                    printf "\n+++++ start run-update.sh"
+                    ./run-update.sh > /dev/null
+                    printf "\n+++++ finish run-update.sh"
+                    popd
+
+                    count=`expr $count + 1`
+                    if [ "$count" -ge 10 ]; then
+                        break
+                    fi
+                fi
+            done
+        fi
+        popd
+
+        if [ "$hasUpdate" = "false" ]; then
+            echo "awfy: no source update, sleep 15m"
+            sleep 1m
+        fi
+
+    fi
+done
+rm $lockfile
+

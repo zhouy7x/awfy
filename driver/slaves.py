@@ -28,6 +28,7 @@ class Slave(object):
 class RemoteSlave(Slave):
     def __init__(self, name):
         super(RemoteSlave, self).__init__(name)
+        self.target_os = utils.config_get_default('main', 'target_os', 'linux')
         self.HostName = utils.config_get_default(name, 'hostname', name)
         self.RepoPath = utils.config_get_default(name, 'repos', utils.RepoPath)
         self.BenchmarkPath = utils.config_get_default(name, 'benchmarks', utils.BenchmarkPath)
@@ -57,13 +58,13 @@ class RemoteSlave(Slave):
                     if os.path.isfile(llib) or os.path.isdir(llib):
                         self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
                         self.pushRemote(llib, rlib, follow=True, excludes=libp['exclude'])
+
             elif engine.source == "chromium/src":
                 shell = os.path.join(utils.RepoPath, engine.source, engine.shell())
                 rshell = os.path.join(self.RepoPath, engine.source, engine.shell())
                 self.runRemote(["rm", "-rf", os.path.dirname(rshell)])
                 self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
                 self.pushRemote(shell, rshell, follow=True)
-
                 libpaths = engine.libpaths()
                 for libp in libpaths:
                     llib = os.path.join(utils.RepoPath, libp['path'])
@@ -75,6 +76,29 @@ class RemoteSlave(Slave):
                         self.runRemote(["rm", "-rf", rlib])
                         self.runRemote(["mkdir", "-p", rlib])
                         self.pushRemote(llib, rlib2, follow=True, excludes=libp['exclude'])
+
+            elif engine.source == "chromium\src":
+                shell = os.path.join(utils.RepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
+                rshell = os.path.join(self.RepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
+                try:
+                    self.runRemote(["powershell", "/c", "rm", "-r", "-fo", os.path.dirname(rshell)])
+                except:
+                    pass
+                self.runRemote(["powershell", "/c", "mkdir", "-p", os.path.dirname(rshell)])
+                self.pushRemote(shell, rshell, follow=True)
+                libpaths = engine.libpaths()
+                for libp in libpaths:
+                    print libp['path']
+                    llib = os.path.join(utils.RepoPath, engine.source, libp['path']).replace('\\', '/')
+                    print llib
+                    rlib = os.path.join(self.RepoPath, engine.source, libp['path']).replace('\\', '/')
+                    rlib2 = os.path.dirname(rlib)
+                    print 'rlib: '+rlib
+                    if os.path.isfile(llib) or os.path.isdir(llib):
+                        self.runRemote(["powershell", "/c", "rm", "-r", "-fo", rlib])
+                        self.runRemote(["powershell", "/c", "mkdir", "-p", rlib])
+                        self.pushRemote(llib, rlib2, follow=True, excludes=libp['exclude'])
+
             elif engine.source == "webkit":
                 shell = os.path.join(utils.RepoPath, engine.source, engine.shell())
                 rshell = os.path.join(self.RepoPath, engine.source, engine.shell())
@@ -113,7 +137,12 @@ class RemoteSlave(Slave):
         # send the pickled data over the wire so we can make a call
         self.pushRemote(state_p, os.path.join(self.DriverPath, "state.p"))
         # cd into the driver's directory, then start running the module.
-        cmds = ["cd", self.DriverPath, ";", self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p")]
+        cmds = []
+        if self.target_os == "win64":
+            cmds += ["powershell", "/c"]
+            cmds += ["cd", self.DriverPath.replace('\\', '/'), ";", self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p").replace('\\', '/')]
+        else:
+            cmds += ["cd", self.DriverPath, ";", self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p")]
         self.runRemote(cmds, async=True)
 
     def runRemote(self, cmds, async=False):
@@ -131,6 +160,14 @@ class RemoteSlave(Slave):
             utils.Run(fullcmd)
 
     def pushRemote(self, file_loc, file_remote, follow=False, excludes=[]):
+        print file_remote
+        reger = re.match(r"^(\w):(.*)$", file_remote)
+        if reger:
+            tmp = reger.groups()
+            # print tmp
+            file_remote = "/cygdrive/" + tmp[0] + tmp[1]
+            file_remote = file_remote.replace('\\', '/')
+            print file_remote
         rsync_flags = "-aP"
         # if they asked us to follow symlinks, then add '-L' into the arguments.
         if follow:
@@ -190,7 +227,7 @@ def init():
 
 
 if __name__ == "__main__":
-    Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset'])
+    Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset', 'target_os'])
     state = sys.argv[1]
 
     fd = open(state, "rb")

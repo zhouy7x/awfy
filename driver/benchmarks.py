@@ -52,7 +52,10 @@ class Benchmark(object):
                 tests = None
                 print('Running ' + self.version + ' under ' + mode.shell + ' ' + ' '.join(mode.args))
                 beginTime = time.time()
-                tests = self.benchmark(mode.shell, mode.env, mode.args)
+                if mode.target_os == 'win64':
+                    tests = self.win_benchmark(mode.shell, mode.env, mode.args)
+                else:
+                    tests = self.benchmark(mode.shell, mode.env, mode.args)
                 passTime = time.time() - beginTime
                 print('Suite-Time ' + self.version + ':'), passTime
             except Exception as e:
@@ -988,7 +991,37 @@ class Speedometer2(Benchmark):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search("(.+): (\d+\.?\d?)", x)
+            m = re.search(r"(.+): (\d+\.?\d?)", x)
+            if not m:
+                continue
+            name = m.group(1)
+            if name in ['  port', ' port', 'Unknown type']:
+                continue
+            score = m.group(2)
+            if name[0:5] == "Score":
+                name = "__total__"
+            if name not in test_names:
+                test_names.append(name)
+                tests.append({'name': name, 'time': score})
+                print(score + '   - ' + name)
+        # print(cmd)
+        return tests
+
+    def win_benchmark(self, shell, env, args):
+        kill_port = ""
+        run_shell = "node run.js "
+        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/Speedometer2-226694-jstc/ "
+        print(os.getcwd())
+
+        cmd = kill_port + run_shell + url + shell
+        print(cmd)
+        output = utils.WinRunTimedCheckOutput(cmd, env=env)
+        tests = []
+        test_names = []
+        lines = output.splitlines()
+
+        for x in lines:
+            m = re.search(r"(.+): (\d+\.?\d?)", x)
             if not m:
                 continue
             name = m.group(1)
@@ -1038,6 +1071,35 @@ class JetStream2(Benchmark):
         # print(cmd)
         return tests
 
+    def win_benchmark(self, shell, env, args):
+        kill_port = ""
+        run_shell = "node run.js "
+        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/JetStream2-JSTC/ "
+
+        cmd = kill_port + run_shell + url + shell
+        print(cmd)
+        output = utils.WinRunTimedCheckOutput(cmd, env=env, timeout=25 * 60)
+        tests = []
+        test_names = []
+        lines = output.splitlines()
+
+        for x in lines:
+            m = re.search(r"(.+): (\d+\.?\d?)", x)
+            if not m:
+                continue
+            name = m.group(1)
+            if name in ['  port', ' port', 'Unknown type']:
+                continue
+            score = m.group(2)
+            if name[0:5] == "Score":
+                name = "__total__"
+            if name not in test_names:
+                test_names.append(name)
+                tests.append({'name': name, 'time': score})
+                print(score + '   - ' + name)
+        # print(cmd)
+        return tests
+
 
 class WebXPRT3(Benchmark):
     def __init__(self):
@@ -1056,7 +1118,7 @@ class WebXPRT3(Benchmark):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search("(.+): (\d+\.?\d?)", x)
+            m = re.search(r"(.+): (\d+\.?\d?)", x)
             if not m:
                 continue
             name = m.group(1).split(' (ms')[0].replace(' ', '_')
@@ -1070,6 +1132,32 @@ class WebXPRT3(Benchmark):
         # print(cmd)
         return tests
 
+    def win_benchmark(self, shell, env, args):
+        kill_port = ""
+        run_shell = "node run.js "
+        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/webxprt3/ "
+
+        cmd = kill_port + run_shell + url + shell
+        print(cmd)
+        output = utils.WinRunTimedCheckOutput(cmd, env=env, timeout=25 * 60)
+        tests = []
+        test_names = []
+        lines = output.splitlines()
+
+        for x in lines:
+            m = re.search(r"(.+): (\d+\.?\d?)", x)
+            if not m:
+                continue
+            name = m.group(1).split(' (ms')[0].replace(' ', '_')
+            score = m.group(2)
+            if name == "Score":
+                name = "__total__"
+            if name not in test_names:
+                test_names.append(name)
+                tests.append({'name': name, 'time': score})
+                print(score + '   - ' + name)
+        # print(cmd)
+        return tests
 
 # add WebTooling benchmark
 class WebTooling(Benchmark):
@@ -1112,6 +1200,33 @@ class Unity3D(Benchmark):
         super(Unity3D, self).__init__('Unity3D', '', 'Unity3D')
 
     def benchmark(self, shell, env, args):
+        self.clean_old_processes(shell)
+        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/unity3d-release"
+        run_shell = "./unity3d.sh"
+        cmd = run_shell + " " + shell + " " + url
+
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(cmd, env=env)
+
+        tests = []
+        test_names = []
+        lines = output.splitlines()
+
+        for x in lines:
+            m = re.search(r"(.+): (\d+)", x)
+            if not m:
+                continue
+            name = m.group(1)
+            score = m.group(2)
+            if name == "Overall":
+                name = "__total__"
+            if name not in test_names:
+                test_names.append(name)
+                tests.append({'name': name, 'time': score})
+                print(score + '     - ' + name)
+        return tests
+
+    def win_benchmark(self, shell, env, args):
         self.clean_old_processes(shell)
         url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/unity3d-release"
         run_shell = "./unity3d.sh"

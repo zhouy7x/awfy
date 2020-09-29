@@ -11,8 +11,8 @@ import puller
 import platform
 import subprocess
 import traceback
-from devices_config import WORK_DIR
-from utils import Run
+from devices_config import WORK_DIR, WIN_WORK_DIR
+from utils import Run, winRun
 
 import synctroubles
 
@@ -572,6 +572,96 @@ class Headless(Engine):
     def libpaths(self):
         p = os.path.join(utils.RepoPath, self.source, 'out', self.cpu)
         return [{'path': p, 'exclude': ['obj', 'gen', 'clang_x64', 'clang_x86_v8_arm', 'pyproto', 'resources']}]
+
+
+class ChromiumWin64(Engine):
+    def __init__(self):
+        super(ChromiumWin64, self).__init__()
+        self.target_os = utils.config.get('main', 'target_os')
+        self.puller = 'git'
+        self.source = utils.config.get('chromium-win64', 'source')
+        self.args = []
+        self.important = True
+
+        if self.cpu == 'x64':
+            cpu_mode = '-x64'
+        elif self.cpu == 'x86':
+            cpu_mode = '-x86'
+        elif self.cpu == 'arm':
+            cpu_mode = '-arm'
+        elif self.cpu == 'amd64':
+            cpu_mode = '-amd64'
+
+        self.modes = [{'mode': 'headless' + cpu_mode, 'args': None}]
+        self.sourcePath = os.path.join(utils.config_get_default('main', 'build_repos'), self.source)
+
+    def updateAndBuild(self, update=True, forceRebuild=False, rev=None):
+        with utils.FolderChanger(self.sourcePath):
+            self._updateAndBuild(update, forceRebuild, rev=rev)
+
+    def _update(self, rev):
+        with utils.FolderChanger(self.sourcePath):
+            env = os.environ.copy()
+            # reset to master branch
+            winRun(['git', 'reset', '--hard'], env)
+            winRun(['git', 'checkout', 'master'], env)
+            winRun(['git', 'fetch'], env)
+            winRun(['git', 'reset', '--hard', rev])
+            winRun(['gclient', 'sync', '-D', '-j8', '-f'], env)
+
+    def build(self):
+        env = os.environ.copy()
+
+        # add build command code here
+        with utils.FolderChanger(self.sourcePath):
+            try:
+                if os.path.exists(os.path.join(self.sourcePath, 'out', self.cpu, 'Chrome-bin')):
+                    winRun(['rm', '-r', '-fo', os.path.join(self.sourcePath, 'out', self.cpu, 'Chrome-bin')],
+                        env)
+                in_argns_name = self.target_os + "-" + self.cpu + ".gn"
+                in_argns = os.path.join(WIN_WORK_DIR, 'awfy', 'gn_file', in_argns_name)
+                out_argns = os.path.join(self.sourcePath, 'out', self.cpu, 'args.gn')
+                if not os.path.isdir(os.path.join(self.sourcePath, 'out', self.cpu)):
+                    os.mkdir(os.path.join(self.sourcePath, 'out', self.cpu))
+                winRun(['cp', in_argns, out_argns], env)
+                winRun(['gclient', 'sync', '-D', '-j25', '-f'], env)
+                winRun(['gn', 'gen', os.path.join(self.sourcePath, 'out', self.cpu)], env)
+                winRun(['ninja', '-C', os.path.join(self.sourcePath, 'out', self.cpu), 'chrome', 'mini_installer', '-j40'],
+                    env)
+                winRun(['7z', 'x', os.path.join(self.sourcePath, 'out', self.cpu, 'chrome.7z'),
+                        '-o'+os.path.join(self.sourcePath, 'out', self.cpu)], env)
+            except subprocess.CalledProcessError as e:
+                print("Dirty build failed!")
+                try:
+                    if os.path.exists(os.path.join(self.sourcePath, 'out', self.cpu, 'Chrome-bin')):
+                        winRun(['rm', '-r', '-fo', os.path.join(self.sourcePath, 'out', self.cpu, 'Chrome-bin')],
+                            env)
+                    in_argns_name = self.target_os + "-" + self.cpu + ".gn"
+                    in_argns = os.path.join(WIN_WORK_DIR, 'awfy', 'gn_file', in_argns_name)
+                    out_argns = os.path.join(self.sourcePath, 'out', self.cpu, 'args.gn')
+                    winRun(['rm', '-r', '-fo', os.path.join(self.sourcePath, 'out', self.cpu)])
+                    winRun(['mkdir', os.path.join(self.sourcePath, 'out', self.cpu)])
+                    winRun(['cp', in_argns, out_argns], env)
+                    winRun(['gclient', 'sync', '-D', '-j25', '-f'], env)
+                    winRun(['gn', 'gen', os.path.join(self.sourcePath, 'out', self.cpu)], env)
+                    winRun(['ninja', '-C', os.path.join(self.sourcePath, 'out', self.cpu), 'chrome', 'mini_installer',
+                         '-j40'], env)
+                    winRun(['7z', 'x', os.path.join(self.sourcePath, 'out', self.cpu, 'chrome.7z'),
+                            '-o'+os.path.join(self.sourcePath, 'out', self.cpu)], env)
+                except subprocess.CalledProcessError as e:
+                    print("Clean build failed!")
+                    raise e
+
+    # deprecated
+    def shell(self):
+        return os.path.join(self.sourcePath, 'out', self.cpu, 'Chrome-bin', 'chrome.exe')
+
+    def slave_shell(self):
+        return os.path.join('out', self.cpu, 'Chrome-bin', 'chrome.exe')
+
+    def libpaths(self):
+        p = os.path.join('out', self.cpu, 'Chrome-bin')
+        return [{'path': p, 'exclude': []}]
 
 
 # add Headless_patch Engine
