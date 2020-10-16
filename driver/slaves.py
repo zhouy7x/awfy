@@ -47,17 +47,23 @@ class RemoteSlave(Slave):
         self.pushRemote(utils.BenchmarkPath + os.path.sep, self.BenchmarkPath)
         for engine in engines:
             if engine.source == "v8":
-                shell = os.path.join(utils.RepoPath, engine.source, engine.shell())
-                rshell = os.path.join(self.RepoPath, engine.source, engine.shell())
-                self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
-                self.pushRemote(shell, rshell, follow=True)
-                libpaths = engine.libpaths()
-                for libp in libpaths:
-                    llib = os.path.join(utils.RepoPath, engine.source, libp['path'])
-                    rlib = os.path.join(self.RepoPath, engine.source, libp['path'])
-                    if os.path.isfile(llib) or os.path.isdir(llib):
-                        self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
-                        self.pushRemote(llib, rlib, follow=True, excludes=libp['exclude'])
+                    shell = os.path.join(utils.RepoPath, engine.source, engine.shell()).replace('\\', '/')
+                    rshell = os.path.join(self.RepoPath, engine.source, engine.shell()).replace('\\', '/')
+                    try:
+                        self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
+                    except:
+                        pass
+                    self.pushRemote(shell, rshell, follow=True)
+                    libpaths = engine.libpaths()
+                    for libp in libpaths:
+                        llib = os.path.join(utils.RepoPath, engine.source, libp['path']).replace('\\', '/')
+                        rlib = os.path.join(self.RepoPath, engine.source, libp['path']).replace('\\', '/')
+                        if os.path.isfile(llib) or os.path.isdir(llib):
+                            try:
+                                self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
+                            except:
+                                pass
+                            self.pushRemote(llib, rlib, follow=True, excludes=libp['exclude'])
 
             elif engine.source == "chromium/src":
                 shell = os.path.join(utils.RepoPath, engine.source, engine.shell())
@@ -81,22 +87,22 @@ class RemoteSlave(Slave):
                 shell = os.path.join(utils.RepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
                 rshell = os.path.join(self.RepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
                 try:
-                    self.runRemote(["powershell", "/c", "rm", "-r", "-fo", os.path.dirname(rshell)])
+                    self.runRemote(["rm", "-r", "-fo", os.path.dirname(rshell)])
                 except:
                     pass
-                self.runRemote(["powershell", "/c", "mkdir", "-p", os.path.dirname(rshell)])
+                self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
                 self.pushRemote(shell, rshell, follow=True)
                 libpaths = engine.libpaths()
                 for libp in libpaths:
-                    print libp['path']
                     llib = os.path.join(utils.RepoPath, engine.source, libp['path']).replace('\\', '/')
-                    print llib
                     rlib = os.path.join(self.RepoPath, engine.source, libp['path']).replace('\\', '/')
                     rlib2 = os.path.dirname(rlib)
-                    print 'rlib: '+rlib
                     if os.path.isfile(llib) or os.path.isdir(llib):
-                        self.runRemote(["powershell", "/c", "rm", "-r", "-fo", rlib])
-                        self.runRemote(["powershell", "/c", "mkdir", "-p", rlib])
+                        try:
+                            self.runRemote(["rm", "-r", "-fo", rlib])
+                        except:
+                            pass
+                        self.runRemote(["mkdir", "-p", rlib])
                         self.pushRemote(llib, rlib2, follow=True, excludes=libp['exclude'])
 
             elif engine.source == "webkit":
@@ -137,18 +143,17 @@ class RemoteSlave(Slave):
         # send the pickled data over the wire so we can make a call
         self.pushRemote(state_p, os.path.join(self.DriverPath, "state.p"))
         # cd into the driver's directory, then start running the module.
-        cmds = []
         if self.target_os == "win64":
-            cmds += ["powershell", "/c"]
-            cmds += ["cd", self.DriverPath.replace('\\', '/'), ";", self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p").replace('\\', '/')]
+            cmds = ["cd", self.DriverPath.replace('\\', '/'), ";", self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p").replace('\\', '/')]
         else:
-            cmds += ["cd", self.DriverPath, ";", self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p")]
+            cmds = ["cd", self.DriverPath, ";", self.PythonName, 'slaves.py', os.path.join(self.DriverPath, "state.p")]
         self.runRemote(cmds, async=True)
 
     def runRemote(self, cmds, async=False):
         # no matter what, we don't want to start running a new command until the old one is gone.
         self.synchronize()
-
+        if self.target_os == "win64":
+            cmds = ['powershell', '/c'] + cmds
         fullcmd = ["ssh", self.HostName, "--"] + cmds
         if async:
             print ("ASYNC: " + " ".join(fullcmd))

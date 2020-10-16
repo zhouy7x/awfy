@@ -196,6 +196,80 @@ class V8(Engine):
                 ]
 
 
+class V8Win64(Engine):
+    def __init__(self):
+        super(V8Win64, self).__init__()
+        self.puller = 'git'
+        self.source = utils.config.get('v8-win64', 'source')
+        self.cxx = utils.config_get_default('v8-win64', 'cxx', None)
+        self.cc = utils.config_get_default('v8-win64', 'cc', None)
+        self.cpp = utils.config_get_default('v8-win64', 'cpp', None)
+        self.link = utils.config_get_default('v8-win64', 'link', None)
+        self.cxx_host = utils.config_get_default('v8-win64', 'cxx_host', None)
+        self.cc_host = utils.config_get_default('v8-win64', 'cc_host', None)
+        self.cpp_host = utils.config_get_default('v8-win64', 'cpp_host', None)
+        self.link_host = utils.config_get_default('v8-win64', 'link_host', None)
+        self.ar = utils.config_get_default('v8-win64', 'ar', None)
+
+        self.args = ['--expose-gc']
+        self.important = True
+        self.hardfp = (utils.config.has_option('main', 'flags')) and \
+                      ("hardfp" in utils.config.get('main', 'flags'))
+
+        slaves = utils.config.get('main', 'slaves')
+        self.slaveMachine = utils.config.get(slaves, 'machine')
+        self.sourcePath = os.path.join(utils.config_get_default('main', 'build_repos'), self.source)
+
+    def updateAndBuild(self, update=True, forceRebuild=False, rev=None):
+        with utils.FolderChanger(self.sourcePath):
+            self._updateAndBuild(update, forceRebuild, rev=rev)
+
+    def build(self):
+        env = os.environ.copy()
+        if self.cxx is not None:
+            env['CXX'] = self.cxx
+        if self.cc is not None:
+            env['CC'] = self.cc
+        if self.cpp is not None:
+            env['CPP'] = self.cpp
+        if self.link is not None:
+            env['LINK'] = self.link
+        if self.cxx_host is not None:
+            env['CXX_host'] = self.cxx_host
+        if self.cc_host is not None:
+            env['CC_host'] = self.cc_host
+        if self.cpp_host is not None:
+            env['CPP_host'] = self.cpp_host
+        if self.link_host is not None:
+            env['LINK_host'] = self.link_host
+        if self.ar is not None:
+            env['AR'] = self.ar
+
+        winRun(['git', 'log', '-1', '--pretty=short'], env)
+
+        in_argns_name = "v8-" + self.cpu + ".gn"
+        in_argns = os.path.join(WIN_WORK_DIR, 'awfy', 'gn_file', in_argns_name)
+        out_argns = os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu, 'args.gn')
+        if not os.path.isdir(os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu)):
+            winRun(["mkdir", "-p", os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu)])
+        winRun(['cp', in_argns, out_argns], env)
+
+        out_dir = os.path.join(self.sourcePath, "out.gn", self.slaveMachine, self.cpu+".release")
+        winRun(['gn', 'gen', out_dir], env)
+        winRun(['ninja', '-C', out_dir, 'd8', '-j40'])
+
+    def shell(self):
+        return os.path.join('out.gn', self.slaveMachine, self.cpu + ".release", 'd8.exe')
+
+    def slave_shell(self):
+        return os.path.join('out.gn', self.slaveMachine, self.cpu + ".release", 'd8.exe')
+
+    def libpaths(self):
+        otgt = self.slaveMachine + "/" + self.cpu + ".release"
+        return [{"path": os.path.join('out.gn', otgt)+'/', "exclude": ['gen', 'obj']},
+                ]
+
+
 class V8_patch(Engine):
     def __init__(self):
         super(V8_patch, self).__init__()

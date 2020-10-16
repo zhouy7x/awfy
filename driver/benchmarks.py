@@ -154,7 +154,32 @@ class Octane(Benchmark):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search("(.+): (\d+)", x)
+            m = re.search(r"(.+): (\d+)", x)
+            if not m:
+                continue
+            name = m.group(1)
+            score = m.group(2)
+            if name[0:5] == "Score":
+                name = "__total__"
+            tests.append({'name': name, 'time': score})
+            print(score + '    - ' + name)
+
+        return tests
+
+    def win_benchmark(self, shell, env, args):
+        full_args = [shell]
+        if args:
+            full_args.extend(args)
+        full_args.append('run.js')
+
+        print(os.getcwd())
+        output = utils.WinRunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        lines = output.splitlines()
+
+        for x in lines:
+            m = re.search(r"(.+): (\d+)", x)
             if not m:
                 continue
             name = m.group(1)
@@ -1072,6 +1097,7 @@ class JetStream2(Benchmark):
         return tests
 
     def win_benchmark(self, shell, env, args):
+        # TODO: kill_port command
         kill_port = ""
         run_shell = "node run.js "
         url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/JetStream2-JSTC/ "
@@ -1159,6 +1185,7 @@ class WebXPRT3(Benchmark):
         # print(cmd)
         return tests
 
+
 # add WebTooling benchmark
 class WebTooling(Benchmark):
     def __init__(self):
@@ -1173,6 +1200,35 @@ class WebTooling(Benchmark):
 
         print(os.getcwd())
         output = utils.RunTimedCheckOutput(full_args, env=env)
+
+        tests = []
+        lines = output.splitlines()
+        print('lines=', lines)
+        for x in lines:
+            m = re.search("(.+):  ?(\d+\.?\d+)", x)
+            if not m:
+                # print(x, 'is wrong!')
+                continue
+            name = m.group(1).lstrip()
+            if name in ['  port', 'Unknown type']:
+                continue
+            score = m.group(2)
+            if name[0:9] == "Geometric":  # Geometric mean:  2.78 runs/sec
+                name = "__total__"
+            tests.append({'name': name, 'time': score})
+            print(score + '     - ' + name)
+
+        return tests
+
+    def win_benchmark(self, shell, env, args):
+        full_args = [shell]
+
+        if args:
+            full_args.extend(args)
+        full_args.append('dist/cli.js')
+
+        print(os.getcwd())
+        output = utils.WinRunTimedCheckOutput(full_args, env=env)
 
         tests = []
         lines = output.splitlines()
@@ -1335,6 +1391,17 @@ class ARES6(Benchmark):
         print tests
         return tests
 
+    def win_benchmark(self, shell, env, args):
+        full_args = [shell]
+
+        if args:
+            full_args.extend(args)
+        full_args.append('cli.js')
+
+        print(os.getcwd())
+        output = utils.WinRunTimedCheckOutput(full_args, env=env)
+        return self.parse(output)
+
 
 class JetStream2D8(Benchmark):
     def __init__(self):
@@ -1342,7 +1409,7 @@ class JetStream2D8(Benchmark):
 
     def benchmark(self, shell, env, args):
         full_args = [shell]
-        if shell.endswith('jsc'):
+        if shell.endswith('jsc') or shell.endswith('jsc.exe'):
             full_args.append('cli-jsc.js')
         else:
             full_args.append('cli.js')
@@ -1351,6 +1418,33 @@ class JetStream2D8(Benchmark):
             full_args.extend(args)
         print(os.getcwd())
         output = utils.RunTimedCheckOutput(full_args, env=env, timeout=25 * 60)
+
+        tests = []
+        subcases = re.findall(r'Running *(.+):\n[\w\W]+?Score: (\d+\.\d*)', output)
+        # print subcases
+        for subcase in subcases:
+            name = subcase[0]
+            score = utils.myround(subcase[1], 2)
+            tests.append({'name': name, 'time': score})
+            print(score + '     - ' + name)
+        total = re.search(r'Total Score: *(\d+\.\d*)', output)
+        name = '__total__'
+        score = utils.myround(total.group(1))
+        tests.append({'name': name, 'time': score})
+        print(score + '     - ' + name)
+        return tests
+
+    def win_benchmark(self, shell, env, args):
+        full_args = [shell]
+        if shell.endswith('jsc') or shell.endswith('jsc.exe'):
+            full_args.append('cli-jsc.js')
+        else:
+            full_args.append('cli.js')
+
+        if args:
+            full_args.extend(args)
+        print(os.getcwd())
+        output = utils.WinRunTimedCheckOutput(full_args, env=env, timeout=25 * 60)
 
         tests = []
         subcases = re.findall(r'Running *(.+):\n[\w\W]+?Score: (\d+\.\d*)', output)
@@ -1399,8 +1493,35 @@ class Polybench(Benchmark):
         print(score + '     - ' + name)
         return tests
 
+    def win_benchmark(self, shell, env, args):
+        #TODO
+        full_args = ['./run-wasm.sh']
+        full_args.append(shell)
 
-# add polybench-c-4.2.1-beta-wasm benchmark
+        if args:
+            full_args.extend(args)
+
+        print(os.getcwd())
+        output = utils.WinRunTimedCheckOutput(full_args, env=env, timeout=int(5.5 * 3600))
+
+        tests = []
+
+        subcases = re.findall(r'(.+)\n[\w\W]+?\n\[INFO\] Normalized time: (\d+\.\d+)\n', output)
+        # print subcases
+        for subcase in subcases:
+            name = subcase[0]
+            score = utils.myround(subcase[1], 2)
+            tests.append({'name': name, 'time': score})
+            print(score + '     - ' + name)
+        total = pow(reduce(lambda i, j: i * j, [float(x['time']) for x in tests]), 1.0 / len(tests))
+        name = '__total__'
+        score = utils.myround(total, 2)
+        tests.append({'name': name, 'time': score})
+        print(score + '     - ' + name)
+        return tests
+
+
+# add Spec2k6 benchmark
 class Spec2k6(Benchmark):
     def __init__(self):
         super(Spec2k6, self).__init__('spec2k6', '', 'speck2k6-jstc-runtime')
@@ -1416,6 +1537,41 @@ class Spec2k6(Benchmark):
 
         print(os.getcwd())
         output = utils.RunTimedCheckOutput(full_args, env=env, timeout=int(7 * 3600))
+
+        tests = []
+
+        regular_string = r'=== Result of \d+\.(\w+) ===\nAverage compile time: +(\d+\.\d*)\nTotal execution time: +(\d+\.\d*)'
+        subcases = re.findall(regular_string, output)
+        # print subcases
+        for i in subcases:
+            name1 = i[0] + '-compilation'
+            name2 = i[0] + '-execution'
+            score1 = utils.myround(i[1])
+            score2 = utils.myround(i[2])
+            tests.append({'name': name1, 'time': score1})
+            tests.append({'name': name2, 'time': score2})
+            print(score1 + '     - ' + name1)
+            print(score2 + '     - ' + name2)
+
+        total = re.search(r'=== Final Result ===\nScore: *(\d+\.\d*)', output)
+        name = '__total__'
+        score = utils.myround(total.group(1))
+        tests.append({'name': name, 'time': score})
+        print(score + '     - ' + name)
+
+        return tests
+
+    def win_benchmark(self, shell, env, args):
+        full_args = [shell, './run.js']
+
+        if args:
+            print 'args: ', args
+            full_args.extend(args)
+
+        full_args += ['--', 'awfy']
+
+        print(os.getcwd())
+        output = utils.WinRunTimedCheckOutput(full_args, env=env, timeout=int(7 * 3600))
 
         tests = []
 

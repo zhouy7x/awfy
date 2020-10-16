@@ -45,7 +45,7 @@ def rsync_to_local(src, dest):
     utils.Run(cmd)
 
 
-def build(config_name):
+def build(config_name, config=None):
     print('build')
     print(config_name)
     utils.InitConfig(config_name)
@@ -70,9 +70,17 @@ def build(config_name):
     print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
     target_os = utils.config_get_default('main', 'target_os', 'linux')
     if "over" in repr(reply) and target_os == 'win64':
-        source = utils.config_get_default(utils.config_get_default('main', 'modes'), 'source')
-        cpu = utils.config_get_default('main', 'cpu')
-        src = os.path.join(utils.config_get_default('main', 'build_repos'), source, 'out', cpu, 'Chrome-bin')
+        source = config['source']
+        cpu = config['cpu']
+        slaveMachine = utils.config.get(utils.config.get('main', 'slaves'), 'machine')
+        print 'source: ', source
+        if source == "chromium\src":
+            src = os.path.join(utils.config_get_default('main', 'build_repos'), source, 'out', cpu, 'Chrome-bin')
+            dest = os.path.join(utils.RepoPath, source, 'out', cpu)
+        elif source == "v8":
+            src = os.path.join(utils.config_get_default('main', 'build_repos'), source, 'out.gn', slaveMachine)
+            dest = os.path.join(utils.RepoPath, source, 'out.gn')
+
         reger = re.match(r"^(\w):(.*)$", src)
         if reger:
             tmp = reger.groups()
@@ -82,7 +90,6 @@ def build(config_name):
             print src
         build_host = utils.config_get_default('main', 'build_host')
         src = build_host + ':' + src
-        dest = os.path.join(utils.RepoPath, source, 'out', cpu)
         dest = dest.replace('\\', '/')
         rsync_to_local(src, dest)
 
@@ -167,7 +174,8 @@ def get_config_to_dict(config):
     ret['chrome-related'] = False
     if utils.config.has_section('v8'):
         Engine = builders.V8()
-
+    if utils.config.has_section('v8-win64'):
+        Engine = builders.V8Win64()
     if utils.config.has_section('v8-patch'):
         Engine = builders.V8_patch()
     if utils.config.has_section('contentshell'):
@@ -196,13 +204,13 @@ def get_config_to_dict(config):
 
 if __name__ == '__main__':
     config1 = get_config_to_dict(options.config_name)
-    build(options.config_name)
+    build(options.config_name, config=config1)
     dostuff(options.config_name, config1['engine'])
 
     if options.config2_name:
         config2 = get_config_to_dict(options.config2_name)
         if not config2['chrome-related']:
-            build(options.config2_name)
+            build(options.config2_name, config=config2)
         else:
             # if build the same chrome, skip build step.
             if config2['cpu'] != config1['cpu'] or config2['RepoPath'] != config1['RepoPath'] or \
@@ -213,7 +221,7 @@ if __name__ == '__main__':
     if options.config3_name:
         config3 = get_config_to_dict(options.config3_name)
         if not config3['chrome-related']:
-            build(options.config3_name)
+            build(options.config3_name, config=config3)
         else:
             # if build the same chrome, skip build step.
             if config3['cpu'] != config1['cpu'] or config3['RepoPath'] != config1['RepoPath'] or \

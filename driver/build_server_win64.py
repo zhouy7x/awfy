@@ -28,6 +28,8 @@ def build(config):
 
     if utils.config.has_section('v8'):
         KnownEngines.append(builders.V8())
+    if utils.config.has_section('v8-win64'):
+        KnownEngines.append(builders.V8Win64())
     if utils.config.has_section('v8-patch'):
         KnownEngines.append(builders.V8_patch())
     if utils.config.has_section('contentshell'):
