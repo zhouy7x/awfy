@@ -566,6 +566,7 @@ class Headless(Engine):
             out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu, 'args.gn')
             if not os.path.isdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu)):
                 os.mkdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu))
+            tmp = 0
             while (syncAgain):
                 syncAgain = False
                 try:
@@ -582,6 +583,12 @@ class Headless(Engine):
                     Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
                     # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                 except subprocess.CalledProcessError as e:
+                    if tmp < 1:
+                        # patch -p 1 -i arm.patch
+                        Run(['patch', '-p1', '-i', os.path.join(sourcePath, 'arm.patch')])
+                        tmp = 1
+                        syncAgain = True
+                        continue
                     if synctroubles.fetchGsFileByHttp(e.output, ''):
                         syncAgain = True
                     else:
