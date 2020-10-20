@@ -1447,7 +1447,7 @@ class JetStream2D8(Benchmark):
         output = utils.WinRunTimedCheckOutput(full_args, env=env, timeout=25 * 60)
 
         tests = []
-        subcases = re.findall(r'Running *(.+):\n[\w\W]+?Score: (\d+\.\d*)', output)
+        subcases = re.findall(r'Running *(.+):\r?\n[\w\W]+?Score: (\d+\.\d*)', output)
         # print subcases
         for subcase in subcases:
             name = subcase[0]

@@ -1,2 +1,2 @@
 is_debug = false
-target_cpu = x64
+target_cpu = "x64"

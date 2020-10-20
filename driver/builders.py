@@ -249,9 +249,9 @@ class V8Win64(Engine):
 
         in_argns_name = "v8-" + self.cpu + ".gn"
         in_argns = os.path.join(WIN_WORK_DIR, 'awfy', 'gn_file', in_argns_name)
-        out_argns = os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu, 'args.gn')
-        if not os.path.isdir(os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu)):
-            winRun(["mkdir", "-p", os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu)])
+        out_argns = os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu+".release", 'args.gn')
+        if not os.path.isdir(os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu+".release")):
+            winRun(["mkdir", "-p", os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu+".release")])
         winRun(['cp', in_argns, out_argns], env)
 
         out_dir = os.path.join(self.sourcePath, "out.gn", self.slaveMachine, self.cpu+".release")
@@ -266,7 +266,11 @@ class V8Win64(Engine):
 
     def libpaths(self):
         otgt = self.slaveMachine + "/" + self.cpu + ".release"
-        return [{"path": os.path.join('out.gn', otgt)+'/', "exclude": ['gen', 'obj']},
+        # return [{"path": os.path.join('out.gn', otgt)+'/', "exclude": ['gen', 'obj']},
+        #         ]
+        return [{"path": os.path.join('out.gn', otgt, 'natives_blob.bin'), "exclude": []},
+                {"path": os.path.join('out.gn', otgt, 'snapshot_blob.bin'), "exclude": []},
+                {"path": os.path.join('out.gn', otgt, 'icudtl.dat'), "exclude": []}
                 ]
 
 
@@ -739,6 +743,7 @@ class ChromiumWin64(Engine):
 
     def slave_shell(self):
         return os.path.join('out', self.cpu, 'Chrome-bin', 'chrome.exe')
+
 
     def libpaths(self):
         p = os.path.join('out', self.cpu, 'Chrome-bin')
