@@ -31,7 +31,7 @@ def kill_all(repos):
             continue
         elif param == 'query':
             str_list = ["python query_server.py"]
-        elif param in ['v8', '1800x', 'x64']:
+        elif param in ['v8', '1800x', 'x64', '3800x']:
             str_list = [
                 "python build_server_%s.py" % param,
                 "bash schedule-run-%s.sh" % param,
