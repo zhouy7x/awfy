@@ -141,8 +141,6 @@ do
                 fi
             done
         fi
-        popd
-
 
         # Second, check chromium update
         count=0
