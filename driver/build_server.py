@@ -7,20 +7,18 @@ import socket
 import json, time
 import utils
 import builders
-import resource
+# import resource
 
 LISTEN_ADDRESS = "0.0.0.0"
-LISTEN_PORT = 8791
-ERROR_LOG_FILE = "/home/user/work/logs/build_server_error.log"
-
+LISTEN_PORT = 8799
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((LISTEN_ADDRESS, LISTEN_PORT))
 s.listen(5)
 
 # Set resource limits for child processes
-resource.setrlimit(resource.RLIMIT_AS, (-1, -1))
-resource.setrlimit(resource.RLIMIT_RSS, (-1, -1))
-resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
+# resource.setrlimit(resource.RLIMIT_AS, (-1, -1))
+# resource.setrlimit(resource.RLIMIT_RSS, (-1, -1))
+# resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 
 
 def build(config):
@@ -30,6 +28,10 @@ def build(config):
 
     if utils.config.has_section('v8'):
         KnownEngines.append(builders.V8())
+    if utils.config.has_section('v8-win64'):
+        KnownEngines.append(builders.V8Win64())
+    if utils.config.has_section('v8-patch'):
+        KnownEngines.append(builders.V8_patch())
     if utils.config.has_section('contentshell'):
         KnownEngines.append(builders.ContentShell())
     if utils.config.has_section('jerryscript'):
@@ -38,16 +40,13 @@ def build(config):
         KnownEngines.append(builders.IoTjs())
     if utils.config.has_section('headless'):
         KnownEngines.append(builders.Headless())
+    if utils.config.has_section('headless-patch'):
+        KnownEngines.append(builders.Headless_patch())
+    if utils.config.has_section('chromium-win64'):
+        KnownEngines.append(builders.ChromiumWin64())
+
     # builders.build(KnownEngines, False, False)
     builders.build(KnownEngines, False, True)
-
-
-def log_to_file(err_content):
-    file = open(ERROR_LOG_FILE, "a+")
-    error_log = "error in build_server - %s : %s \n" % (
-    time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), err_content)
-    file.write(error_log)
-    file.close()
 
 
 while True:
@@ -57,7 +56,7 @@ while True:
         sock.send("connect ok")
         data = sock.recv(10240)
         if not data:
-            log_to_file("client close in error with ip " + addr)
+            print "client close in error with ip " + addr
             continue
         # print "recv", data
         # time.sleep(15)
@@ -66,7 +65,7 @@ while True:
         sock.close()
         # print "over"
     except Exception, e:
-        log_to_file(str(e))
+        # log_to_file(str(e))
         try:
             sock.send("error")
         except Exception, e:
