@@ -124,7 +124,7 @@ do
                 popd
 
                 pushd /home/user/work/awfy/server
-                ./run-update.sh
+                ./run-update.sh > /dev/null
                 popd
                 #count=`expr $count + 1`
                 # mod5=`expr $count % 5`
@@ -241,7 +241,7 @@ do
                 popd
 
                 pushd /home/user/work/awfy/server
-                ./run-update.sh
+                ./run-update.sh > /dev/null
                 popd
                 count=`expr $count + 1`
                 if [ "$count" -ge 20 ]; then

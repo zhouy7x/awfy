@@ -228,7 +228,7 @@ do
                 popd
 
                 pushd /home/user/work/awfy/server
-                ./run-update.sh
+                ./run-update.sh > /dev/null
                 popd
 
             done
