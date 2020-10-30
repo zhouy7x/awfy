@@ -31,7 +31,7 @@ resource.setrlimit(resource.RLIMIT_RSS, (-1, -1))
 resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 
 # A mode is a configuration of an engine we just built.
-Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset'])
+Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset', 'target_os'])
 
 
 def dostuff(config_name):
@@ -87,6 +87,7 @@ def dostuff(config_name):
     # Make a list of all modes.
     modes = []
     shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())
+    target_os = utils.config_get_default('main', 'target_os', 'linux')
     env = None
     with utils.chdir(os.path.join(utils.RepoPath, Engine.source)):
         env = Engine.env()
@@ -102,7 +103,7 @@ def dostuff(config_name):
                     args.append(arg)
                 else:
                     break
-            mode = Mode(shell, args, env, name, cset)
+            mode = Mode(shell, args, env, name, cset, target_os)
             print myself, name, str(args)
             modes.append(mode)
 
