@@ -1575,7 +1575,7 @@ class Spec2k6(Benchmark):
 
         tests = []
 
-        regular_string = r'=== Result of \d+\.(\w+) ===\nAverage compile time: +(\d+\.\d*)\nTotal execution time: +(\d+\.\d*)'
+        regular_string = r'=== Result of \d+\.(\w+) ===\r?\nAverage compile time: +(\d+\.\d*)\r?\nTotal execution time: +(\d+\.\d*)'
         subcases = re.findall(regular_string, output)
         # print subcases
         for i in subcases:
@@ -1588,7 +1588,7 @@ class Spec2k6(Benchmark):
             print(score1 + '     - ' + name1)
             print(score2 + '     - ' + name2)
 
-        total = re.search(r'=== Final Result ===\nScore: *(\d+\.\d*)', output)
+        total = re.search(r'=== Final Result ===\r?\nScore: *(\d+\.\d*)', output)
         name = '__total__'
         score = utils.myround(total.group(1))
         tests.append({'name': name, 'time': score})
