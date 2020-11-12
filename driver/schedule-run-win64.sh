@@ -39,6 +39,7 @@ base_v8_longtime_bench_commit_dir=tmp/v8_longtime_bench_commit
 lockfile=/tmp/awfy-daemon-win64
 v8countfile=tmp/win64-v8-count
 v8_longtime_bench_freq=70
+build_server=ssgs3@10.239.61.104
 
 if [ -e "$lockfile" ]
 then
@@ -66,9 +67,9 @@ do
         count=0
         echo "start remote check win64 v8 update>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 #        sleep 2m
-        ssh ssgs3@10.239.61.100 "powershell /c cd d:/src/v8/v8/ ; git fetch"
+        ssh $build_server "powershell /c cd d:/src/v8/v8/ ; git fetch"
         echo 'stop remote check win64 v8 update<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
-        list=`ssh ssgs3@10.239.61.100 "powershell /c cd d:/src/v8/v8/ ; git rev-list origin/master...master" | tac | python /home/user/work/awfy/driver/v8-filter-win64.py`
+        list=`ssh $build_server "powershell /c cd d:/src/v8/v8/ ; git rev-list origin/master...master" | tac | python /home/user/work/awfy/driver/v8-filter-win64.py`
 
         if [ -z "$list" ]; then
             echo "v8: no update"
@@ -78,8 +79,8 @@ do
             # Get every commit of v8
             for id in $list
             do
-                ssh ssgs3@10.239.61.100 "powershell /c cd d:/src/v8/v8/ ; git reset --hard -q $id ; gclient sync -D -f -j10"
-                ssh ssgs3@10.239.61.100 "powershell /c cd d:/src/v8/v8/ ; git log -1 --pretty=short"
+                ssh $build_server "powershell /c cd d:/src/v8/v8/ ; git reset --hard -q $id ; gclient sync -D -f -j10"
+                ssh $build_server "powershell /c cd d:/src/v8/v8/ ; git log -1 --pretty=short"
 
                 pushd /home/user/work/awfy/driver
 
@@ -146,20 +147,20 @@ do
         count=0
         echo "start remote check win64 chromium update>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 #        sleep 2m
-        ssh ssgs3@10.239.61.100 "powershell /c cd d:/src/chromium/src/ ; git fetch"
+        ssh $build_server "powershell /c cd d:/src/chromium/src/ ; git fetch"
         echo 'stop remote check win64 chromium update<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
-        list=`ssh ssgs3@10.239.61.100 "powershell /c cd d:/src/chromium/src/ ; git rev-list origin/master...master" | tac`
+        list=`ssh $build_server "powershell /c cd d:/src/chromium/src/ ; git rev-list origin/master...master" | tac`
         if [ -z "$list" ]; then
             echo "chromium: no update"
         else
             for i in $list
             do
                 # Only check v8 changed chromium
-                v8find=`ssh ssgs3@10.239.61.100 "powershell /c cd d:/src/chromium/src/ ; git show $i "| grep -P "^\+\s+.v8_revision."`
+                v8find=`ssh $build_server "powershell /c cd d:/src/chromium/src/ ; git show $i "| grep -P "^\+\s+.v8_revision."`
                 if [[ -n $v8find ]]; then
                     hasUpdate="true"
                     echo $i
-                    ssh ssgs3@10.239.61.100 "powershell /c cd d:/src/chromium/src/ ; git reset --hard $i"
+                    ssh $build_server "powershell /c cd d:/src/chromium/src/ ; git reset --hard $i"
 
                     pushd /home/user/work/awfy/driver
 

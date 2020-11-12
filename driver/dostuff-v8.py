@@ -4,17 +4,15 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import os
-import sys
 import resource
 import utils
 import time
 import socket
+# import threading
 from optparse import OptionParser
 from collections import namedtuple
 
-import benchmarks
 import builders
-import puller
 import slaves
 import submitter
 
@@ -24,6 +22,7 @@ parser.add_option("-c", "--config", dest="config_name", type="string", default="
 parser.add_option("-2", "--config2", dest="config2_name", type="string", default="", help="Second config file")
 parser.add_option("-3", "--config3", dest="config3_name", type="string", default="", help="Third config file")
 (options, progargs) = parser.parse_args()
+print (options, progargs)
 
 # Set resource limits for child processes
 resource.setrlimit(resource.RLIMIT_AS, (-1, -1))
@@ -34,31 +33,10 @@ resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset', 'target_os'])
 
 
-def dostuff(config_name):
-    print "dostuff"
-    print config_name
+def build(config_name):
+    print('build')
+    print(config_name)
     utils.InitConfig(config_name)
-
-    # Set of engines that get build.
-    Engine = None
-
-    if utils.config.has_section('v8'):
-        Engine = builders.V8()
-    if utils.config.has_section('v8-patch'):
-        Engine = builders.V8_patch()
-    if utils.config.has_section('contentshell'):
-        Engine = builders.ContentShell()
-    if utils.config.has_section('jerryscript'):
-        Engine = builders.JerryScript()
-    if utils.config.has_section('iotjs'):
-        Engine = builders.IoTjs()
-    if utils.config.has_section('headless'):
-        Engine = builders.Headless()
-    if utils.config.has_section('headless-patch'):
-        Engine = builders.Headless_patch()
-    if utils.config.has_section('jsc'):
-        Engine = builders.JavaScriptCore()
-
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
@@ -68,9 +46,18 @@ def dostuff(config_name):
     s.sendall(config_name)
     print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
     reply = s.recv(1024)
-    s.close();
-
+    # time.sleep(5)
+    # reply = 'reply'
+    s.close()
     print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
+
+
+def dostuff(config_name, Engine):
+    print "dostuff"
+    print config_name
+    utils.InitConfig(config_name)
+    myself = utils.config_get_default('main', 'slaves', '')
+    print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
     # The native compiler is a special thing, for now.
     native = builders.NativeCompiler()
@@ -107,7 +94,7 @@ def dostuff(config_name):
             print myself, name, str(args)
             modes.append(mode)
 
-    # Set of slaves that run the builds. 
+    # Set of slaves that run the builds.
     KnownSlaves = slaves.init()
 
     for slave in KnownSlaves:
@@ -130,10 +117,68 @@ def dostuff(config_name):
         slave.synchronize()
 
 
-dostuff(options.config_name)
+def get_config_to_dict(config):
+    print 'get_config_to_dict'
+    print config
+    utils.InitConfig(config)
+    # Set of engines that get build.
+    ret = dict()
+    Engine = None
+    ret['chrome-related'] = False
+    if utils.config.has_section('v8'):
+        Engine = builders.V8()
+
+    if utils.config.has_section('v8-patch'):
+        Engine = builders.V8_patch()
+    if utils.config.has_section('contentshell'):
+        Engine = builders.ContentShell()
+    if utils.config.has_section('jerryscript'):
+        Engine = builders.JerryScript()
+    if utils.config.has_section('iotjs'):
+        Engine = builders.IoTjs()
+    if utils.config.has_section('headless'):
+        Engine = builders.Headless()
+        ret['chrome-related'] = True
+    if utils.config.has_section('headless-patch'):
+        Engine = builders.Headless_patch()
+        ret['chrome-related'] = True
+
+    ret['cpu'] = utils.config.get('main', 'cpu')
+    ret['RepoPath'] = utils.RepoPath
+    ret['modes'] = utils.config.get('main', 'modes')
+    ret['hostname'] = utils.config.get(utils.config.get('main', 'slaves'), 'hostname')
+    ret['source'] = Engine.source
+    ret['engine'] = Engine
+    return ret
+
+
+config1 = get_config_to_dict(options.config_name)
+build(options.config_name)
+dostuff(options.config_name, config1['engine'])
 
 if options.config2_name:
-    dostuff(options.config2_name)
+    config2 = get_config_to_dict(options.config2_name)
+    if not config2['chrome-related']:
+        build(options.config2_name)
+    else:
+        # if build the same chrome, skip build step.
+        if config2['cpu'] != config1['cpu'] or config2['RepoPath'] != config1['RepoPath'] or \
+                config2['modes'] != config1['modes'] or config2['source'] != config1['source']:
+            build(options.config2_name)
+    dostuff(options.config2_name, config2['engine'])
 
 if options.config3_name:
-    dostuff(options.config3_name)
+    config3 = get_config_to_dict(options.config3_name)
+    if not config3['chrome-related']:
+        build(options.config3_name)
+    else:
+        # if build the same chrome, skip build step.
+        if config3['cpu'] != config1['cpu'] or config3['RepoPath'] != config1['RepoPath'] or \
+                config3['modes'] != config1['modes'] or config3['source'] != config1['source']:
+            if options.config2_name:
+                if config3['cpu'] != config2['cpu'] or config3['RepoPath'] != config2['RepoPath'] or \
+                        config3['modes'] != config2['modes'] or config3['source'] != config2['source']:
+                        build(options.config3_name)
+            else:
+                build(options.config3_name)
+    dostuff(options.config3_name, config3['engine'])
