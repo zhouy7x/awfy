@@ -39,7 +39,7 @@ base_v8_longtime_bench_commit_dir=tmp/v8_longtime_bench_commit
 lockfile=/tmp/awfy-daemon-win64
 v8countfile=tmp/win64-v8-count
 v8_longtime_bench_freq=70
-build_server=ssgs3@10.239.61.104
+build_server=ssgs3@ssgs3-test.sh.intel.com
 
 if [ -e "$lockfile" ]
 then
@@ -108,9 +108,9 @@ do
                     tmp=$[tmp+1];
                 fi
 
-                python dostuff-win64.py --config=client/win64-v8/amd-1800x-x64$string.config --config2=client/win64-v8/amd-1800x-x86.config $id &
-#                python dostuff-win64.py --config=client/win64-v8/intel-8700k-x64$string.config --config2=client/win64-v8/intel-8700k-x86.config $id &
-#                python dostuff-win64.py --config=client/win64-v8/amd-3800x-x64$string.config --config2=client/win64-v8/amd-3800x-x86.config $id &
+                python dostuff-win64.py --config=client/win64-v8/amd-1800x-x64$string.config --config2=client/win64-v8/amd-1800x-x86.config --config3=client/win64-v8/amd-1800x-x64-future$string.config $id &
+#                python dostuff-win64.py --config=client/win64-v8/intel-8700k-x64$string.config --config2=client/win64-v8/intel-8700k-x86.config --config3=client/win64-v8/intel-8700k-x64-future$string.config $id &
+#                python dostuff-win64.py --config=client/win64-v8/amd-3800x-x64$string.config --config2=client/win64-v8/amd-3800x-x86.config --config3=client/win64-v8/amd-3800x-x64-future$string.config $id &
 
                 echo $tmp > $v8countfile;
 
