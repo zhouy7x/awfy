@@ -109,6 +109,7 @@ do
                 fi
 
                 python dostuff-win64.py --config=client/win64-v8/amd-1800x-x64$string.config --config2=client/win64-v8/amd-1800x-x86.config --config3=client/win64-v8/amd-1800x-x64-future$string.config $id &
+                python dostuff-win64.py --config=client/win64-v8/intel-9700-x64$string.config --config2=client/win64-v8/intel-9700-x86.config --config3=client/win64-v8/intel-9700-x64-future$string.config $id &
 #                python dostuff-win64.py --config=client/win64-v8/intel-8700k-x64$string.config --config2=client/win64-v8/intel-8700k-x86.config --config3=client/win64-v8/intel-8700k-x64-future$string.config $id &
 #                python dostuff-win64.py --config=client/win64-v8/amd-3800x-x64$string.config --config2=client/win64-v8/amd-3800x-x86.config --config3=client/win64-v8/amd-3800x-x64-future$string.config $id &
 
@@ -167,7 +168,7 @@ do
                     STARTT=$(date +%s)
 
                     #python dostuff-win64.py --config=client/win64-chrome/amd-1800x.config --config2=client/win64-chrome/intel-8700k.config --config3=client/win64-chrome/amd-3800x.config $i
-                    python dostuff-win64.py --config=client/win64-chrome/amd-1800x.config $i
+                    python dostuff-win64.py --config=client/win64-chrome/amd-1800x.config --config2=client/win64-chrome/intel-9700.config $i
 
                     popd
 
