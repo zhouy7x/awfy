@@ -52,6 +52,25 @@ def build(config_name, config=None):
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
+    # sync build driver with local.
+    build_driver = utils.config_get_default('main', 'build_driver', None)
+    DriverPath = utils.DriverPath
+    if build_driver != DriverPath:
+        build_host = utils.config_get_default('main', 'build_host')
+        print build_driver
+        reger = re.match(r"^(\w):(.*)$", build_driver)
+        if reger:
+            tmp = reger.groups()
+            # print tmp
+            build_driver = "/cygdrive/" + tmp[0] + tmp[1]
+            build_driver = build_driver.replace('\\', '/')
+            print build_driver
+        rsync_flags = "-aP"
+        sync_cmd = ["rsync", rsync_flags]
+        sync_cmd += [DriverPath, build_host+':'+build_driver]
+        utils.Run(sync_cmd)
+
+    # start build
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     host = utils.config_get_default('main', 'host', '127.0.0.1')
     try:

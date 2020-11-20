@@ -17,6 +17,9 @@
 #     ctrl a+d
 
 function list_include_item(){
+  if [ ! -d "$1" ] ; then
+    mkdir -p "$1"
+  fi
   local list=`ls $1`
   local item="$2"
   if [[ $list =~ (^|[[:space:]])"$item"($|[[:space:]]) ]] ; then
@@ -26,7 +29,7 @@ function list_include_item(){
 }
 
 function create_position(){
-    if [ ! -e $v8_longtime_bench_commit_dir ]; then
+    if [ ! -d $v8_longtime_bench_commit_dir ]; then
         mkdir -p $v8_longtime_bench_commit_dir
     fi
     pushd $v8_longtime_bench_commit_dir
