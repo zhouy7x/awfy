@@ -65,7 +65,7 @@ while True:
         sock.close()
         # print "over"
     except Exception, e:
-        # log_to_file(str(e))
+        print e
         try:
             sock.send("error")
         except Exception, e:

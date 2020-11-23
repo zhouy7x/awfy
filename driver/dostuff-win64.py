@@ -67,7 +67,7 @@ def build(config_name, config=None):
             print build_driver
         rsync_flags = "-aP"
         sync_cmd = ["rsync", rsync_flags]
-        sync_cmd += [DriverPath, build_host+':'+build_driver]
+        sync_cmd += [DriverPath, build_host+':'+os.path.dirname(build_driver)]
         utils.Run(sync_cmd)
 
     # start build
