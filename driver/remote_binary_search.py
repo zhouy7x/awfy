@@ -27,13 +27,13 @@ compressed_master_number = 666190
 
 benchmark = "speedometer2"  # in {"speedometer2", "jetstream2", "webxprt3"}
 case_name = "__total__"  # "__total__" for total score, or subcase name for subcase score
-config_file = "client/v8/elm-arm.config"
-src_path = '/repos/chrome/1800x/chromium/src'
+config_file = "client/tmp/intel-1185g7.config"
+# src_path = '/repos/chrome/1800x/chromium/src'
 
 base_number = base_master_number
 first_variance_number = compressed_master_number
 
-work_place = '/home/user/work/awfy/driver'
+# work_place = '/home/user/work/awfy/driver'
 
 DATA_LIST = list()
 DATA_DICT = dict()
@@ -62,7 +62,7 @@ def build(commit_id):
 
 
 def reset_src(param):
-    os.chdir(src_path)
+    os.chdir(utils.RepoPath)
     cmd = 'git reset --hard %s' % param
     return os.system(cmd)
 
@@ -94,7 +94,7 @@ def binary_search(begin, end, prev=None):
     print case_name, score
 
     if standard > 0:
-        if scor > average:
+        if score > average:
             # up, current test score larger than average, so the variance happened between base and current
             begin = current
             global first_variance_number
@@ -120,13 +120,13 @@ def binary_search(begin, end, prev=None):
 
 
 def get_commit_dict():
-    if not os.path.exists("%s/log.txt" % work_place):
-        os.chdir(src_path)
-        cmd1 = "git log > %s/log.txt" % work_place
+    if not os.path.exists("%s/log.txt" % ils.DriverPath):
+        os.chdir(utils.RepoPath)
+        cmd1 = "git log > %s/log.txt" % utils.DriverPath
         if os.system(cmd1):
             print "get chrome git log error!"
 
-    os.chdir(work_place)
+    os.chdir(utils.DriverPath)
     with open('log.txt') as f:
         data = f.read()
 
@@ -178,6 +178,9 @@ def main():
 
 
 if __name__ == '__main__':
+    utils.InitConfig(config_file)
+    target_os = utils.config_get_default('main', 'target_os', 'linux')
+
     Engine = None
     if utils.config.has_section('v8'):
         Engine = builders.V8()
