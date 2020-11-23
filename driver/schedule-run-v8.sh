@@ -106,11 +106,11 @@ do
                     tmp=$[tmp+1];
                 fi
 
-                # python dostuff-v8.py --config=client/v8/hsw-nuc-x64$string.config --config2=client/v8/hsw-nuc-x86.config --config3=client/v8/hsw-nuc-x64-patch.config $id &
-                python dostuff-v8.py --config=client/v8/hsw-nuc-x64$string.config --config2=client/v8/hsw-nuc-x86.config --config3=client/v8/hsw-nuc-x64-future$string.config $id &
-                python dostuff-v8.py --config=client/v8/chromeos-arm$string.config --config2=client/v8/chromeos-arm-future$string.config $id &
-                # python dostuff-v8.py --config=client/v8/apl-nuc-x64$string.config --config2=client/v8/apl-nuc-x64-patch.config $id &
-                python dostuff-v8.py --config=client/v8/apl-nuc-x64$string.config --config2=client/v8/apl-nuc-x64-future$string.config $id &
+                # python dostuff_v8.py --config=client/v8/hsw-nuc-x64$string.config --config2=client/v8/hsw-nuc-x86.config --config3=client/v8/hsw-nuc-x64-patch.config $id &
+                python dostuff_v8.py --config=client/v8/hsw-nuc-x64$string.config --config2=client/v8/hsw-nuc-x86.config --config3=client/v8/hsw-nuc-x64-future$string.config $id &
+                python dostuff_v8.py --config=client/v8/chromeos-arm$string.config --config2=client/v8/chromeos-arm-future$string.config $id &
+                # python dostuff_v8.py --config=client/v8/apl-nuc-x64$string.config --config2=client/v8/apl-nuc-x64-patch.config $id &
+                python dostuff_v8.py --config=client/v8/apl-nuc-x64$string.config --config2=client/v8/apl-nuc-x64-future$string.config $id &
 
                 echo $tmp > $v8countfile;
 
@@ -229,8 +229,8 @@ do
                     tmp=$[tmp+1];
                 fi
 
-                python dostuff-v8.py --config=client/jsc/hsw-nuc-jsc-x64$string.config  $id &
-                # python dostuff-v8.py --config=client/jsc/apl-nuc-jsc-x64$string.config  $id &
+                python dostuff_v8.py --config=client/jsc/hsw-nuc-jsc-x64$string.config  $id &
+                # python dostuff_v8.py --config=client/jsc/apl-nuc-jsc-x64$string.config  $id &
 
                 echo $tmp > $jsccountfile;
 

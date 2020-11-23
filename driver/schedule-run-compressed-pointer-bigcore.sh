@@ -58,7 +58,7 @@ do
 #
 #                STARTT=$(date +%s)
 #
-#                python dostuff-compressed-pointer-bigcore.py --config=client/v8/bigcore-v8.config --config2=client/v8/bigcore-v8-patch.config $id &
+#                python dostuff_compressed_pointer_bigcore.py --config=client/v8/bigcore-v8.config --config2=client/v8/bigcore-v8-patch.config $id &
 #
 #                wait
 #
@@ -103,7 +103,7 @@ do
 
                     STARTT=$(date +%s)
 
-                    python dostuff-compressed-pointer-bigcore.py  --config=client/chrome/bigcore-x64.config --config2=client/chrome/bigcore-x64-patch.config
+                    python dostuff_compressed_pointer_bigcore.py  --config=client/chrome/bigcore-x64.config --config2=client/chrome/bigcore-x64-patch.config
                     popd
 
                     wait

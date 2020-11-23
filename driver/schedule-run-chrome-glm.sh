@@ -124,8 +124,8 @@ do
 
                     STARTT=$(date +%s)
 
-                    # python dostuff-chrome-glm.py  --config=client/chrome/electro-glm.config --config2=client/chrome/electro-glm-patch.config
-                    python dostuff-chrome-glm.py  --config=client/chrome/electro-glm.config
+                    # python dostuff_chrome_glm.py  --config=client/chrome/electro-glm.config --config2=client/chrome/electro-glm-patch.config
+                    python dostuff_chrome_glm.py  --config=client/chrome/electro-glm.config
                     popd
 
                     wait

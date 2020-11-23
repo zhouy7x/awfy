@@ -150,19 +150,19 @@ def check_all(param):
         str_list = [
             "python build_server_%s.py" % param,
             "bash schedule-run-%s.sh" % param,
-            "python dostuff-%s.py" % param
+            "python dostuff_%s.py" % param
         ]
     elif param in ['cyan', 'bigcore']:
         str_list = [
             "python build_server_compressed_pointer_%s.py" % param,
             "bash schedule-run-compressed-pointer-%s.sh" % param,
-            "python dostuff-compressed-pointer-%s.py" % param
+            "python dostuff_compressed_pointer_%s.py" % param
         ]
     else:
         str_list = [
             "bash schedule-run-chrome-%s.sh" % param,
             "python build_server_chrome_%s.py" % param,
-            "python dostuff-chrome-%s.py" % param,
+            "python dostuff_chrome_%s.py" % param,
             "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/%s/chromium/src/out/" % param
         ]
 

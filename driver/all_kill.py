@@ -35,7 +35,7 @@ def kill_all(repos):
             str_list = [
                 "python build_server_%s.py" % param,
                 "bash schedule-run-%s.sh" % param,
-                "python dostuff-%s.py" % param,
+                "python dostuff_%s.py" % param,
                 "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/%s" % param,
                 "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/v8/%s" % param,
                 "Tools/Scripts/build-webkit --jsc-only",
@@ -44,7 +44,7 @@ def kill_all(repos):
             str_list = [
                 "bash schedule-run-compressed-pointer-%s.sh" % param,
                 "python build_server_compressed_pointer_%s.py" % param,
-                "python dostuff-compressed-pointer-%s.py" % param,
+                "python dostuff_compressed_pointer_%s.py" % param,
                 "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/v8/%s" % param,
                 "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/%s" % param,
             ]
@@ -52,7 +52,7 @@ def kill_all(repos):
             str_list = [
                 "bash schedule-run-chrome-%s.sh" % param,
                 "python build_server_chrome_%s.py" % param,
-                "python dostuff-chrome-%s.py" % param,
+                "python dostuff_chrome_%s.py" % param,
                 "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/%s" % param,
             ]
 

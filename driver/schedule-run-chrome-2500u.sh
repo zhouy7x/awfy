@@ -123,7 +123,7 @@ do
 
                     STARTT=$(date +%s)
 
-                    python dostuff-chrome-2500u.py  --config=client/chrome/amd-2500u.config
+                    python dostuff_chrome_2500u.py  --config=client/chrome/amd-2500u.config
                     popd
 
                     wait

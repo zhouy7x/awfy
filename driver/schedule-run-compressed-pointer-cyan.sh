@@ -58,7 +58,7 @@ do
 
                 STARTT=$(date +%s)
 
-                python dostuff-compressed-pointer-cyan.py --config=client/v8/cyan-v8.config --config2=client/v8/cyan-v8-patch.config $id &
+                python dostuff_compressed_pointer_cyan.py --config=client/v8/cyan-v8.config --config2=client/v8/cyan-v8-patch.config $id &
 
                 wait
 
@@ -103,7 +103,7 @@ do
 
                     STARTT=$(date +%s)
 
-                    python dostuff-compressed-pointer-cyan.py  --config=client/chrome/cyan-x64.config --config2=client/chrome/cyan-x64-patch.config
+                    python dostuff_compressed_pointer_cyan.py  --config=client/chrome/cyan-x64.config --config2=client/chrome/cyan-x64-patch.config
                     popd
 
                     wait
