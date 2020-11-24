@@ -211,6 +211,7 @@ def get_config_to_dict(config):
         ret['chrome-related'] = True
     if utils.config.has_section('chromium-win64'):
         Engine = builders.ChromiumWin64()
+        ret['chrome-related'] = True
 
     ret['cpu'] = utils.config.get('main', 'cpu')
     ret['RepoPath'] = utils.RepoPath
