@@ -35,9 +35,9 @@ Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset', 'target_os'])
 
 
 def rsync_to_local(src, dest):
-    if not os.path.isdir(dest):
-        os.system("rm -rf "+dest)
-        os.system("mkdir -p "+dest)
+    # if not os.path.isdir(dest):
+    os.system("rm -rf "+dest)
+    os.system("mkdir -p "+dest)
     cmd = ["rsync", "-aP"]
     cmd.append(src)
     cmd.append(dest)

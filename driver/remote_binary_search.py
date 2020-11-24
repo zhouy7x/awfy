@@ -12,6 +12,7 @@ import time
 import benchmarks
 import builders
 import utils
+from dostuff_win64 import build
 
 """
 1. 获取到commit id和master号对应的字典；
@@ -38,32 +39,35 @@ first_variance_number = compressed_master_number
 DATA_LIST = list()
 DATA_DICT = dict()
 
-
-def build(commit_id):
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(('127.0.0.1', 8799))
-    hello = s.recv(1024)
-    s.sendall(config_file)
-    print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_file
-    reply = s.recv(1024)
-    s.close()
-
-    print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply)
-
-    # print repr(reply), type(repr(reply)), len(repr(reply))
-
-    if "over" in repr(reply):
-        return 0
-    elif "error" in repr(reply):
-        return 1
-    else:
-        print "WARNING: returned -1!"
-        return -1
+# Deprd
+# def build(commit_id):
+#     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#     s.connect(('127.0.0.1', 8799))
+#     hello = s.recv(1024)
+#     s.sendall(config_file)
+#     print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_file
+#     reply = s.recv(1024)
+#     s.close()
+#
+#     print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply)
+#
+#     # print repr(reply), type(repr(reply)), len(repr(reply))
+#
+#     if "over" in repr(reply):
+#         return 0
+#     elif "error" in repr(reply):
+#         return 1
+#     else:
+#         print "WARNING: returned -1!"
+#         return -1
 
 
 def reset_src(param):
-    os.chdir(utils.RepoPath)
-    cmd = 'git reset --hard %s' % param
+    if target_os == "win64":
+        cmd = 'ssh ' + build_host + ' "powershell /c cd '+build_repos+' ; git reset --hard '+param
+    else:
+        cmd = 'cd '+utils.RepoPath+' ; git reset --hard '+param
+    print cmd
     return os.system(cmd)
 
 
@@ -87,7 +91,7 @@ def binary_search(begin, end, prev=None):
         raise Exception('reset chromium src error!', current, DATA_DICT[current])
 
     print "Now build master:%d, commit id:%s" % (current, DATA_DICT[current])
-    if build(DATA_DICT[current]):
+    if build(config_file):
         raise Exception("build error, break!")
 
     score = remote_test(case_name, shell)
@@ -120,8 +124,10 @@ def binary_search(begin, end, prev=None):
 
 
 def get_commit_dict():
-    if not os.path.exists("%s/log.txt" % ils.DriverPath):
-        os.chdir(utils.RepoPath)
+    if not os.path.exists("%s/log.txt" % utils.DriverPath):
+        # special re-direct repo_path
+        repo_path = "/repos/chrome/x64/chromium/src"
+        os.chdir(repo_path)
         cmd1 = "git log > %s/log.txt" % utils.DriverPath
         if os.system(cmd1):
             print "get chrome git log error!"
@@ -154,9 +160,17 @@ def get_commit_dict():
 
 def check_build_process(foo):
     def _inside(*args, **kwargs):
-        cmd = 'ps aux | grep -E "python build_server.py" | grep -v grep'
+        if target_os == "win64":
+            cmd = 'ssh ' + build_host + ' "powershell /c netstat -ano | findstr :8781"'
+        else:
+            cmd = 'ps aux | grep -E "python build_server.py" | grep -v grep'
+        print cmd
         if not os.popen(cmd).read():
-            cmd2 = "python build_server.py > /logs/mixture/build_server_log.txt 2>&1 &"
+            if target_os == 'win64':
+                cmd2 = 'python remote_build_server.py %s %s %s > /logs/mixture/build_server_log.txt 2>&1 &' % \
+                       (build_driver.replace('\\', '/'), build_host, port)
+            else:
+                cmd2 = "python build_server.py > /logs/mixture/build_server_log.txt 2>&1 &"
             if os.system(cmd2):
                 print "Start build chrome arm server failed!"
 
@@ -180,6 +194,12 @@ def main():
 if __name__ == '__main__':
     utils.InitConfig(config_file)
     target_os = utils.config_get_default('main', 'target_os', 'linux')
+    if target_os == 'win64':
+        host = utils.config_get_default('main', 'host')
+        port = utils.config_get_default('main', 'port')
+        build_host = utils.config_get_default('main', 'build_host')
+        build_driver = utils.config_get_default('main', 'build_driver')
+        build_repos = utils.config_get_default('main', 'build_repos')
 
     Engine = None
     if utils.config.has_section('v8'):
@@ -201,6 +221,7 @@ if __name__ == '__main__':
     if utils.config.has_section('chromium-win64'):
         Engine = builders.ChromiumWin64()
     shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())
+    repo_path = os.path.join(utils.RepoPath, Engine.source)
     build(base_commit_id)
     base_score = remote_test(case_name, shell)
     build(compressed_commit_id)

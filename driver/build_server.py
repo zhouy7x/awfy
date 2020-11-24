@@ -7,18 +7,14 @@ import socket
 import json, time
 import utils
 import builders
+from sys import argv
 # import resource
 
 LISTEN_ADDRESS = "0.0.0.0"
-LISTEN_PORT = 8799
+LISTEN_PORT = argv[1] if argv[1:] else 8799
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((LISTEN_ADDRESS, LISTEN_PORT))
 s.listen(5)
-
-# Set resource limits for child processes
-# resource.setrlimit(resource.RLIMIT_AS, (-1, -1))
-# resource.setrlimit(resource.RLIMIT_RSS, (-1, -1))
-# resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 
 
 def build(config):
@@ -65,7 +61,7 @@ while True:
         sock.close()
         # print "over"
     except Exception, e:
-        # log_to_file(str(e))
+        print e
         try:
             sock.send("error")
         except Exception, e:
