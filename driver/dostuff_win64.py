@@ -87,30 +87,30 @@ def build(config_name, config=None):
     # reply = 'reply'
     s.close()
     print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
-    target_os = utils.config_get_default('main', 'target_os', 'linux')
-    if "over" in repr(reply) and target_os == 'win64':
-        source = config['source']
-        cpu = config['cpu']
-        slaveMachine = utils.config.get(utils.config.get('main', 'slaves'), 'machine')
-        print 'source: ', source
-        if source == "chromium\src":
-            src = os.path.join(utils.config_get_default('main', 'build_repos'), source, 'out', cpu, 'Chrome-bin')
-            dest = os.path.join(utils.RepoPath, source, 'out', cpu)
-        elif source == "v8":
-            src = os.path.join(utils.config_get_default('main', 'build_repos'), source, 'out.gn', slaveMachine)
-            dest = os.path.join(utils.RepoPath, source, 'out.gn')
-
-        reger = re.match(r"^(\w):(.*)$", src)
-        if reger:
-            tmp = reger.groups()
-            # print tmp
-            src = "/cygdrive/" + tmp[0] + tmp[1]
-            src = src.replace('\\', '/')
-            print src
-        build_host = utils.config_get_default('main', 'build_host')
-        src = build_host + ':' + src
-        dest = dest.replace('\\', '/')
-        rsync_to_local(src, dest)
+    # target_os = utils.config_get_default('main', 'target_os', 'linux')
+    # if "over" in repr(reply) and target_os == 'win64':
+    #     source = config['source']
+    #     cpu = config['cpu']
+    #     slaveMachine = utils.config.get(utils.config.get('main', 'slaves'), 'machine')
+    #     print 'source: ', source
+    #     if source == "chromium\src":
+    #         src = os.path.join(utils.config_get_default('main', 'build_repos'), source, 'out', cpu, 'Chrome-bin')
+    #         dest = os.path.join(utils.RepoPath, source, 'out', cpu)
+    #     elif source == "v8":
+    #         src = os.path.join(utils.config_get_default('main', 'build_repos'), source, 'out.gn', slaveMachine)
+    #         dest = os.path.join(utils.RepoPath, source, 'out.gn')
+    #
+    #     reger = re.match(r"^(\w):(.*)$", src)
+    #     if reger:
+    #         tmp = reger.groups()
+    #         # print tmp
+    #         src = "/cygdrive/" + tmp[0] + tmp[1]
+    #         src = src.replace('\\', '/')
+    #         print src
+    #     build_host = utils.config_get_default('main', 'build_host')
+    #     src = build_host + ':' + src
+    #     dest = dest.replace('\\', '/')
+    #     rsync_to_local(src, dest)
 
 
 def dostuff(config_name, Engine):

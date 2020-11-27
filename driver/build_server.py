@@ -11,7 +11,7 @@ from sys import argv
 # import resource
 
 LISTEN_ADDRESS = "0.0.0.0"
-LISTEN_PORT = argv[1] if argv[1:] else 8799
+LISTEN_PORT = int(argv[1]) if argv[1:] else 8799
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((LISTEN_ADDRESS, LISTEN_PORT))
 s.listen(5)

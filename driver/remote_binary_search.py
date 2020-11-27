@@ -6,11 +6,9 @@
 """
 import os
 import re
-import socket
-import time
 
-import benchmarks
 import builders
+import slaves
 import utils
 from dostuff_win64 import build
 
@@ -21,18 +19,19 @@ from dostuff_win64 import build
 4. 得到下一轮的master号，递归运行；
 5. 退出条件下一轮mater号与本轮相同或相差1.
 """
-base_commit_id = "4305bde675647ced2fb1a5782baff01ca089c45b"
-base_master_number = 666076
-compressed_commit_id = "8ff73bc1bf403515c233a8a09829c0093af32ec2"
-compressed_master_number = 666190
+base_commit_id = "ef525621ea610a7761a677240238961e14df127e"
+base_master_number = 828610
+compared_commit_id = "ac72cea31526ac224fab78f0ea6ca62fc81d0571"
+compared_master_number = 828625
 
-benchmark = "speedometer2"  # in {"speedometer2", "jetstream2", "webxprt3"}
+base_variance = 0.015
+benchmark = "webxprt3"  # in {"speedometer2", "jetstream2", "webxprt3"}
 case_name = "__total__"  # "__total__" for total score, or subcase name for subcase score
 config_file = "client/tmp/intel-1185g7.config"
 # src_path = '/repos/chrome/1800x/chromium/src'
 
 base_number = base_master_number
-first_variance_number = compressed_master_number
+first_variance_number = compared_master_number
 
 # work_place = '/home/user/work/awfy/driver'
 
@@ -64,9 +63,10 @@ DATA_DICT = dict()
 
 def reset_src(param):
     if target_os == "win64":
-        cmd = 'ssh ' + build_host + ' "powershell /c cd '+build_repos+' ; git reset --hard '+param
+        cmd = 'ssh ' + build_host + ' "powershell /c cd ' + os.path.join(build_repos, Engine.source).replace('\\', '/')\
+              + ' ; git reset --hard '+param+'"'
     else:
-        cmd = 'cd '+utils.RepoPath+' ; git reset --hard '+param
+        cmd = 'cd '+os.path.join(utils.RepoPath, Engine.source)+' ; git reset --hard '+param
     print cmd
     return os.system(cmd)
 
@@ -75,10 +75,24 @@ def remote_test(case_name, shell, env=os.environ.copy(), args=None):
     """
     remote test benchmark, return test result in dict
     """
-    sp2 = benchmarks.Speedometer2()
-    data = sp2.benchmark(shell=shell, env=env, args=args)
-    score = float(data[case_name])
-    return score
+    cmd = 'ssh '+slave_hostname+' "'
+    if target_os == 'win64':
+        cmd += 'powershell /c '
+    cmd += 'cd '+slave_driver+' ; python remote_test.py %s %s %s"' % (benchmark, shell, target_os)
+    print cmd
+    ret = os.popen(cmd).read().splitlines()
+    print 'ret: ', ret
+    ret = map(lambda x: x.split(), ret)
+    data = list()
+    for x in ret:
+        score = x[0]
+        name = x[2]
+        print(score + '   - ' + name)
+        data.append({'name': name, 'time': score})
+        if case_name == name:
+            result = float(score)
+
+    return result
 
 
 def binary_search(begin, end, prev=None):
@@ -94,30 +108,30 @@ def binary_search(begin, end, prev=None):
     if build(config_file):
         raise Exception("build error, break!")
 
+    # sync source to remote test slave
+    for slave in KnownSlaves:
+        slave.prepare([Engine])
+
     score = remote_test(case_name, shell)
     print case_name, score
-
+    global base_number, first_variance_number
     if standard > 0:
         if score > average:
             # up, current test score larger than average, so the variance happened between base and current
             begin = current
-            global first_variance_number
             first_variance_number = current
         else:
-            # up, current test score smaller than average, so the variance happened between current and compressed
+            # up, current test score smaller than average, so the variance happened between current and compared
             end = current
-            global base_number
             base_number = current
     else:
         if score > average:
-            # down, current test score larger than average, so the variance happened between current and compressed
+            # down, current test score larger than average, so the variance happened between current and compared
             end = current
-            global base_number
             base_number = current
         else:
             # down, current test score smaller than average, so the variance happened between base and current
             begin = current
-            global first_variance_number
             first_variance_number = current
 
     binary_search(begin, end, current)
@@ -136,7 +150,7 @@ def get_commit_dict():
     with open('log.txt') as f:
         data = f.read()
 
-    data = re.search(r'\ncommit %s[\w\W]*Cr-Commit-Position: refs/heads/master@{#%d}' % (compressed_commit_id, base_master_number), data)
+    data = re.search(r'\ncommit %s[\w\W]*Cr-Commit-Position: refs/heads/master@{#%d}' % (compared_commit_id, base_master_number), data)
     if data:
         with open('c-m.txt', 'w') as f:
             f.write(data.group())
@@ -155,37 +169,30 @@ def get_commit_dict():
             DATA_DICT[int(t[1])] = t[0]
             DATA_LIST.append((int(t[1]), t[0]))
     print DATA_LIST
-    print len(DATA_LIST), compressed_master_number - base_master_number + 1
+    print len(DATA_LIST), compared_master_number - base_master_number + 1
 
 
-def check_build_process(foo):
-    def _inside(*args, **kwargs):
-        if target_os == "win64":
-            cmd = 'ssh ' + build_host + ' "powershell /c netstat -ano | findstr :8781"'
+def prepare():
+    print "prepare build environment."
+    if target_os == "win64":
+        cmd = 'ssh ' + build_host + ' "powershell /c netstat -ano | findstr :'+port+'"'
+    else:
+        cmd = 'ps aux | grep -E "python build_server.py" | grep -v grep'
+    print cmd
+    if not os.popen(cmd).read():
+        if target_os == 'win64':
+            cmd2 = 'python remote_build_server.py %s %s %s > /logs/mixture/build_server_log.txt 2>&1 &' % \
+                   (build_driver.replace('\\', '/'), build_host, port)
         else:
-            cmd = 'ps aux | grep -E "python build_server.py" | grep -v grep'
-        print cmd
-        if not os.popen(cmd).read():
-            if target_os == 'win64':
-                cmd2 = 'python remote_build_server.py %s %s %s > /logs/mixture/build_server_log.txt 2>&1 &' % \
-                       (build_driver.replace('\\', '/'), build_host, port)
-            else:
-                cmd2 = "python build_server.py > /logs/mixture/build_server_log.txt 2>&1 &"
-            if os.system(cmd2):
-                print "Start build chrome arm server failed!"
-
-        return foo(*args, **kwargs)
-
-    return _inside
+            cmd2 = "python build_server.py > /logs/mixture/build_server_log.txt 2>&1 &"
+        print cmd2
+        if os.system(cmd2):
+            print "Start build chrome arm server failed!"
 
 
-@check_build_process
 def main():
-    get_commit_dict()
-    time.sleep(10)
-
     try:
-        binary_search(compressed_master_number, base_master_number)
+        binary_search(compared_master_number, base_master_number)
         print "The error was happended between master number %d and %d:" % (base_number, first_variance_number)
     except Exception as e:
         print e
@@ -194,6 +201,12 @@ def main():
 if __name__ == '__main__':
     utils.InitConfig(config_file)
     target_os = utils.config_get_default('main', 'target_os', 'linux')
+    slave = utils.config_get_default('main', 'slaves')
+    slave_hostname = utils.config_get_default(slave, 'hostname')
+    slave_driver = utils.config_get_default(slave, 'driver')
+    slave_repos = utils.config_get_default(slave, 'repos')
+    slave_benchmarks = utils.config_get_default(slave, 'benchmarks')
+
     if target_os == 'win64':
         host = utils.config_get_default('main', 'host')
         port = utils.config_get_default('main', 'port')
@@ -204,36 +217,54 @@ if __name__ == '__main__':
     Engine = None
     if utils.config.has_section('v8'):
         Engine = builders.V8()
-    if utils.config.has_section('v8-win64'):
+    elif utils.config.has_section('v8-win64'):
         Engine = builders.V8Win64()
-    if utils.config.has_section('v8-patch'):
+    elif utils.config.has_section('v8-patch'):
         Engine = builders.V8_patch()
-    if utils.config.has_section('contentshell'):
+    elif utils.config.has_section('contentshell'):
         Engine = builders.ContentShell()
-    if utils.config.has_section('jerryscript'):
+    elif utils.config.has_section('jerryscript'):
         Engine = builders.JerryScript()
-    if utils.config.has_section('iotjs'):
+    elif utils.config.has_section('iotjs'):
         Engine = builders.IoTjs()
-    if utils.config.has_section('headless'):
+    elif utils.config.has_section('headless'):
         Engine = builders.Headless()
-    if utils.config.has_section('headless-patch'):
+    elif utils.config.has_section('headless-patch'):
         Engine = builders.Headless_patch()
-    if utils.config.has_section('chromium-win64'):
+    elif utils.config.has_section('chromium-win64'):
         Engine = builders.ChromiumWin64()
+
     shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())
+    rshell = os.path.join(utils.config_get_default(utils.config_get_default('main', 'slaves', None), 'repos', utils.RepoPath), Engine.source, Engine.slave_shell()).replace('\\', '/')
     repo_path = os.path.join(utils.RepoPath, Engine.source)
-    build(base_commit_id)
-    base_score = remote_test(case_name, shell)
-    build(compressed_commit_id)
-    compressed_score = remote_test(case_name, shell)
 
-    average = (base_score + compressed_score) / 2
-    variance = compressed_score / base_score - 1
+    # Set of slaves that run the builds.
+    KnownSlaves = slaves.init()
 
-    if -0.03 < variance < 0.03:
+    # prepare build environment
+    prepare()
+    get_commit_dict()
+
+    # double check
+    reset_src(base_commit_id)
+    build(config_file)
+    for slave in KnownSlaves:
+        slave.prepare([Engine])
+    base_score = remote_test(case_name, rshell)
+
+    reset_src(compared_commit_id)
+    build(config_file)
+    for slave in KnownSlaves:
+        slave.prepare([Engine])
+    compared_score = remote_test(case_name, rshell)
+
+    average = (base_score + compared_score) / 2
+    variance = compared_score / base_score - 1
+
+    if -base_variance < variance < base_variance:
         print "not very large variance, stop."
     else:
-        if base_score > compressed_score:
+        if base_score > compared_score:
             standard = -1
         else:
             standard = 1

@@ -42,28 +42,44 @@ class RemoteSlave(Slave):
         self.delayed = None
         self.delayedCommand = None
 
+        #windows remote build related
+        self.BuildHost = utils.config_get_default('main', 'build_host', '')
+        self.BuildRepoPath = utils.config_get_default('main', 'build_repos', self.RepoPath)
+        self.BuildDriverPath = utils.config_get_default('main', 'build_driver', self.DriverPath)
+
     def prepare(self, engines):
         self.pushRemote(utils.DriverPath + os.path.sep, self.DriverPath)
         self.pushRemote(utils.BenchmarkPath + os.path.sep, self.BenchmarkPath)
         for engine in engines:
             if engine.source == "v8":
-                    shell = os.path.join(utils.RepoPath, engine.source, engine.shell()).replace('\\', '/')
-                    rshell = os.path.join(self.RepoPath, engine.source, engine.shell()).replace('\\', '/')
-                    try:
-                        self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
-                    except:
-                        pass
-                    self.pushRemote(shell, rshell, follow=True)
-                    libpaths = engine.libpaths()
-                    for libp in libpaths:
-                        llib = os.path.join(utils.RepoPath, engine.source, libp['path']).replace('\\', '/')
-                        rlib = os.path.join(self.RepoPath, engine.source, libp['path']).replace('\\', '/')
-                        if os.path.isfile(llib) or os.path.isdir(llib):
-                            try:
-                                self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
-                            except:
-                                pass
-                            self.pushRemote(llib, rlib, follow=True, excludes=libp['exclude'])
+                # if build windows binary, must sync from build server to local at first.
+                # if self.target_os == 'win64':
+                bshell = os.path.join(self.BuildRepoPath, engine.source, engine.shell()).replace('\\', '/')
+                shell = os.path.join(utils.RepoPath, engine.source, engine.shell()).replace('\\', '/')
+                rshell = os.path.join(self.RepoPath, engine.source, engine.shell()).replace('\\', '/')
+                try:
+                    self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
+                    if self.target_os == 'win64':
+                        os.system('rm -rf '+os.path.dirname(shell))
+                        os.system('mkdir -p '+os.path.dirname(shell))
+                        self.pullRemote(bshell, shell, follow=True)
+                except:
+                    pass
+                self.pushRemote(shell, rshell, follow=True)
+                libpaths = engine.libpaths()
+                for libp in libpaths:
+                    blib = os.path.join(self.BuildRepoPath, engine.source, libp['path']).replace('\\', '/')
+                    llib = os.path.join(utils.RepoPath, engine.source, libp['path']).replace('\\', '/')
+                    rlib = os.path.join(self.RepoPath, engine.source, libp['path']).replace('\\', '/')
+                    if self.target_os == 'win64':
+                        os.system('rm -rf ' + llib)
+                        self.pullRemote(blib, os.path.dirname(llib), follow=True, excludes=libp['exclude'])
+                    if os.path.isfile(llib) or os.path.isdir(llib):
+                        try:
+                            self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
+                        except:
+                            pass
+                        self.pushRemote(llib, rlib, follow=True, excludes=libp['exclude'])
 
             elif engine.source == "chromium/src":
                 shell = os.path.join(utils.RepoPath, engine.source, engine.shell())
@@ -80,13 +96,17 @@ class RemoteSlave(Slave):
                         # self.runRemote(["rm", "-rf", os.path.dirname(rlib)])
                         # self.runRemote(["mkdir", "-p", os.path.dirname(rlib)])
                         self.runRemote(["rm", "-rf", rlib])
-                        self.runRemote(["mkdir", "-p", rlib])
                         self.pushRemote(llib, rlib2, follow=True, excludes=libp['exclude'])
 
             elif engine.source == "chromium\src":
+                bshell = os.path.join(self.BuildRepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
                 shell = os.path.join(utils.RepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
                 rshell = os.path.join(self.RepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
                 try:
+                    if self.target_os == 'win64':
+                        os.system('rm -rf ' + os.path.dirname(shell))
+                        os.system('mkdir -p ' + os.path.dirname(shell))
+                        self.pullRemote(bshell, shell, follow=True)
                     self.runRemote(["rm", "-r", "-fo", os.path.dirname(rshell)])
                 except:
                     pass
@@ -94,9 +114,14 @@ class RemoteSlave(Slave):
                 self.pushRemote(shell, rshell, follow=True)
                 libpaths = engine.libpaths()
                 for libp in libpaths:
+                    blib = os.path.join(self.BuildRepoPath, engine.source, libp['path']).replace('\\', '/')
                     llib = os.path.join(utils.RepoPath, engine.source, libp['path']).replace('\\', '/')
                     rlib = os.path.join(self.RepoPath, engine.source, libp['path']).replace('\\', '/')
                     rlib2 = os.path.dirname(rlib)
+                    if self.target_os == 'win64':
+                        os.system('rm -rf ' + llib)
+                        os.system('mkdir -p ' + llib)
+                        self.pullRemote(blib, os.path.dirname(llib), follow=True, excludes=libp['exclude'])
                     if os.path.isfile(llib) or os.path.isdir(llib):
                         try:
                             self.runRemote(["rm", "-r", "-fo", rlib])
@@ -195,6 +220,39 @@ class RemoteSlave(Slave):
                 sync_cmd.append("--exclude" + "=" + exclude)
 
             sync_cmd += [file_loc, self.HostName + ":" + file_remote]
+            utils.Run(sync_cmd)
+
+    def pullRemote(self, file_remote, file_loc, follow=False, excludes=[]):
+        print file_remote
+        reger = re.match(r"^(\w):(.*)$", file_remote)
+        if reger:
+            tmp = reger.groups()
+            # print tmp
+            file_remote = "/cygdrive/" + tmp[0] + tmp[1]
+            file_remote = file_remote.replace('\\', '/')
+            print file_remote
+        rsync_flags = "-aP"
+        # if they asked us to follow symlinks, then add '-L' into the arguments.
+        if follow:
+            rsync_flags += "L"
+        sync_cmd = ["rsync", rsync_flags]
+        for exclude in excludes:
+            sync_cmd.append("--exclude" + "=" + exclude)
+
+        sync_cmd += [self.BuildHost + ":" + file_remote, file_loc]
+        try:
+            utils.Run(sync_cmd)
+        except:
+            # run again.
+            rsync_flags = "-aP"
+            if follow:
+                rsync_flags += "L"
+            flags = "--delete-excluded"
+            sync_cmd = ["rsync", rsync_flags, flags]
+            for exclude in excludes:
+                sync_cmd.append("--exclude" + "=" + exclude)
+
+            sync_cmd += [self.HostName + ":" + file_remote, file_loc]
             utils.Run(sync_cmd)
 
     def synchronize(self):

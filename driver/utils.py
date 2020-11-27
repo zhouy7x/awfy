@@ -10,9 +10,15 @@ import signal
 import ConfigParser
 
 config = None
+TargetOS = None
 RepoPath = None
 BenchmarkPath = None
 DriverPath = None
+BuildRepoPath = None
+BuildDriverPath = None
+BuildHost = None
+BuildUser = None
+BuildPort = None
 Timeout = 15 * 60
 PythonName = None
 Includes = None
@@ -20,7 +26,8 @@ Excludes = None
 
 
 def InitConfig(name):
-    global config, RepoPath, BenchmarkPath, DriverPath, Timeout, PythonName, Includes, Excludes
+    global config, TargetOS, RepoPath, BenchmarkPath, DriverPath,BuildRepoPath,BuildDriverPath, BuildHost, BuildUser, \
+        BuildPort, Timeout, PythonName, Includes, Excludes
     config = ConfigParser.RawConfigParser()
     if not os.path.isfile(name):
         raise Exception('could not find file: ' + name)

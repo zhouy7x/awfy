@@ -11,9 +11,9 @@ try:
     build_host = argv[2]
     port = argv[3] if argv[3:] else 8799
 except Exception as e:
-    print "Error: You must give 2 params, BuildDriverPath and BuildHost!!!"
+    print "Error: You must give 3 params, BuildDriverPath, BuildHost and BuildPort!!!"
     raise Exception(e)
 
 cmd = 'ssh ' + build_host + ' "powershell /c cd '+build_driver+' ; python build_server.py '+port+'"'
 print cmd
-# os.system(cmd)
+os.system(cmd)
