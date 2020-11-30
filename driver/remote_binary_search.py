@@ -19,46 +19,19 @@ from dostuff_win64 import build
 4. 得到下一轮的master号，递归运行；
 5. 退出条件下一轮mater号与本轮相同或相差1.
 """
-base_commit_id = "ef525621ea610a7761a677240238961e14df127e"
 base_master_number = 828610
-compared_commit_id = "ac72cea31526ac224fab78f0ea6ca62fc81d0571"
 compared_master_number = 828625
 
 base_variance = 0.015
 benchmark = "webxprt3"  # in {"speedometer2", "jetstream2", "webxprt3"}
 case_name = "__total__"  # "__total__" for total score, or subcase name for subcase score
 config_file = "client/tmp/intel-1185g7.config"
-# src_path = '/repos/chrome/1800x/chromium/src'
 
 base_number = base_master_number
 first_variance_number = compared_master_number
 
-# work_place = '/home/user/work/awfy/driver'
-
 DATA_LIST = list()
 DATA_DICT = dict()
-
-# Deprd
-# def build(commit_id):
-#     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#     s.connect(('127.0.0.1', 8799))
-#     hello = s.recv(1024)
-#     s.sendall(config_file)
-#     print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_file
-#     reply = s.recv(1024)
-#     s.close()
-#
-#     print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply)
-#
-#     # print repr(reply), type(repr(reply)), len(repr(reply))
-#
-#     if "over" in repr(reply):
-#         return 0
-#     elif "error" in repr(reply):
-#         return 1
-#     else:
-#         print "WARNING: returned -1!"
-#         return -1
 
 
 def reset_src(param):
@@ -150,7 +123,9 @@ def get_commit_dict():
     with open('log.txt') as f:
         data = f.read()
 
-    data = re.search(r'\ncommit %s[\w\W]*Cr-Commit-Position: refs/heads/master@{#%d}' % (compared_commit_id, base_master_number), data)
+    reg_string = r'Cr-Commit-Position: refs/heads/master@{#%d}\r?\n[\w\W]*Cr-Commit-Position: refs/heads/master@{#%d}' \
+                 % (compared_master_number+1, base_master_number)
+    data = re.search(reg_string, data)
     if data:
         with open('c-m.txt', 'w') as f:
             f.write(data.group())
@@ -246,13 +221,13 @@ if __name__ == '__main__':
     get_commit_dict()
 
     # double check
-    reset_src(base_commit_id)
+    reset_src(DATA_DICT[base_master_number])
     build(config_file)
     for slave in KnownSlaves:
         slave.prepare([Engine])
     base_score = remote_test(case_name, rshell)
 
-    reset_src(compared_commit_id)
+    reset_src(DATA_DICT[compared_master_number])
     build(config_file)
     for slave in KnownSlaves:
         slave.prepare([Engine])
