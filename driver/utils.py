@@ -100,6 +100,7 @@ def winRun(vec, env=os.environ.copy()):
     if vec[0] == 'cmd' and vec[1] == '/c':
         vec = ' '.join(vec)
     else:
+        # vec = ' '.join(vec)
         vec = 'powershell /c ' + ' '.join(vec)
     print(vec)
     try:

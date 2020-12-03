@@ -57,12 +57,12 @@ class RemoteSlave(Slave):
                 bshell = os.path.join(self.BuildRepoPath, engine.source, engine.shell()).replace('\\', '/')
                 shell = os.path.join(utils.RepoPath, engine.source, engine.shell()).replace('\\', '/')
                 rshell = os.path.join(self.RepoPath, engine.source, engine.shell()).replace('\\', '/')
+                if self.target_os == 'win64':
+                    os.system('rm -rf '+os.path.dirname(shell))
+                    os.system('mkdir -p '+os.path.dirname(shell))
+                    self.pullRemote(bshell, shell, follow=True)
                 try:
                     self.runRemote(["mkdir", "-p", os.path.dirname(rshell)])
-                    if self.target_os == 'win64':
-                        os.system('rm -rf '+os.path.dirname(shell))
-                        os.system('mkdir -p '+os.path.dirname(shell))
-                        self.pullRemote(bshell, shell, follow=True)
                 except:
                     pass
                 self.pushRemote(shell, rshell, follow=True)
@@ -102,11 +102,11 @@ class RemoteSlave(Slave):
                 bshell = os.path.join(self.BuildRepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
                 shell = os.path.join(utils.RepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
                 rshell = os.path.join(self.RepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
+                if self.target_os == 'win64':
+                    os.system('rm -rf ' + os.path.dirname(shell))
+                    os.system('mkdir -p ' + os.path.dirname(shell))
+                    self.pullRemote(bshell, shell, follow=True)
                 try:
-                    if self.target_os == 'win64':
-                        os.system('rm -rf ' + os.path.dirname(shell))
-                        os.system('mkdir -p ' + os.path.dirname(shell))
-                        self.pullRemote(bshell, shell, follow=True)
                     self.runRemote(["rm", "-r", "-fo", os.path.dirname(rshell)])
                 except:
                     pass
@@ -120,14 +120,13 @@ class RemoteSlave(Slave):
                     rlib2 = os.path.dirname(rlib)
                     if self.target_os == 'win64':
                         os.system('rm -rf ' + llib)
-                        os.system('mkdir -p ' + llib)
                         self.pullRemote(blib, os.path.dirname(llib), follow=True, excludes=libp['exclude'])
                     if os.path.isfile(llib) or os.path.isdir(llib):
                         try:
                             self.runRemote(["rm", "-r", "-fo", rlib])
                         except:
                             pass
-                        self.runRemote(["mkdir", "-p", rlib])
+                        # self.runRemote(["mkdir", "-p", rlib])
                         self.pushRemote(llib, rlib2, follow=True, excludes=libp['exclude'])
 
             elif engine.source == "webkit":
@@ -243,17 +242,7 @@ class RemoteSlave(Slave):
         try:
             utils.Run(sync_cmd)
         except:
-            # run again.
-            rsync_flags = "-aP"
-            if follow:
-                rsync_flags += "L"
-            flags = "--delete-excluded"
-            sync_cmd = ["rsync", rsync_flags, flags]
-            for exclude in excludes:
-                sync_cmd.append("--exclude" + "=" + exclude)
-
-            sync_cmd += [self.HostName + ":" + file_remote, file_loc]
-            utils.Run(sync_cmd)
+            pass
 
     def synchronize(self):
         if self.delayed:
