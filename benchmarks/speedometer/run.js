@@ -26,7 +26,8 @@ function launchChrome(headless = true) {
             '--disable-gpu',
             '--no-sandbox',
             "--enable-logging",
-            '--headless'
+            '--headless',
+            process.argv[4] ? '--js-flags="'+process.argv[4]+'"' : ''
         ]
     });
 }

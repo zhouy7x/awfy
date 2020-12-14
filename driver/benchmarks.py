@@ -1009,6 +1009,8 @@ class Speedometer2(Benchmark):
         print(os.getcwd())
 
         cmd = kill_port + run_shell + url + shell
+        if args:
+            cmd += ' '+' '.join(args)
         print(cmd)
         output = utils.RunTimedCheckOutput(cmd, env=env)
         tests = []
@@ -1039,6 +1041,8 @@ class Speedometer2(Benchmark):
         print(os.getcwd())
 
         cmd = kill_port + run_shell + url + shell
+        if args:
+            cmd += ' '+' '.join(args)
         print(cmd)
         output = utils.WinRunTimedCheckOutput(cmd, env=env)
         tests = []
@@ -1073,6 +1077,8 @@ class JetStream2(Benchmark):
         url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/JetStream2-JSTC/ "
 
         cmd = kill_port + run_shell + url + shell
+        if args:
+            cmd += ' '+' '.join(args)
         print(cmd)
         output = utils.RunTimedCheckOutput(cmd, env=env, timeout=25 * 60)
         tests = []
@@ -1103,6 +1109,8 @@ class JetStream2(Benchmark):
         url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/JetStream2-JSTC/ "
 
         cmd = kill_port + run_shell + url + shell
+        if args:
+            cmd += ' '+' '.join(args)
         print(cmd)
         output = utils.WinRunTimedCheckOutput(cmd, env=env, timeout=25 * 60)
         tests = []
@@ -1137,6 +1145,8 @@ class WebXPRT3(Benchmark):
         url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/webxprt3/ "
 
         cmd = kill_port + run_shell + url + shell
+        if args:
+            cmd += ' '+' '.join(args)
         print(cmd)
         output = utils.RunTimedCheckOutput(cmd, env=env, timeout=25 * 60)
         tests = []
@@ -1164,6 +1174,8 @@ class WebXPRT3(Benchmark):
         url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/webxprt3/ "
 
         cmd = kill_port + run_shell + url + shell
+        if args:
+            cmd += ' '+' '.join(args)
         print(cmd)
         output = utils.WinRunTimedCheckOutput(cmd, env=env, timeout=25 * 60)
         tests = []
