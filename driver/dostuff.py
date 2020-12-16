@@ -45,7 +45,7 @@ def rsync_to_local(src, dest):
     utils.Run(cmd)
 
 
-def build(config_name, config=None):
+def build(config_name):
     print('build')
     print(config_name)
     utils.InitConfig(config_name)
@@ -87,30 +87,6 @@ def build(config_name, config=None):
     # reply = 'reply'
     s.close()
     print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
-    # target_os = utils.config_get_default('main', 'target_os', 'linux')
-    # if "over" in repr(reply) and target_os == 'win64':
-    #     source = config['source']
-    #     cpu = config['cpu']
-    #     slaveMachine = utils.config.get(utils.config.get('main', 'slaves'), 'machine')
-    #     print 'source: ', source
-    #     if source == "chromium\src":
-    #         src = os.path.join(utils.config_get_default('main', 'build_repos'), source, 'out', cpu, 'Chrome-bin')
-    #         dest = os.path.join(utils.RepoPath, source, 'out', cpu)
-    #     elif source == "v8":
-    #         src = os.path.join(utils.config_get_default('main', 'build_repos'), source, 'out.gn', slaveMachine)
-    #         dest = os.path.join(utils.RepoPath, source, 'out.gn')
-    #
-    #     reger = re.match(r"^(\w):(.*)$", src)
-    #     if reger:
-    #         tmp = reger.groups()
-    #         # print tmp
-    #         src = "/cygdrive/" + tmp[0] + tmp[1]
-    #         src = src.replace('\\', '/')
-    #         print src
-    #     build_host = utils.config_get_default('main', 'build_host')
-    #     src = build_host + ':' + src
-    #     dest = dest.replace('\\', '/')
-    #     rsync_to_local(src, dest)
 
 
 def dostuff(config_name, Engine):
@@ -224,32 +200,38 @@ def get_config_to_dict(config):
 
 if __name__ == '__main__':
     config1 = get_config_to_dict(options.config_name)
-    build(options.config_name, config=config1)
+    build(options.config_name)
     dostuff(options.config_name, config1['engine'])
 
     if options.config2_name:
         config2 = get_config_to_dict(options.config2_name)
         if not config2['chrome-related']:
-            build(options.config2_name, config=config2)
+            build(options.config2_name)
         else:
             # if build the same chrome, skip build step.
-            if config2['cpu'] != config1['cpu'] or config2['RepoPath'] != config1['RepoPath'] or \
-                    config2['modes'] != config1['modes'] or config2['source'] != config1['source']:
+            if config2['cpu'] != config1['cpu'] or \
+                    config2['RepoPath'] != config1['RepoPath'] or \
+                    config2['engine'].__class__ != config1['engine'].__class__ or \
+                    config2['source'] != config1['source']:
                 build(options.config2_name)
         dostuff(options.config2_name, config2['engine'])
 
     if options.config3_name:
         config3 = get_config_to_dict(options.config3_name)
         if not config3['chrome-related']:
-            build(options.config3_name, config=config3)
+            build(options.config3_name)
         else:
             # if build the same chrome, skip build step.
-            if config3['cpu'] != config1['cpu'] or config3['RepoPath'] != config1['RepoPath'] or \
-                    config3['modes'] != config1['modes'] or config3['source'] != config1['source']:
+            if config3['cpu'] != config1['cpu'] or \
+                    config3['RepoPath'] != config1['RepoPath'] or \
+                    config3['engine'].__class__ != config1['engine'].__class__ or \
+                    config3['source'] != config1['source']:
                 if options.config2_name:
-                    if config3['cpu'] != config2['cpu'] or config3['RepoPath'] != config2['RepoPath'] or \
-                            config3['modes'] != config2['modes'] or config3['source'] != config2['source']:
-                            build(options.config3_name)
+                    if config3['cpu'] != config2['cpu'] or \
+                            config3['RepoPath'] != config2['RepoPath'] or \
+                            config3['engine'].__class__ != config2['engine'].__class__ or \
+                            config3['source'] != config2['source']:
+                        build(options.config3_name)
                 else:
                     build(options.config3_name)
         dostuff(options.config3_name, config3['engine'])

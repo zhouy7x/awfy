@@ -188,6 +188,8 @@ def check_all(param):
 def run_related_progress():
     """
     check the status of apache2 and query_server.py, if they haven't been in operation, start them.
+    netstat -ano | findstr :8781
+    taskkill /f /pid 4400
     :return:
     """
     for k, v in RELATED.iteritems():
