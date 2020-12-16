@@ -127,7 +127,8 @@ def get_config_to_dict(config):
     ret['chrome-related'] = False
     if utils.config.has_section('v8'):
         Engine = builders.V8()
-
+    if utils.config.has_section('v8-win64'):
+        Engine = builders.V8Win64()
     if utils.config.has_section('v8-patch'):
         Engine = builders.V8_patch()
     if utils.config.has_section('contentshell'):
@@ -136,11 +137,14 @@ def get_config_to_dict(config):
         Engine = builders.JerryScript()
     if utils.config.has_section('iotjs'):
         Engine = builders.IoTjs()
-    if utils.config.has_section('headless'):
+    if utils.config.has_section('chromium-linux'):
         Engine = builders.Headless()
         ret['chrome-related'] = True
     if utils.config.has_section('headless-patch'):
         Engine = builders.Headless_patch()
+        ret['chrome-related'] = True
+    if utils.config.has_section('chromium-win64'):
+        Engine = builders.ChromiumWin64()
         ret['chrome-related'] = True
 
     ret['cpu'] = utils.config.get('main', 'cpu')
@@ -152,33 +156,40 @@ def get_config_to_dict(config):
     return ret
 
 
-config1 = get_config_to_dict(options.config_name)
-build(options.config_name)
-dostuff(options.config_name, config1['engine'])
+if __name__ == '__main__':
+    config1 = get_config_to_dict(options.config_name)
+    build(options.config_name, config=config1)
+    dostuff(options.config_name, config1['engine'])
 
-if options.config2_name:
-    config2 = get_config_to_dict(options.config2_name)
-    if not config2['chrome-related']:
-        build(options.config2_name)
-    else:
-        # if build the same chrome, skip build step.
-        if config2['cpu'] != config1['cpu'] or config2['RepoPath'] != config1['RepoPath'] or \
-                config2['modes'] != config1['modes'] or config2['source'] != config1['source']:
-            build(options.config2_name)
-    dostuff(options.config2_name, config2['engine'])
+    if options.config2_name:
+        config2 = get_config_to_dict(options.config2_name)
+        if not config2['chrome-related']:
+            build(options.config2_name, config=config2)
+        else:
+            # if build the same chrome, skip build step.
+            if config2['cpu'] != config1['cpu'] or \
+                    config2['RepoPath'] != config1['RepoPath'] or \
+                    config2['engine'].__class__ != config1['engine'].__class__ or \
+                    config2['source'] != config1['source']:
+                build(options.config2_name)
+        dostuff(options.config2_name, config2['engine'])
 
-if options.config3_name:
-    config3 = get_config_to_dict(options.config3_name)
-    if not config3['chrome-related']:
-        build(options.config3_name)
-    else:
-        # if build the same chrome, skip build step.
-        if config3['cpu'] != config1['cpu'] or config3['RepoPath'] != config1['RepoPath'] or \
-                config3['modes'] != config1['modes'] or config3['source'] != config1['source']:
-            if options.config2_name:
-                if config3['cpu'] != config2['cpu'] or config3['RepoPath'] != config2['RepoPath'] or \
-                        config3['modes'] != config2['modes'] or config3['source'] != config2['source']:
+    if options.config3_name:
+        config3 = get_config_to_dict(options.config3_name)
+        if not config3['chrome-related']:
+            build(options.config3_name, config=config3)
+        else:
+            # if build the same chrome, skip build step.
+            if config3['cpu'] != config1['cpu'] or \
+                    config3['RepoPath'] != config1['RepoPath'] or \
+                    config3['engine'].__class__ != config1['engine'].__class__ or \
+                    config3['source'] != config1['source']:
+                if options.config2_name:
+                    if config3['cpu'] != config2['cpu'] or \
+                            config3['RepoPath'] != config2['RepoPath'] or \
+                            config3['engine'].__class__ != config2['engine'].__class__ or \
+                            config3['source'] != config2['source']:
                         build(options.config3_name)
-            else:
-                build(options.config3_name)
-    dostuff(options.config3_name, config3['engine'])
+                else:
+                    build(options.config3_name)
+        dostuff(options.config3_name, config3['engine'])

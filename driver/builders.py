@@ -533,7 +533,7 @@ class Headless(Engine):
     def __init__(self):
         super(Headless, self).__init__()
         self.puller = 'git'
-        self.source = utils.config.get('headless', 'source')
+        self.source = utils.config.get('chromium-linux', 'source')
         self.args = []
         self.important = True
 
@@ -662,7 +662,7 @@ class Headless(Engine):
 class ChromiumWin64(Engine):
     def __init__(self):
         super(ChromiumWin64, self).__init__()
-        self.target_os = utils.config.get('main', 'target_os')
+        self.target_os = utils.config_get_default('main', 'target_os', 'linux')
         self.puller = 'git'
         self.source = utils.config.get('chromium-win64', 'source')
         self.args = []
@@ -755,7 +755,7 @@ class Headless_patch(Engine):
     def __init__(self):
         super(Headless_patch, self).__init__()
         self.puller = 'git'
-        self.source = utils.config.get('headless-patch', 'source')
+        self.source = utils.config.get('chromium-linux', 'source')
         self.args = []
         self.important = True
 

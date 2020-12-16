@@ -30,18 +30,25 @@ def build(config):
 
     if utils.config.has_section('v8'):
         KnownEngines.append(builders.V8())
+    if utils.config.has_section('v8-win64'):
+        KnownEngines.append(builders.V8Win64())
     if utils.config.has_section('v8-patch'):
         KnownEngines.append(builders.V8_patch())
+    if utils.config.has_section('jsc'):
+        KnownEngines.append(builders.JavaScriptCore())
     if utils.config.has_section('contentshell'):
         KnownEngines.append(builders.ContentShell())
     if utils.config.has_section('jerryscript'):
         KnownEngines.append(builders.JerryScript())
     if utils.config.has_section('iotjs'):
         KnownEngines.append(builders.IoTjs())
-    if utils.config.has_section('headless'):
+    if utils.config.has_section('chromium-linux'):
         KnownEngines.append(builders.Headless())
     if utils.config.has_section('headless-patch'):
         KnownEngines.append(builders.Headless_patch())
+    if utils.config.has_section('chromium-win64'):
+        KnownEngines.append(builders.ChromiumWin64())
+
     # builders.build(KnownEngines, False, False)
     builders.build(KnownEngines, False, True)
 

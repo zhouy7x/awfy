@@ -44,6 +44,8 @@ def dostuff(config_name):
 
     if utils.config.has_section('v8'):
         Engine = builders.V8()
+    if utils.config.has_section('v8-win64'):
+        Engine = builders.V8Win64()
     if utils.config.has_section('v8-patch'):
         Engine = builders.V8_patch()
     if utils.config.has_section('contentshell'):
@@ -52,10 +54,15 @@ def dostuff(config_name):
         Engine = builders.JerryScript()
     if utils.config.has_section('iotjs'):
         Engine = builders.IoTjs()
-    if utils.config.has_section('headless'):
+    if utils.config.has_section('chromium-linux'):
         Engine = builders.Headless()
+        # ret['chrome-related'] = True
     if utils.config.has_section('headless-patch'):
         Engine = builders.Headless_patch()
+        # ret['chrome-related'] = True
+    if utils.config.has_section('chromium-win64'):
+        Engine = builders.ChromiumWin64()
+        # ret['chrome-related'] = True
 
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
