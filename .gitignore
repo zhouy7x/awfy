@@ -4,6 +4,7 @@ website/data-bk3
 website/benchmarks
 website/reports
 repos/
+venv/
 .idea/
 .svn/
 *.pyc
