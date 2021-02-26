@@ -1032,8 +1032,7 @@ AWFY.updateMachineList = function (machineId) {
             a.addClass('inactive');
         a.html(machine.description);
         a.appendTo(li);
-        if (machine.recent_runs)
-            li.appendTo(menu);
+        li.appendTo(menu);
     }
     var m = AWFYMaster.machines[machineId];
     $('#message').html(m.description + " (" + m.cpu + ")" + "<br />&nbsp;");
