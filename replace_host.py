@@ -3,8 +3,8 @@ import os
 from sys import argv
 
 try:
-    old_host = argv[1]
-    new_host = argv[2]
+    new_host = argv[1]
+    old_host = argv[2] if argv[2:] else 'ssgs5-test'
     if not old_host.endswith('.sh.intel.com'):
         old_host += '.sh.intel.com'
     if not new_host.endswith('.sh.intel.com'):

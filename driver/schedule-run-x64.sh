@@ -127,7 +127,7 @@ do
                 popd
 
                 count=`expr $count + 1`
-                if [ "$count" -ge 20 ]; then
+                if [ "$count" -ge 4 ]; then
                     break
                 fi
 
@@ -179,7 +179,7 @@ do
                     popd
 
                     count=`expr $count + 1`
-                    if [ "$count" -ge 10 ]; then
+                    if [ "$count" -ge 2 ]; then
                         break
                     fi
                 fi
