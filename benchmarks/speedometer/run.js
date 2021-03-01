@@ -27,7 +27,7 @@ function launchChrome(headless = true) {
             '--no-sandbox',
             "--enable-logging",
             '--headless',
-            process.argv[4] ? '--js-flags="'+process.argv[4]+'"' : ''
+            process.argv[4] ? '--js-flags='+process.argv[4] : ''
         ]
     });
 }
