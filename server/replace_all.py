@@ -52,7 +52,7 @@ def get_no_score_run_id_list2(run_id_list):
     return
 
 
-def delete_all(id_list, machine_id):
+def delete_all(id_list, machine_id, mode_id=None):
     """
     delete data from mysql according to the id_list.
     :param id_list:
@@ -64,7 +64,7 @@ def delete_all(id_list, machine_id):
                   WHERE r.id = b.run_id 
                       AND s.build_id = b.id                      
                       AND r.id = %s 
-                      AND r.machine = %s;  
+                      AND r.machine = %s 
     """
     # awfy_score
     query1 = """DELETE FROM s 
@@ -72,7 +72,7 @@ def delete_all(id_list, machine_id):
                   WHERE r.id = b.run_id 
                   AND s.build_id = b.id                      
                   AND r.id = %s 
-                  AND r.machine = %s;
+                  AND r.machine = %s 
     """
 
     # awfy_build
@@ -80,24 +80,37 @@ def delete_all(id_list, machine_id):
                   USING awfy_run r, awfy_build b
                   WHERE r.id = b.run_id 
                   AND r.id = %s 
-                  AND r.machine = %s;
+                  AND r.machine = %s 
     """
 
     # awfy_run
     query3 = """DELETE FROM r
                   USING awfy_run r
                   WHERE r.id = %s 
-                     AND r.machine = %s;
+                     AND r.machine = %s ;
     """
+    if mode_id:
+        query0 += " AND b.mode_id = %s "
+        query1 += " AND b.mode_id = %s "
+        query2 += " AND b.mode_id = %s "
+    query0 += " ;"
+    query1 += " ;"
+    query2 += " ;"
     c = awfy.db.cursor()
     for id in id_list:
         try:
-            c.execute(query0, [id, machine_id])
-            c.execute(query1, [id, machine_id])
-            c.execute(query2, [id, machine_id])
-            c.execute(query3, [id, machine_id])
+            if mode_id:
+                c.execute(query0, [id, machine_id, mode_id])
+                c.execute(query1, [id, machine_id, mode_id])
+                c.execute(query2, [id, machine_id, mode_id])
 
-            print('delete point commit, id=%s' % str(id))
+            else:
+                c.execute(query0, [id, machine_id])
+                c.execute(query1, [id, machine_id])
+                c.execute(query2, [id, machine_id])
+                c.execute(query3, [id, machine_id])
+
+            print('delete point commit, id=%s, machine_id=%s, mode_id=%s' % (str(id), str(machine_id), str(mode_id)))
             awfy.db.commit()
         except Exception as e:
             print(e)

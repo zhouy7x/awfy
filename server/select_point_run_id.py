@@ -4,6 +4,7 @@
 @author:lhj
 @time:2018/12/21
 """
+import datetime
 import json
 import os
 
@@ -66,13 +67,14 @@ stop_stamp = args.stopstamp
 
 
 def write_to_file(data, a1, a2):
-    output_dir = './tmp'
+    today = datetime.datetime.now().strftime('%Y%m%d')
+    output_dir = os.path.join('./tmp', today)
     if not os.path.isdir(output_dir):
         os.system("rm -rf %s && mkdir -p %s" % (output_dir, output_dir))
-    file_name = 'tmp/run-id-%s-%s.txt' % (a1, a2)
-    with open(file_name, 'w') as f:
+    file_path = os.path.join(output_dir, 'run-id-%s-%s.txt' % (a1, a2))
+    with open(file_path, 'w') as f:
         f.write(json.dumps(data))
-    return file_name
+    return file_path
 
 
 def main(machine_id, mode_id, startstamp, stopstamp):
