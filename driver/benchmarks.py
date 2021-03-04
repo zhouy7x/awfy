@@ -1271,7 +1271,7 @@ class Unity3D(Benchmark):
         self.clean_old_processes(shell)
         url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/unity3d-release"
         run_shell = "./unity3d.sh"
-        cmd = run_shell + " " + shell + " " + url
+        cmd = run_shell + " " + shell + " " + url + " " + " ".join(args)
 
         print(os.getcwd())
         output = utils.RunTimedCheckOutput(cmd, env=env)

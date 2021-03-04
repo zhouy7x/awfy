@@ -7,14 +7,14 @@ echo "***************************"
 
 if [ $# != 2 ]
 then
-	echo "usage: $0  CHROME_PATH  URL"
+	echo "usage: $0  CHROME_PATH  URL  JSFLAG"
 	exit 
 fi 
 
 # Get chrome_path and url 
 CHROME_PATH=$1
 URL=$2
-
+JSFLAG=$3
 # delete log file and score file
 
 CHROME_DEBUG_LOG="$HOME/.config/chromium/chrome_debug.log"
@@ -40,8 +40,11 @@ else
 	export DISPLAY=":0"
 
 fi
-
-$CHROME_PATH --no-sandbox $URL --enable-logging --v=1 &
+if [ -z $JSFLAG ] ; then
+  $CHROME_PATH --no-sandbox $URL --enable-logging --v=1 &
+else
+  $CHROME_PATH --no-sandbox $URL --enable-logging --js-flags=$JSFLAG --v=1 &
+fi
 
 
 # start to monitor chrome exit 
