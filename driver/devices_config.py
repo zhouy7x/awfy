@@ -1,6 +1,7 @@
 ALL_DEVICES = ['v8', 'x64', 'arm', 'glm', '2500u', '1800x', 'cyan', 'bigcore', '3800x']
-ALL_AVAILABLE_DEVICES = ['v8', 'arm', 'glm', '1800x', '3800x']
+ALL_AVAILABLE_DEVICES = ['v8', 'arm', 'x64']
 ALL_PROCESSES = ALL_DEVICES + ['apache2', 'query']
+REVIEW_DEVICES = ['v8', 'x64']
 LOG_DIR = {
     'v8': 'v8',
     'x64': 'mixture/x64',

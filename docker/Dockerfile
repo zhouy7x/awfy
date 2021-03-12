@@ -20,8 +20,9 @@ RUN cd / && git clone https://chromium.googlesource.com/chromium/tools/depot_too
 # download awfy scripts
 RUN mkdir /repos /logs && mkdir -p /home/user/work && cd /home/user/work && ln -s /repos && ln -s /logs && \
     git clone https://<YOUR_GITLAB_USERNAME>:<YOUR_GITLAB_PASSWORD>@gitlab.devtools.intel.com/zhouy7x/awfy.git
-#    && cd awfy && python replace_host.py  ssgs5-test.sh.intel.com  `hostname -s`
-#RUN git submodule update --init --recursive
+
+# set timezone to Asia/Shanghai
+RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 # set apache2 config
 ADD apache2.conf /etc/apache2/apache2.conf
@@ -35,4 +36,4 @@ VOLUME /logs
 WORKDIR $WORKHOME
 ENTRYPOINT ["./all_run.py"]
 EXPOSE 8000 7777
-CMD ["v8", "1800x", "glm", "arm"]
+CMD []

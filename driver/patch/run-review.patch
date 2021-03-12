@@ -1,0 +1,67 @@
+diff --git a/schedule-run-v8.sh b/schedule-run-v8.sh
+index ae18aa96..e290bff8 100755
+--- a/schedule-run-v8.sh
++++ b/schedule-run-v8.sh
+@@ -107,10 +107,10 @@ do
+                 fi
+ 
+                 # python dostuff_v8.py --config=client/v8/hsw-nuc-x64$string.config --config2=client/v8/hsw-nuc-x86.config --config3=client/v8/hsw-nuc-x64-patch.config $id &
+-                python dostuff_v8.py --config=client/v8/hsw-nuc-x64$string.config --config2=client/v8/hsw-nuc-x86.config $id &
+-                python dostuff_v8.py --config=client/v8/chromeos-arm$string.config $id &
++                python dostuff_v8.py --config=client/tmp/hsw-nuc-x64$string.config $id &
++                python dostuff_v8.py --config=client/tmp/chromeos-arm$string.config $id &
+                 # python dostuff_v8.py --config=client/v8/apl-nuc-x64$string.config --config2=client/v8/apl-nuc-x64-patch.config $id &
+-                python dostuff_v8.py --config=client/v8/apl-nuc-x64$string.config $id &
++                python dostuff_v8.py --config=client/tmp/apl-nuc-x64$string.config $id &
+ 
+                 echo $tmp > $v8countfile;
+ 
+diff --git a/schedule-run-win64.sh b/schedule-run-win64.sh
+index 9ff3a0ae..a7c8fea5 100755
+--- a/schedule-run-win64.sh
++++ b/schedule-run-win64.sh
+@@ -112,9 +112,9 @@ do
+                 fi
+ 
+ #                python dostuff_win64.py --config=client/win64-v8/amd-1800x-x64$string.config --config2=client/win64-v8/amd-1800x-x86.config $id &
+-                python dostuff_win64.py --config=client/win64-v8/amd-3900x-x64$string.config --config2=client/win64-v8/amd-3900x-x86.config $id &
++                python dostuff_win64.py --config=client/tmp/amd-3900x-x64$string.config $id &
+ #                python dostuff_win64.py --config=client/win64-v8/intel-9700-x64$string.config --config2=client/win64-v8/intel-9700-x86.config $id &
+-                python dostuff_win64.py --config=client/win64-v8/intel-9900k-x64$string.config --config2=client/win64-v8/intel-9900k-x86.config $id &
++                python dostuff_win64.py --config=client/tmp/intel-9900k-x64$string.config $id &
+ #                python dostuff_win64.py --config=client/win64-v8/intel-8700k-x64$string.config --config2=client/win64-v8/intel-8700k-x86.config $id &
+ #                python dostuff_win64.py --config=client/win64-v8/amd-3800x-x64$string.config --config2=client/win64-v8/amd-3800x-x86.config $id &
+ 
+@@ -174,7 +174,7 @@ do
+ 
+                     #python dostuff_win64.py --config=client/win64-chrome/amd-1800x.config --config2=client/win64-chrome/intel-8700k.config --config3=client/win64-chrome/amd-3800x.config $i
+ #                    python dostuff_win64.py --config=client/win64-chrome/amd-1800x.config --config2=client/win64-chrome/intel-9700.config $i
+-                    python dostuff_win64.py --config=client/win64-chrome/amd-3900x.config --config2=client/win64-chrome/intel-9900k.config $i
++                    python dostuff_win64.py --config=client/tmp/amd-3900x.config --config2=client/tmp/intel-9900k.config $i
+ 
+                     popd
+ 
+diff --git a/schedule-run-x64.sh b/schedule-run-x64.sh
+index e12b73f9..5fc3e792 100755
+--- a/schedule-run-x64.sh
++++ b/schedule-run-x64.sh
+@@ -106,8 +106,8 @@ do
+ 
+                 # python dostuff_x64.py --config=client/v8/electro-x64$string.config --config2=client/v8/electro-x86.config $id &
+                 #python dostuff_x64.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config $id &
+-                python dostuff_x64.py --config=client/v8/amd-3800x-x64$string.config --config2=client/v8/amd-3800x-x86.config $id &
+-                python dostuff_x64.py --config=client/v8/intel-8700k-x64$string.config --config2=client/v8/intel-8700k-x86.config $id &
++                python dostuff_x64.py --config=client/tmp/amd-3800x-x64$string.config $id &
++                python dostuff_x64.py --config=client/tmp/intel-8700k-x64$string.config $id &
+ 
+                 echo $tmp > $v8countfile;
+ 
+@@ -161,7 +161,7 @@ do
+ 
+                     STARTT=$(date +%s)
+ 
+-                    python dostuff_x64.py --config=client/chrome/intel-8700k.config --config2=client/chrome/amd-3800x.config
++                    python dostuff_x64.py --config=client/tmp/intel-8700k.config --config2=client/tmp/amd-3800x.config
+ #                    python dostuff_x64.py --config=client/chrome/intel-8700k.config
+                     # python dostuff_x64.py --config=client/chrome/electro-x64.config --config2=client/chrome/intel-8700k.config --config3=client/chrome/amd-3800x.config
+ 

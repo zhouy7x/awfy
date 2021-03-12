@@ -278,6 +278,9 @@ AWFY.drawLegend = function () {
             continue;
         //if (!mode.used)
         //    continue;
+        if (modename != 18 && modename != 22 && modename != 24 && modename != 26 && modename != 35) {
+            mode.hidden = true;
+        }
         modes.push(mode);
     }
 

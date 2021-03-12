@@ -6,6 +6,7 @@
 """
 import os
 import re
+import sys
 
 import builders
 import slaves
@@ -19,13 +20,13 @@ from dostuff_win64 import build
 4. 得到下一轮的master号，递归运行；
 5. 退出条件下一轮mater号与本轮相同或相差1.
 """
-base_master_number = 828610
-compared_master_number = 828625
+base_master_number = 858458
+compared_master_number = 859168
 
 base_variance = 0.015
 benchmark = "webxprt3"  # in {"speedometer2", "jetstream2", "webxprt3"}
-case_name = "__total__"  # "__total__" for total score, or subcase name for subcase score
-config_file = "client/tmp/intel-1185g7.config"
+case_name = "Encrypt_Notes_and_OCR_Scan"  # "__total__" for total score, or subcase name for subcase score
+config_file = "client/tmp/intel-9900k-canary.config"
 
 base_number = base_master_number
 first_variance_number = compared_master_number
@@ -37,6 +38,8 @@ DATA_DICT = dict()
 def reset_src(param):
     if target_os == "win64":
         cmd = 'ssh ' + build_host + ' "powershell /c cd ' + os.path.join(build_repos, Engine.source).replace('\\', '/')\
+              + ' ; git reset --hard '+param+'"'
+        cmd = 'ssh ' + build_host + ' "cd ' + os.path.join(build_repos, Engine.source).replace('\\', '/')\
               + ' ; git reset --hard '+param+'"'
     else:
         cmd = 'cd '+os.path.join(utils.RepoPath, Engine.source)+' ; git reset --hard '+param
@@ -110,31 +113,37 @@ def binary_search(begin, end, prev=None):
     binary_search(begin, end, current)
 
 
-def get_commit_dict():
-    if not os.path.exists("%s/log.txt" % utils.DriverPath):
+def get_commit_dict(run_clean=False):
+    if run_clean:
+        os.system('rm -rf log.txt')
+        os.system('rm -rf c-m.txt')
+    if run_clean or not os.path.exists("%s/log.txt" % utils.DriverPath):
         # special re-direct repo_path
         repo_path = "/repos/chrome/x64/chromium/src"
         os.chdir(repo_path)
+        os.system("git reset --hard ; git pull")
         cmd1 = "git log > %s/log.txt" % utils.DriverPath
         if os.system(cmd1):
             print "get chrome git log error!"
 
-    os.chdir(utils.DriverPath)
-    with open('log.txt') as f:
-        data = f.read()
+        os.chdir(utils.DriverPath)
+        with open('log.txt') as f:
+            data = f.read()
 
-    reg_string = r'Cr-Commit-Position: refs/heads/master@{#%d}\r?\n[\w\W]*Cr-Commit-Position: refs/heads/master@{#%d}' \
-                 % (compared_master_number+1, base_master_number)
-    data = re.search(reg_string, data)
-    if data:
-        with open('c-m.txt', 'w') as f:
-            f.write(data.group())
+        reg_string = r'Cr-Commit-Position: refs/heads/master@{#%d}\r?\n[\w\W]*Cr-Commit-Position: refs/heads/master@{#%d}' \
+                     % (compared_master_number+1, base_master_number)
+        data = re.search(reg_string, data)
+        if data:
+            with open('c-m.txt', 'w') as f:
+                f.write(data.group())
 
+    if not os.path.exists('c-m.txt'):
+        print 'no c-m.txt!'
+        return
     with open('c-m.txt') as f:
         data = f.read()
-
     if not data:
-        print 'not data!'
+        print 'no data!'
         return
 
     ret = re.findall(r'\ncommit (\w+)[\w\W]*?\n *Cr-Commit-Position: refs/heads/master@{#(\d+)}', data)
@@ -144,7 +153,8 @@ def get_commit_dict():
             DATA_DICT[int(t[1])] = t[0]
             DATA_LIST.append((int(t[1]), t[0]))
     print DATA_LIST
-    print len(DATA_LIST), compared_master_number - base_master_number + 1
+    print "Length of commit ids found | Length of master numbers given"
+    print str(len(DATA_LIST)).center(26, ' '), '|', str(compared_master_number-base_master_number+1).center(29, ' ')
 
 
 def prepare():
@@ -192,21 +202,21 @@ if __name__ == '__main__':
     Engine = None
     if utils.config.has_section('v8'):
         Engine = builders.V8()
-    elif utils.config.has_section('v8-win64'):
+    if utils.config.has_section('v8-win64'):
         Engine = builders.V8Win64()
-    elif utils.config.has_section('v8-patch'):
+    if utils.config.has_section('v8-patch'):
         Engine = builders.V8_patch()
-    elif utils.config.has_section('contentshell'):
+    if utils.config.has_section('contentshell'):
         Engine = builders.ContentShell()
-    elif utils.config.has_section('jerryscript'):
+    if utils.config.has_section('jerryscript'):
         Engine = builders.JerryScript()
-    elif utils.config.has_section('iotjs'):
+    if utils.config.has_section('iotjs'):
         Engine = builders.IoTjs()
-    elif utils.config.has_section('headless'):
+    if utils.config.has_section('chromium-linux'):
         Engine = builders.Headless()
-    elif utils.config.has_section('headless-patch'):
+    if utils.config.has_section('headless-patch'):
         Engine = builders.Headless_patch()
-    elif utils.config.has_section('chromium-win64'):
+    if utils.config.has_section('chromium-win64'):
         Engine = builders.ChromiumWin64()
 
     shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())
@@ -217,10 +227,14 @@ if __name__ == '__main__':
     KnownSlaves = slaves.init()
 
     # prepare build environment
+    arg = sys.argv[1] if sys.argv[1:] else None
+    run_clean = False
+    if arg == '--clean':
+        run_clean = True
     prepare()
-    get_commit_dict()
+    get_commit_dict(run_clean)
 
-    # double check
+    # double check if the regression or improvement exists.
     reset_src(DATA_DICT[base_master_number])
     build(config_file)
     for slave in KnownSlaves:
@@ -235,8 +249,11 @@ if __name__ == '__main__':
 
     average = (base_score + compared_score) / 2
     variance = compared_score / base_score - 1
-
+    print "*"*66
+    print "The variance double checked is: ", variance
+    print "*"*66
     if -base_variance < variance < base_variance:
+        # the variance is too small or unstable, cannot find it out
         print "not very large variance, stop."
     else:
         if base_score > compared_score:

@@ -248,7 +248,12 @@ def run_all(repos):
     print(log_string)
     # os.system('mkdir /home/user/work/logs/%s'%logdir)
     run_related_progress()
-
+    if 'review' in repos:
+        prepare_cmd = "patch -p1 -i patch/run-review.patch"
+        repos = REVIEW_DEVICES
+    else:
+        prepare_cmd = "patch -p1 -i patch/run-latest.patch"
+    os.system(prepare_cmd)
     if not repos:
         repos = ALL_AVAILABLE_DEVICES
     print(repos)
@@ -267,5 +272,6 @@ def run_all(repos):
 
 
 if __name__ == '__main__':
+
     run_all(argv[1:])
     # get_cur_git_rev('x64')
