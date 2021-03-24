@@ -6,7 +6,9 @@ from sys import argv
 import os, sys
 import datetime
 from devices_config import *
+import utils
 
+run_fetch = True
 
 def check_build_server_status(tmp):
     tmp = tmp[:tmp.find(" >")]
@@ -72,18 +74,18 @@ def reset_git(vendor):
     :return:
     """
     git_rev = get_cur_git_rev(vendor)
-    os.chdir(REPOS[vendor])
-
-    cmd = "git fetch && git reset --hard %s" % git_rev
-    print cmd
-    a = os.system(cmd)
-    if a:
-        raise Exception('git fetch & reset error!')
-    os.chdir(REPOS["home"])
+    with utils.chdir(REPOS[vendor]):
+        if run_fetch:
+            os.system("git fetch")
+        cmd = "git reset --hard %s" % git_rev
+        print cmd
+        a = os.system(cmd)
+        if a:
+            raise Exception('git fetch & reset error!')
 
 
 def interrupted(signum, frame):
-    "called when read times out"
+    """called when read times out"""
     print 'interrupted!'
     signal.signal(signal.SIGALRM, interrupted)
 
@@ -251,11 +253,15 @@ def run_all(repos):
     if 'review' in repos:
         prepare_cmd = "patch -p1 -i patch/run-review.patch"
         repos = REVIEW_DEVICES
+        global run_fetch
+        run_fetch = False
     else:
         prepare_cmd = "patch -p1 -i patch/run-latest.patch"
-    os.system(prepare_cmd)
+    utils.RunTimedCheckOutput(prepare_cmd, timeout=5)
+    # clean patch failed log
+    os.system("rm -rf ./*.rej")
     if not repos:
-        repos = ALL_AVAILABLE_DEVICES
+        repos = DEFAULT_DEVICES
     print(repos)
 
     for param in repos:
@@ -272,6 +278,5 @@ def run_all(repos):
 
 
 if __name__ == '__main__':
-
     run_all(argv[1:])
     # get_cur_git_rev('x64')
