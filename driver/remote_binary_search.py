@@ -11,7 +11,6 @@ import sys
 import builders
 import slaves
 import utils
-from dostuff_win64 import build
 
 """
 1. 获取到commit id和master号对应的字典；
@@ -61,13 +60,15 @@ def remote_test(case_name, shell, env=os.environ.copy(), args=None):
     ret = map(lambda x: x.split(), ret)
     data = list()
     for x in ret:
-        score = x[0]
-        name = x[2]
-        print(score + '   - ' + name)
-        data.append({'name': name, 'time': score})
-        if case_name == name:
-            result = float(score)
-
+        try:
+            score = x[0]
+            name = x[2]
+            print(score + '   - ' + name)
+            data.append({'name': name, 'time': score})
+            if case_name == name:
+                result = float(score)
+        except IndexError as e:
+            continue
     return result
 
 
@@ -88,8 +89,8 @@ def binary_search(begin, end, prev=None):
     for slave in KnownSlaves:
         slave.prepare([Engine])
 
-    score = remote_test(case_name, shell)
-    print case_name, score
+    score = remote_test(case_name, rshell)
+    print "'" + case_name + "' of benchmark: '" + benchmark + "' in master number: '" + str(current) + "' is: " + str(score)
     global base_number, first_variance_number
     if standard > 0:
         if score > average:
@@ -169,7 +170,7 @@ def prepare():
             cmd2 = 'python remote_build_server.py %s %s %s > /logs/mixture/build_server_log.txt 2>&1 &' % \
                    (build_driver.replace('\\', '/'), build_host, port)
         else:
-            cmd2 = "python build_server.py > /logs/mixture/build_server_log.txt 2>&1 &"
+            cmd2 = "python build_server.py %s > /logs/mixture/build_server_log.txt 2>&1 &" % port
         print cmd2
         if os.system(cmd2):
             print "Start build chrome arm server failed!"
@@ -178,7 +179,9 @@ def prepare():
 def main():
     try:
         binary_search(compared_master_number, base_master_number)
-        print "The error was happended between master number %d and %d:" % (base_number, first_variance_number)
+        print "*" * 33 + "FINAL" + "*" * 33
+        print "The error was happended between master number %d and %d." % (base_number, first_variance_number)
+        print "*" * 33 + "OVER" + "*" * 33
     except Exception as e:
         print e
 
@@ -191,13 +194,16 @@ if __name__ == '__main__':
     slave_driver = utils.config_get_default(slave, 'driver')
     slave_repos = utils.config_get_default(slave, 'repos')
     slave_benchmarks = utils.config_get_default(slave, 'benchmarks')
+    port = int(utils.config_get_default('main', 'port')) if utils.config_get_default('main', 'port') else 8799
 
     if target_os == 'win64':
+        from dostuff_win64 import build
         host = utils.config_get_default('main', 'host')
-        port = utils.config_get_default('main', 'port')
         build_host = utils.config_get_default('main', 'build_host')
         build_driver = utils.config_get_default('main', 'build_driver')
         build_repos = utils.config_get_default('main', 'build_repos')
+    else:
+        from dostuff_x64 import build
 
     Engine = None
     if utils.config.has_section('v8'):
@@ -219,17 +225,20 @@ if __name__ == '__main__':
     if utils.config.has_section('chromium-win64'):
         Engine = builders.ChromiumWin64()
 
-    shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())
-    rshell = os.path.join(utils.config_get_default(utils.config_get_default('main', 'slaves', None), 'repos', utils.RepoPath), Engine.source, Engine.slave_shell()).replace('\\', '/')
+    # shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())
+    if target_os == 'win64':
+        rshell = os.path.join(utils.config_get_default(utils.config_get_default('main', 'slaves', None), 'repos', utils.RepoPath), Engine.source, Engine.slave_shell()).replace('\\', '/')
+    else:
+        rshell = os.path.join(utils.config_get_default(utils.config_get_default('main', 'slaves', None), 'repos', utils.RepoPath), Engine.source, Engine.shell())
     repo_path = os.path.join(utils.RepoPath, Engine.source)
 
     # Set of slaves that run the builds.
     KnownSlaves = slaves.init()
 
     # prepare build environment
-    arg = sys.argv[1] if sys.argv[1:] else None
+    arg1 = sys.argv[1] if sys.argv[1:] else None
     run_clean = False
-    if arg == '--clean':
+    if arg1 == 'clean':
         run_clean = True
     prepare()
     get_commit_dict(run_clean)

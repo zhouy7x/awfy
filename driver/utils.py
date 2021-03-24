@@ -117,21 +117,23 @@ def winRun(vec, env=os.environ.copy()):
     return o
 
 
-def Run(vec, env=os.environ.copy()):
+def Run(vec, env=os.environ.copy(), enable_log=True):
     print(">> Executing in " + os.getcwd())
     print(' '.join(vec))
     # print("with: " + str(env))
     try:
         o = subprocess.check_output(vec, stderr=subprocess.STDOUT, env=env)
     except subprocess.CalledProcessError as e:
-        print 'output was: ' + e.output
-        print e
+        if enable_log:
+            print 'output was: ' + e.output
+            print e
         raise e
     o = o.decode("utf-8")
     try:
         print(o)
     except:
-        print("print exception...")
+        if enable_log:
+            print("print exception...")
     return o
 
 

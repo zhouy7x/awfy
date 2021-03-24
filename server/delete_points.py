@@ -2,7 +2,7 @@
 import json
 import os
 import sys
-
+import time
 
 if __name__ == '__main__':
     TEMP = sys.argv[1]
@@ -14,6 +14,8 @@ if __name__ == '__main__':
         for file_name in file_list:
             path = os.path.join(TEMP, file_name)
             cmd = 'python delete_points.py ' + path
+            print cmd
+            time.sleep(5)
             if os.system(cmd):
                 break
     else:

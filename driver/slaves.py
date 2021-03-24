@@ -186,7 +186,7 @@ class RemoteSlave(Slave):
             subprocess.Popen(['sed', '-e', 's/^/' + self.name + ': /'], stdin=self.delayed.stdout)
             self.delayedCommand = str(fullcmd)
         else:
-            utils.Run(fullcmd)
+            utils.Run(fullcmd, enable_log=False)
 
     def pushRemote(self, file_loc, file_remote, follow=False, excludes=[]):
         print file_remote
@@ -207,7 +207,7 @@ class RemoteSlave(Slave):
 
         sync_cmd += [file_loc, self.HostName + ":" + file_remote]
         try:
-            utils.Run(sync_cmd)
+            utils.Run(sync_cmd, enable_log=False)
         except:
             # run again.
             rsync_flags = "-aP"
