@@ -1,0 +1,8 @@
+#!/usr/bin/expect -f
+
+set timeout -1
+spawn docker exec -it awfy /bin/bash
+expect  "#" { send "cd /home/user/work/awfy/driver && /usr/bin/python ./all_run.py \r" }
+expect  "#" { send "echo ok\r\n" }
+#interact
+

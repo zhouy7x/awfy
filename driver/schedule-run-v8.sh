@@ -195,7 +195,7 @@ do
         count=0
         pushd /home/user/work/repos/jsc/base/webkit
         git fetch
-        list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/jsc-filter.py`
+        list=`git rev-list origin/main ^main | tac | python /home/user/work/awfy/driver/jsc-filter.py`
         # list=`git rev-list origin/master ^master | tac`
         if [ -z "$list" ]; then
             echo "jsc: no update"

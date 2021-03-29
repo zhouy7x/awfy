@@ -250,6 +250,7 @@ def run_all(repos):
     print(log_string)
     # os.system('mkdir /home/user/work/logs/%s'%logdir)
     run_related_progress()
+
     if 'review' in repos:
         prepare_cmd = "patch -p1 -i patch/run-review.patch"
         repos = REVIEW_DEVICES
@@ -263,6 +264,8 @@ def run_all(repos):
     if not repos:
         repos = DEFAULT_DEVICES
     print(repos)
+    if 'prepare' in repos:
+        return
 
     for param in repos:
         param = param.lower()

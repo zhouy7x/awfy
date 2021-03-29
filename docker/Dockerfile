@@ -5,12 +5,13 @@ LABEL maintainer="yangx.a.zhou@intel.com"
 ENV http_proxy http://10.239.4.80:913
 ENV https_proxy http://10.239.4.80:913
 ENV DEBIAN_FRONTEND noninteractive
-ENV PATH /depot_tools:$PATH
+ENV PATH $PATH:/depot_tools
 ENV NO_AUTH_BOTO_CONFIG /home/user/work/awfy/docker/.boto
 ENV WORKHOME /home/user/work/awfy/driver
 
 # install related packages
-RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb python-tornado git curl mysql-client-5.7 expect wget tzdata software-properties-common && \
+RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb python-tornado git curl \
+    mysql-client-5.7 expect wget tzdata software-properties-common && python -m pip install subprocess32 && \
     LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/apache2 && \
     apt-get update && apt-get install -y apache2 php5.6 php5.6-mysql
 
@@ -18,8 +19,8 @@ RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysq
 RUN cd / && git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git && update_depot_tools
 
 # download awfy scripts
-RUN mkdir /repos /logs && mkdir -p /home/user/work && cd /home/user/work && ln -s /repos && ln -s /logs && \
-    git clone https://<YOUR_GITLAB_USERNAME>:<YOUR_GITLAB_PASSWORD>@gitlab.devtools.intel.com/zhouy7x/awfy.git
+RUN mkdir /repos /logs /awfy && mkdir -p /home/user/work && cd /home/user/work && ln -s /repos && ln -s /logs && \
+    ln -s /awfy
 
 # set timezone to Asia/Shanghai
 RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
@@ -34,6 +35,6 @@ VOLUME /logs
 
 # run
 WORKDIR $WORKHOME
-ENTRYPOINT ["./all_run.py"]
+#ENTRYPOINT ["./all_run.py"]
 EXPOSE 8000 7777
-CMD []
+CMD ["./all_run.py"]

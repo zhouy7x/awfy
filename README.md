@@ -27,7 +27,7 @@ Build awfy docker image
     mkdir -p /mnt/work/docker/
     cd /mnt/work/docker/   
     git clone https://gitlab.devtools.intel.com/zhouy7x/awfy.git
-    cd awfy/docker  # replace "<YOUR_GITLAB_USERNAME>:<YOUR_GITLAB_PASSWORD>" in Dockerfile to your own gitlab username and password
+    cd awfy/docker 
     docker build -t awfy:18.04 .
 ```
 Build mysql docker image
@@ -50,9 +50,11 @@ Run docker container
     docker run -it -d \
             --network host \
             --name awfy \
+            -v /mnt/work/docker/awfy:/awfy \
             -v /mnt/work/docker/VOLUMES/repos:/repos \
             -v /mnt/work/docker/VOLUMES/logs:/logs \
             awfy:18.04 \
+            /bin/bash
     docker run -it -d \
             --name awfy-mysql \
             -v /mnt/work/docker/VOLUMES/data:/var/lib/mysql \
@@ -60,6 +62,15 @@ Run docker container
             -e MYSQL_ROOT_PASSWORD="mkk" \
             -p 3306:3306/tcp \
             awfy-mysql:5.7
+```
+
+Auto start docker container and run default devices after system start (IF NEEDED!)
+-----------------------------------------------------------------------------------
+```text
+sudo chmod 755 start-docker.sh
+sudo mv start-docker.sh /etc/init.d/
+cd /etc/init.d/
+sudo update-rc.d start-docker.sh defaults 90  # If you want to remove auto start, run `sudo update-rc.d -f start-docker.sh remove`
 ```
 
 Init DB
@@ -115,6 +126,6 @@ get the start commit id of each slave.
 ```text
 cd /home/user/work/awfy/driver
 ssh-keygen
-./init.py  #TODO you must run next few commands one by one by yourself!!!
+./init.py  # you must run listed commands one by one by yourself!!!  TODO: auto run these commands.
 ./all_run.py cyan x64 
 ```
