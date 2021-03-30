@@ -70,7 +70,7 @@ Auto start docker container and run default devices after system start (IF NEEDE
 sudo chmod 755 start-docker.sh
 sudo mv start-docker.sh /etc/init.d/
 cd /etc/init.d/
-sudo update-rc.d start-docker.sh defaults 90  # If you want to remove auto start, run `sudo update-rc.d -f start-docker.sh remove`
+sudo update-rc.d start-docker.sh defaults 90  # To remove, run `sudo update-rc.d -f start-docker.sh remove`
 ```
 
 Init DB

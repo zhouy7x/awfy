@@ -124,16 +124,15 @@ def Run(vec, env=os.environ.copy(), enable_log=True):
     try:
         o = subprocess.check_output(vec, stderr=subprocess.STDOUT, env=env)
     except subprocess.CalledProcessError as e:
-        if enable_log:
-            print 'output was: ' + e.output
-            print e
+        print 'output was: ' + e.output
+        print e
         raise e
     o = o.decode("utf-8")
     try:
-        print(o)
-    except:
         if enable_log:
-            print("print exception...")
+            print(o)
+    except:
+        print("print exception...")
     return o
 
 

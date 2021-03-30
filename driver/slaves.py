@@ -188,7 +188,7 @@ class RemoteSlave(Slave):
         else:
             utils.Run(fullcmd, enable_log=False)
 
-    def pushRemote(self, file_loc, file_remote, follow=False, excludes=[]):
+    def pushRemote(self, file_loc, file_remote, follow=False, enable_log=False, excludes=[]):
         print file_remote
         reger = re.match(r"^(\w):(.*)$", file_remote)
         if reger:
@@ -207,7 +207,7 @@ class RemoteSlave(Slave):
 
         sync_cmd += [file_loc, self.HostName + ":" + file_remote]
         try:
-            utils.Run(sync_cmd, enable_log=False)
+            utils.Run(sync_cmd, enable_log=enable_log)
         except:
             # run again.
             rsync_flags = "-aP"
@@ -219,9 +219,9 @@ class RemoteSlave(Slave):
                 sync_cmd.append("--exclude" + "=" + exclude)
 
             sync_cmd += [file_loc, self.HostName + ":" + file_remote]
-            utils.Run(sync_cmd)
+            utils.Run(sync_cmd, enable_log=enable_log)
 
-    def pullRemote(self, file_remote, file_loc, follow=False, excludes=[]):
+    def pullRemote(self, file_remote, file_loc, follow=False, enable_log=False, excludes=[]):
         print file_remote
         reger = re.match(r"^(\w):(.*)$", file_remote)
         if reger:
@@ -240,7 +240,7 @@ class RemoteSlave(Slave):
 
         sync_cmd += [self.BuildHost + ":" + file_remote, file_loc]
         try:
-            utils.Run(sync_cmd)
+            utils.Run(sync_cmd, enable_log=enable_log)
         except:
             pass
 

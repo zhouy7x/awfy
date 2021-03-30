@@ -252,6 +252,8 @@ def run_all(repos):
     run_related_progress()
 
     if 'review' in repos:
+        # for 'review', must reset system time outside docker container,
+        # `sudo date --set="2021-01-01 22:22:22" ; sudo hwclock --systohc`
         prepare_cmd = "patch -p1 -i patch/run-review.patch"
         repos = REVIEW_DEVICES
         global run_fetch
