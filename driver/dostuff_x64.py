@@ -132,6 +132,8 @@ def get_config_to_dict(config):
         Engine = builders.V8Win64()
     if utils.config.has_section('v8-patch'):
         Engine = builders.V8_patch()
+    if utils.config.has_section('jsc'):
+        Engine = builders.JavaScriptCore()
     if utils.config.has_section('contentshell'):
         Engine = builders.ContentShell()
     if utils.config.has_section('jerryscript'):
