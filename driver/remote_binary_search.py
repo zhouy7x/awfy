@@ -163,7 +163,7 @@ def prepare():
     if target_os == "win64":
         cmd = 'ssh ' + build_host + ' "powershell /c netstat -ano | findstr :'+str(port)+'"'
     else:
-        cmd = 'ps aux | grep -E "python build_server.py" | grep -v grep'
+        cmd = 'ps aux | grep -E "python build_server.py %d" | grep -v grep' % port
     print cmd
     if not os.popen(cmd).read():
         if target_os == 'win64':
