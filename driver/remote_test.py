@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 """
-@author:lhj
-@time:2019/01/03
+@author:zy
+@time:2020/10/20
 """
 import os
 import sys
@@ -16,7 +16,7 @@ Benchmarks = {
 }
 
 
-def test(name, shell,target_os, env=os.environ.copy(), args=None):
+def test(name, shell, target_os, env=os.environ.copy(), args=None):
     """
     remote test benchmark, return test result in dict
     """
@@ -37,5 +37,6 @@ def test(name, shell,target_os, env=os.environ.copy(), args=None):
 if __name__ == '__main__':
     name = sys.argv[1]
     shell = sys.argv[2]
-    target_os = sys.argv[3] if sys.argv[3:] else 'linux'
-    test(name, shell, target_os)
+    target_os = sys.argv[3]
+    args = sys.argv[4:]
+    test(name, shell, target_os, args=args)

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 """
-@author:lhj
-@time:2019/01/03
+@author:zy
+@time:2021/04/07
 """
 import os
 import re
@@ -26,6 +26,7 @@ base_variance = 0.015
 benchmark = "webxprt3"  # in {"speedometer2", "jetstream2", "webxprt3"}
 case_name = "Encrypt_Notes_and_OCR_Scan"  # "__total__" for total score, or subcase name for subcase score
 config_file = "client/tmp/intel-9900k-canary.config"
+log_repo_path = "/repos/chrome/x64/chromium/src"
 
 base_number = base_master_number
 first_variance_number = compared_master_number
@@ -53,7 +54,8 @@ def remote_test(case_name, shell, env=os.environ.copy(), args=None):
     cmd = 'ssh '+slave_hostname+' "'
     if target_os == 'win64':
         cmd += 'powershell /c '
-    cmd += 'cd '+slave_driver+' ; python remote_test.py %s %s %s"' % (benchmark, shell, target_os)
+    cmd += 'cd '+slave_driver+' ; python remote_test.py %s %s %s "' % (benchmark, shell, target_os)
+    cmd += ' '.join(args)
     print cmd
     ret = os.popen(cmd).read().splitlines()
     print 'ret: ', ret
@@ -76,7 +78,7 @@ def binary_search(begin, end, prev=None):
     current = (begin+end)//2
     # exit.
     if begin <= end + 1:
-        print (current, prev)
+        # print (current, prev)
         return
     if reset_src(DATA_DICT[current]):
         raise Exception('reset chromium src error!', current, DATA_DICT[current])
@@ -110,7 +112,7 @@ def binary_search(begin, end, prev=None):
             # down, current test score smaller than average, so the variance happened between base and current
             begin = current
             first_variance_number = current
-
+    print (base_number, first_variance_number)
     binary_search(begin, end, current)
 
 
@@ -120,8 +122,8 @@ def get_commit_dict(run_clean=False):
         os.system('rm -rf c-m.txt')
     if run_clean or not os.path.exists("%s/log.txt" % utils.DriverPath):
         # special re-direct repo_path
-        repo_path = "/repos/chrome/x64/chromium/src"
-        os.chdir(repo_path)
+        # repo_path = "/repos/chrome/x64/chromium/src"
+        os.chdir(log_repo_path)
         os.system("git reset --hard ; git pull")
         cmd1 = "git log > %s/log.txt" % utils.DriverPath
         if os.system(cmd1):
@@ -180,7 +182,7 @@ def main():
     try:
         binary_search(compared_master_number, base_master_number)
         print "*" * 33 + "FINAL" + "*" * 33
-        print "The error was happended between master number %d and %d." % (base_number, first_variance_number)
+        print "The variance or error was happended between master number %d and %d." % (base_number, first_variance_number)
         print "*" * 33 + "OVER" + "*" * 33
     except Exception as e:
         print e
@@ -235,10 +237,25 @@ if __name__ == '__main__':
     # Set of slaves that run the builds.
     KnownSlaves = slaves.init()
 
+    # Get test mode and args
+    modeNames = utils.config_get_default('main', 'modes', None)
+    if not modeNames:
+        print "ERROR: Missing mode in config file!"
+    modeNames = modeNames.split(",")
+    mode = modeNames[0]
+    args = Engine.args[:] if Engine.args else []
+    for i in range(1, 100):
+        arg = utils.config_get_default(mode, 'arg' + str(i), None)
+        if arg != None:
+            args.append(arg)
+        else:
+            break
+    print "args: ", args
+
     # prepare build environment
-    arg1 = sys.argv[1] if sys.argv[1:] else None
+    param = sys.argv[1] if sys.argv[1:] else None
     run_clean = False
-    if arg1 == 'clean':
+    if param == 'clean':
         run_clean = True
     prepare()
     get_commit_dict(run_clean)

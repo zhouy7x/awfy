@@ -81,7 +81,7 @@ class RemoteSlave(Slave):
                             pass
                         self.pushRemote(llib, rlib, follow=True, excludes=libp['exclude'])
 
-            elif engine.source == "chromium/src":
+            elif engine.source in ["chromium/src", "chromium2/src", "chromium3/src"]:
                 shell = os.path.join(utils.RepoPath, engine.source, engine.shell())
                 rshell = os.path.join(self.RepoPath, engine.source, engine.shell())
                 self.runRemote(["rm", "-rf", os.path.dirname(rshell)])
@@ -98,7 +98,7 @@ class RemoteSlave(Slave):
                         self.runRemote(["rm", "-rf", rlib])
                         self.pushRemote(llib, rlib2, follow=True, excludes=libp['exclude'])
 
-            elif engine.source == "chromium\src":
+            elif engine.source in ["chromium\src", "chromium2\src", "chromium3\src"]:
                 bshell = os.path.join(self.BuildRepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
                 shell = os.path.join(utils.RepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
                 rshell = os.path.join(self.RepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
