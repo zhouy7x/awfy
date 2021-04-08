@@ -130,16 +130,16 @@ def get_commit_dict(run_clean=False):
         if os.system(cmd1):
             print "get chrome git log error!"
 
-        os.chdir(utils.DriverPath)
-        with open('log.txt') as f:
-            data = f.read()
+    os.chdir(utils.DriverPath)
+    with open('log.txt') as f:
+        data = f.read()
 
-        reg_string = r'Cr-Commit-Position: refs/heads/master@{#%d}\r?\n[\w\W]*Cr-Commit-Position: refs/heads/master@{#%d}' \
-                     % (compared_master_number+1, base_master_number)
-        data = re.search(reg_string, data)
-        if data:
-            with open('c-m.txt', 'w') as f:
-                f.write(data.group())
+    reg_string = r'Cr-Commit-Position: refs/heads/master@{#%d}\r?\n[\w\W]*Cr-Commit-Position: refs/heads/master@{#%d}' \
+                 % (compared_master_number+1, base_master_number)
+    data = re.search(reg_string, data)
+    if data:
+        with open('c-m.txt', 'w') as f:
+            f.write(data.group())
 
     if not os.path.exists('c-m.txt'):
         print 'no c-m.txt!'
