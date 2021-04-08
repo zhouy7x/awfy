@@ -55,7 +55,8 @@ def remote_test(case_name, shell, env=os.environ.copy(), args=None):
     if target_os == 'win64':
         cmd += 'powershell /c '
     cmd += 'cd '+slave_driver+' ; python remote_test.py %s %s %s "' % (benchmark, shell, target_os)
-    cmd += ' '.join(args)
+    if args:
+        cmd += ' '.join(args)
     print cmd
     ret = os.popen(cmd).read().splitlines()
     print 'ret: ', ret
