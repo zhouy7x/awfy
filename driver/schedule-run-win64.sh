@@ -131,8 +131,7 @@ do
 
                 pushd /home/user/work/awfy/server
                 printf "\n+++++ start run-update.sh"
-                ./run-update.sh > /dev/null
-                printf "\n+++++ finish run-update.sh"
+                ./run-update.sh > /dev/null &
                 popd
 
                 count=`expr $count + 1`
@@ -185,8 +184,7 @@ do
 
                     pushd /home/user/work/awfy/server
                     printf "\n+++++ start run-update.sh"
-                    ./run-update.sh > /dev/null
-                    printf "\n+++++ finish run-update.sh"
+                    ./run-update.sh > /dev/null &
                     popd
 
                     count=`expr $count + 1`

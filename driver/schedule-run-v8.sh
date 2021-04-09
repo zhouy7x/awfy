@@ -107,7 +107,7 @@ do
                 fi
 
                 # python dostuff_v8.py --config=client/v8/hsw-nuc-x64$string.config --config2=client/v8/hsw-nuc-x86.config --config3=client/v8/hsw-nuc-x64-patch.config $id &
-                python dostuff_v8.py --config=client/v8/hsw-nuc-x64$string.config --config2=client/v8/hsw-nuc-x86.config $id &
+                # python dostuff_v8.py --config=client/v8/hsw-nuc-x64$string.config --config2=client/v8/hsw-nuc-x86.config $id &
                 python dostuff_v8.py --config=client/v8/chromeos-arm$string.config $id &
                 # python dostuff_v8.py --config=client/v8/apl-nuc-x64$string.config --config2=client/v8/apl-nuc-x64-patch.config $id &
                 python dostuff_v8.py --config=client/v8/apl-nuc-x64$string.config $id &
@@ -124,7 +124,7 @@ do
                 popd
 
                 pushd /home/user/work/awfy/server
-                ./run-update.sh > /dev/null
+                ./run-update.sh > /dev/null &
                 popd
                 #count=`expr $count + 1`
                 # mod5=`expr $count % 5`
@@ -191,65 +191,65 @@ do
 #        popd
 
 
-        # Third, check jsc update
-        count=0
-        pushd /home/user/work/repos/jsc/base/webkit
-        git fetch
-        list=`git rev-list origin/main ^main | tac | python /home/user/work/awfy/driver/jsc-filter.py`
-        # list=`git rev-list origin/master ^master | tac`
-        if [ -z "$list" ]; then
-            echo "jsc: no update"
-        else
-
-            hasUpdate="true"
-            # Get every commit of jsc
-            for id in $list
-            do
-                git reset --hard -q $id && git clean -fd
-                git log -1 --pretty=short
-
-                pushd /home/user/work/awfy/driver
-
-                STARTT=$(date +%s)
-
-                if [ ! -e $jsccountfile ]; then
-                    touch $jsccountfile
-                fi
-                tmp=`cat $jsccountfile`;
-                if [ -z "$tmp" ]; then
-                    tmp=0;
-                fi
-                echo $tmp;
-
-                if [ $tmp == $jsc_longtime_bench_freq ]; then
-                    string='-long-time';
-                    tmp=0
-                else
-                    string='';
-                    tmp=$[tmp+1];
-                fi
-
-                python dostuff_v8.py --config=client/jsc/hsw-nuc-jsc-x64$string.config  $id &
-                # python dostuff_v8.py --config=client/jsc/apl-nuc-jsc-x64$string.config  $id &
-
-                echo $tmp > $jsccountfile;
-
-                wait
-
-                SECS=$(($(date +%s) - $STARTT))
-                printf "\n++++++++++++++++ $0: %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
-                popd
-
-                pushd /home/user/work/awfy/server
-                ./run-update.sh > /dev/null
-                popd
-                count=`expr $count + 1`
-                if [ "$count" -ge 20 ]; then
-                    break
-                fi
-            done
-        fi
-        popd
+#        # Third, check jsc update
+#        count=0
+#        pushd /home/user/work/repos/jsc/base/webkit
+#        git fetch
+#        list=`git rev-list origin/main ^main | tac | python /home/user/work/awfy/driver/jsc-filter.py`
+#        # list=`git rev-list origin/master ^master | tac`
+#        if [ -z "$list" ]; then
+#            echo "jsc: no update"
+#        else
+#
+#            hasUpdate="true"
+#            # Get every commit of jsc
+#            for id in $list
+#            do
+#                git reset --hard -q $id && git clean -fd
+#                git log -1 --pretty=short
+#
+#                pushd /home/user/work/awfy/driver
+#
+#                STARTT=$(date +%s)
+#
+#                if [ ! -e $jsccountfile ]; then
+#                    touch $jsccountfile
+#                fi
+#                tmp=`cat $jsccountfile`;
+#                if [ -z "$tmp" ]; then
+#                    tmp=0;
+#                fi
+#                echo $tmp;
+#
+#                if [ $tmp == $jsc_longtime_bench_freq ]; then
+#                    string='-long-time';
+#                    tmp=0
+#                else
+#                    string='';
+#                    tmp=$[tmp+1];
+#                fi
+#
+#                python dostuff_v8.py --config=client/jsc/hsw-nuc-jsc-x64$string.config  $id &
+#                # python dostuff_v8.py --config=client/jsc/apl-nuc-jsc-x64$string.config  $id &
+#
+#                echo $tmp > $jsccountfile;
+#
+#                wait
+#
+#                SECS=$(($(date +%s) - $STARTT))
+#                printf "\n++++++++++++++++ $0: %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
+#                popd
+#
+#                pushd /home/user/work/awfy/server
+#                ./run-update.sh > /dev/null &
+#                popd
+#                count=`expr $count + 1`
+#                if [ "$count" -ge 20 ]; then
+#                    break
+#                fi
+#            done
+#        fi
+#        popd
 
         if [ "$hasUpdate" = "false" ]; then
             echo "awfy: no source update, sleep 15m"

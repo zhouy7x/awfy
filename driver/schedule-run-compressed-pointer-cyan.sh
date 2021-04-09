@@ -70,7 +70,7 @@ do
                 popd
 
                 pushd /home/user/work/awfy/server
-                ./run-update.sh > /dev/null
+                ./run-update.sh > /dev/null &
                 popd
 
 
@@ -112,7 +112,7 @@ do
                     printf "\n++++++++++++++++ $0: %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
 
                     pushd /home/user/work/awfy/server
-                    ./run-update.sh > /dev/null
+                    ./run-update.sh > /dev/null &
                     popd
                 fi
             done
