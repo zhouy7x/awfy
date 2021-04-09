@@ -16,6 +16,7 @@ venv/
 *.log
 driver/state.p
 driver/tmp
+driver/client/tmp
 server/run-id-*
 server/tmp/
 benchmarks/kraken/kraken-1.1-results
