@@ -103,6 +103,7 @@ do
                     string='';
                     tmp=$[tmp+1];
                 fi
+                string='';
 
                 # python dostuff_3800x.py --config=client/v8/amd-3800x-x64$string.config --config2=client/v8/amd-3800x-x86.config --config3=client/v8/amd-3800x-x64-patch.config $id &
                 python dostuff_3800x.py --config=client/tmp/amd-3800x-x64$string.config --config2=client/tmp/amd-3800x-x86.config $id &

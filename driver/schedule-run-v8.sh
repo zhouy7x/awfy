@@ -105,6 +105,7 @@ do
                     string='';
                     tmp=$[tmp+1];
                 fi
+                string='';
 
                 # python dostuff_v8.py --config=client/v8/hsw-nuc-x64$string.config --config2=client/v8/hsw-nuc-x86.config --config3=client/v8/hsw-nuc-x64-patch.config $id &
                 # python dostuff_v8.py --config=client/v8/hsw-nuc-x64$string.config --config2=client/v8/hsw-nuc-x86.config $id &

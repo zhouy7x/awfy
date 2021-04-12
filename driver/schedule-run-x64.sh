@@ -103,6 +103,7 @@ do
                     string='';
                     tmp=$[tmp+1];
                 fi
+                string='';
 
                 # python dostuff_x64.py --config=client/v8/electro-x64$string.config --config2=client/v8/electro-x86.config $id &
                 #python dostuff_x64.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config $id &
