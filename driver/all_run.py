@@ -153,9 +153,9 @@ def check_all(param):
     :return:
     """
     param = param.lower()
-    if param in ['v8', '1800x', 'x64', '3800x']:
+    if param in ['jsc']:
         str_list = [
-            "python build_server.py 8912" % param,
+            "python build_server.py 8912",
             "bash schedule-run-%s.sh" % param,
             "python dostuff_%s.py" % param
         ]
