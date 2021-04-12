@@ -1,10 +1,11 @@
-ALL_DEVICES = ['v8', 'x64', 'arm', 'glm', '2500u', '1800x', 'cyan', 'bigcore', '3800x']
-ALL_AVAILABLE_DEVICES = ['v8', 'arm', 'x64']
+ALL_DEVICES = ['v8', 'x64', 'arm', 'glm', '2500u', '1800x', 'cyan', 'bigcore', '3800x', 'jsc']
+ALL_AVAILABLE_DEVICES = ['v8', 'arm', 'x64', 'jsc']
 ALL_PROCESSES = ALL_DEVICES + ['apache2', 'query']
 REVIEW_DEVICES = ['v8', 'x64']
 DEFAULT_DEVICES = ALL_AVAILABLE_DEVICES
 LOG_DIR = {
     'v8': 'v8',
+    'jsc': 'jsc',
     'x64': 'mixture/x64',
     'arm': 'chrome/arm',
     'glm': 'chrome/glm',
@@ -21,7 +22,7 @@ REPO_PATH = "%s/repos" % WORK_DIR
 REPOS = {
     "home": "%s/awfy/driver" % WORK_DIR,
     "v8": "%s/v8/base/v8" % REPO_PATH,
-    "v8-jsc": "%s/jsc/base/webkit" % REPO_PATH,
+    "jsc": "%s/jsc/base/webkit" % REPO_PATH,
     "jerryscript": "%s/jerryscript" % REPO_PATH,
     "x64-v8": "%s/v8/x64/v8" % REPO_PATH,
     "x64-chrome": "%s/chrome/x64/chromium/src" % REPO_PATH,
@@ -51,8 +52,8 @@ MACHINES = {
     'x64-v8': 18,
     'x64-chrome': 18,
     'arm': 9,
-    'v8': 1,
-    'v8-jsc': 16,
+    'v8': 8,
+    'jsc': 16,
 }
 MODES = {
     'cyan-v8': 22,
@@ -66,7 +67,7 @@ MODES = {
     "bigcore-v8": 22,
     "bigcore-chrome": 18,
     "v8": 22,
-    "v8-jsc": 35,
+    "jsc": 35,
 }
 RELATED = {
     'apache2': "/etc/init.d/apache2 start",

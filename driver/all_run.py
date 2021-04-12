@@ -41,7 +41,12 @@ def run_command(param, log_string):
         print(cmd)
         if os.system(cmd):
             return 'ERROR: make log dir error.'
-    if param in ['v8', '1800x', 'x64', '3800x']:
+    if param in ['jsc']:
+        # TODO: device config must link to config file, not other, must get config from config file, not default params.
+        str1 = 'python build_server.py 8912 > %s/build_server_%s_log%s.txt 2>&1 &' % (log_path, param, log_string)
+        str2 = 'rm -f /tmp/awfy-daemon-%s /tmp/awfy-lock' % param
+        str3 = 'bash schedule-run-%s.sh > %s/schedule-run-%s-log%s.txt 2>&1 &' % (param, log_path, param, log_string)
+    elif param in ['v8', '1800x', 'x64', '3800x']:
         str1 = 'python build_server_%s.py > %s/build_server_%s_log%s.txt 2>&1 &' % (param, log_path, param, log_string)
         str2 = 'rm -f /tmp/awfy-daemon-%s /tmp/awfy-lock' % param
         str3 = 'bash schedule-run-%s.sh > %s/schedule-run-%s-log%s.txt 2>&1 &' % (param, log_path, param, log_string)
@@ -150,6 +155,12 @@ def check_all(param):
     param = param.lower()
     if param in ['v8', '1800x', 'x64', '3800x']:
         str_list = [
+            "python build_server.py 8912" % param,
+            "bash schedule-run-%s.sh" % param,
+            "python dostuff_%s.py" % param
+        ]
+    elif param in ['v8', '1800x', 'x64', '3800x']:
+        str_list = [
             "python build_server_%s.py" % param,
             "bash schedule-run-%s.sh" % param,
             "python dostuff_%s.py" % param
@@ -221,10 +232,10 @@ def run_list(param, log_string):
             params = ['%s-v8' % param, '%s-chrome' % param]
             for tmp in params:
                 reset_git(tmp)
-        elif param in ['v8']:
-            params = ['v8', 'v8-jsc']
-            for tmp in params:
-                reset_git(tmp)
+        # elif param in ['v8']:
+        #     params = ['v8', 'v8-jsc']
+        #     for tmp in params:
+        #         reset_git(tmp)
         else:
             reset_git(param)
     except Exception as e:
