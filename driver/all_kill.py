@@ -38,7 +38,6 @@ def kill_all(repos):
                 "python dostuff_%s.py" % param,
                 "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/%s" % param,
                 "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/v8/%s" % param,
-                "Tools/Scripts/build-webkit --jsc-only",
             ]
         elif param in ['cyan', 'bigcore']:
             str_list = [
@@ -47,6 +46,13 @@ def kill_all(repos):
                 "python dostuff_compressed_pointer_%s.py" % param,
                 "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/v8/%s" % param,
                 "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/%s" % param,
+            ]
+        elif param in ['jsc']:
+            str_list = [
+                "python build_server.py 8912",
+                "bash schedule-run-%s.sh" % param,
+                "python dostuff_%s.py" % param,
+                "Tools/Scripts/build-webkit --jsc-only",
             ]
         else:
             str_list = [
