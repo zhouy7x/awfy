@@ -36,7 +36,7 @@ function create_position(){
 
 v8_longtime_bench_commit_dir=tmp/v8_longtime_bench_commit
 base_v8_longtime_bench_commit_dir=tmp/v8_1800x_longtime_bench_commit
-lockfile=/tmp/awfy-daemon-v8
+lockfile=/tmp/awfy-daemon-jsc
 v8countfile=tmp/v8-count
 jsccountfile=tmp/jsc-count
 v8_longtime_bench_freq=70
@@ -182,7 +182,7 @@ do
         # Third, check jsc update
         pushd /home/user/work/repos/jsc/base/webkit
         git fetch
-        list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/jsc-filter.py`
+        list=`git rev-list origin/main ^main | tac | python /home/user/work/awfy/driver/jsc-filter.py`
         # list=`git rev-list origin/master ^master | tac`
         if [ -z "$list" ]; then
             echo "jsc: no update"
