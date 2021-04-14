@@ -113,9 +113,11 @@ do
                 string='';
 
 #                python dostuff_win64.py --config=client/win64-v8/amd-1800x-x64$string.config --config2=client/win64-v8/amd-1800x-x86.config $id &
-                python dostuff_win64.py --config=client/win64-v8/amd-3900x-x64$string.config --config2=client/win64-v8/amd-3900x-x86.config $id &
+                #python dostuff_win64.py --config=client/win64-v8/amd-3900x-x64$string.config --config2=client/win64-v8/amd-3900x-x86.config $id &
+                python dostuff_win64.py --config=client/win64-v8/amd-3900x-x64$string.config $id &
 #                python dostuff_win64.py --config=client/win64-v8/intel-9700-x64$string.config --config2=client/win64-v8/intel-9700-x86.config $id &
-                python dostuff_win64.py --config=client/win64-v8/intel-9900k-x64$string.config --config2=client/win64-v8/intel-9900k-x86.config $id &
+                #python dostuff_win64.py --config=client/win64-v8/intel-9900k-x64$string.config --config2=client/win64-v8/intel-9900k-x86.config $id &
+                python dostuff_win64.py --config=client/win64-v8/intel-9900k-x64$string.config $id &
 #                python dostuff_win64.py --config=client/win64-v8/intel-8700k-x64$string.config --config2=client/win64-v8/intel-8700k-x86.config $id &
 #                python dostuff_win64.py --config=client/win64-v8/amd-3800x-x64$string.config --config2=client/win64-v8/amd-3800x-x86.config $id &
 

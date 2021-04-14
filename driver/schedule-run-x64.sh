@@ -107,8 +107,10 @@ do
 
                 # python dostuff_x64.py --config=client/v8/electro-x64$string.config --config2=client/v8/electro-x86.config $id &
                 #python dostuff_x64.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config $id &
-                python dostuff_x64.py --config=client/v8/amd-3800x-x64$string.config --config2=client/v8/amd-3800x-x86.config $id &
-                python dostuff_x64.py --config=client/v8/intel-8700k-x64$string.config --config2=client/v8/intel-8700k-x86.config $id &
+                #python dostuff_x64.py --config=client/v8/amd-3800x-x64$string.config --config2=client/v8/amd-3800x-x86.config $id &
+                python dostuff_x64.py --config=client/v8/amd-3800x-x64$string.config $id &
+                #python dostuff_x64.py --config=client/v8/intel-8700k-x64$string.config --config2=client/v8/intel-8700k-x86.config $id &
+                python dostuff_x64.py --config=client/v8/intel-8700k-x64$string.config $id &
 
                 echo $tmp > $v8countfile;
 
