@@ -118,9 +118,9 @@ def binary_search(begin, end, prev=None):
 
 
 def get_commit_dict(run_clean=False):
+    os.system('rm -rf c-m.txt')
     if run_clean:
         os.system('rm -rf log.txt')
-        os.system('rm -rf c-m.txt')
     if run_clean or not os.path.exists("%s/log.txt" % utils.DriverPath):
         # special re-direct repo_path
         # repo_path = "/repos/chrome/x64/chromium/src"
@@ -134,7 +134,7 @@ def get_commit_dict(run_clean=False):
     with open('log.txt') as f:
         data = f.read()
 
-    reg_string = r'Cr-Commit-Position: refs/heads/master@{#%d}\r?\n[\w\W]*Cr-Commit-Position: refs/heads/master@{#%d}' \
+    reg_string = r'Cr-Commit-Position: refs/heads/master@{#%d}\r?\n\r?\ncommit[\w\W]*Cr-Commit-Position: refs/heads/master@{#%d}' \
                  % (compared_master_number+1, base_master_number)
     data = re.search(reg_string, data)
     if data:
