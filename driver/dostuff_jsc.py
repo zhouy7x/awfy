@@ -4,7 +4,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import os
-import re
 import resource
 import utils
 import time
@@ -34,17 +33,6 @@ resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset', 'target_os'])
 
 
-def rsync_to_local(src, dest):
-    # if not os.path.isdir(dest):
-    os.system("rm -rf "+dest)
-    os.system("mkdir -p "+dest)
-    cmd = ["rsync", "-aP"]
-    cmd.append(src)
-    cmd.append(dest)
-    print cmd
-    utils.Run(cmd)
-
-
 def build(config_name):
     print('build')
     print(config_name)
@@ -52,33 +40,9 @@ def build(config_name):
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
-    # sync build driver with local.
-    build_driver = utils.config_get_default('main', 'build_driver', None)
-    DriverPath = utils.DriverPath
-    if build_driver != DriverPath:
-        build_host = utils.config_get_default('main', 'build_host')
-        print build_driver
-        reger = re.match(r"^(\w):(.*)$", build_driver)
-        if reger:
-            tmp = reger.groups()
-            # print tmp
-            build_driver = "/cygdrive/" + tmp[0] + tmp[1]
-            build_driver = build_driver.replace('\\', '/')
-            print build_driver
-        rsync_flags = "-aP"
-        sync_cmd = ["rsync", rsync_flags]
-        sync_cmd += [DriverPath, build_host+':'+os.path.dirname(build_driver)]
-        utils.Run(sync_cmd)
-
-    # start build
+    port = int(utils.config_get_default('main', 'port')) if utils.config_get_default('main', 'port') else 8912
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    host = utils.config_get_default('main', 'host', '127.0.0.1')
-    try:
-        port = int(utils.config_get_default('main', 'port', 8799))
-    except:
-        raise Exception("could not get port!")
-
-    s.connect((host, port))
+    s.connect(('127.0.0.1', port))
     hello = s.recv(1024)
     s.sendall(config_name)
     print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
@@ -100,7 +64,6 @@ def dostuff(config_name, Engine):
     native = builders.NativeCompiler()
 
     if len(progargs) == 0:
-        # TODO: get cset from remote build server.
         with utils.FolderChanger(os.path.join(utils.RepoPath, Engine.source)):
             cset = Engine.getPuller().Identify()
     else:
@@ -114,17 +77,13 @@ def dostuff(config_name, Engine):
     shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())
     target_os = utils.config_get_default('main', 'target_os', 'linux')
     env = None
-    with utils.chdir(os.path.join(utils.RepoPath, Engine.source.replace('\\', '/'))):
+    with utils.chdir(os.path.join(utils.RepoPath, Engine.source)):
         env = Engine.env()
 
     modeNames = utils.config_get_default('main', 'modes', None)
     if modeNames:
         modeNames = modeNames.split(",")
         for name in modeNames:
-            if target_os == "win64":
-                shell = os.path.join(utils.config_get_default(utils.config_get_default('main', 'slaves'), 'repos'), Engine.source, Engine.slave_shell())
-                shell = shell.replace('/', '\\')
-                print 'mode.shell: '+shell
             args = Engine.args[:] if Engine.args else []
             for i in range(1, 100):
                 arg = utils.config_get_default(name, 'arg' + str(i), None)
