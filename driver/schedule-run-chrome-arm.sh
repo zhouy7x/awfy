@@ -124,7 +124,8 @@ do
 
                     STARTT=$(date +%s)
 
-                    python dostuff_chrome_arm.py  --config=client/chrome/elm-arm.config
+                    #python dostuff_chrome_arm.py  --config=client/chrome/elm-arm.config
+                    python dostuff_chrome_arm.py  --config=client/chrome/elm-arm-a53.config
                     popd
 
                     wait

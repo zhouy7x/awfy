@@ -51,7 +51,7 @@ MACHINES = {
     'glm': 11,
     'x64-v8': 18,
     'x64-chrome': 18,
-    'arm': 9,
+    'arm': 23,
     'v8': 8,
     'jsc': 16,
 }

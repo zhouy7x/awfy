@@ -67,8 +67,9 @@ def dostuff(config_name):
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
+    port = int(utils.config_get_default('main', 'port')) if utils.config_get_default('main', 'port') else 8795
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(('127.0.0.1', 8795))
+    s.connect(('127.0.0.1', port))
     hello = s.recv(1024)
     s.sendall(config_name)
     print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
