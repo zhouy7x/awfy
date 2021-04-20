@@ -93,7 +93,7 @@ do
                 if [ -z "$tmp" ]; then
                     tmp=0;
                 fi
-                echo $tmp;
+                #echo $tmp;
 
                 if [ $tmp == $v8_longtime_bench_freq ]; then
                     create_position $id;
@@ -129,6 +129,7 @@ do
                 popd
 
                 count=`expr $count + 1`
+                echo $count
                 if [ "$count" -ge 4 ]; then
                     break
                 fi
@@ -180,9 +181,12 @@ do
                     popd
 
                     count=`expr $count + 1`
+                    echo $count
                     if [ "$count" -ge 2 ]; then
                         break
                     fi
+                else
+                    echo "chromium: no v8 update"
                 fi
             done
         fi

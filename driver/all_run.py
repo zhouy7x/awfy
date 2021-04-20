@@ -273,7 +273,7 @@ def run_all(repos):
         prepare_cmd = "patch -p1 -i patch/run-latest.patch"
     utils.RunTimedCheckOutput(prepare_cmd, timeout=5)
     # clean patch failed log
-    os.system("rm -rf ./*.rej")
+    os.system("rm -rf ./*.rej ./*.orig")
     if not repos:
         repos = DEFAULT_DEVICES
     print(repos)
