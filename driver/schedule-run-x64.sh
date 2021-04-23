@@ -72,9 +72,18 @@ do
         else
 
             hasUpdate="true"
+            ignoreCount=0
             # Get every commit of v8
             for id in $list
             do
+                ignoreCount=`expr $ignoreCount + 1`
+                echo $ignoreCount
+                if [ "$ignoreCount" -ge 5 ]; then
+                    break
+                elif [ "$ignoreCount" lt 4 ]; then
+                    continue
+                fi
+
                 git reset --hard -q $id && gclient sync -D -f -j10
                 git log -1 --pretty=short
 
@@ -124,13 +133,13 @@ do
                 popd
 
                 pushd /home/user/work/awfy/server
-                printf "\n+++++ start run-update.sh"
+                printf "\n+++++ start run-update.sh +++++\n"
                 ./run-update.sh > /dev/null &
                 popd
 
                 count=`expr $count + 1`
                 echo $count
-                if [ "$count" -ge 4 ]; then
+                if [ "$count" -ge 6 ]; then
                     break
                 fi
 
@@ -176,7 +185,7 @@ do
                     printf "\n++++++++++++++++ $0: %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
 
                     pushd /home/user/work/awfy/server
-                    printf "\n+++++ start run-update.sh"
+                    printf "\n+++++ start run-update.sh +++++\n"
                     ./run-update.sh > /dev/null &
                     popd
 

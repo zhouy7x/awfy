@@ -543,6 +543,8 @@ class Headless(Engine):
             cpu_mode = '-x86'
         elif self.cpu == 'arm':
             cpu_mode = '-arm'
+        elif self.cpu == 'arm64':
+            cpu_mode = '-arm64'
         elif self.cpu == 'amd64':
             cpu_mode = '-amd64'
 
@@ -674,6 +676,8 @@ class ChromiumWin64(Engine):
             cpu_mode = '-x86'
         elif self.cpu == 'arm':
             cpu_mode = '-arm'
+        elif self.cpu == 'arm64':
+            cpu_mode = '-arm64'
         elif self.cpu == 'amd64':
             cpu_mode = '-amd64'
 
@@ -765,6 +769,8 @@ class Headless_patch(Engine):
             cpu_mode = '-x86'
         elif self.cpu == 'arm':
             cpu_mode = '-arm'
+        elif self.cpu == 'arm64':
+            cpu_mode = '-arm64'
         elif self.cpu == 'amd64':
             cpu_mode = '-amd64'
 
@@ -908,6 +914,8 @@ class JavaScriptCore(Engine):
             cpu_mode = '-x86'
         elif self.cpu == 'arm':
             cpu_mode = '-arm'
+        elif self.cpu == 'arm64':
+            cpu_mode = '-arm64'
         elif self.cpu == 'amd64':
             cpu_mode = '-amd64'
         self.output_dir = 'WebKitBuild/Release'
