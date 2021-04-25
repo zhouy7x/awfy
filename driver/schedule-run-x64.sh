@@ -80,7 +80,7 @@ do
                 echo $ignoreCount
                 if [ "$ignoreCount" -ge 5 ]; then
                     break
-                elif [ "$ignoreCount" lt 4 ]; then
+                elif [ "$ignoreCount" -lt 4 ]; then
                     continue
                 fi
 
