@@ -78,10 +78,10 @@ do
             do
                 ignoreCount=`expr $ignoreCount + 1`
                 echo $ignoreCount
-                if [ "$ignoreCount" -ge 5 ]; then
-                    break
-                elif [ "$ignoreCount" -lt 4 ]; then
-                    continue
+                if [ "$ignoreCount" -ge 4 ]; then
+                    ignoreCount=0
+                else
+                  continue
                 fi
 
                 git reset --hard -q $id && gclient sync -D -f -j10

@@ -85,9 +85,9 @@ do
             do
                 ignoreCount=`expr $ignoreCount + 1`
                 echo $ignoreCount
-                if [ "$ignoreCount" -ge 8 ]; then
-                    break
-                elif [ "$ignoreCount" -lt 7 ]; then
+                if [ "$ignoreCount" -ge 7 ]; then
+                    ignoreCount=0
+                else
                     continue
                 fi
                 ssh $build_server "powershell /c cd d:/src/v8/v8/ ; git reset --hard -q $id ; gclient sync -D -f -j10"

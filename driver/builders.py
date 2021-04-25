@@ -579,7 +579,10 @@ class Headless(Engine):
                     print 'env=%s' % env
                     Run(['cp', in_argns, out_argns])
                     Run(['gclient', 'sync', '-D', '-j25', '-f'], env)
-                    # if self.cpu == 'arm':
+                    if self.cpu == 'arm64':
+                        Run([os.path.join(utils.RepoPath, self.source,
+                                          'build/linux/sysroot_scripts/install-sysroot.py'),
+                             '--arch=arm64'], env)
                     # Run(['sed', '-i',
                     #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
                     #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
@@ -634,7 +637,10 @@ class Headless(Engine):
                         Run(['cp', in_argns, out_argns])
                         print 'env=%s' % env
                         Run(['gclient', 'sync', '-D', '-j25', '-f'], env)
-                        # if self.cpu == 'arm':
+                        if self.cpu == 'arm64':
+                            Run([os.path.join(utils.RepoPath, self.source,
+                                              'build/linux/sysroot_scripts/install-sysroot.py'),
+                                 '--arch=arm64'], env)
                         # Run(['sed', '-i',
                         #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
                         #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
