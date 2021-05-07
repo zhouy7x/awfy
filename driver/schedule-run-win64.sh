@@ -85,7 +85,7 @@ do
             do
                 ignoreCount=`expr $ignoreCount + 1`
                 echo $ignoreCount
-                if [ "$ignoreCount" -ge 7 ]; then
+                if [ "$ignoreCount" -ge 8 ]; then
                     ignoreCount=0
                 else
                     continue
@@ -108,7 +108,7 @@ do
                 if [ -z "$tmp" ]; then
                     tmp=0;
                 fi
-                echo $tmp;
+#                echo $tmp;
 
                 if [ $tmp == $v8_longtime_bench_freq ]; then
                     create_position $id;
@@ -146,6 +146,7 @@ do
                 popd
 
                 count=`expr $count + 1`
+                echo $count
                 if [ "$count" -ge 6 ]; then
                     break
                 fi

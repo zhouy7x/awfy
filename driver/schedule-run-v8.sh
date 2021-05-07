@@ -74,9 +74,17 @@ do
         else
 
             hasUpdate="true"
+            ignoreCount=0
             # Get every commit of v8
             for id in $list
             do
+                ignoreCount=`expr $ignoreCount + 1`
+                echo $ignoreCount
+                if [ "$ignoreCount" -ge 2 ]; then
+                    ignoreCount=0
+                else
+                    continue
+                fi
                 git reset --hard -q $id && git clean -fd && gclient sync -D -f -j10
                 git log -1 --pretty=short
 
@@ -95,7 +103,7 @@ do
                 if [ -z "$tmp" ]; then
                     tmp=0;
                 fi
-                echo $tmp;
+#                echo $tmp;
 
                 if [ $tmp == $v8_longtime_bench_freq ]; then
                     create_position $id;
@@ -120,21 +128,13 @@ do
                 SECS=$(($(date +%s) - $STARTT))
                 printf "\n++++++++++++++++ $0: %dh:%dm:%ds ++++++++++++++++\n\n\n" $(($SECS/3600)) $(($SECS%3600/60)) $(($SECS%60))
 
-                #sleep 10h
-
                 popd
 
                 pushd /home/user/work/awfy/server
+                printf "\n+++++ start run-update.sh +++++\n"
                 ./run-update.sh > /dev/null &
                 popd
-                #count=`expr $count + 1`
-                # mod5=`expr $count % 5`
-                # if [ "$mod5" = "1" ]
-                # then
-                #   pushd /home/user/work/awfy/server
-                #   ./run-update.sh
-                #   popd
-                # fi
+
                 count=`expr $count + 1`
                 if [ "$count" -ge 20 ]; then
                     break
