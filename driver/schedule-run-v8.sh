@@ -41,6 +41,8 @@ v8countfile=tmp/v8-count
 jsccountfile=tmp/jsc-count
 v8_longtime_bench_freq=70
 jsc_longtime_bench_freq=70
+#[ -z $1 ] && fast_forward=1 || fast_forward=$1
+fast_forward=1
 
 if [ -e "$lockfile" ]
 then
@@ -80,7 +82,7 @@ do
             do
                 ignoreCount=`expr $ignoreCount + 1`
                 echo $ignoreCount
-                if [ "$ignoreCount" -ge 2 ]; then
+                if [ "$ignoreCount" -ge "$fast_forward" ]; then
                     ignoreCount=0
                 else
                     continue

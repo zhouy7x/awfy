@@ -39,6 +39,8 @@ base_v8_longtime_bench_commit_dir=tmp/v8_longtime_bench_commit
 lockfile=/tmp/awfy-daemon-x64
 v8countfile=tmp/x64-v8-count
 v8_longtime_bench_freq=70
+#[ -z $1 ] && fast_forward=1 || fast_forward=$1
+fast_forward=1
 
 if [ -e "$lockfile" ]
 then
@@ -78,7 +80,7 @@ do
             do
                 ignoreCount=`expr $ignoreCount + 1`
                 echo $ignoreCount
-                if [ "$ignoreCount" -ge 4 ]; then
+                if [ "$ignoreCount" -ge "$fast_forward" ]; then
                     ignoreCount=0
                 else
                   continue
@@ -194,8 +196,6 @@ do
                     if [ "$count" -ge 2 ]; then
                         break
                     fi
-                else
-                    echo "chromium: no v8 update"
                 fi
             done
         fi

@@ -43,6 +43,8 @@ lockfile=/tmp/awfy-daemon-win64
 v8countfile=tmp/win64-v8-count
 v8_longtime_bench_freq=70
 build_server=ssgs3@ssgs3-test.sh.intel.com
+#[ -z $1 ] && fast_forward=1 || fast_forward=$1
+fast_forward=1
 
 if [ -e "$lockfile" ]
 then
@@ -85,7 +87,7 @@ do
             do
                 ignoreCount=`expr $ignoreCount + 1`
                 echo $ignoreCount
-                if [ "$ignoreCount" -ge 8 ]; then
+                if [ "$ignoreCount" -ge "$fast_forward" ]; then
                     ignoreCount=0
                 else
                     continue
