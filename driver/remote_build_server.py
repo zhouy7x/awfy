@@ -4,16 +4,26 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import os
+import time
 from sys import argv
+import utils
 
 try:
-    build_driver = argv[1]
-    build_host = argv[2]
-    port = argv[3] if argv[3:] else 8799
+    config_name = argv[1]
+    utils.InitConfig(config_name)
 except Exception as e:
-    print "Error: You must give 3 params, BuildDriverPath, BuildHost and BuildPort!!!"
-    raise Exception(e)
-
-cmd = 'ssh ' + build_host + ' "powershell /c cd '+build_driver+' ; python build_server.py '+port+'"'
-print cmd
-os.system(cmd)
+    print "Error: You must give a right config file path!!!"
+    # raise Exception(e)
+else:
+    build_driver = utils.config_get_default('main', 'build_driver')
+    build_host = utils.config_get_default('main', 'build_host')
+    port = utils.config_get_default('main', 'port', 8799)
+    while True:
+        cmd = 'ssh ' + build_host + ' "cd ' + build_driver + ' ; python build_server.py ' + str(port) + '"'
+        print cmd
+        os.system(cmd)
+        time.sleep(5)
+        cmd = 'ssh ' + build_host + ' "powershell /c cd ' + build_driver + ' ; python build_server.py ' + str(port)+'"'
+        print cmd
+        os.system(cmd)
+        time.sleep(5)
