@@ -6,7 +6,8 @@ import subprocess
 
 def Run(vec, env=os.environ.copy()):
     try:
-        vec = "ssh ssgs3@ssgs3-test.sh.intel.com \"powershell /c cd d:/src/v8/v8/ ; " + ' '.join(vec) + "\""
+        # vec = "ssh ssgs3@ssgs3-test.sh.intel.com \"powershell /c cd d:/src/v8/v8/ ; " + ' '.join(vec) + "\""
+        vec = "ssh awfy@win-server.sh.intel.com \"cd d:/awfy/v8/v8/ ; " + ' '.join(vec) + "\""
         o = subprocess.check_output(vec, stderr=subprocess.STDOUT, env=env, shell=True)
     except subprocess.CalledProcessError as e:
         print 'output was: ' + e.output

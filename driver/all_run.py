@@ -262,18 +262,19 @@ def run_all(repos):
     # os.system('mkdir /home/user/work/logs/%s'%logdir)
     run_related_progress()
 
-    if 'review' in repos:
-        # for 'review', must reset system time outside docker container,
-        # `sudo date --set="2021-01-01 22:22:22" ; sudo hwclock --systohc`
-        prepare_cmd = "patch -p1 -i patch/run-review.patch"
-        repos = REVIEW_DEVICES
-        global run_fetch
-        run_fetch = False
-    else:
-        prepare_cmd = "patch -p1 -i patch/run-latest.patch"
-    utils.RunTimedCheckOutput(prepare_cmd, timeout=5)
-    # clean patch failed log
-    os.system("rm -rf ./*.rej ./*.orig")
+    # Deprecated
+    # if 'review' in repos:
+    #     # for 'review', must reset system time outside docker container,
+    #     # `sudo date --set="2021-01-01 22:22:22" ; sudo hwclock --systohc`
+    #     prepare_cmd = "patch -p1 -i patch/run-review.patch"
+    #     repos = REVIEW_DEVICES
+    #     global run_fetch
+    #     run_fetch = False
+    # else:
+    #     prepare_cmd = "patch -p1 -i patch/run-latest.patch"
+    # utils.RunTimedCheckOutput(prepare_cmd, timeout=5)
+    # # clean patch failed log
+    # os.system("rm -rf ./*.rej ./*.orig")
     if not repos:
         repos = DEFAULT_DEVICES
     print(repos)
