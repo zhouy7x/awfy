@@ -627,19 +627,20 @@ class Headless(Engine):
                         Run(['perl', '-pi', '-e', '"s/sudo //g"',
                              os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
                         # 2. run build/install-build-deps.sh and reset
-                        Run(['/bin/bash', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
+                        Run(['/bin/bash', os.path.join(sourcePath, 'build', 'install-build-deps.sh'),
+                             '--no-chromeos-fonts'])
                         Run(['git', 'checkout', os.path.join(sourcePath, 'build', 'install-build-deps.sh')])
                         # 3. ./build/linux/sysroot_scripts/install-sysroot.py --arch=arm
+                        if self.cpu in ['arm', 'arm64']:
+                            Run([os.path.join(utils.RepoPath, self.source,
+                                              'build/linux/sysroot_scripts/install-sysroot.py'),
+                                 '--arch=' + self.cpu], env)
 
                         Run(['rm', os.path.join(sourcePath, 'out', self.cpu), '-rf'])
                         Run(['mkdir', os.path.join(sourcePath, 'out', self.cpu)])
                         Run(['cp', in_argns, out_argns])
                         print 'env=%s' % env
                         Run(['gclient', 'sync', '-D', '-j25', '-f'], env)
-                        if self.cpu in ['arm', 'arm64']:
-                            Run([os.path.join(utils.RepoPath, self.source,
-                                              'build/linux/sysroot_scripts/install-sysroot.py'),
-                                 '--arch=' + self.cpu], env)
                         # Run(['sed', '-i',
                         #     '/use_gold &&/{s/target_cpu == "x86"/target_cpu == "x86" || target_cpu == "arm"/g}',
                         #     os.path.join(sourcePath, "third_party", "swiftshader", "BUILD.gn")], env)
