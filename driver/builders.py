@@ -218,7 +218,7 @@ class V8Win64(Engine):
 
         slaves = utils.config.get('main', 'slaves')
         self.slaveMachine = utils.config.get(slaves, 'machine')
-        self.sourcePath = os.path.join(utils.config_get_default('main', 'build_repos'), self.source)
+        self.sourcePath = os.path.join(utils.config_get_default('build', 'repos'), self.source)
 
     def updateAndBuild(self, update=True, forceRebuild=False, rev=None):
         with utils.FolderChanger(self.sourcePath):
@@ -592,7 +592,7 @@ class Headless(Engine):
                     Run(['gn', 'gen', os.path.join(sourcePath, 'out', self.cpu)], env)
                     # Run(['/home/user/work/awfy/driver/patch_stddef.sh', os.path.join(sourcePath, "third_party", "angle", "src", "common", "platform.h")], env)
                 except subprocess.CalledProcessError as e:
-                    if tmp < 1:
+                    if tmp < 1 and self.cpu in ['arm', 'arm64']:
                         # patch -p 1 -i arm.patch
                         Run(['patch', '-p1', '-i', os.path.join(sourcePath, 'arm.patch')])
                         tmp = 1
@@ -688,7 +688,7 @@ class ChromiumWin64(Engine):
             cpu_mode = '-amd64'
 
         self.modes = [{'mode': 'headless' + cpu_mode, 'args': None}]
-        self.sourcePath = os.path.join(utils.config_get_default('main', 'build_repos'), self.source)
+        self.sourcePath = os.path.join(utils.config_get_default('build', 'repos'), self.source)
 
     def updateAndBuild(self, update=True, forceRebuild=False, rev=None):
         with utils.FolderChanger(self.sourcePath):

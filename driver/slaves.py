@@ -42,10 +42,11 @@ class RemoteSlave(Slave):
         self.delayed = None
         self.delayedCommand = None
 
-        #windows remote build related
-        self.BuildHost = utils.config_get_default('main', 'build_host', '')
-        self.BuildRepoPath = utils.config_get_default('main', 'build_repos', self.RepoPath)
-        self.BuildDriverPath = utils.config_get_default('main', 'build_driver', self.DriverPath)
+        # windows remote build related
+        if utils.RemoteBuild:
+            self.BuildHost = utils.config_get_default('build', 'hostname')
+            self.BuildRepoPath = utils.config_get_default('build', 'repos', self.RepoPath)
+            # self.BuildDriverPath = utils.config_get_default('build', 'driver', self.DriverPath)
 
     def prepare(self, engines):
         self.pushRemote(utils.DriverPath + os.path.sep, self.DriverPath)

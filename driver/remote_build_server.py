@@ -15,15 +15,30 @@ except Exception as e:
     print "Error: You must give a right config file path!!!"
     # raise Exception(e)
 else:
-    build_driver = utils.config_get_default('main', 'build_driver')
-    build_host = utils.config_get_default('main', 'build_host')
     port = utils.config_get_default('main', 'port', 8799)
-    while True:
-        cmd = 'ssh ' + build_host + ' "cd ' + build_driver + ' ; python build_server.py ' + str(port) + '"'
-        print cmd
-        os.system(cmd)
-        time.sleep(5)
-        cmd = 'ssh ' + build_host + ' "powershell /c cd ' + build_driver + ' ; python build_server.py ' + str(port)+'"'
-        print cmd
-        os.system(cmd)
-        time.sleep(5)
+    build_driver = utils.config_get_default('build', 'driver', None)
+    build_host = utils.config_get_default('build', 'hostname')
+    try:
+        while True:
+            cmd = 'ssh ' + build_host + ' "cd ' + build_driver + ' ; python build_server.py ' + str(port) + '"'
+            print cmd
+            os.system(cmd)
+            time.sleep(5)
+            cmd = 'ssh ' + build_host + ' "powershell /c cd ' + build_driver + ' ; python build_server.py ' + str(port)+'"'
+            print cmd
+            os.system(cmd)
+            time.sleep(5)
+    except:
+        find_port_process = 'ssh ' + build_host + ' "netstat -ano | findstr :' + str(port) + '"'
+        print find_port_process
+        ret = os.popen(find_port_process).readlines()
+        pids = []
+        for tmp in ret:
+            if tmp:
+                pid = tmp.split()[-1]
+                pids.append(pid)
+        print pids
+        for pid in pids:
+            kill_process = 'ssh ' + build_host + ' "taskkill.exe -f -pid ' + pid + '"'
+            print kill_process
+            os.system(kill_process)

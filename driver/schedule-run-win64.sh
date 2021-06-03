@@ -184,7 +184,7 @@ do
                     pushd /home/user/work/awfy/driver
 
                     STARTT=$(date +%s)
-
+                    date
                     #python dostuff_win64.py --config=client/win64-chrome/amd-1800x.config --config2=client/win64-chrome/intel-8700k.config --config3=client/win64-chrome/amd-3800x.config $i
 #                    python dostuff_win64.py --config=client/win64-chrome/amd-1800x.config --config2=client/win64-chrome/intel-9700.config $i
                     python dostuff_win64.py --config=client/win64-chrome/amd-3900x.config --config2=client/win64-chrome/intel-9900k.config $i

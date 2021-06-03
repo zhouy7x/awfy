@@ -53,10 +53,10 @@ def build(config_name):
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
     # sync build driver with local.
-    build_driver = utils.config_get_default('main', 'build_driver', None)
     DriverPath = utils.DriverPath
-    if build_driver != DriverPath:
-        build_host = utils.config_get_default('main', 'build_host')
+    if utils.RemoteBuild:
+        build_driver = utils.config_get_default('build', 'driver', None)
+        build_host = utils.config_get_default('main', 'hostname')
         print build_driver
         reger = re.match(r"^(\w):(.*)$", build_driver)
         if reger:

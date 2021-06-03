@@ -53,10 +53,10 @@ def build(config_name):
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
     # sync build driver with local.
-    build_driver = utils.config_get_default('main', 'build_driver', None)
     DriverPath = utils.DriverPath
-    if build_driver != DriverPath:
-        build_host = utils.config_get_default('main', 'build_host')
+    if utils.RemoteBuild:
+        build_driver = utils.config_get_default('build', 'driver', None)
+        build_host = utils.config_get_default('build', 'hostname')
         print build_driver
         reger = re.match(r"^(\w):(.*)$", build_driver)
         if reger:
@@ -74,7 +74,7 @@ def build(config_name):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     host = utils.config_get_default('main', 'host', '127.0.0.1')
     try:
-        port = int(utils.config_get_default('main', 'port'))
+        port = int(utils.config_get_default('main', 'port', 8781))
     except:
         raise Exception("could not get port!")
 

@@ -26,7 +26,7 @@ base_variance = 0.015
 benchmark = "webxprt3"  # in {"speedometer2", "jetstream2", "webxprt3"}
 case_name = "Encrypt_Notes_and_OCR_Scan"  # "__total__" for total score, or subcase name for subcase score
 config_file = "client/tmp/intel-9900k-canary.config"
-log_repo_path = "/repos/chrome/x64/chromium/src"
+log_repo_path = "/home/user/work/repos/chrome/x64/chromium/src"
 
 base_number = base_master_number
 first_variance_number = compared_master_number
@@ -198,13 +198,15 @@ if __name__ == '__main__':
     slave_repos = utils.config_get_default(slave, 'repos')
     slave_benchmarks = utils.config_get_default(slave, 'benchmarks')
     port = int(utils.config_get_default('main', 'port')) if utils.config_get_default('main', 'port') else 8799
+    host = utils.config_get_default('main', 'host', 'localhost')
+
+    if utils.RemoteBuild:
+        build_repos = utils.config_get_default('build', 'repos', utils.RepoPath)
+        build_driver = utils.config_get_default('build', 'driver', utils.DriverPath)
+        build_host = utils.config_get_default('build', 'hostname', None)
 
     if target_os == 'win64':
         from dostuff_win64 import build
-        host = utils.config_get_default('main', 'host')
-        build_host = utils.config_get_default('main', 'build_host')
-        build_driver = utils.config_get_default('main', 'build_driver')
-        build_repos = utils.config_get_default('main', 'build_repos')
     else:
         from dostuff_x64 import build
 

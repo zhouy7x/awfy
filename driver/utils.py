@@ -14,11 +14,9 @@ TargetOS = None
 RepoPath = None
 BenchmarkPath = None
 DriverPath = None
-BuildRepoPath = None
-BuildDriverPath = None
 BuildHost = None
-BuildUser = None
 BuildPort = None
+RemoteBuild = False
 Timeout = 15 * 60
 PythonName = None
 Includes = None
@@ -26,8 +24,9 @@ Excludes = None
 
 
 def InitConfig(name):
-    global config, TargetOS, RepoPath, BenchmarkPath, DriverPath,BuildRepoPath,BuildDriverPath, BuildHost, BuildUser, \
-        BuildPort, Timeout, PythonName, Includes, Excludes
+    global config, TargetOS, RepoPath, BenchmarkPath, DriverPath, BuildHost, BuildPort, RemoteBuild, \
+        Timeout, PythonName, Includes, Excludes
+
     config = ConfigParser.RawConfigParser()
     if not os.path.isfile(name):
         raise Exception('could not find file: ' + name)
@@ -35,6 +34,25 @@ def InitConfig(name):
     RepoPath = config.get('main', 'repos')
     BenchmarkPath = config.get('main', 'benchmarks')
     DriverPath = config_get_default('main', 'driver', os.getcwd())
+    BuildHost = config_get_default('main', 'host', 'localhost')
+    BuildPort = config_get_default('main', 'port', 8799)
+    try:
+        BuildPort = int(BuildPort)
+    except ValueError as e:
+        raise ValueError("port must be int, not " + BuildPort)
+
+    # remote build related
+    RemoteBuild = config_get_default('main', 'remote_build', False)
+    if RemoteBuild and RemoteBuild.lower() != 'false':
+        RemoteBuild = True
+    else:
+        RemoteBuild = False
+    # if RemoteBuild:
+    #     global RemoteBuildRepoPath, RemoteBuildDriverPath, RemoteBuildHost
+    #     RemoteBuildRepoPath = config_get_default('build', 'repos', RepoPath)
+    #     RemoteBuildDriverPath = config_get_default('build', 'driver', DriverPath)
+    #     RemoteBuildHost = config_get_default('build', 'hostname', 'localhost')
+
     Timeout = config_get_default('main', 'timeout', str(Timeout))
     # silly hack to allow 30*60 in the config file.
     Timeout = eval(Timeout, {}, {})
