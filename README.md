@@ -78,6 +78,7 @@ Init DB
 * enter to awfy docker
 ```text
     docker exec -it awfy /bin/bash
+    cd /home/user/work/awfy/driver
     ./all_kill.py devices
     mysql -uroot -pmkk -h `hostname -s` -P 3306
 ```
@@ -107,13 +108,13 @@ Download submodule and repos, install dependence
     cd /home/user/work/awfy
     git pull
     git submodule update --init --recursive
-    python replace_host.py  ssgs5-test.sh.intel.com  `hostname -s`  
+    python replace_host.py `hostname -s`  
     ./server/run-clean-and-update.sh  # load http://localhost:8000 in browser, you will see awfy report page.
     cd /home/user/work/repos && mkdir -p v8/base
     cd v8/base && fetch v8 && cd v8 && git checkout master && sed -i -e 's/sudo//' build/install-build-deps.sh && ./build/install-build-deps.sh && build/linux/sysroot_scripts/install-sysroot.py --arch=arm
     cd /home/user/work/repos/v8 && cp -r base 1800x && cp -r base bigcore && cp -r base cyan 
     cd /home/user/work/repos && mkdir -p chrome/x64/chromium
-    cd chrome/x64/chromium && fetch chromium && cd src && git checkout master && sed -i -e 's/sudo//' build/install-build-deps.sh && ./build/install-build-deps.sh && build/linux/sysroot_scripts/install-sysroot.py --arch=arm
+    cd chrome/x64/chromium && fetch chromium && cd src && git checkout master && sed -i -e 's/sudo //' build/install-build-deps.sh && ./build/install-build-deps.sh && build/linux/sysroot_scripts/install-sysroot.py --arch=arm64
     cd /home/user/work/repos/chrome && cp -r x64 arm && cp -r x64 glm && cp -r x64 1800x && cp -r x64 cyan
     cd /home/user/work/repos && mkdir -p jsc/base
     cd jsc/base && git clone https://github.com/WebKit/webkit.git && cd webkit && Tools/gtk/install-dependencies

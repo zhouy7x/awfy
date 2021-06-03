@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysq
     apt-get update && apt-get install -y apache2 php5.6 php5.6-mysql
 
 # install locale en_US.utf8
-RUN locale-gen en_US.utf8 ; update-locale
+RUN apt-get clean && apt-get update && apt-get install -y locales && locale-gen en_US.utf8 && update-locale
 ENV LANG en_US.UTF-8
 
 # download depot_tools
