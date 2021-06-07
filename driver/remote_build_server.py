@@ -4,6 +4,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import os
+import subprocess
 import time
 from sys import argv
 import utils
@@ -19,15 +20,20 @@ else:
     build_driver = utils.config_get_default('build', 'driver', None)
     build_host = utils.config_get_default('build', 'hostname')
     try:
-        while True:
-            cmd = 'ssh ' + build_host + ' "cd ' + build_driver + ' ; python build_server.py ' + str(port) + '"'
-            print cmd
-            os.system(cmd)
-            time.sleep(5)
-            cmd = 'ssh ' + build_host + ' "powershell /c cd ' + build_driver + ' ; python build_server.py ' + str(port)+'"'
-            print cmd
-            os.system(cmd)
-            time.sleep(5)
+        cmd = ['ssh', build_host, '--', 'cd', build_driver, ';', 'python', 'build_server.py', str(port)]
+        print ' '.join(cmd)
+        # os.system(cmd)
+        delayed = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+        subprocess.Popen(['sed', '-e', 's/^/' + 'win-server' + ': /'], stdin=delayed.stdout)
+        output, retval = delayed.communicate()
+        time.sleep(5)
+        cmd = ['ssh', build_host, '--', 'powershell', '/c', 'cd', build_driver, ';', 'python', 'build_server.py', str(port)]
+        print cmd
+        # os.system(cmd)
+        delayed = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+        subprocess.Popen(['sed', '-e', 's/^/' + 'win-server' + ': /'], stdin=delayed.stdout)
+        output, retval = delayed.communicate()
+        time.sleep(5)
     except:
         find_port_process = 'ssh ' + build_host + ' "netstat -ano | findstr :' + str(port) + '"'
         print find_port_process
