@@ -4,6 +4,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import os
+import re
 import resource
 import utils
 import time
@@ -40,17 +41,50 @@ def build(config_name):
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
-    port = int(utils.config_get_default('main', 'port')) if utils.config_get_default('main', 'port') else 8912
+    # sync build driver with local.
+    DriverPath = utils.DriverPath
+    if utils.RemoteBuild and utils.RemoteRsync:
+        build_driver = utils.config_get_default('build', 'driver', None)
+        build_host = utils.config_get_default('main', 'hostname')
+        print build_driver
+        # for windows translate path format
+        target_os = utils.config_get_default('main', 'target_os', 'linux')
+        if target_os in ['win64']:
+            reger = re.match(r"^(\w):(.*)$", build_driver)
+            if reger:
+                tmp = reger.groups()
+                build_driver = "/cygdrive/" + tmp[0] + tmp[1]
+                build_driver = build_driver.replace('\\', '/')
+                print build_driver
+        rsync_flags = "-aP"
+        try:
+            ssh_port = int(utils.config_get_default('build', 'ssh_port', 22))
+        except:
+            raise Exception("could not get ssh port!")
+        else:
+            if ssh_port != 22:
+                rsync_flags += " -e 'ssh -p "+str(ssh_port)+"'"
+            sync_cmd = ["rsync", rsync_flags]
+            sync_cmd += [DriverPath, build_host+':'+os.path.dirname(build_driver)]
+            utils.Run(sync_cmd)
+
+    # start build
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(('127.0.0.1', port))
-    hello = s.recv(1024)
-    s.sendall(config_name)
-    print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
-    reply = s.recv(1024)
-    # time.sleep(5)
-    # reply = 'reply'
-    s.close()
-    print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
+    host = utils.config_get_default('main', 'host', '127.0.0.1')
+    try:
+        port = int(utils.config_get_default('main', 'port', 8912))
+    except:
+        raise Exception("could not get port!")
+    else:
+        s.connect((host, port))
+        hello = s.recv(1024)
+        s.sendall(config_name)
+        print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
+        reply = s.recv(1024)
+        # time.sleep(5)
+        # reply = 'reply'
+        s.close()
+        print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
 
 
 def dostuff(config_name, Engine):
@@ -64,6 +98,7 @@ def dostuff(config_name, Engine):
     native = builders.NativeCompiler()
 
     if len(progargs) == 0:
+        # TODO: get cset from remote build server.
         with utils.FolderChanger(os.path.join(utils.RepoPath, Engine.source)):
             cset = Engine.getPuller().Identify()
     else:
@@ -77,13 +112,17 @@ def dostuff(config_name, Engine):
     shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())
     target_os = utils.config_get_default('main', 'target_os', 'linux')
     env = None
-    with utils.chdir(os.path.join(utils.RepoPath, Engine.source)):
+    with utils.chdir(os.path.join(utils.RepoPath, Engine.source.replace('\\', '/'))):
         env = Engine.env()
 
     modeNames = utils.config_get_default('main', 'modes', None)
     if modeNames:
         modeNames = modeNames.split(",")
         for name in modeNames:
+            if target_os == "win64":
+                shell = os.path.join(utils.config_get_default(utils.config_get_default('main', 'slaves'), 'repos'), Engine.source, Engine.slave_shell())
+                shell = shell.replace('/', '\\')
+                print 'mode.shell: '+shell
             args = Engine.args[:] if Engine.args else []
             for i in range(1, 100):
                 arg = utils.config_get_default(name, 'arg' + str(i), None)

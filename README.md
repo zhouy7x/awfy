@@ -36,7 +36,14 @@ Build mysql docker image
 ```text
     /etc/init.d/mysql stop
     cd /mnt/work/docker/awfy/database
-    docker build -t awfy-mysql:5.7 .
+    docker build -t awfy/mysql:5.7 .
+```
+
+Build jsc build docker image
+-----------------------
+```text
+    cd /mnt/work/docker/jsc
+    docker build . -t awfy/jsc-build:20.04
 ```
 
 Run docker container
@@ -62,6 +69,14 @@ Run docker container
             -e MYSQL_ROOT_PASSWORD="mkk" \
             -p 3306:3306/tcp \
             awfy-mysql:5.7
+    docker run -it -d \
+            --name awfy-jsc \
+            -v /mnt/work/docker/awfy:/awfy \
+            -v /mnt/work/docker/VOLUMES/repos:/repos \
+            -v /mnt/work/docker/VOLUMES/logs:/logs \
+            -p 2222:22/tcp \
+            -p 8912:8912/tcp \
+            awfy/jsc-build:20.04
 ```
 
 Auto start docker container and run default devices after system start (IF NEEDED!)

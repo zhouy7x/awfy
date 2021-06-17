@@ -155,7 +155,7 @@ def check_all(param):
     param = param.lower()
     if param in ['jsc']:
         str_list = [
-            "python build_server.py 8912",
+            "python remote_build_server.py ./client/jsc/hsw-nuc-jsc-x64.config",
             "bash schedule-run-%s.sh" % param,
             "python dostuff_%s.py" % param
         ]

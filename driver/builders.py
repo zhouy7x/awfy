@@ -929,8 +929,9 @@ class JavaScriptCore(Engine):
 
     def env(self):
         return {
-            "LD_LIBRARY_PATH": os.path.join(utils.RepoPath, self.source,
-                                            "WebKitBuild/Release/lib") + ":/home/user/jsc-dependence:$LD_LIBRARY_PATH"
+            "LD_LIBRARY_PATH": os.path.join(utils.RepoPath, self.source, "WebKitBuild/Release/lib") + ":" +
+                               os.path.join(utils.DriverPath, '..', 'slave_dependence', 'jsc-dependence') +
+                               ":$LD_LIBRARY_PATH"
         }
 
     def build(self):
@@ -954,7 +955,10 @@ class JavaScriptCore(Engine):
         return os.path.join(utils.RepoPath, self.source, self.output_dir, 'bin', 'jsc')
 
     def libpaths(self):
-        return [{'path': os.path.join(utils.RepoPath, self.source, self.output_dir, 'lib'), 'exclude': []}]
+        return [
+            {'path': os.path.join(utils.RepoPath, self.source, self.output_dir, 'lib'), 'exclude': []},
+            {'path': os.path.join(utils.DriverPath, '..', 'slave_dependence', 'jsc-dependence'), 'exclude': []}
+        ]
 
 
 class IoTjs(Engine):

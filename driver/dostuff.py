@@ -34,17 +34,6 @@ resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset', 'target_os'])
 
 
-def rsync_to_local(src, dest):
-    # if not os.path.isdir(dest):
-    os.system("rm -rf "+dest)
-    os.system("mkdir -p "+dest)
-    cmd = ["rsync", "-aP"]
-    cmd.append(src)
-    cmd.append(dest)
-    print cmd
-    utils.Run(cmd)
-
-
 def build(config_name):
     print('build')
     print(config_name)
@@ -54,21 +43,30 @@ def build(config_name):
 
     # sync build driver with local.
     DriverPath = utils.DriverPath
-    if utils.RemoteBuild:
+    if utils.RemoteBuild and utils.RemoteRsync:
         build_driver = utils.config_get_default('build', 'driver', None)
         build_host = utils.config_get_default('main', 'hostname')
         print build_driver
-        reger = re.match(r"^(\w):(.*)$", build_driver)
-        if reger:
-            tmp = reger.groups()
-            # print tmp
-            build_driver = "/cygdrive/" + tmp[0] + tmp[1]
-            build_driver = build_driver.replace('\\', '/')
-            print build_driver
+        # for windows translate path format
+        target_os = utils.config_get_default('main', 'target_os', 'linux')
+        if target_os in ['win64']:
+            reger = re.match(r"^(\w):(.*)$", build_driver)
+            if reger:
+                tmp = reger.groups()
+                build_driver = "/cygdrive/" + tmp[0] + tmp[1]
+                build_driver = build_driver.replace('\\', '/')
+                print build_driver
         rsync_flags = "-aP"
-        sync_cmd = ["rsync", rsync_flags]
-        sync_cmd += [DriverPath, build_host+':'+os.path.dirname(build_driver)]
-        utils.Run(sync_cmd)
+        try:
+            ssh_port = int(utils.config_get_default('build', 'ssh_port', 22))
+        except:
+            raise Exception("could not get ssh port!")
+        else:
+            if ssh_port != 22:
+                rsync_flags += " -e 'ssh -p "+str(ssh_port)+"'"
+            sync_cmd = ["rsync", rsync_flags]
+            sync_cmd += [DriverPath, build_host+':'+os.path.dirname(build_driver)]
+            utils.Run(sync_cmd)
 
     # start build
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -77,16 +75,16 @@ def build(config_name):
         port = int(utils.config_get_default('main', 'port', 8799))
     except:
         raise Exception("could not get port!")
-
-    s.connect((host, port))
-    hello = s.recv(1024)
-    s.sendall(config_name)
-    print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
-    reply = s.recv(1024)
-    # time.sleep(5)
-    # reply = 'reply'
-    s.close()
-    print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
+    else:
+        s.connect((host, port))
+        hello = s.recv(1024)
+        s.sendall(config_name)
+        print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
+        reply = s.recv(1024)
+        # time.sleep(5)
+        # reply = 'reply'
+        s.close()
+        print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
 
 
 def dostuff(config_name, Engine):

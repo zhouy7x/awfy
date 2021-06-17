@@ -22,7 +22,7 @@ ENV LANG en_US.UTF-8
 # download depot_tools
 RUN cd / && git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git && update_depot_tools
 
-# download awfy scripts
+# create source path
 RUN mkdir /repos /logs /awfy && mkdir -p /home/user/work && cd /home/user/work && ln -s /repos && ln -s /logs && \
     ln -s /awfy
 
@@ -36,6 +36,7 @@ ADD ports.conf /etc/apache2/ports.conf
 
 VOLUME /repos
 VOLUME /logs
+VOLUME /awfy
 
 # run
 WORKDIR $WORKHOME

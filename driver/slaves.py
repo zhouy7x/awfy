@@ -42,6 +42,8 @@ class RemoteSlave(Slave):
         self.delayed = None
         self.delayedCommand = None
         self.RemoteBuild = utils.RemoteBuild
+        self.RemoteRsync = utils.RemoteRsync
+        self.RemotePull = utils.RemotePull
         # windows remote build related
         if self.RemoteBuild:
             self.BuildHost = utils.config_get_default('build', 'hostname')
@@ -57,7 +59,7 @@ class RemoteSlave(Slave):
                 # if self.target_os == 'win64':
                 shell = os.path.join(utils.RepoPath, engine.source, engine.shell()).replace('\\', '/')
                 rshell = os.path.join(self.RepoPath, engine.source, engine.shell()).replace('\\', '/')
-                if self.RemoteBuild:
+                if self.RemotePull:
                     bshell = os.path.join(self.BuildRepoPath, engine.source, engine.shell()).replace('\\', '/')
                     os.system('rm -rf '+os.path.dirname(shell))
                     os.system('mkdir -p '+os.path.dirname(shell))
@@ -102,7 +104,7 @@ class RemoteSlave(Slave):
             elif engine.source in ["chromium\src", "chromium2\src", "chromium3\src"]:
                 shell = os.path.join(utils.RepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
                 rshell = os.path.join(self.RepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
-                if self.RemoteBuild:
+                if self.RemoteRsync:
                     bshell = os.path.join(self.BuildRepoPath, engine.source, engine.slave_shell()).replace('\\', '/')
                     os.system('rm -rf ' + os.path.dirname(shell))
                     os.system('mkdir -p ' + os.path.dirname(shell))
@@ -118,7 +120,7 @@ class RemoteSlave(Slave):
                     llib = os.path.join(utils.RepoPath, engine.source, libp['path']).replace('\\', '/')
                     rlib = os.path.join(self.RepoPath, engine.source, libp['path']).replace('\\', '/')
                     rlib2 = os.path.dirname(rlib)
-                    if self.RemoteBuild:
+                    if self.RemotePull:
                         blib = os.path.join(self.BuildRepoPath, engine.source, libp['path']).replace('\\', '/')
                         os.system('rm -rf ' + llib)
                         self.pullRemote(blib, os.path.dirname(llib), follow=True, excludes=libp['exclude'])

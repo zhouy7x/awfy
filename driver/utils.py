@@ -17,6 +17,8 @@ DriverPath = None
 BuildHost = None
 BuildPort = None
 RemoteBuild = False
+RemoteRsync = False
+RemotePull = False
 Timeout = 15 * 60
 PythonName = None
 Includes = None
@@ -24,8 +26,8 @@ Excludes = None
 
 
 def InitConfig(name):
-    global config, TargetOS, RepoPath, BenchmarkPath, DriverPath, BuildHost, BuildPort, RemoteBuild, \
-        Timeout, PythonName, Includes, Excludes
+    global config, TargetOS, RepoPath, BenchmarkPath, DriverPath, BuildHost, BuildPort, RemoteBuild, RemoteRsync, \
+        RemotePull, Timeout, PythonName, Includes, Excludes
 
     config = ConfigParser.RawConfigParser()
     if not os.path.isfile(name):
@@ -47,7 +49,17 @@ def InitConfig(name):
         RemoteBuild = True
     else:
         RemoteBuild = False
-    # if RemoteBuild:
+    if RemoteBuild:
+        RemoteRsync = config_get_default('build', 'rsync', True)
+        if str(RemoteRsync).lower() == 'false':
+            RemoteRsync = False
+        else:
+            RemoteRsync = True
+    RemotePull = config_get_default('build', 'pull', True)
+    if str(RemotePull).lower() == 'false':
+        RemotePull = False
+    else:
+        RemotePull = True
     #     global RemoteBuildRepoPath, RemoteBuildDriverPath, RemoteBuildHost
     #     RemoteBuildRepoPath = config_get_default('build', 'repos', RepoPath)
     #     RemoteBuildDriverPath = config_get_default('build', 'driver', DriverPath)
