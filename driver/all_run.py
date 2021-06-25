@@ -43,7 +43,7 @@ def run_command(param, log_string):
             return 'ERROR: make log dir error.'
     if param in ['jsc']:
         # TODO: device config must link to config file, not other, must get config from config file, not default params.
-        str1 = 'python build_server.py 8912 > %s/build_server_%s_log%s.txt 2>&1 &' % (log_path, param, log_string)
+        str1 = 'python remote_build_server.py ./client/jsc/hsw-nuc-jsc-x64.config %s/build_server_%s_log%s.txt 2>&1 &' % (log_path, param, log_string)
         str2 = 'rm -f /tmp/awfy-daemon-%s /tmp/awfy-lock' % param
         str3 = 'bash schedule-run-%s.sh > %s/schedule-run-%s-log%s.txt 2>&1 &' % (param, log_path, param, log_string)
     elif param in ['v8', '1800x', 'x64', '3800x']:

@@ -39,13 +39,6 @@ Build mysql docker image
     docker build -t awfy/mysql:5.7 .
 ```
 
-Build jsc build docker image
------------------------
-```text
-    cd /mnt/work/docker/jsc
-    docker build . -t awfy/jsc-build:20.04
-```
-
 Run docker container
 -------------------
 * in localhost
@@ -69,14 +62,6 @@ Run docker container
             -e MYSQL_ROOT_PASSWORD="mkk" \
             -p 3306:3306/tcp \
             awfy-mysql:5.7
-    docker run -it -d \
-            --name awfy-jsc \
-            -v /mnt/work/docker/awfy:/awfy \
-            -v /mnt/work/docker/VOLUMES/repos:/repos \
-            -v /mnt/work/docker/VOLUMES/logs:/logs \
-            -p 2222:22/tcp \
-            -p 8912:8912/tcp \
-            awfy/jsc-build:20.04
 ```
 
 Auto start docker container and run default devices after system start (IF NEEDED!)
@@ -93,8 +78,9 @@ Init DB
 * enter to awfy docker
 ```text
     docker exec -it awfy /bin/bash
-    cd /home/user/work/awfy/driver
-    ./all_kill.py devices
+    cd /home/user/work/awfy/
+    ssh-keygen
+    cat ~/.ssh/id_rsa.pub >> docker/jsc/.ssh/authorized_keys
     mysql -uroot -pmkk -h `hostname -s` -P 3306
 ```
 * in awfy-mysql
@@ -115,6 +101,28 @@ Init DB
     exit  
 ```
 Get result '3'.
+
+Build jsc build docker image
+-----------------------
+```text
+    cd /mnt/work/docker/jsc
+    docker build . -t awfy/jsc-build:20.04
+```
+
+Run jsc docker container
+-------------------
+* in localhost
+```text
+    cd /mnt/work/docker/
+    docker run -it -d \
+            --name awfy-jsc \
+            -v /mnt/work/docker/awfy:/awfy \
+            -v /mnt/work/docker/VOLUMES/repos:/repos \
+            -v /mnt/work/docker/VOLUMES/logs:/logs \
+            -p 2222:22/tcp \
+            -p 8912:8912/tcp \
+            awfy/jsc-build:20.04
+```
 
 Download submodule and repos, install dependence
 -----------------------------------------------
@@ -141,7 +149,8 @@ get the start commit id of each slave.
 * in awfy docker
 ```text
 cd /home/user/work/awfy/driver
-ssh-keygen
+# Set passwordless login to test slaves, you can get all test slaves' hostname by running ./init.py
 ./init.py  # you must run listed commands one by one by yourself!!!  TODO: auto run these commands.
-./all_run.py cyan x64 
+# That's all, now you can auto run tests by all_run.py, 
+./all_run.py x64 
 ```

@@ -14,6 +14,7 @@ LOG_DIR = {
     '3800x': 'mixture/3800x',
     'cyan': 'mixture/cyan',
     'bigcore': 'mixture/bigcore',
+    'win64': 'mixture/win-x64',
 }
 WORK_DIR = "/home/user/work"
 WIN_WORK_DIR = "c:\work"

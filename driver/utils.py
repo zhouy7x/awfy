@@ -55,11 +55,11 @@ def InitConfig(name):
             RemoteRsync = False
         else:
             RemoteRsync = True
-    RemotePull = config_get_default('build', 'pull', True)
-    if str(RemotePull).lower() == 'false':
-        RemotePull = False
-    else:
-        RemotePull = True
+        RemotePull = config_get_default('build', 'pull', True)
+        if str(RemotePull).lower() == 'false':
+            RemotePull = False
+        else:
+            RemotePull = True
     #     global RemoteBuildRepoPath, RemoteBuildDriverPath, RemoteBuildHost
     #     RemoteBuildRepoPath = config_get_default('build', 'repos', RepoPath)
     #     RemoteBuildDriverPath = config_get_default('build', 'driver', DriverPath)

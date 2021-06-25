@@ -1022,7 +1022,7 @@ class Speedometer2(Benchmark):
             if not m:
                 continue
             name = m.group(1)
-            if name in ['  port', ' port', 'Unknown type']:
+            if name in ['  port', ' port', '__port', '_port', 'port', 'Unknown type']:
                 continue
             score = m.group(2)
             if name[0:5] == "Score":
@@ -1054,7 +1054,7 @@ class Speedometer2(Benchmark):
             if not m:
                 continue
             name = m.group(1)
-            if name in ['  port', ' port', 'Unknown type']:
+            if name in ['  port', ' port', '__port', '_port', 'port', 'Unknown type']:
                 continue
             score = m.group(2)
             if name[0:5] == "Score":
@@ -1090,7 +1090,7 @@ class JetStream2(Benchmark):
             if not m:
                 continue
             name = m.group(1)
-            if name in ['  port', ' port', 'Unknown type']:
+            if name in ['  port', ' port', '__port', '_port', 'port', 'Unknown type']:
                 continue
             score = m.group(2)
             if name[0:5] == "Score":
@@ -1122,7 +1122,7 @@ class JetStream2(Benchmark):
             if not m:
                 continue
             name = m.group(1)
-            if name in ['  port', ' port', 'Unknown type']:
+            if name in ['  port', ' port', '__port', '_port', 'port', 'Unknown type']:
                 continue
             score = m.group(2)
             if name[0:5] == "Score":
@@ -1158,6 +1158,8 @@ class WebXPRT3(Benchmark):
             if not m:
                 continue
             name = m.group(1).split(' (ms')[0].replace(' ', '_')
+            if name in ['  port', ' port', '__port', '_port', 'port', 'Unknown type']:
+                continue
             score = m.group(2)
             if name == "Score":
                 name = "__total__"
@@ -1187,6 +1189,8 @@ class WebXPRT3(Benchmark):
             if not m:
                 continue
             name = m.group(1).split(' (ms')[0].replace(' ', '_')
+            if name in ['  port', ' port', '__port', '_port', 'port', 'Unknown type']:
+                continue
             score = m.group(2)
             if name == "Score":
                 name = "__total__"

@@ -141,7 +141,7 @@ do
 
         if [ "$hasUpdate" = "false" ]; then
             echo "awfy: no source update, sleep 15m"
-            sleep 1m
+            sleep 15m
         fi
 
     fi

@@ -49,6 +49,7 @@ def kill_all(repos):
             ]
         elif param in ['jsc']:
             str_list = [
+                'python remote_build_server.py ./client/jsc/hsw-nuc-jsc-x64.config',
                 "bash schedule-run-%s.sh" % param,
                 "python dostuff_%s.py" % param,
                 "Tools/Scripts/build-webkit --jsc-only",
