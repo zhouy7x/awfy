@@ -211,23 +211,23 @@ if __name__ == '__main__':
         from dostuff_x64 import build
 
     Engine = None
-    if utils.config.has_section('v8'):
+    if utils.config.has_key('v8'):
         Engine = builders.V8()
-    if utils.config.has_section('v8-win64'):
+    if utils.config.has_key('v8-win64'):
         Engine = builders.V8Win64()
-    if utils.config.has_section('v8-patch'):
+    if utils.config.has_key('v8-patch'):
         Engine = builders.V8_patch()
-    if utils.config.has_section('contentshell'):
+    if utils.config.has_key('contentshell'):
         Engine = builders.ContentShell()
-    if utils.config.has_section('jerryscript'):
+    if utils.config.has_key('jerryscript'):
         Engine = builders.JerryScript()
-    if utils.config.has_section('iotjs'):
+    if utils.config.has_key('iotjs'):
         Engine = builders.IoTjs()
-    if utils.config.has_section('chromium-linux'):
+    if utils.config.has_key('chromium-linux'):
         Engine = builders.Headless()
-    if utils.config.has_section('headless-patch'):
+    if utils.config.has_key('headless-patch'):
         Engine = builders.Headless_patch()
-    if utils.config.has_section('chromium-win64'):
+    if utils.config.has_key('chromium-win64'):
         Engine = builders.ChromiumWin64()
 
     # shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())

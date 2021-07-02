@@ -13,7 +13,7 @@ import json
 class Submitter:
     def __init__(self, slave):
         self.machine = slave.machine
-        self.urls = utils.config.get('main', 'updateURL').split(",")
+        self.urls = utils.config['main']['updateURL'].split(",")
         self.runIds = []
         for i in range(len(self.urls)):
             self.urls[i] = self.urls[i].strip()

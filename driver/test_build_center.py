@@ -30,13 +30,13 @@ def judge_if_build(config):
     utils.InitConfig(config)
     # # Set of engines that get build.
     KnownEngines = []
-    if utils.config.has_section('v8'):
+    if utils.config.has_key('v8'):
         KnownEngines.append(builders.V8())
-    if utils.config.has_section('contentshell'):
+    if utils.config.has_key('contentshell'):
         KnownEngines.append(builders.ContentShell())
-    if utils.config.has_section('jerryscript'):
+    if utils.config.has_key('jerryscript'):
         KnownEngines.append(builders.JerryScript())
-    if utils.config.has_section('iotjs'):
+    if utils.config.has_key('iotjs'):
         KnownEngines.append(builders.IoTjs())
     for engine in KnownEngines:
         print "shell: ", os.path.join(utils.RepoPath, engine.source, engine.shell())
@@ -51,13 +51,13 @@ def build(config):
     utils.InitConfig(config)
     # # Set of engines that get build.
     KnownEngines = []
-    if utils.config.has_section('v8'):
+    if utils.config.has_key('v8'):
         KnownEngines.append(builders.V8())
-    if utils.config.has_section('contentshell'):
+    if utils.config.has_key('contentshell'):
         KnownEngines.append(builders.ContentShell())
-    if utils.config.has_section('jerryscript'):
+    if utils.config.has_key('jerryscript'):
         KnownEngines.append(builders.JerryScript())
-    if utils.config.has_section('iotjs'):
+    if utils.config.has_key('iotjs'):
         KnownEngines.append(builders.IoTjs())
     for engine in KnownEngines:
         open(os.path.join(utils.RepoPath, engine.source, engine.shell()), 'a')

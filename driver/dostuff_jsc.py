@@ -18,10 +18,11 @@ import slaves
 import submitter
 
 parser = OptionParser(usage="usage: %prog [options] [cset]")
-parser.add_option("-c", "--config", dest="config_name", type="string", default="awfy.config",
-                  help="Config file (default: awfy.config)")
-parser.add_option("-2", "--config2", dest="config2_name", type="string", default="", help="Second config file")
-parser.add_option("-3", "--config3", dest="config3_name", type="string", default="", help="Third config file")
+parser.add_option("-d", "--device-type", dest="device_type", type="string", default="jsc",
+                  help="Device type (default: jsc)")
+parser.add_option("-c", "--config", dest="config_name", type="string", default="", help="Config mode name")
+parser.add_option("-2", "--config2", dest="config2_name", type="string", default="", help="Second config mode")
+parser.add_option("-3", "--config3", dest="config3_name", type="string", default="", help="Third config mode")
 (options, progargs) = parser.parse_args()
 print (options, progargs)
 
@@ -34,10 +35,10 @@ resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset', 'target_os'])
 
 
-def build(config_name):
+def build(device_type, config_name):
     print('build')
-    print(config_name)
-    utils.InitConfig(config_name)
+    print(device_type, config_name)
+    utils.InitConfig(device_type, config_name)
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
@@ -78,8 +79,8 @@ def build(config_name):
     else:
         s.connect((host, port))
         hello = s.recv(1024)
-        s.sendall(config_name)
-        print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
+        s.sendall(device_type+' '+config_name)
+        print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', device_type+' '+config_name, '@', myself
         reply = s.recv(1024)
         # time.sleep(5)
         # reply = 'reply'
@@ -87,10 +88,10 @@ def build(config_name):
         print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
 
 
-def dostuff(config_name, Engine):
+def dostuff(device_type, config_name, Engine):
     print "dostuff"
-    print config_name
-    utils.InitConfig(config_name)
+    print device_type, config_name
+    utils.InitConfig(device_type, config_name)
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
@@ -98,7 +99,6 @@ def dostuff(config_name, Engine):
     native = builders.NativeCompiler()
 
     if len(progargs) == 0:
-        # TODO: get cset from remote build server.
         with utils.FolderChanger(os.path.join(utils.RepoPath, Engine.source)):
             cset = Engine.getPuller().Identify()
     else:
@@ -109,20 +109,22 @@ def dostuff(config_name, Engine):
 
     # Make a list of all modes.
     modes = []
-    shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())
     target_os = utils.config_get_default('main', 'target_os', 'linux')
+    if target_os == "win64":
+        shell = os.path.join(utils.config_get_default(utils.config_get_default('main', 'slaves'), 'repos'),
+                             Engine.source, Engine.slave_shell())
+        shell = shell.replace('/', '\\')
+    else:
+        shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())
+    print 'mode.shell: ' + shell
     env = None
-    with utils.chdir(os.path.join(utils.RepoPath, Engine.source.replace('\\', '/'))):
+    with utils.chdir(os.path.join(utils.RepoPath, Engine.source)):
         env = Engine.env()
 
     modeNames = utils.config_get_default('main', 'modes', None)
     if modeNames:
         modeNames = modeNames.split(",")
         for name in modeNames:
-            if target_os == "win64":
-                shell = os.path.join(utils.config_get_default(utils.config_get_default('main', 'slaves'), 'repos'), Engine.source, Engine.slave_shell())
-                shell = shell.replace('/', '\\')
-                print 'mode.shell: '+shell
             args = Engine.args[:] if Engine.args else []
             for i in range(1, 100):
                 arg = utils.config_get_default(name, 'arg' + str(i), None)
@@ -157,69 +159,69 @@ def dostuff(config_name, Engine):
         slave.synchronize()
 
 
-def get_config_to_dict(config):
+def get_config_to_dict(device_type, config):
     print 'get_config_to_dict'
     print config
-    utils.InitConfig(config)
+    utils.InitConfig(device_type, config)
     # Set of engines that get build.
     ret = dict()
     Engine = None
     ret['chrome-related'] = False
-    if utils.config.has_section('v8'):
+    if utils.config.has_key('v8'):
         Engine = builders.V8()
-    if utils.config.has_section('v8-win64'):
+    if utils.config.has_key('v8-win64'):
         Engine = builders.V8Win64()
-    if utils.config.has_section('v8-patch'):
+    if utils.config.has_key('v8-patch'):
         Engine = builders.V8_patch()
-    if utils.config.has_section('jsc'):
+    if utils.config.has_key('jsc'):
         Engine = builders.JavaScriptCore()
-    if utils.config.has_section('contentshell'):
+    if utils.config.has_key('contentshell'):
         Engine = builders.ContentShell()
-    if utils.config.has_section('jerryscript'):
+    if utils.config.has_key('jerryscript'):
         Engine = builders.JerryScript()
-    if utils.config.has_section('iotjs'):
+    if utils.config.has_key('iotjs'):
         Engine = builders.IoTjs()
-    if utils.config.has_section('chromium-linux'):
+    if utils.config.has_key('chromium-linux'):
         Engine = builders.Headless()
         ret['chrome-related'] = True
-    if utils.config.has_section('headless-patch'):
+    if utils.config.has_key('headless-patch'):
         Engine = builders.Headless_patch()
         ret['chrome-related'] = True
-    if utils.config.has_section('chromium-win64'):
+    if utils.config.has_key('chromium-win64'):
         Engine = builders.ChromiumWin64()
         ret['chrome-related'] = True
 
-    ret['cpu'] = utils.config.get('main', 'cpu')
+    ret['cpu'] = utils.config['main']['cpu']
     ret['RepoPath'] = utils.RepoPath
-    ret['modes'] = utils.config.get('main', 'modes')
-    ret['hostname'] = utils.config.get(utils.config.get('main', 'slaves'), 'hostname')
+    ret['modes'] = utils.config_get_default('main', 'modes')
+    ret['hostname'] = utils.config_get_default(utils.config_get_default('main', 'slaves'), 'hostname')
     ret['source'] = Engine.source
     ret['engine'] = Engine
     return ret
 
 
 if __name__ == '__main__':
-    config1 = get_config_to_dict(options.config_name)
-    build(options.config_name)
-    dostuff(options.config_name, config1['engine'])
+    config1 = get_config_to_dict(options.device_type, options.config_name)
+    build(options.device_type, options.config_name)
+    dostuff(options.device_type, options.config_name, config1['engine'])
 
     if options.config2_name:
-        config2 = get_config_to_dict(options.config2_name)
+        config2 = get_config_to_dict(options.device_type, options.config2_name)
         if not config2['chrome-related']:
-            build(options.config2_name)
+            build(options.device_type, options.config2_name)
         else:
             # if build the same chrome, skip build step.
             if config2['cpu'] != config1['cpu'] or \
                     config2['RepoPath'] != config1['RepoPath'] or \
                     config2['engine'].__class__ != config1['engine'].__class__ or \
                     config2['source'] != config1['source']:
-                build(options.config2_name)
-        dostuff(options.config2_name, config2['engine'])
+                build(options.device_type, options.config2_name)
+        dostuff(options.device_type, options.config2_name, config2['engine'])
 
     if options.config3_name:
-        config3 = get_config_to_dict(options.config3_name)
+        config3 = get_config_to_dict(options.device_type, options.config3_name)
         if not config3['chrome-related']:
-            build(options.config3_name)
+            build(options.device_type, options.config3_name)
         else:
             # if build the same chrome, skip build step.
             if config3['cpu'] != config1['cpu'] or \
@@ -231,7 +233,7 @@ if __name__ == '__main__':
                             config3['RepoPath'] != config2['RepoPath'] or \
                             config3['engine'].__class__ != config2['engine'].__class__ or \
                             config3['source'] != config2['source']:
-                        build(options.config3_name)
+                        build(options.device_type, options.config3_name)
                 else:
-                    build(options.config3_name)
-        dostuff(options.config3_name, config3['engine'])
+                    build(options.device_type, options.config3_name)
+        dostuff(options.device_type, options.config3_name, config3['engine'])

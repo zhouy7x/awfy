@@ -18,29 +18,29 @@ s.listen(5)
 
 
 def build(config):
-    utils.InitConfig(config)
+    utils.InitConfig(*(config.split()))
     # Set of engines that get build.
     KnownEngines = []
 
-    if utils.config.has_section('v8'):
+    if utils.config.has_key('v8'):
         KnownEngines.append(builders.V8())
-    if utils.config.has_section('v8-win64'):
+    if utils.config.has_key('v8-win64'):
         KnownEngines.append(builders.V8Win64())
-    if utils.config.has_section('v8-patch'):
+    if utils.config.has_key('v8-patch'):
         KnownEngines.append(builders.V8_patch())
-    if utils.config.has_section('jsc'):
+    if utils.config.has_key('jsc'):
         KnownEngines.append(builders.JavaScriptCore())
-    if utils.config.has_section('contentshell'):
+    if utils.config.has_key('contentshell'):
         KnownEngines.append(builders.ContentShell())
-    if utils.config.has_section('jerryscript'):
+    if utils.config.has_key('jerryscript'):
         KnownEngines.append(builders.JerryScript())
-    if utils.config.has_section('iotjs'):
+    if utils.config.has_key('iotjs'):
         KnownEngines.append(builders.IoTjs())
-    if utils.config.has_section('chromium-linux'):
+    if utils.config.has_key('chromium-linux'):
         KnownEngines.append(builders.Headless())
-    if utils.config.has_section('headless-patch'):
+    if utils.config.has_key('headless-patch'):
         KnownEngines.append(builders.Headless_patch())
-    if utils.config.has_section('chromium-win64'):
+    if utils.config.has_key('chromium-win64'):
         KnownEngines.append(builders.ChromiumWin64())
 
     # builders.build(KnownEngines, False, False)

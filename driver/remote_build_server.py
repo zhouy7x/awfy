@@ -11,8 +11,8 @@ import utils
 import devices_config
 
 
-def kill_processes(config_name):
-    utils.InitConfig(config_name)
+def kill_processes(device_type):
+    utils.InitConfig(device_type)
     port = utils.config_get_default('main', 'port', 8799)
     build_host = utils.config_get_default('build', 'hostname')
     target_os = utils.config_get_default('main', 'target_os', 'linux')
@@ -61,8 +61,8 @@ def kill_processes(config_name):
 
 if __name__ == '__main__':
     try:
-        config_name = argv[1]
-        utils.InitConfig(config_name)
+        device_type = argv[1]
+        utils.InitConfig(device_type)
         log_path = argv[2] if argv[2:] else ''
     except Exception as e:
         print "Error: You must give a right config file path!!!"
@@ -103,4 +103,4 @@ if __name__ == '__main__':
                 # output, retval = delayed.communicate()
                 # time.sleep(5)
             except:
-                kill_processes(config_name)
+                kill_processes(device_type)

@@ -24,23 +24,23 @@ resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 
 
 def build(config):
-    utils.InitConfig(config)
+    utils.InitConfig(*(config.split()))
     # Set of engines that get build.
     KnownEngines = []
 
-    if utils.config.has_section('v8'):
+    if utils.config.has_key('v8'):
         KnownEngines.append(builders.V8())
-    if utils.config.has_section('v8-patch'):
+    if utils.config.has_key('v8-patch'):
         KnownEngines.append(builders.V8_patch())
-    if utils.config.has_section('contentshell'):
+    if utils.config.has_key('contentshell'):
         KnownEngines.append(builders.ContentShell())
-    if utils.config.has_section('jerryscript'):
+    if utils.config.has_key('jerryscript'):
         KnownEngines.append(builders.JerryScript())
-    if utils.config.has_section('iotjs'):
+    if utils.config.has_key('iotjs'):
         KnownEngines.append(builders.IoTjs())
-    if utils.config.has_section('headless'):
+    if utils.config.has_key('headless'):
         KnownEngines.append(builders.Headless())
-    if utils.config.has_section('headless-patch'):
+    if utils.config.has_key('headless-patch'):
         KnownEngines.append(builders.Headless_patch())
     # builders.build(KnownEngines, False, False)
     builders.build(KnownEngines, False, True)

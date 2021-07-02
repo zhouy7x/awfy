@@ -49,7 +49,7 @@ def kill_all(repos):
             ]
         elif param in ['jsc']:
             str_list = [
-                'python remote_build_server.py ./client/jsc/hsw-nuc-jsc-x64.config',
+                'python remote_build_server.py jsc',
                 "bash schedule-run-%s.sh" % param,
                 "python dostuff_%s.py" % param,
                 "Tools/Scripts/build-webkit --jsc-only",
@@ -63,7 +63,7 @@ def kill_all(repos):
             ]
         if param in ['jsc']:
             from remote_build_server import kill_processes
-            kill_processes("./client/jsc/hsw-nuc-jsc-x64.config")
+            kill_processes("jsc")
         for tmp in str_list:
             command = 'ps ax | grep -E "%s" | grep -v grep' % tmp
             # command = 'ps aux | grep -E "chrome.py|chrome.sh"'

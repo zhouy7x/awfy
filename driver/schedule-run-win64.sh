@@ -124,10 +124,10 @@ do
 
 #                python dostuff_win64.py --config=client/win64-v8/amd-1800x-x64$string.config --config2=client/win64-v8/amd-1800x-x86.config $id &
                 #python dostuff_win64.py --config=client/win64-v8/amd-3900x-x64$string.config --config2=client/win64-v8/amd-3900x-x86.config $id &
-                python dostuff_win64.py --config=client/win64-v8/amd-3900x-x64$string.config $id &
+                python dostuff_win64.py --config=amd-3900x-x64$string $id &
 #                python dostuff_win64.py --config=client/win64-v8/intel-9700-x64$string.config --config2=client/win64-v8/intel-9700-x86.config $id &
                 #python dostuff_win64.py --config=client/win64-v8/intel-9900k-x64$string.config --config2=client/win64-v8/intel-9900k-x86.config $id &
-                python dostuff_win64.py --config=client/win64-v8/intel-9900k-x64$string.config $id &
+                python dostuff_win64.py --config=intel-9900k-x64$string $id &
 #                python dostuff_win64.py --config=client/win64-v8/intel-8700k-x64$string.config --config2=client/win64-v8/intel-8700k-x86.config $id &
 #                python dostuff_win64.py --config=client/win64-v8/amd-3800x-x64$string.config --config2=client/win64-v8/amd-3800x-x86.config $id &
 
@@ -187,7 +187,7 @@ do
                     date
                     #python dostuff_win64.py --config=client/win64-chrome/amd-1800x.config --config2=client/win64-chrome/intel-8700k.config --config3=client/win64-chrome/amd-3800x.config $i
 #                    python dostuff_win64.py --config=client/win64-chrome/amd-1800x.config --config2=client/win64-chrome/intel-9700.config $i
-                    python dostuff_win64.py --config=client/win64-chrome/amd-3900x.config --config2=client/win64-chrome/intel-9900k.config $i
+                    python dostuff_win64.py --config=amd-3900x --config2=intel-9900k $i
 
                     popd
 

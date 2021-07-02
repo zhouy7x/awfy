@@ -4,26 +4,27 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import os
-import sys
+import re
 import resource
 import utils
 import time
 import socket
+# import threading
 from optparse import OptionParser
 from collections import namedtuple
 
-import benchmarks
 import builders
-import puller
 import slaves
 import submitter
 
 parser = OptionParser(usage="usage: %prog [options] [cset]")
-parser.add_option("-c", "--config", dest="config_name", type="string", default="awfy.config",
-                  help="Config file (default: awfy.config)")
-parser.add_option("-2", "--config2", dest="config2_name", type="string", default="", help="Second config file")
-parser.add_option("-3", "--config3", dest="config3_name", type="string", default="", help="Third config file")
+parser.add_option("-d", "--device-type", dest="device_type", type="string", default="arm",
+                  help="Device type (default: arm)")
+parser.add_option("-c", "--config", dest="config_name", type="string", default="", help="Config mode name")
+parser.add_option("-2", "--config2", dest="config2_name", type="string", default="", help="Second config mode")
+parser.add_option("-3", "--config3", dest="config3_name", type="string", default="", help="Third config mode")
 (options, progargs) = parser.parse_args()
+print (options, progargs)
 
 # Set resource limits for child processes
 resource.setrlimit(resource.RLIMIT_AS, (-1, -1))
@@ -42,25 +43,25 @@ def dostuff(config_name):
     # Set of engines that get build.
     Engine = None
 
-    if utils.config.has_section('v8'):
+    if utils.config.has_key('v8'):
         Engine = builders.V8()
-    if utils.config.has_section('v8-win64'):
+    if utils.config.has_key('v8-win64'):
         Engine = builders.V8Win64()
-    if utils.config.has_section('v8-patch'):
+    if utils.config.has_key('v8-patch'):
         Engine = builders.V8_patch()
-    if utils.config.has_section('contentshell'):
+    if utils.config.has_key('contentshell'):
         Engine = builders.ContentShell()
-    if utils.config.has_section('jerryscript'):
+    if utils.config.has_key('jerryscript'):
         Engine = builders.JerryScript()
-    if utils.config.has_section('iotjs'):
+    if utils.config.has_key('iotjs'):
         Engine = builders.IoTjs()
-    if utils.config.has_section('chromium-linux'):
+    if utils.config.has_key('chromium-linux'):
         Engine = builders.Headless()
         # ret['chrome-related'] = True
-    if utils.config.has_section('headless-patch'):
+    if utils.config.has_key('headless-patch'):
         Engine = builders.Headless_patch()
         # ret['chrome-related'] = True
-    if utils.config.has_section('chromium-win64'):
+    if utils.config.has_key('chromium-win64'):
         Engine = builders.ChromiumWin64()
         # ret['chrome-related'] = True
 
@@ -92,8 +93,14 @@ def dostuff(config_name):
 
     # Make a list of all modes.
     modes = []
-    shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())
     target_os = utils.config_get_default('main', 'target_os', 'linux')
+    if target_os == "win64":
+        shell = os.path.join(utils.config_get_default(utils.config_get_default('main', 'slaves'), 'repos'),
+                             Engine.source, Engine.slave_shell())
+        shell = shell.replace('/', '\\')
+    else:
+        shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())
+    print 'mode.shell: ' + shell
     env = None
     with utils.chdir(os.path.join(utils.RepoPath, Engine.source)):
         env = Engine.env()
@@ -113,7 +120,7 @@ def dostuff(config_name):
             print myself, name, str(args)
             modes.append(mode)
 
-    # Set of slaves that run the builds. 
+    # Set of slaves that run the builds.
     KnownSlaves = slaves.init()
 
     for slave in KnownSlaves:
@@ -136,10 +143,81 @@ def dostuff(config_name):
         slave.synchronize()
 
 
-dostuff(options.config_name)
+def get_config_to_dict(device_type, config):
+    print 'get_config_to_dict'
+    print config
+    utils.InitConfig(device_type, config)
+    # Set of engines that get build.
+    ret = dict()
+    Engine = None
+    ret['chrome-related'] = False
+    if utils.config.has_key('v8'):
+        Engine = builders.V8()
+    if utils.config.has_key('v8-win64'):
+        Engine = builders.V8Win64()
+    if utils.config.has_key('v8-patch'):
+        Engine = builders.V8_patch()
+    if utils.config.has_key('jsc'):
+        Engine = builders.JavaScriptCore()
+    if utils.config.has_key('contentshell'):
+        Engine = builders.ContentShell()
+    if utils.config.has_key('jerryscript'):
+        Engine = builders.JerryScript()
+    if utils.config.has_key('iotjs'):
+        Engine = builders.IoTjs()
+    if utils.config.has_key('chromium-linux'):
+        Engine = builders.Headless()
+        ret['chrome-related'] = True
+    if utils.config.has_key('headless-patch'):
+        Engine = builders.Headless_patch()
+        ret['chrome-related'] = True
+    if utils.config.has_key('chromium-win64'):
+        Engine = builders.ChromiumWin64()
+        ret['chrome-related'] = True
 
-if options.config2_name:
-    dostuff(options.config2_name)
+    ret['cpu'] = utils.config['main']['cpu']
+    ret['RepoPath'] = utils.RepoPath
+    ret['modes'] = utils.config_get_default('main', 'modes')
+    ret['hostname'] = utils.config_get_default(utils.config_get_default('main', 'slaves'), 'hostname')
+    ret['source'] = Engine.source
+    ret['engine'] = Engine
+    return ret
 
-if options.config3_name:
-    dostuff(options.config3_name)
+
+if __name__ == '__main__':
+    config1 = get_config_to_dict(options.device_type, options.config_name)
+    build(options.device_type, options.config_name)
+    dostuff(options.device_type, options.config_name, config1['engine'])
+
+    if options.config2_name:
+        config2 = get_config_to_dict(options.device_type, options.config2_name)
+        if not config2['chrome-related']:
+            build(options.device_type, options.config2_name)
+        else:
+            # if build the same chrome, skip build step.
+            if config2['cpu'] != config1['cpu'] or \
+                    config2['RepoPath'] != config1['RepoPath'] or \
+                    config2['engine'].__class__ != config1['engine'].__class__ or \
+                    config2['source'] != config1['source']:
+                build(options.device_type, options.config2_name)
+        dostuff(options.device_type, options.config2_name, config2['engine'])
+
+    if options.config3_name:
+        config3 = get_config_to_dict(options.device_type, options.config3_name)
+        if not config3['chrome-related']:
+            build(options.device_type, options.config3_name)
+        else:
+            # if build the same chrome, skip build step.
+            if config3['cpu'] != config1['cpu'] or \
+                    config3['RepoPath'] != config1['RepoPath'] or \
+                    config3['engine'].__class__ != config1['engine'].__class__ or \
+                    config3['source'] != config1['source']:
+                if options.config2_name:
+                    if config3['cpu'] != config2['cpu'] or \
+                            config3['RepoPath'] != config2['RepoPath'] or \
+                            config3['engine'].__class__ != config2['engine'].__class__ or \
+                            config3['source'] != config2['source']:
+                        build(options.device_type, options.config3_name)
+                else:
+                    build(options.device_type, options.config3_name)
+        dostuff(options.device_type, options.config3_name, config3['engine'])

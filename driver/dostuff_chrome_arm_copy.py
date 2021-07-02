@@ -42,15 +42,15 @@ def dostuff(config_name):
     # Set of engines that get build.
     Engine = None
 
-    if utils.config.has_section('v8'):
+    if utils.config.has_key('v8'):
         Engine = builders.V8()
-    if utils.config.has_section('contentshell'):
+    if utils.config.has_key('contentshell'):
         Engine = builders.ContentShell()
-    if utils.config.has_section('jerryscript'):
+    if utils.config.has_key('jerryscript'):
         Engine = builders.JerryScript()
-    if utils.config.has_section('iotjs'):
+    if utils.config.has_key('iotjs'):
         Engine = builders.IoTjs()
-    if utils.config.has_section('headless'):
+    if utils.config.has_key('headless'):
         Engine = builders.Headless()
 
     myself = utils.config_get_default('main', 'slaves', '')

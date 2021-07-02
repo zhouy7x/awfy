@@ -2,12 +2,13 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+import json
 import os
 import sys
 import commands
 import subprocess
 import signal
-import ConfigParser
+# import ConfigParser
 
 config = None
 TargetOS = None
@@ -25,16 +26,28 @@ Includes = None
 Excludes = None
 
 
-def InitConfig(name):
+def InitConfig(device_type, mode_name=None):
     global config, TargetOS, RepoPath, BenchmarkPath, DriverPath, BuildHost, BuildPort, RemoteBuild, RemoteRsync, \
         RemotePull, Timeout, PythonName, Includes, Excludes
 
-    config = ConfigParser.RawConfigParser()
-    if not os.path.isfile(name):
-        raise Exception('could not find file: ' + name)
-    config.read(name)
-    RepoPath = config.get('main', 'repos')
-    BenchmarkPath = config.get('main', 'benchmarks')
+    with open('config.json') as f:
+        total_config = json.loads(f.read())
+
+    if device_type not in total_config:
+        raise Exception('could not find device type: ' + device_type)
+
+    device_configs = total_config.get(device_type)
+    if mode_name:
+        for tmp in device_configs:
+            if mode_name in tmp['name']:
+                config = tmp
+    else:
+        config = device_configs[0]
+    if not config:
+        raise Exception('could not find device name: ' + mode_name)
+    # print config
+    RepoPath = config['main']['repos']
+    BenchmarkPath = config['main']['benchmarks']
     DriverPath = config_get_default('main', 'driver', os.getcwd())
     BuildHost = config_get_default('main', 'host', 'localhost')
     BuildPort = config_get_default('main', 'port', 8799)
@@ -45,21 +58,10 @@ def InitConfig(name):
 
     # remote build related
     RemoteBuild = config_get_default('main', 'remote_build', False)
-    if RemoteBuild and RemoteBuild.lower() != 'false':
-        RemoteBuild = True
-    else:
-        RemoteBuild = False
     if RemoteBuild:
         RemoteRsync = config_get_default('build', 'rsync', True)
-        if str(RemoteRsync).lower() == 'false':
-            RemoteRsync = False
-        else:
-            RemoteRsync = True
         RemotePull = config_get_default('build', 'pull', True)
-        if str(RemotePull).lower() == 'false':
-            RemotePull = False
-        else:
-            RemotePull = True
+
     #     global RemoteBuildRepoPath, RemoteBuildDriverPath, RemoteBuildHost
     #     RemoteBuildRepoPath = config_get_default('build', 'repos', RepoPath)
     #     RemoteBuildDriverPath = config_get_default('build', 'driver', DriverPath)
@@ -68,9 +70,69 @@ def InitConfig(name):
     Timeout = config_get_default('main', 'timeout', str(Timeout))
     # silly hack to allow 30*60 in the config file.
     Timeout = eval(Timeout, {}, {})
-    PythonName = config_get_default(name, 'python', sys.executable)
-    Includes = config_get_default(name, 'includes', None)
-    Excludes = config_get_default(name, 'excludes', None)
+    # PythonName = config_get_default(name, 'python', sys.executable)
+    # Includes = config_get_default(name, 'includes', None)
+    # Excludes = config_get_default(name, 'excludes', None)
+
+
+# def InitConfig(name):
+#     global config, TargetOS, RepoPath, BenchmarkPath, DriverPath, BuildHost, BuildPort, RemoteBuild, RemoteRsync, \
+#         RemotePull, Timeout, PythonName, Includes, Excludes
+#
+#     config = ConfigParser.RawConfigParser()
+#     if not os.path.isfile(name):
+#         raise Exception('could not find file: ' + name)
+#     config.read(name)
+#     RepoPath = config.get('main', 'repos')
+#     BenchmarkPath = config.get('main', 'benchmarks')
+#     DriverPath = config_get_default('main', 'driver', os.getcwd())
+#     BuildHost = config_get_default('main', 'host', 'localhost')
+#     BuildPort = config_get_default('main', 'port', 8799)
+#     try:
+#         BuildPort = int(BuildPort)
+#     except ValueError as e:
+#         raise ValueError("port must be int, not " + BuildPort)
+#
+#     # remote build related
+#     RemoteBuild = config_get_default('main', 'remote_build', False)
+#     if RemoteBuild and RemoteBuild.lower() != 'false':
+#         RemoteBuild = True
+#     else:
+#         RemoteBuild = False
+#     if RemoteBuild:
+#         RemoteRsync = config_get_default('build', 'rsync', True)
+#         if str(RemoteRsync).lower() == 'false':
+#             RemoteRsync = False
+#         else:
+#             RemoteRsync = True
+#         RemotePull = config_get_default('build', 'pull', True)
+#         if str(RemotePull).lower() == 'false':
+#             RemotePull = False
+#         else:
+#             RemotePull = True
+#     #     global RemoteBuildRepoPath, RemoteBuildDriverPath, RemoteBuildHost
+#     #     RemoteBuildRepoPath = config_get_default('build', 'repos', RepoPath)
+#     #     RemoteBuildDriverPath = config_get_default('build', 'driver', DriverPath)
+#     #     RemoteBuildHost = config_get_default('build', 'hostname', 'localhost')
+#
+#     Timeout = config_get_default('main', 'timeout', str(Timeout))
+#     # silly hack to allow 30*60 in the config file.
+#     Timeout = eval(Timeout, {}, {})
+#     PythonName = config_get_default(name, 'python', sys.executable)
+#     Includes = config_get_default(name, 'includes', None)
+#     Excludes = config_get_default(name, 'excludes', None)
+
+
+def config_get_default(section, name, default=None):
+    if section in config:
+        if name in config[section]:
+            return config[section][name]
+    return default
+
+# def config_get_default(section, name, default=None):
+#     if config.has_option(section, name):
+#         return config.get(section, name)
+#     return default
 
 
 class FolderChanger:
@@ -171,12 +233,6 @@ def Shell(string):
     status, output = commands.getstatusoutput(string)
     print(output)
     return output
-
-
-def config_get_default(section, name, default=None):
-    if config.has_option(section, name):
-        return config.get(section, name)
-    return default
 
 
 class TimeException(Exception):

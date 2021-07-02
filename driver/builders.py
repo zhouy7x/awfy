@@ -22,7 +22,7 @@ sys.setdefaultencoding('utf8')
 
 class Engine(object):
     def __init__(self):
-        self.cpu = utils.config.get('main', 'cpu')
+        self.cpu = utils.config['main']['cpu']
 
     def getPuller(self):
         if self.puller == 'svn':
@@ -83,9 +83,9 @@ class Nitro(Engine):
     def __init__(self):
         super(Nitro, self).__init__()
         self.puller = 'svn'
-        self.source = utils.config.get('jsc', 'source')
-        if utils.config.has_option('jsc', 'conf'):
-            self.extra = utils.config.get('jsc', 'conf').split(' ')
+        self.source = utils.config['jsc']['source']
+        if utils.config.has_key('jsc', 'conf'):
+            self.extra = utils.config_get_default('jsc', 'conf').split(' ')
         else:
             self.extra = []
         self.args = None
@@ -140,7 +140,7 @@ class V8(Engine):
     def __init__(self):
         super(V8, self).__init__()
         self.puller = 'git'
-        self.source = utils.config.get('v8', 'source')
+        self.source = utils.config['v8']['source']
         self.cxx = utils.config_get_default('v8', 'cxx', None)
         self.cc = utils.config_get_default('v8', 'cc', None)
         self.cpp = utils.config_get_default('v8', 'cpp', None)
@@ -153,11 +153,11 @@ class V8(Engine):
 
         self.args = ['--expose-gc']
         self.important = True
-        self.hardfp = (utils.config.has_option('main', 'flags')) and \
-                      ("hardfp" in utils.config.get('main', 'flags'))
+        self.hardfp = (utils.config['main'].has_key('flags')) and \
+                      ("hardfp" in utils.config['main']['flags'])
 
-        slaves = utils.config.get('main', 'slaves')
-        self.slaveMachine = utils.config.get(slaves, 'machine')
+        slaves = utils.config['main']['slaves']
+        self.slaveMachine = utils.config[slaves]['machine']
 
     def build(self):
         env = os.environ.copy()
@@ -200,7 +200,7 @@ class V8Win64(Engine):
     def __init__(self):
         super(V8Win64, self).__init__()
         self.puller = 'git'
-        self.source = utils.config.get('v8-win64', 'source')
+        self.source = utils.config['v8-win64']['source']
         self.cxx = utils.config_get_default('v8-win64', 'cxx', None)
         self.cc = utils.config_get_default('v8-win64', 'cc', None)
         self.cpp = utils.config_get_default('v8-win64', 'cpp', None)
@@ -213,11 +213,11 @@ class V8Win64(Engine):
 
         self.args = ['--expose-gc']
         self.important = True
-        self.hardfp = (utils.config.has_option('main', 'flags')) and \
-                      ("hardfp" in utils.config.get('main', 'flags'))
+        self.hardfp = (utils.config['main'].has_key('flags')) and \
+                      ("hardfp" in utils.config['main']['flags'])
 
-        slaves = utils.config.get('main', 'slaves')
-        self.slaveMachine = utils.config.get(slaves, 'machine')
+        slaves = utils.config['main']['slaves']
+        self.slaveMachine = utils.config[slaves]['machine']
         self.sourcePath = os.path.join(utils.config_get_default('build', 'repos'), self.source)
 
     def updateAndBuild(self, update=True, forceRebuild=False, rev=None):
@@ -278,7 +278,7 @@ class V8_patch(Engine):
     def __init__(self):
         super(V8_patch, self).__init__()
         self.puller = 'git'
-        self.source = utils.config.get('v8-patch', 'source')
+        self.source = utils.config['v8-patch']['source']
         self.cxx = utils.config_get_default('v8-patch', 'cxx', None)
         self.cc = utils.config_get_default('v8-patch', 'cc', None)
         self.cpp = utils.config_get_default('v8-patch', 'cpp', None)
@@ -292,11 +292,11 @@ class V8_patch(Engine):
         self.args = ['--expose-gc']
         self.patch = 'patch'
         self.important = True
-        self.hardfp = (utils.config.has_option('main', 'flags')) and \
-                      ("hardfp" in utils.config.get('main', 'flags'))
+        self.hardfp = (utils.config['main'].has_key('flags')) and \
+                      ("hardfp" in utils.config['main']['flags'])
 
-        slaves = utils.config.get('main', 'slaves')
-        self.slaveMachine = utils.config.get(slaves, 'machine')
+        slaves = utils.config['main']['slaves']
+        self.slaveMachine = utils.config[slaves]['machine']
 
     def build(self):
         env = os.environ.copy()
@@ -343,7 +343,7 @@ class V8_gyp(Engine):
     def __init__(self):
         super(V8_gyp, self).__init__()
         self.puller = 'git'
-        self.source = utils.config.get('v8', 'source')
+        self.source = utils.config['v8']['source']
         self.cxx = utils.config_get_default('v8', 'cxx', None)
         self.cc = utils.config_get_default('v8', 'cc', None)
         self.cpp = utils.config_get_default('v8', 'cpp', None)
@@ -356,8 +356,8 @@ class V8_gyp(Engine):
 
         self.args = ['--expose-gc']
         self.important = True
-        self.hardfp = (utils.config.has_option('main', 'flags')) and \
-                      ("hardfp" in utils.config.get('main', 'flags'))
+        self.hardfp = (utils.config['main'].has_key('flags')) and \
+                      ("hardfp" in utils.config['main']['flags'])
 
     def build(self):
         env = os.environ.copy()
@@ -443,7 +443,7 @@ class ContentShell(Engine):
     def __init__(self):
         super(ContentShell, self).__init__()
         self.puller = 'git'
-        self.source = utils.config.get('contentshell', 'source')
+        self.source = utils.config['contentshell']['source']
 
         self.args = []
         self.important = True
@@ -502,7 +502,7 @@ class JerryScript(Engine):
     def __init__(self):
         super(JerryScript, self).__init__()
         self.puller = 'git'
-        self.source = utils.config.get('jerryscript', 'source')
+        self.source = utils.config['jerryscript']['source']
 
         self.args = []
         self.important = True
@@ -533,7 +533,7 @@ class Headless(Engine):
     def __init__(self):
         super(Headless, self).__init__()
         self.puller = 'git'
-        self.source = utils.config.get('chromium-linux', 'source')
+        self.source = utils.config['chromium-linux']['source']
         self.args = []
         self.important = True
 
@@ -672,7 +672,7 @@ class ChromiumWin64(Engine):
         super(ChromiumWin64, self).__init__()
         self.target_os = utils.config_get_default('main', 'target_os', 'linux')
         self.puller = 'git'
-        self.source = utils.config.get('chromium-win64', 'source')
+        self.source = utils.config['chromium-win64']['source']
         self.args = []
         self.important = True
 
@@ -765,7 +765,7 @@ class Headless_patch(Engine):
     def __init__(self):
         super(Headless_patch, self).__init__()
         self.puller = 'git'
-        self.source = utils.config.get('chromium-linux', 'source')
+        self.source = utils.config['chromium-linux']['source']
         self.args = []
         self.important = True
 
@@ -910,7 +910,7 @@ class JavaScriptCore(Engine):
     def __init__(self):
         super(JavaScriptCore, self).__init__()
         self.puller = 'git'
-        self.source = utils.config.get('jsc', 'source')
+        self.source = utils.config['jsc']['source']
         self.args = []
         self.important = True
 
@@ -965,7 +965,7 @@ class IoTjs(Engine):
     def __init__(self):
         super(IoTjs, self).__init__()
         self.puller = 'git'
-        self.source = utils.config.get('iotjs', 'source')
+        self.source = utils.config['iotjs']['source']
 
         self.args = []
         self.important = True
@@ -995,8 +995,8 @@ class Mozilla(Engine):
     def __init__(self, source):
         super(Mozilla, self).__init__()
         self.puller = 'hg'
-        self.source = utils.config.get(source, 'source')
-        self.config_line = utils.config.get(source, 'conf')
+        self.source = utils.config[source]['source']
+        self.config_line = utils.config[source]['conf']
         self.args = None
         self.important = True
         self.objdir = 'Opt'
@@ -1057,10 +1057,10 @@ class MozillaInboundGGC(Mozilla):
 class NativeCompiler(Engine):
     def __init__(self):
         super(NativeCompiler, self).__init__()
-        self.cc = utils.config.get('native', 'cc')
-        self.cxx = utils.config.get('native', 'cxx')
-        self.args = utils.config.get('native', 'options').split(' ')
-        self.mode = utils.config.get('native', 'mode')
+        self.cc = utils.config_get_default('native', 'cc')
+        self.cxx = utils.config_get_default('native', 'cxx')
+        self.args = utils.config_get_default('native', 'options').split(' ')
+        self.mode = utils.config_get_default('native', 'mode')
 
         # output = Run([self.cxx, '--version'])
         self.signature = 'gcc 5.4.0'  # output.splitlines()[0].strip()

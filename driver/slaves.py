@@ -13,7 +13,7 @@ import benchmarks
 class Slave(object):
     def __init__(self, name):
         self.name = name
-        self.machine = utils.config.get(name, 'machine')
+        self.machine = utils.config[name]['machine']
 
     def prepare(self, engines):
         pass

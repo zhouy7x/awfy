@@ -17,10 +17,11 @@ import slaves
 import submitter
 
 parser = OptionParser(usage="usage: %prog [options] [cset]")
-parser.add_option("-c", "--config", dest="config_name", type="string", default="awfy.config",
-                  help="Config file (default: awfy.config)")
-parser.add_option("-2", "--config2", dest="config2_name", type="string", default="", help="Second config file")
-parser.add_option("-3", "--config3", dest="config3_name", type="string", default="", help="Third config file")
+parser.add_option("-d", "--device-type", dest="device_type", type="string", default="3800x",
+                  help="Device type (default: 3800x)")
+parser.add_option("-c", "--config", dest="config_name", type="string", default="", help="Config mode name")
+parser.add_option("-2", "--config2", dest="config2_name", type="string", default="", help="Second config mode")
+parser.add_option("-3", "--config3", dest="config3_name", type="string", default="", help="Third config mode")
 (options, progargs) = parser.parse_args()
 print (options, progargs)
 
@@ -125,32 +126,32 @@ def get_config_to_dict(config):
     ret = dict()
     Engine = None
     ret['chrome-related'] = False
-    if utils.config.has_section('v8'):
+    if utils.config.has_key('v8'):
         Engine = builders.V8()
-    if utils.config.has_section('v8-win64'):
+    if utils.config.has_key('v8-win64'):
         Engine = builders.V8Win64()
-    if utils.config.has_section('v8-patch'):
+    if utils.config.has_key('v8-patch'):
         Engine = builders.V8_patch()
-    if utils.config.has_section('contentshell'):
+    if utils.config.has_key('contentshell'):
         Engine = builders.ContentShell()
-    if utils.config.has_section('jerryscript'):
+    if utils.config.has_key('jerryscript'):
         Engine = builders.JerryScript()
-    if utils.config.has_section('iotjs'):
+    if utils.config.has_key('iotjs'):
         Engine = builders.IoTjs()
-    if utils.config.has_section('chromium-linux'):
+    if utils.config.has_key('chromium-linux'):
         Engine = builders.Headless()
         ret['chrome-related'] = True
-    if utils.config.has_section('headless-patch'):
+    if utils.config.has_key('headless-patch'):
         Engine = builders.Headless_patch()
         ret['chrome-related'] = True
-    if utils.config.has_section('chromium-win64'):
+    if utils.config.has_key('chromium-win64'):
         Engine = builders.ChromiumWin64()
         ret['chrome-related'] = True
 
-    ret['cpu'] = utils.config.get('main', 'cpu')
+    ret['cpu'] = utils.config['main']['cpu']
     ret['RepoPath'] = utils.RepoPath
-    ret['modes'] = utils.config.get('main', 'modes')
-    ret['hostname'] = utils.config.get(utils.config.get('main', 'slaves'), 'hostname')
+    ret['modes'] = utils.config_get_default('main', 'modes')
+    ret['hostname'] = utils.config_get_default(utils.config_get_default('main', 'slaves'), 'hostname')
     ret['source'] = Engine.source
     ret['engine'] = Engine
     return ret

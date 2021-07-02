@@ -1,1 +1,557 @@
-{"jsc": {"enable": true, "name": "hsw-nuc-x64", "jsc": {"source": "webkit"}, "native": {"cc": "gcc", "cxx": "g++", "options": "-O2", "mode": "gcc"}, "hsw": {"python": "python", "repos": "/home/user/work/repos/jsc/base", "hostname": "user@hsw-nuc.sh.intel.com", "driver": "/home/user/work/awfy/driver", "includes": "octane,WebTooling,ARES6,Jetstream2D8", "machine": "16", "benchmarks": "/home/user/work/awfy/benchmarks"}, "main": {"benchmarks": "/home/user/work/awfy/benchmarks", "remote_build": true, "repos": "/home/user/work/repos/jsc/base", "port": "8912", "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php", "machine": "0", "host": "ssgs5-test.sh.intel.com", "slaves": "hsw", "cpu": "x64", "modes": "jsc-x64"}, "build": {"ssh_port": "2222", "repos": "/repos/jsc/base", "hostname": "root@ssgs5-test.sh.intel.com", "driver": "/awfy/driver"}}}{"jsc": {"enable": true, "name": "hsw-nuc-x64", "jsc": {"source": "webkit"}, "native": {"cc": "gcc", "cxx": "g++", "options": "-O2", "mode": "gcc"}, "hsw": {"python": "python", "repos": "/home/user/work/repos/jsc/base", "hostname": "user@hsw-nuc.sh.intel.com", "driver": "/home/user/work/awfy/driver", "includes": "octane,WebTooling,ARES6,Jetstream2D8", "machine": "16", "benchmarks": "/home/user/work/awfy/benchmarks"}, "main": {"benchmarks": "/home/user/work/awfy/benchmarks", "remote_build": true, "repos": "/home/user/work/repos/jsc/base", "port": "8912", "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php", "machine": "0", "host": "ssgs5-test.sh.intel.com", "slaves": "hsw", "cpu": "x64", "modes": "jsc-x64"}, "build": {"ssh_port": "2222", "repos": "/repos/jsc/base", "hostname": "root@ssgs5-test.sh.intel.com", "driver": "/awfy/driver"}}}
+{
+  "arm": [
+    {
+      "headless-future": {
+        "arg1": "--future"
+      },
+      "name": "chrome-elm-arm-a53",
+      "elm": {
+        "remote": "1",
+        "modes": "headless",
+        "python": "python",
+        "repos": "/home/user/work/repos/chrome/arm",
+        "hostname": "user@elm-arm-a53.sh.intel.com",
+        "driver": "/home/user/work/awfy/driver",
+        "includes": "speedometer2,jetstream2,webxprt3",
+        "machine": "23",
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "cpu": "arm64"
+      },
+      "headless-a-sp": {
+        "arg1": "--always_sparkplug"
+      },
+      "headless": {},
+      "native": {
+        "cc": "gcc",
+        "cxx": "g++",
+        "options": "-O2",
+        "mode": "gcc"
+      },
+      "headless-sp": {
+        "arg1": "--sparkplug"
+      },
+      "main": {
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "repos": "/home/user/work/repos/chrome/arm",
+        "port": "8795",
+        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php/",
+        "machine": "0",
+        "slaves": "elm",
+        "cpu": "arm64",
+        "modes": "headless,headless-future,headless-sp"
+      },
+      "chromium-linux": {
+        "source": "chromium/src"
+      }
+    }
+  ],
+  "jsc": [
+    {
+      "name": "jsc-hsw-nuc-jsc-x64",
+      "jsc": {
+        "source": "webkit"
+      },
+      "native": {
+        "cc": "gcc",
+        "cxx": "g++",
+        "options": "-O2",
+        "mode": "gcc"
+      },
+      "hsw": {
+        "python": "python",
+        "repos": "/home/user/work/repos/jsc/base",
+        "hostname": "user@hsw-nuc.sh.intel.com",
+        "driver": "/home/user/work/awfy/driver",
+        "includes": "octane,WebTooling,ARES6,Jetstream2D8",
+        "machine": "16",
+        "benchmarks": "/home/user/work/awfy/benchmarks"
+      },
+      "main": {
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "remote_build": true,
+        "repos": "/home/user/work/repos/jsc/base",
+        "port": "8912",
+        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php",
+        "machine": "0",
+        "host": "ssgs5-test.sh.intel.com",
+        "slaves": "hsw",
+        "cpu": "x64",
+        "modes": "jsc-x64"
+      },
+      "build": {
+        "pull": false,
+        "rsync": false,
+        "name": "ubuntu20",
+        "ssh_port": "2222",
+        "repos": "/repos/jsc/base",
+        "hostname": "root@ssgs5-test.sh.intel.com",
+        "driver": "/awfy/driver"
+      }
+    }
+  ],
+  "v8": [
+    {
+      "name": "v8-apl-nuc-x64",
+      "v8-turbofan-x64": {},
+      "atom": {
+        "python": "python",
+        "repos": "/home/user/work/repos/v8/base",
+        "hostname": "user@apl-nuc.sh.intel.com",
+        "driver": "/home/user/work/awfy/driver",
+        "includes": "octane,WebTooling,ARES6,Jetstream2D8",
+        "machine": "8",
+        "benchmarks": "/home/user/work/awfy/benchmarks"
+      },
+      "v8-turbofan-x64-future": {
+        "arg1": "--future"
+      },
+      "v8": {
+        "source": "v8"
+      },
+      "v8-default-x64": {
+        "arg1": "--no-turbo"
+      },
+      "main": {
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "repos": "/home/user/work/repos/v8/base",
+        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php",
+        "machine": "0",
+        "slaves": "atom",
+        "cpu": "x64",
+        "modes": "v8-turbofan-x64,v8-turbofan-x64-future"
+      },
+      "native": {
+        "cc": "gcc",
+        "cxx": "g++",
+        "options": "-O2",
+        "mode": "gcc"
+      }
+    },
+    {
+      "name": "v8-chromeos-arm",
+      "arm-chromeos": {
+        "python": "python",
+        "repos": "/usr/local/awfy/repos/v8/base",
+        "hostname": "root@awfy-chromebook-turbofan.sh.intel.com",
+        "driver": "/usr/local/awfy/driver",
+        "includes": "octane,WebTooling,ARES6,Jetstream2D8,d8Size,binSize",
+        "machine": "6",
+        "benchmarks": "/usr/local/awfy/benchmarks"
+      },
+      "v8-turbofan-arm-future": {
+        "arg1": "--future"
+      },
+      "v8-turbofan-arm": {},
+      "v8": {
+        "source": "v8"
+      },
+      "v8-default-arm": {
+        "arg1": "--no-turbo"
+      },
+      "main": {
+        "slaves": "arm-chromeos",
+        "repos": "/home/user/work/repos/v8/base",
+        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php",
+        "machine": "0",
+        "flags": "hardfp",
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "cpu": "arm",
+        "modes": "v8-turbofan-arm,v8-turbofan-arm-future"
+      },
+      "native": {
+        "cc": "gcc",
+        "cxx": "g++",
+        "options": "-O2",
+        "mode": "gcc"
+      }
+    }
+  ],
+  "win64": [
+    {
+      "headless-future": {
+        "arg1": "--future"
+      },
+      "chromium-win64": {
+        "source": "chromium\\src"
+      },
+      "name": "chrome-amd-3900x",
+      "headless-a-sp": {
+        "arg1": "--always_sparkplug"
+      },
+      "headless": {},
+      "build": {
+        "repos": "d:\\awfy",
+        "hostname": "awfy@win-server.sh.intel.com",
+        "driver": "c:\\work\\awfy\\driver",
+        "name": "win-server"
+      },
+      "headless-sp": {
+        "arg1": "--sparkplug"
+      },
+      "main": {
+        "slaves": "3900x",
+        "remote_build": true,
+        "repos": "/home/user/work/repos/win64-chrome/x64",
+        "cpu": "x64",
+        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php/",
+        "machine": "0",
+        "host": "win-server.sh.intel.com",
+        "port": "8781",
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "target_os": "win64",
+        "modes": "headless,headless-future,headless-sp"
+      },
+      "3900x": {
+        "remote": "1",
+        "modes": "chromium-win64",
+        "python": "python",
+        "repos": "c:\\work\\repos\\win64-chrome\\x64",
+        "hostname": "test@3900x-win64.sh.intel.com",
+        "driver": "c:\\work\\awfy\\driver",
+        "includes": "speedometer2,jetstream2,webxprt3",
+        "machine": "22",
+        "benchmarks": "c:\\work\\awfy\\benchmarks",
+        "cpu": "x64"
+      },
+      "native": {
+        "cc": "gcc",
+        "cxx": "g++",
+        "options": "-O2",
+        "mode": "gcc"
+      }
+    },
+    {
+      "headless-future": {
+        "arg1": "--future"
+      },
+      "chromium-win64": {
+        "source": "chromium\\src"
+      },
+      "9900k": {
+        "remote": "1",
+        "modes": "chromium-win64",
+        "python": "python",
+        "repos": "c:\\work\\repos\\win64-chrome\\x64",
+        "hostname": "test@9900k-win64.sh.intel.com",
+        "driver": "c:\\work\\awfy\\driver",
+        "includes": "speedometer2,jetstream2,webxprt3",
+        "machine": "21",
+        "benchmarks": "c:\\work\\awfy\\benchmarks",
+        "cpu": "x64"
+      },
+      "name": "chrome-intel-9900k",
+      "headless-a-sp": {
+        "arg1": "--always_sparkplug"
+      },
+      "headless": {},
+      "build": {
+        "repos": "d:\\awfy",
+        "hostname": "awfy@win-server.sh.intel.com",
+        "driver": "c:\\work\\awfy\\driver",
+        "name": "win-server"
+      },
+      "headless-sp": {
+        "arg1": "--sparkplug"
+      },
+      "main": {
+        "slaves": "9900k",
+        "remote_build": true,
+        "repos": "/home/user/work/repos/win64-chrome/x64",
+        "cpu": "x64",
+        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php/",
+        "machine": "0",
+        "host": "win-server.sh.intel.com",
+        "port": "8781",
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "target_os": "win64",
+        "modes": "headless,headless-future,headless-sp"
+      },
+      "native": {
+        "cc": "gcc",
+        "cxx": "g++",
+        "options": "-O2",
+        "mode": "gcc"
+      }
+    },
+    {
+      "v8-win64": {
+        "source": "v8"
+      },
+      "name": "v8-amd-3900x-x64",
+      "v8-turbofan-x64": {},
+      "v8-turbofan-x64-a-sp": {
+        "arg1": "--always_sparkplug"
+      },
+      "3900x": {
+        "python": "python",
+        "repos": "c:\\work\\repos\\win64-v8\\x64",
+        "hostname": "test@3900x-win64.sh.intel.com",
+        "driver": "c:\\work\\awfy\\driver",
+        "includes": "octane,WebTooling,ARES6,Jetstream2D8",
+        "machine": "22",
+        "benchmarks": "c:\\work\\awfy\\benchmarks"
+      },
+      "build": {
+        "repos": "d:\\awfy\\v8",
+        "hostname": "awfy@win-server.sh.intel.com",
+        "driver": "c:\\work\\awfy\\driver",
+        "name": "win-server"
+      },
+      "v8-turbofan-x64-future": {
+        "arg1": "--future"
+      },
+      "v8-default-x64": {
+        "arg1": "--no-turbo"
+      },
+      "main": {
+        "slaves": "3900x",
+        "remote_build": true,
+        "repos": "/home/user/work/repos/win64-v8/x64",
+        "cpu": "x64",
+        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php",
+        "machine": "0",
+        "host": "win-server.sh.intel.com",
+        "port": "8781",
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "target_os": "win64",
+        "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp"
+      },
+      "v8-turbofan-x64-sp": {
+        "arg1": "--sparkplug"
+      },
+      "native": {
+        "cc": "gcc",
+        "cxx": "g++",
+        "options": "-O2",
+        "mode": "gcc"
+      }
+    },
+    {
+      "v8-win64": {
+        "source": "v8"
+      },
+      "9900k": {
+        "python": "python",
+        "repos": "c:\\work\\repos\\win64-v8\\x64",
+        "hostname": "test@9900k-win64.sh.intel.com",
+        "driver": "c:\\work\\awfy\\driver",
+        "includes": "octane,WebTooling,ARES6,Jetstream2D8",
+        "machine": "21",
+        "benchmarks": "c:\\work\\awfy\\benchmarks"
+      },
+      "v8-turbofan-x64": {},
+      "v8-turbofan-x64-a-sp": {
+        "arg1": "--always_sparkplug"
+      },
+      "name": "v8-intel-9900k-x64",
+      "build": {
+        "repos": "d:\\awfy\\v8",
+        "hostname": "awfy@win-server.sh.intel.com",
+        "driver": "c:\\work\\awfy\\driver",
+        "name": "win-server"
+      },
+      "v8-turbofan-x64-future": {
+        "arg1": "--future"
+      },
+      "v8-default-x64": {
+        "arg1": "--no-turbo"
+      },
+      "main": {
+        "slaves": "9900k",
+        "remote_build": true,
+        "repos": "/home/user/work/repos/win64-v8/x64",
+        "cpu": "x64",
+        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php",
+        "machine": "0",
+        "host": "win-server.sh.intel.com",
+        "port": "8781",
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "target_os": "win64",
+        "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp"
+      },
+      "v8-turbofan-x64-sp": {
+        "arg1": "--sparkplug"
+      },
+      "native": {
+        "cc": "gcc",
+        "cxx": "g++",
+        "options": "-O2",
+        "mode": "gcc"
+      }
+    }
+  ],
+  "x64": [
+    {
+      "headless-future": {
+        "arg1": "--future"
+      },
+      "name": "chrome-amd-3800x",
+      "3800x": {
+        "remote": "1",
+        "modes": "headless",
+        "python": "python",
+        "repos": "/home/user/work/repos/chrome/x64",
+        "hostname": "test@jstc-3800x.sh.intel.com",
+        "driver": "/home/user/work/awfy/driver",
+        "includes": "speedometer2,jetstream2,webxprt3,Unity3D-2018",
+        "machine": "17",
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "cpu": "x64"
+      },
+      "headless-a-sp": {
+        "arg1": "--always_sparkplug"
+      },
+      "headless": {},
+      "native": {
+        "cc": "gcc",
+        "cxx": "g++",
+        "options": "-O2",
+        "mode": "gcc"
+      },
+      "headless-sp": {
+        "arg1": "--sparkplug"
+      },
+      "main": {
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "repos": "/home/user/work/repos/chrome/x64",
+        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php/",
+        "machine": "0",
+        "slaves": "3800x",
+        "cpu": "x64",
+        "modes": "headless,headless-future,headless-sp"
+      },
+      "chromium-linux": {
+        "source": "chromium/src"
+      }
+    },
+    {
+      "headless-future": {
+        "arg1": "--future"
+      },
+      "name": "chrome-intel-8700k",
+      "8700k": {
+        "remote": "1",
+        "modes": "headless",
+        "python": "python",
+        "repos": "/home/user/work/repos/chrome/x64",
+        "hostname": "test@jstc-8700k.sh.intel.com",
+        "driver": "/home/user/work/awfy/driver",
+        "includes": "speedometer2,jetstream2,webxprt3,Unity3D-2018",
+        "machine": "18",
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "cpu": "x64"
+      },
+      "headless-a-sp": {
+        "arg1": "--always_sparkplug"
+      },
+      "headless": {},
+      "native": {
+        "cc": "gcc",
+        "cxx": "g++",
+        "options": "-O2",
+        "mode": "gcc"
+      },
+      "headless-sp": {
+        "arg1": "--sparkplug"
+      },
+      "main": {
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "repos": "/home/user/work/repos/chrome/x64",
+        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php/",
+        "machine": "0",
+        "slaves": "8700k",
+        "cpu": "x64",
+        "modes": "headless,headless-future,headless-sp"
+      },
+      "chromium-linux": {
+        "source": "chromium/src"
+      }
+    },
+    {
+      "name": "v8-intel-8700k-x64",
+      "v8-turbofan-x64": {},
+      "8700k": {
+        "python": "python",
+        "repos": "/home/user/work/repos/v8/x64",
+        "hostname": "test@jstc-8700k.sh.intel.com",
+        "driver": "/home/user/work/awfy/driver",
+        "includes": "octane,WebTooling,ARES6,Jetstream2D8",
+        "machine": "18",
+        "benchmarks": "/home/user/work/awfy/benchmarks"
+      },
+      "v8-turbofan-x64-a-sp": {
+        "arg1": "--always_sparkplug"
+      },
+      "v8-turbofan-x64-future": {
+        "arg1": "--future"
+      },
+      "v8": {
+        "source": "v8"
+      },
+      "v8-default-x64": {
+        "arg1": "--no-turbo"
+      },
+      "main": {
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "repos": "/home/user/work/repos/v8/x64",
+        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php",
+        "machine": "0",
+        "slaves": "8700k",
+        "cpu": "x64",
+        "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp"
+      },
+      "v8-turbofan-x64-sp": {
+        "arg1": "--sparkplug"
+      },
+      "native": {
+        "cc": "gcc",
+        "cxx": "g++",
+        "options": "-O2",
+        "mode": "gcc"
+      }
+    },
+    {
+      "name": "v8-amd-3800x-x64",
+      "3800x": {
+        "python": "python",
+        "repos": "/home/user/work/repos/v8/x64",
+        "hostname": "test@jstc-3800x.sh.intel.com",
+        "driver": "/home/user/work/awfy/driver",
+        "includes": "octane,WebTooling,ARES6,Jetstream2D8",
+        "machine": "17",
+        "benchmarks": "/home/user/work/awfy/benchmarks"
+      },
+      "v8-turbofan-x64": {},
+      "v8-turbofan-x64-a-sp": {
+        "arg1": "--always_sparkplug"
+      },
+      "v8-turbofan-x64-future": {
+        "arg1": "--future"
+      },
+      "v8": {
+        "source": "v8"
+      },
+      "v8-default-x64": {
+        "arg1": "--no-turbo"
+      },
+      "main": {
+        "benchmarks": "/home/user/work/awfy/benchmarks",
+        "cpu": "x64",
+        "machine": "0",
+        "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp",
+        "repos": "/home/user/work/repos/v8/x64",
+        "slaves": "3800x",
+        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php"
+      },
+      "v8-turbofan-x64-sp": {
+        "arg1": "--sparkplug"
+      },
+      "native": {
+        "cc": "gcc",
+        "cxx": "g++",
+        "options": "-O2",
+        "mode": "gcc"
+      }
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*-coding:utf-8-*-
+import json
 import signal
 import time
 from sys import argv
@@ -9,6 +10,7 @@ from devices_config import *
 import utils
 
 run_fetch = True
+
 
 def check_build_server_status(tmp):
     tmp = tmp[:tmp.find(" >")]
@@ -43,7 +45,7 @@ def run_command(param, log_string):
             return 'ERROR: make log dir error.'
     if param in ['jsc']:
         # TODO: device config must link to config file, not other, must get config from config file, not default params.
-        str1 = 'python remote_build_server.py ./client/jsc/hsw-nuc-jsc-x64.config %s/build_server_%s_log%s.txt 2>&1 &' % (log_path, param, log_string)
+        str1 = 'python remote_build_server.py jsc %s/build_server_%s_log%s.txt 2>&1 &' % (log_path, param, log_string)
         str2 = 'rm -f /tmp/awfy-daemon-%s /tmp/awfy-lock' % param
         str3 = 'bash schedule-run-%s.sh > %s/schedule-run-%s-log%s.txt 2>&1 &' % (param, log_path, param, log_string)
     elif param in ['v8', '1800x', 'x64', '3800x']:
@@ -155,7 +157,7 @@ def check_all(param):
     param = param.lower()
     if param in ['jsc']:
         str_list = [
-            "python remote_build_server.py ./client/jsc/hsw-nuc-jsc-x64.config",
+            "python remote_build_server.py jsc",
             "bash schedule-run-%s.sh" % param,
             "python dostuff_%s.py" % param
         ]
@@ -283,11 +285,11 @@ def run_all(repos):
 
     for param in repos:
         param = param.lower()
-        if param in ALL_DEVICES:
-            t = run_list(param, log_string)
-        else:
+        if param not in ALL_DEVICES:
             t = 1
             print(ERROR_MSG)
+        else:
+            t = run_list(param, log_string)
 
         if t:
             print('check or run command was wrong!')
