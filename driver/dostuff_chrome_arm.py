@@ -35,49 +35,65 @@ resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset', 'target_os'])
 
 
-def dostuff(config_name):
-    print "dostuff"
-    print config_name
-    utils.InitConfig(config_name)
-
-    # Set of engines that get build.
-    Engine = None
-
-    if utils.config.has_key('v8'):
-        Engine = builders.V8()
-    if utils.config.has_key('v8-win64'):
-        Engine = builders.V8Win64()
-    if utils.config.has_key('v8-patch'):
-        Engine = builders.V8_patch()
-    if utils.config.has_key('contentshell'):
-        Engine = builders.ContentShell()
-    if utils.config.has_key('jerryscript'):
-        Engine = builders.JerryScript()
-    if utils.config.has_key('iotjs'):
-        Engine = builders.IoTjs()
-    if utils.config.has_key('chromium-linux'):
-        Engine = builders.Headless()
-        # ret['chrome-related'] = True
-    if utils.config.has_key('headless-patch'):
-        Engine = builders.Headless_patch()
-        # ret['chrome-related'] = True
-    if utils.config.has_key('chromium-win64'):
-        Engine = builders.ChromiumWin64()
-        # ret['chrome-related'] = True
-
+def build(device_type, config_name):
+    print('build')
+    print(device_type, config_name)
+    utils.InitConfig(device_type, config_name)
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
-    port = int(utils.config_get_default('main', 'port')) if utils.config_get_default('main', 'port') else 8795
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(('127.0.0.1', port))
-    hello = s.recv(1024)
-    s.sendall(config_name)
-    print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', config_name, '@', myself
-    reply = s.recv(1024)
-    s.close();
+    # sync build driver with local.
+    DriverPath = utils.DriverPath
+    if utils.RemoteBuild and utils.RemoteRsync:
+        build_driver = utils.config_get_default('build', 'driver', None)
+        build_host = utils.config_get_default('build', 'hostname')
+        print build_driver
+        # for windows translate path format
+        target_os = utils.config_get_default('main', 'target_os', 'linux')
+        if target_os in ['win64']:
+            reger = re.match(r"^(\w):(.*)$", build_driver)
+            if reger:
+                tmp = reger.groups()
+                build_driver = "/cygdrive/" + tmp[0] + tmp[1]
+                build_driver = build_driver.replace('\\', '/')
+                print build_driver
+        rsync_flags = "-aP"
+        try:
+            ssh_port = int(utils.config_get_default('build', 'ssh_port', 22))
+        except:
+            raise Exception("could not get ssh port!")
+        else:
+            if ssh_port != 22:
+                rsync_flags += " -e 'ssh -p "+str(ssh_port)+"'"
+            sync_cmd = ["rsync", rsync_flags]
+            sync_cmd += [DriverPath, build_host+':'+os.path.dirname(build_driver)]
+            utils.Run(sync_cmd)
 
-    print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
+    # start build
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    host = utils.config_get_default('main', 'host', '127.0.0.1')
+    try:
+        port = int(utils.config_get_default('main', 'port', 8795))
+    except:
+        raise Exception("could not get port!")
+    else:
+        s.connect((host, port))
+        hello = s.recv(1024)
+        s.sendall(device_type+' '+config_name)
+        print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', device_type+' '+config_name, '@', myself
+        reply = s.recv(1024)
+        # time.sleep(5)
+        # reply = 'reply'
+        s.close()
+        print '<<<<<<<<<<<<<<<<<<<<<<<< Received', repr(reply), '@', myself
+
+
+def dostuff(device_type, config_name, Engine):
+    print "dostuff"
+    print device_type, config_name
+    utils.InitConfig(device_type, config_name)
+    myself = utils.config_get_default('main', 'slaves', '')
+    print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
     # The native compiler is a special thing, for now.
     native = builders.NativeCompiler()

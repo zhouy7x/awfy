@@ -46,7 +46,7 @@ def build(device_type, config_name):
     DriverPath = utils.DriverPath
     if utils.RemoteBuild and utils.RemoteRsync:
         build_driver = utils.config_get_default('build', 'driver', None)
-        build_host = utils.config_get_default('main', 'hostname')
+        build_host = utils.config_get_default('build', 'hostname')
         print build_driver
         # for windows translate path format
         target_os = utils.config_get_default('main', 'target_os', 'linux')
