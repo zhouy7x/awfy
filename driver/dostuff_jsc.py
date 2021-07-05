@@ -118,7 +118,7 @@ def dostuff(device_type, config_name, Engine):
         shell = os.path.join(utils.RepoPath, Engine.source, Engine.shell())
     print 'mode.shell: ' + shell
     env = None
-    with utils.chdir(os.path.join(utils.RepoPath, Engine.source)):
+    with utils.chdir(os.path.join(utils.RepoPath, Engine.source.replace('\\', '/'))):
         env = Engine.env()
 
     modeNames = utils.config_get_default('main', 'modes', None)
