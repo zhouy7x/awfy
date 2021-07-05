@@ -13,9 +13,13 @@ run_fetch = True
 
 
 def check_build_server_status(tmp):
-    tmp = tmp[:tmp.find(" >")]
+    index = tmp.find(" >")
+    if index > 0:
+        process_string = tmp[:index]
+    else:
+        process_string = ' '.join(tmp.split()[:-3])
     time.sleep(2)
-    command = 'ps ax | grep -E "%s" | grep -v grep' % tmp
+    command = 'ps ax | grep -E "%s" | grep -v grep' % process_string
     data = os.popen(command).read()
     # print(data_list)
     if not data:
