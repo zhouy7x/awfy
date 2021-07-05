@@ -119,9 +119,9 @@ do
                 # python dostuff_x64.py --config=client/v8/electro-x64$string.config --config2=client/v8/electro-x86.config $id &
                 #python dostuff_x64.py --config=client/v8/amd-1800x-x64$string.config --config2=client/v8/amd-1800x-x86.config $id &
                 #python dostuff_x64.py --config=client/v8/amd-3800x-x64$string.config --config2=client/v8/amd-3800x-x86.config $id &
-                python dostuff_x64.py --config=amd-3800x-x64$string $id &
+                python dostuff_x64.py --config=v8-amd-3800x-x64$string $id &
                 #python dostuff_x64.py --config=client/v8/intel-8700k-x64$string.config --config2=client/v8/intel-8700k-x86.config $id &
-                python dostuff_x64.py --config=intel-8700k-x64$string $id &
+                python dostuff_x64.py --config=v8-intel-8700k-x64$string $id &
 
                 echo $tmp > $v8countfile;
 
@@ -175,7 +175,7 @@ do
 
                     STARTT=$(date +%s)
 
-                    python dostuff_x64.py --config=intel-8700k --config2=amd-3800x
+                    python dostuff_x64.py --config=chrome-intel-8700k --config2=chrome-amd-3800x
 #                    python dostuff_x64.py --config=client/chrome/intel-8700k.config
                     # python dostuff_x64.py --config=client/chrome/electro-x64.config --config2=client/chrome/intel-8700k.config --config3=client/chrome/amd-3800x.config
 

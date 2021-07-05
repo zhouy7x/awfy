@@ -216,7 +216,7 @@ do
                     tmp=$[tmp+1];
                 fi
                 string='';
-                python dostuff_jsc.py --config=hsw-nuc-jsc-x64$string $id &
+                python dostuff_jsc.py --config=jsc-hsw-nuc-jsc-x64$string $id &
                 # python dostuff_v8.py --config=client/jsc/apl-nuc-jsc-x64$string.config  $id &
 
                 echo $tmp > $jsccountfile;

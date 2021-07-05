@@ -39,7 +39,7 @@ def InitConfig(device_type, mode_name=None):
     device_configs = total_config.get(device_type)
     if mode_name:
         for tmp in device_configs:
-            if mode_name in tmp['name']:
+            if mode_name == tmp['name']:
                 config = tmp
     else:
         config = device_configs[0]
