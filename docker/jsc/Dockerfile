@@ -14,9 +14,11 @@ RUN apt-get update && \
 
 ADD .ssh /root/.ssh
 # create source path
-RUN mkdir /repos /awfy && mkdir -p /home/user/work && cd /home/user/work && ln -s /repos && ln -s /awfy && mkdir /run/sshd
+RUN mkdir /repos /awfy /logs && mkdir -p /home/user/work && cd /home/user/work && ln -s /repos && ln -s /awfy \
+    && ln -s /logs && mkdir /run/sshd
 VOLUME /repos
 VOLUME /awfy
+VOLUME /logs
 
 # run
 WORKDIR $WORKHOME
