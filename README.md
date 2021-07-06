@@ -143,6 +143,86 @@ Download submodule and repos, install dependence
     cd jsc/base && git clone https://github.com/WebKit/webkit.git && cd webkit && Tools/gtk/install-dependencies
 ```
 
+Format of config.json
+-----------
+```json
+{
+  "DEVICE_TYPE1": [
+    {"name": "DEVICE_NAME1"},  
+    {"name": "DEVICE_NAME2"},
+    ... 
+  ],
+  "DEVICE_TYPE2": [
+    {"name": "DEVICE_NAME3"},
+    {"name": "DEVICE_NAME4"},
+    ... 
+  ],
+  ...
+}
+```
+* startup script starts by the settings of "DEVICE_TYPE" name. (e.g. "x64","win64","jsc"...)
+* a "DEVICE_TYPE" has one or more devices(using "DEVICE_NAME" to show differences), (e.g. "jsc-hsw-nuc-jsc-x64", "chrome-amd-3900x", "v8-amd-3900x-x64"...)
+* a example about "DEVICE_NAME" config json
+```json
+{
+  "name": "chrome-amd-3900x",                                                   // device name
+  "main": {                                                                     // main config, config enter point, 
+      // including local repos path, local benchmarks path ,slave name(locate to remote test slave config), 
+      // and mode names(different modes in a device means these modes all using the same build binary to run benchmark, but adding different running args)
+    "slaves": "3900x",                                                          // slave name, locate to remote test slave's config
+    "remote_build": true,                                                       // bool, if true, means a remote build config named "build" must be set
+    "repos": "/home/user/work/repos/win64-chrome/x64",                          // local repo path
+    "cpu": "x64",                                                               // cpu type, using when building binary
+    "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php/",             // after slave test all benchmarks, using this url to update test data to AWFY DB 
+    "machine": "0",                                                             // useless
+    "host": "win-server.sh.intel.com",                                          // remote build host, default is localhost
+    "port": "8781",                                                             // remote or local build port, default is 8799
+    "benchmarks": "/home/user/work/awfy/benchmarks",                            // local benchmark path
+    "target_os": "win64",                                                       // test slave's OS, default is "linux"
+    "modes": "headless,headless-future,headless-sp"                             // all mode names
+  },
+  "build": {                                                                    // remote build config
+    "rsync": true,                                                              // bool, true means need sync local driver source to remote build driver source, default is true 
+    "pull": true,                                                               // bool, true means need pull from remote build server repo path to local build repo path, default is true 
+    "repos": "d:\\awfy",                                                        // remote build repo path
+    "hostname": "awfy@win-server.sh.intel.com",                                 // remote build hostname, including username
+    "driver": "c:\\work\\awfy\\driver",                                         // remote build driver path
+    "name": "win-server"                                                        // mark of remote build log
+  },
+  "3900x": {                                                                    // remote test slave's config
+    "remote": "1",                                                              // bool, true means this is a remote test(we do not have local test slave)
+    "modes": "chromium-win64",                                                  // useless                    
+    "python": "python",                                                         // python name
+    "repos": "c:\\work\\repos\\win64-chrome\\x64",                              // test slave's repo path
+    "hostname": "test@3900x-win64.sh.intel.com",                                // test slave's hostname
+    "driver": "c:\\work\\awfy\\driver",                                         // test slave's driver path
+    "includes": "speedometer2,jetstream2,webxprt3",                             // all test benchmarks
+    "machine": "22",                                                            // device id, using when save data to DB by "updateURL"
+    "benchmarks": "c:\\work\\awfy\\benchmarks",                                 // test slave's benchmark path
+    "cpu": "x64"                                                                // cpu type
+  },
+  "chromium-win64": {                                                           // deeper build and test remote path
+    "source": "chromium\\src"
+  },
+  "headless": {},                                                               // args of mode1
+  "headless-future": {                                                          // args of mode2
+    "arg1": "--future"
+  },
+  "headless-sp": {                                                              // args of mode3
+    "arg1": "--sparkplug"
+  },
+  "headless-a-sp": {                                                            // args of mode4
+    "arg1": "--always_sparkplug"
+  },
+  "native": {                                                                   // maybe useless
+    "cc": "gcc",
+    "cxx": "g++",
+    "options": "-O2",
+    "mode": "gcc"
+  }
+}
+```
+
 Init and run
 -----------
 get the start commit id of each slave.
