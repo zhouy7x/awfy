@@ -1,7 +1,11 @@
 #!/usr/bin/python
 from sys import argv
 import os
-from devices_config import *
+import utils
+# from devices_config import *
+
+KILL_ERROR_MSG = "ERROR: You can choose any of these params from %s, " \
+                 "or 'all' means run them all." % ','.join(utils.ALL_PROCESSES)
 
 
 def kill_all(repos):
@@ -14,13 +18,13 @@ def kill_all(repos):
         print KILL_ERROR_MSG
         return
     elif repos == ['all']:
-        repos = ALL_PROCESSES
+        repos = utils.ALL_PROCESSES
     elif repos == ['devices']:
-        repos = ALL_DEVICES
+        repos = utils.ALL_DEVICES
 
     for param in repos:
         param = param.lower()
-        if param not in ALL_PROCESSES:
+        if param not in utils.ALL_PROCESSES:
             print KILL_ERROR_MSG
             return
 

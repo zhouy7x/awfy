@@ -38,7 +38,8 @@
         "machine": "0",
         "slaves": "elm",
         "cpu": "arm64",
-        "modes": "headless,headless-future,headless-sp"
+        "modes": "headless,headless-future,headless-sp",
+        "source": "chromium-linux"
       },
       "chromium-linux": {
         "source": "chromium/src"
@@ -76,7 +77,8 @@
         "host": "ssgs5-test.sh.intel.com",
         "slaves": "hsw",
         "cpu": "x64",
-        "modes": "jsc-x64"
+        "modes": "jsc-x64",
+        "source": "jsc"
       },
       "build": {
         "pull": false,
@@ -118,7 +120,8 @@
         "machine": "0",
         "slaves": "atom",
         "cpu": "x64",
-        "modes": "v8-turbofan-x64,v8-turbofan-x64-future"
+        "modes": "v8-turbofan-x64,v8-turbofan-x64-future",
+        "source": "v8"
       },
       "native": {
         "cc": "gcc",
@@ -156,7 +159,8 @@
         "flags": "hardfp",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "cpu": "arm",
-        "modes": "v8-turbofan-arm,v8-turbofan-arm-future"
+        "modes": "v8-turbofan-arm,v8-turbofan-arm-future",
+        "source": "v8"
       },
       "native": {
         "cc": "gcc",
@@ -199,11 +203,11 @@
         "port": "8781",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "target_os": "win64",
-        "modes": "headless,headless-future,headless-sp"
+        "modes": "headless,headless-future,headless-sp",
+        "source": "chromium-win64"
       },
       "3900x": {
         "remote": "1",
-        "modes": "chromium-win64",
         "python": "python",
         "repos": "c:\\work\\repos\\win64-chrome\\x64",
         "hostname": "test@3900x-win64.sh.intel.com",
@@ -229,7 +233,6 @@
       },
       "9900k": {
         "remote": "1",
-        "modes": "chromium-win64",
         "python": "python",
         "repos": "c:\\work\\repos\\win64-chrome\\x64",
         "hostname": "test@9900k-win64.sh.intel.com",
@@ -264,7 +267,8 @@
         "port": "8781",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "target_os": "win64",
-        "modes": "headless,headless-future,headless-sp"
+        "modes": "headless,headless-future,headless-sp",
+        "source": "chromium-win64"
       },
       "native": {
         "cc": "gcc",
@@ -314,7 +318,8 @@
         "port": "8781",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "target_os": "win64",
-        "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp"
+        "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp",
+        "source": "v8-win64"
       },
       "v8-turbofan-x64-sp": {
         "arg1": "--sparkplug"
@@ -367,7 +372,8 @@
         "port": "8781",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "target_os": "win64",
-        "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp"
+        "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp",
+        "source": "v8-win64"
       },
       "v8-turbofan-x64-sp": {
         "arg1": "--sparkplug"
@@ -418,7 +424,8 @@
         "machine": "0",
         "slaves": "3800x",
         "cpu": "x64",
-        "modes": "headless,headless-future,headless-sp"
+        "modes": "headless,headless-future,headless-sp",
+        "source": "chromium-linux"
       },
       "chromium-linux": {
         "source": "chromium/src"
@@ -461,7 +468,8 @@
         "machine": "0",
         "slaves": "8700k",
         "cpu": "x64",
-        "modes": "headless,headless-future,headless-sp"
+        "modes": "headless,headless-future,headless-sp",
+        "source": "chromium-linux"
       },
       "chromium-linux": {
         "source": "chromium/src"
@@ -498,7 +506,8 @@
         "machine": "0",
         "slaves": "8700k",
         "cpu": "x64",
-        "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp"
+        "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp",
+        "source": "v8"
       },
       "v8-turbofan-x64-sp": {
         "arg1": "--sparkplug"
@@ -541,7 +550,8 @@
         "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp",
         "repos": "/home/user/work/repos/v8/x64",
         "slaves": "3800x",
-        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php"
+        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php",
+        "source": "v8"
       },
       "v8-turbofan-x64-sp": {
         "arg1": "--sparkplug"

@@ -179,7 +179,8 @@ Format of config.json
     "port": "8781",                                                             // remote or local build port, default is 8799
     "benchmarks": "/home/user/work/awfy/benchmarks",                            // local benchmark path
     "target_os": "win64",                                                       // test slave's OS, default is "linux"
-    "modes": "headless,headless-future,headless-sp"                             // all mode names
+    "modes": "headless,headless-future,headless-sp",                            // all mode names
+    "source": "chromium-win64"                                                  // to find deeper build and test remote path
   },
   "build": {                                                                    // remote build config
     "rsync": true,                                                              // bool, true means need sync local driver source to remote build driver source, default is true 
@@ -191,7 +192,6 @@ Format of config.json
   },
   "3900x": {                                                                    // remote test slave's config
     "remote": "1",                                                              // bool, true means this is a remote test(we do not have local test slave)
-    "modes": "chromium-win64",                                                  // useless                    
     "python": "python",                                                         // python name
     "repos": "c:\\work\\repos\\win64-chrome\\x64",                              // test slave's repo path
     "hostname": "test@3900x-win64.sh.intel.com",                                // test slave's hostname

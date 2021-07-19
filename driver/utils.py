@@ -24,11 +24,21 @@ Timeout = 15 * 60
 PythonName = None
 Includes = None
 Excludes = None
+MODES = None
+# start/stop related
+ALL_DEVICES = ['v8', 'x64', 'arm', 'glm', '2500u', '1800x', 'cyan', 'bigcore', '3800x', 'jsc']
+ALL_AVAILABLE_DEVICES = ['v8', 'arm', 'x64', 'jsc']
+ALL_PROCESSES = ALL_DEVICES + ['apache2', 'query']
+REVIEW_DEVICES = ['v8', 'x64']
+WORK_DIR = "/home/user/work"
+WIN_WORK_DIR = "c:\work"
+LOG_PATH = "%s/logs" % WORK_DIR
+REPO_PATH = "%s/repos" % WORK_DIR
 
 
-def InitConfig(device_type, mode_name=None):
+def InitConfig(device_type, mode_name=None, mode_startswith=None):
     global config, TargetOS, RepoPath, BenchmarkPath, DriverPath, BuildHost, BuildPort, RemoteBuild, RemoteRsync, \
-        RemotePull, Timeout, PythonName, Includes, Excludes
+        RemotePull, Timeout, PythonName, Includes, Excludes, MODES
 
     with open('config.json') as f:
         total_config = json.loads(f.read())
@@ -41,6 +51,10 @@ def InitConfig(device_type, mode_name=None):
         for tmp in device_configs:
             if mode_name == tmp['name']:
                 config = tmp
+    elif mode_startswith:
+        for tmp in device_configs:
+            if tmp['name'].startswith(mode_startswith):
+                config = tmp
     else:
         config = device_configs[0]
     if not config:
@@ -49,6 +63,7 @@ def InitConfig(device_type, mode_name=None):
     RepoPath = config['main']['repos']
     BenchmarkPath = config['main']['benchmarks']
     DriverPath = config_get_default('main', 'driver', os.getcwd())
+    MODES = config['main']['modes'].split(',')
     BuildHost = config_get_default('main', 'host', 'localhost')
     BuildPort = config_get_default('main', 'port', 8799)
     try:

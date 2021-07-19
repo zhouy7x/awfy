@@ -6,10 +6,17 @@ import time
 from sys import argv
 import os, sys
 import datetime
-from devices_config import *
+# from devices_config import *
 import utils
 
 run_fetch = True
+RELATED = {
+    'apache2': "/etc/init.d/apache2 start",
+    'query_server.py': "python query_server.py > %s/query_server_log.txt 2>&1 &" % utils.LOG_PATH
+}
+TIMEOUT = 30
+ERROR_MSG = "ERROR: You can choose one or two or all of the params from %s, " \
+            "or none param means run them all." % ','.join(utils.ALL_DEVICES)
 
 
 def check_build_server_status(tmp):
@@ -38,10 +45,10 @@ def run_command(param, log_string):
     :return:
     """
     param = param.lower()
-    if param not in ALL_DEVICES:
+    if param not in utils.ALL_DEVICES:
         return 1
 
-    log_path = "%s/%s" % (LOG_PATH, LOG_DIR[param])
+    log_path = os.path.join(utils.LOG_PATH, param)
     if not os.path.isdir(log_path):
         cmd = 'rm -rf %s && mkdir -p %s' % (log_path, log_path)
         print(cmd)
@@ -78,21 +85,41 @@ def run_command(param, log_string):
     return 2
 
 
-def reset_git(vendor):
+def reset_git(vendor, mode_startswith=None):
     """
     To reset git commit version.
     :param vendor:
+    :param mode_startswith:
     :return:
     """
+    utils.InitConfig(vendor, mode_startswith=mode_startswith)
     git_rev = get_cur_git_rev(vendor)
-    with utils.chdir(REPOS[vendor]):
-        if run_fetch:
-            os.system("git fetch")
-        cmd = "git reset --hard %s" % git_rev
-        print cmd
+    source = utils.config_get_default(utils.config_get_default('main', 'source'), 'source')
+    if utils.RemoteBuild:
+        BuildHost = utils.config_get_default('build', 'hostname')
+        BuildRepoPath = utils.config_get_default('build', 'repos', utils.RepoPath)
+        repo_path = os.path.join(BuildRepoPath, source)
+        cmd = 'ssh '
+        try:
+            ssh_port = int(utils.config_get_default('build', 'ssh_port', 22))
+        except:
+            raise Exception("could not get ssh port!")
+
+        if ssh_port != 22:
+            cmd += '-p ' + str(ssh_port) + ' '
+
+        cmd += BuildHost + ' "cd ' + repo_path + ' ; git fetch ; git reset --hard ' + git_rev + '"'
         a = os.system(cmd)
-        if a:
-            raise Exception('git fetch & reset error!')
+    else:
+        repo_path = os.path.join(utils.RepoPath, source)
+        with utils.chdir(repo_path):
+            if run_fetch:
+                os.system("git fetch")
+            cmd = "git reset --hard %s" % git_rev
+            print cmd
+            a = os.system(cmd)
+    if a:
+        raise Exception('git fetch or reset error!')
 
 
 def interrupted(signum, frame):
@@ -126,26 +153,28 @@ def get_cur_git_rev(vendor):
     if git_rev:
         return git_rev
 
-    query = """SELECT STRAIGHT_JOIN b.cset  
-             FROM awfy_run r                                                        
-             JOIN awfy_build b ON r.id = b.run_id                                   
-             JOIN awfy_score s ON s.build_id = b.id                                 
-             JOIN awfy_suite_version v ON v.id = s.suite_version_id                 
-             WHERE r.status > 0                                                       
-             AND r.machine = %s
+    query = """SELECT STRAIGHT_JOIN b.cset 
+             FROM awfy_run r 
+             JOIN awfy_build b ON r.id = b.run_id 
+             JOIN awfy_score s ON s.build_id = b.id 
+             JOIN awfy_suite_version v ON v.id = s.suite_version_id 
+             JOIN awfy_mode m ON m.id = b.mode_id 
+             WHERE r.status > 0 
+             AND r.machine = %s 
              """
-    if vendor.endswith('v8') or vendor.endswith('-chrome') or vendor.endswith('-jsc'):
+    if vendor.endswith('v8') or vendor.endswith('chrome') or vendor.endswith('jsc'):
         query += """
-                 AND b.mode_id = %s 
-                 """ % MODES[vendor]
+                 AND m.mode = %s 
+                 """ % utils.MODES[0]
     query += """
              ORDER BY r.stamp DESC;                                                  
              """
 
-    sys.path.append("%s/awfy/server" % WORK_DIR)
+    sys.path.append("%s/awfy/server" % utils.WORK_DIR)
     import awfy
     c = awfy.db.cursor()
-    c.execute(query, [MACHINES[vendor]])
+    machine_id = utils.config_get_default(utils.config_get_default('main', 'slaves'), 'machine')
+    c.execute(query, [machine_id])
 
     git_rev = c.fetchone()[0].decode('utf-8')
     print(git_rev)
@@ -234,10 +263,11 @@ def run_list(param, log_string):
 
     print("now reset the git commit version...")
     try:
-        if param in ['cyan', '1800x', '3800x', 'bigcore', 'x64']:
-            params = ['%s-v8' % param, '%s-chrome' % param]
-            for tmp in params:
-                reset_git(tmp)
+        if param in ['cyan', '1800x', '3800x', 'bigcore', 'x64', 'win64']:
+            # params = ['%s-v8' % param, '%s-chrome' % param]
+            mode_startswith = ['v8', 'chrome']
+            for tmp in mode_startswith:
+                reset_git(param, tmp)
         # elif param in ['v8']:
         #     params = ['v8', 'v8-jsc']
         #     for tmp in params:
@@ -282,14 +312,14 @@ def run_all(repos):
     # # clean patch failed log
     # os.system("rm -rf ./*.rej ./*.orig")
     if not repos:
-        repos = DEFAULT_DEVICES
+        repos = utils.ALL_AVAILABLE_DEVICES
     print(repos)
     if 'prepare' in repos:
         return
 
     for param in repos:
         param = param.lower()
-        if param not in ALL_DEVICES:
+        if param not in utils.ALL_DEVICES:
             t = 1
             print(ERROR_MSG)
         else:
