@@ -8,7 +8,6 @@ import subprocess
 import time
 from sys import argv
 import utils
-import devices_config
 
 
 def kill_processes(device_type):

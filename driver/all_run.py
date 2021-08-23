@@ -93,7 +93,7 @@ def reset_git(vendor, mode_startswith=None):
     :return:
     """
     utils.InitConfig(vendor, mode_startswith=mode_startswith)
-    git_rev = get_cur_git_rev(vendor)
+    git_rev = get_cur_git_rev(vendor, mode_startswith=mode_startswith)
     source = utils.config_get_default(utils.config_get_default('main', 'source'), 'source')
     if utils.RemoteBuild:
         BuildHost = utils.config_get_default('build', 'hostname')
@@ -113,6 +113,7 @@ def reset_git(vendor, mode_startswith=None):
     else:
         repo_path = os.path.join(utils.RepoPath, source)
         with utils.chdir(repo_path):
+            print(">> Executing in " + os.getcwd())
             if run_fetch:
                 os.system("git fetch")
             cmd = "git reset --hard %s" % git_rev
@@ -132,7 +133,7 @@ def signal_handler(signum, frame):
     raise Exception("\nTimeout!")
 
 
-def get_cur_git_rev(vendor):
+def get_cur_git_rev(vendor, mode_startswith=None):
     """
     get current git commit version.
     :param vendor:
@@ -142,8 +143,11 @@ def get_cur_git_rev(vendor):
         signal.signal(signal.SIGALRM, signal_handler)
         signal.alarm(TIMEOUT)
         print 'You have 30 seconds to type in your stuff...'
-        git_rev = raw_input(
-            "Please input the '%s' git_rev, or just press the 'ENTER' key to use the latest git_rev in database: " % vendor)
+        msg = "Please input the '%s' " % vendor
+        if mode_startswith:
+            msg += "'" + mode_startswith + "'"
+        msg += " git_rev, or just press the 'ENTER' key to use the latest git_rev in database: "
+        git_rev = raw_input(msg)
         signal.alarm(0)
         print "You typed: %s" % git_rev
     except Exception, e:
@@ -162,9 +166,9 @@ def get_cur_git_rev(vendor):
              WHERE r.status > 0 
              AND r.machine = %s 
              """
-    if vendor.endswith('v8') or vendor.endswith('chrome') or vendor.endswith('jsc'):
+    if mode_startswith:
         query += """
-                 AND m.mode = %s 
+                 AND m.mode = "%s" 
                  """ % utils.MODES[0]
     query += """
              ORDER BY r.stamp DESC;                                                  

@@ -25,7 +25,9 @@ compared_master_number = 859168
 base_variance = 0.015
 benchmark = "webxprt3"  # in {"speedometer2", "jetstream2", "webxprt3"}
 case_name = "Encrypt_Notes_and_OCR_Scan"  # "__total__" for total score, or subcase name for subcase score
-config_file = "client/tmp/intel-9900k-canary.config"
+device_type = 'win64'  # in {"jsc", "v8", "win64", "arm", "x64"}
+
+mode_name = "client/tmp/intel-9900k-canary.config"
 log_repo_path = "/home/user/work/repos/chrome/x64/chromium/src"
 
 base_number = base_master_number

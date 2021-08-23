@@ -15,7 +15,7 @@ RUN apt-get update && \
 ADD .ssh /root/.ssh
 # create source path
 RUN mkdir /repos /awfy /logs && mkdir -p /home/user/work && cd /home/user/work && ln -s /repos && ln -s /awfy \
-    && ln -s /logs && mkdir /run/sshd
+    && ln -s /logs && mkdir -p /var/run/sshd && mkdir -p /run/sshd
 VOLUME /repos
 VOLUME /awfy
 VOLUME /logs
@@ -24,4 +24,4 @@ VOLUME /logs
 WORKDIR $WORKHOME
 #ENTRYPOINT ["./build_server.py"]
 EXPOSE 8912 22
-CMD ["/usr/sbin/sshd"]
+CMD ["/bin/bash"]
