@@ -4,6 +4,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 import json
 import os
+import re
 import sys
 import commands
 import subprocess
@@ -36,11 +37,14 @@ LOG_PATH = "%s/logs" % WORK_DIR
 REPO_PATH = "%s/repos" % WORK_DIR
 
 
-def InitConfig(device_type, mode_name=None, mode_startswith=None):
+def InitConfig(device_type, mode_name=None, mode_startswith=None, is_debug=False, debug_config_path="client/tmp/config.json"):
     global config, TargetOS, RepoPath, BenchmarkPath, DriverPath, BuildHost, BuildPort, RemoteBuild, RemoteRsync, \
         RemotePull, Timeout, PythonName, Includes, Excludes, MODES
-
-    with open('config.json') as f:
+    config_path = 'config.json'
+    if is_debug is True or is_debug == 'true':
+        config_path = debug_config_path
+    print('config path:', config_path)
+    with open(config_path) as f:
         total_config = json.loads(f.read())
 
     if device_type not in total_config:
@@ -60,6 +64,7 @@ def InitConfig(device_type, mode_name=None, mode_startswith=None):
     if not config:
         raise Exception('could not find device name: ' + mode_name)
     # print config
+    TargetOS = config_get_default('main', 'target_os', 'linux')
     RepoPath = config['main']['repos']
     BenchmarkPath = config['main']['benchmarks']
     DriverPath = config_get_default('main', 'driver', os.getcwd())
@@ -90,52 +95,32 @@ def InitConfig(device_type, mode_name=None, mode_startswith=None):
     # Excludes = config_get_default(name, 'excludes', None)
 
 
-# def InitConfig(name):
-#     global config, TargetOS, RepoPath, BenchmarkPath, DriverPath, BuildHost, BuildPort, RemoteBuild, RemoteRsync, \
-#         RemotePull, Timeout, PythonName, Includes, Excludes
-#
-#     config = ConfigParser.RawConfigParser()
-#     if not os.path.isfile(name):
-#         raise Exception('could not find file: ' + name)
-#     config.read(name)
-#     RepoPath = config.get('main', 'repos')
-#     BenchmarkPath = config.get('main', 'benchmarks')
-#     DriverPath = config_get_default('main', 'driver', os.getcwd())
-#     BuildHost = config_get_default('main', 'host', 'localhost')
-#     BuildPort = config_get_default('main', 'port', 8799)
-#     try:
-#         BuildPort = int(BuildPort)
-#     except ValueError as e:
-#         raise ValueError("port must be int, not " + BuildPort)
-#
-#     # remote build related
-#     RemoteBuild = config_get_default('main', 'remote_build', False)
-#     if RemoteBuild and RemoteBuild.lower() != 'false':
-#         RemoteBuild = True
-#     else:
-#         RemoteBuild = False
-#     if RemoteBuild:
-#         RemoteRsync = config_get_default('build', 'rsync', True)
-#         if str(RemoteRsync).lower() == 'false':
-#             RemoteRsync = False
-#         else:
-#             RemoteRsync = True
-#         RemotePull = config_get_default('build', 'pull', True)
-#         if str(RemotePull).lower() == 'false':
-#             RemotePull = False
-#         else:
-#             RemotePull = True
-#     #     global RemoteBuildRepoPath, RemoteBuildDriverPath, RemoteBuildHost
-#     #     RemoteBuildRepoPath = config_get_default('build', 'repos', RepoPath)
-#     #     RemoteBuildDriverPath = config_get_default('build', 'driver', DriverPath)
-#     #     RemoteBuildHost = config_get_default('build', 'hostname', 'localhost')
-#
-#     Timeout = config_get_default('main', 'timeout', str(Timeout))
-#     # silly hack to allow 30*60 in the config file.
-#     Timeout = eval(Timeout, {}, {})
-#     PythonName = config_get_default(name, 'python', sys.executable)
-#     Includes = config_get_default(name, 'includes', None)
-#     Excludes = config_get_default(name, 'excludes', None)
+def debug_config_to_dict(config_name):
+    with open(config_name) as f:
+        data = f.read()
+    reg_string = re.findall(r'(\[([\w-]+)\][^\[]+)', data)
+    # print reg_string
+    dict2 = {}
+    for tmp in reg_string:
+        # print tmp[1]
+        lines = tmp[0].splitlines()
+        dict1 = {}
+        for line in lines:
+            tmp2 = line.split('=')
+            try:
+                value = tmp2[1].strip()
+                key = tmp2[0].strip()
+            except Exception as e:
+                continue
+
+            if 'true' == value:
+                value = True
+            elif 'false' == value:
+                value = False
+            dict1[key] = value
+
+        dict2[tmp[1]] = dict1
+    return dict2
 
 
 def config_get_default(section, name, default=None):

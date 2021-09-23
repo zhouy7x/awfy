@@ -2,7 +2,7 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-
+import json
 import os
 import re
 import resource
@@ -35,10 +35,10 @@ resource.setrlimit(resource.RLIMIT_DATA, (-1, -1))
 Mode = namedtuple('Mode', ['shell', 'args', 'env', 'name', 'cset', 'target_os'])
 
 
-def build(device_type, config_name):
+def build(device_type, **kwargs):
     print('build')
-    print(device_type, config_name)
-    utils.InitConfig(device_type, config_name)
+    print(device_type, kwargs)
+    utils.InitConfig(device_type, **kwargs)
     myself = utils.config_get_default('main', 'slaves', '')
     print '>>>>>>>>>>>>>>>>>>>>>>>>> CONNECTING @', myself
 
@@ -79,8 +79,9 @@ def build(device_type, config_name):
     else:
         s.connect((host, port))
         hello = s.recv(1024)
-        s.sendall(device_type+' '+config_name)
-        print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', device_type+' '+config_name, '@', myself
+        kwargs["device_type"] = device_type
+        s.sendall(json.dumps(kwargs))
+        print '>>>>>>>>>>>>>>>>>>>>>>>>> SENT', json.dumps(kwargs), '@', myself
         reply = s.recv(1024)
         # time.sleep(5)
         # reply = 'reply'

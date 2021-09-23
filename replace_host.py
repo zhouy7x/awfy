@@ -3,14 +3,14 @@ import os
 from sys import argv
 
 try:
-    new_host = 'has_key'
-    old_host = argv[2] if argv[2:] else 'has_'
-    # if not old_host.endswith('.sh.intel.com'):
-    #     old_host += '.sh.intel.com'
-    # if not new_host.endswith('.sh.intel.com'):
-    #     new_host += '.sh.intel.com'
+    new_host = argv[1]
+    old_host = argv[2] if argv[2:] else 'ssgs5-test'
+    if not old_host.endswith('.sh.intel.com'):
+        old_host += '.sh.intel.com'
+    if not new_host.endswith('.sh.intel.com'):
+        new_host += '.sh.intel.com'
 except Exception as e:
-    print "Error: Must give 2 params, old host and new host."
+    print "Error: Must give at lease 1 params: new host name."
 else:
     cmd = "grep -nr '%s' ." % old_host
     data = os.popen(cmd).readlines()

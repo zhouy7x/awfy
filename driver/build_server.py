@@ -18,7 +18,13 @@ s.listen(5)
 
 
 def build(config):
-    utils.InitConfig(*(config.split()))
+    try:
+        config = json.loads(config)
+    except Exception as e:
+        print e
+        utils.InitConfig(*(config.split()))
+    else:
+        utils.InitConfig(**config)
     # Set of engines that get build.
     KnownEngines = []
 
