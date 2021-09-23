@@ -64,12 +64,13 @@ first_variance_number = compared_master_number
 DATA_DICT = dict()
 
 
-def reset_src(param):
+def reset_src(param, fetch=False):
     if target_os == "win64":
-        cmd = 'ssh ' + build_host + ' "powershell /c cd ' + os.path.join(build_repos, Engine.source).replace('\\', '/')\
-              + ' ; git reset --hard '+param+'"'
-        cmd = 'ssh ' + build_host + ' "cd ' + os.path.join(build_repos, Engine.source).replace('\\', '/')\
-              + ' ; git reset --hard '+param+'"'
+        cmd = 'ssh ' + build_host + ' "powershell /c cd ' + os.path.join(build_repos, Engine.source).replace('\\', '/')
+        cmd = 'ssh ' + build_host + ' "cd ' + os.path.join(build_repos, Engine.source).replace('\\', '/')
+        if fetch:
+            cmd += ' ; git fetch'
+        cmd += ' ; git reset --hard '+param+'"'
     else:
         cmd = 'cd '+os.path.join(utils.RepoPath, Engine.source)+' ; git reset --hard '+param
     print cmd
@@ -225,13 +226,14 @@ def prepare(remote_rsync, target_os, driver_path):
             sync_cmd += [driver_path, build_host+':'+os.path.dirname(build_driver)]
             utils.Run(sync_cmd)
     # 2.Check if build server and test client are in the known_hosts.
-    if utils.RemoteBuild:
-        cmd1 = 'ssh ' + build_host
-        print(cmd1)
-        os.system(cmd1)
-    cmd2 = 'ssh ' + slave_hostname
-    print(cmd2)
-    os.system(cmd2)
+    # TODO
+    # if utils.RemoteBuild:
+    #     cmd1 = 'ssh ' + build_host
+    #     print(cmd1)
+    #     os.system(cmd1)
+    # cmd2 = 'ssh ' + slave_hostname
+    # print(cmd2)
+    # os.system(cmd2)
     # 3.Check build process.
     if utils.RemoteBuild and target_os == "win64":
         cmd = 'ssh ' + build_host + ' "powershell /c netstat -ano | findstr :'+str(port)+'"'
@@ -240,7 +242,7 @@ def prepare(remote_rsync, target_os, driver_path):
     print(cmd)
     if not os.popen(cmd).read():
         if target_os == 'win64':
-            # TODO
+            # Start remote build server.
             cmd2 = 'python remote_build_server.py --device-type=%s --is-debug=%s --config=%s > ' \
                    '/logs/mixture/build_server_log.txt 2>&1 &' % (device_type, 'true', debug_config_json_path)
         else:
@@ -319,7 +321,7 @@ if __name__ == '__main__':
     get_commit_dict(run_clean)
 
     # double check if the regression or improvement exists.
-    reset_src(DATA_DICT[base_master_number])
+    reset_src(DATA_DICT[base_master_number], fetch=True)
     build(**build_config)
     for slave in KnownSlaves:
         slave.prepare([Engine])
