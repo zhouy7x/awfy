@@ -84,7 +84,7 @@ def remote_test(case_name, shell, env=os.environ.copy()):
     cmd = 'ssh '+slave_hostname+' "'
     if target_os == 'win64':
         cmd += 'powershell /c '
-    cmd += 'cd '+slave_driver+' ; python remote_test.py %s %s %s "' % (benchmark, shell, target_os)
+    cmd += 'cd '+slave_driver+' ; python remote_test.py %s %s %s ' % (benchmark, shell, target_os)
     # add args
     modeName = utils.config_get_default('main', 'modes', None)
     args = Engine.args[:] if Engine.args else []
@@ -97,6 +97,7 @@ def remote_test(case_name, shell, env=os.environ.copy()):
                 break
     if args:
         cmd += ' '.join(args)
+    cmd += ' "'
     print cmd
     ret = os.popen(cmd).read().splitlines()
     print 'ret: ', ret
