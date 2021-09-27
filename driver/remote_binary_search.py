@@ -73,7 +73,7 @@ def reset_src(param, fetch=False):
         cmd += ' ; git reset --hard '+param+'"'
     else:
         cmd = 'cd '+os.path.join(utils.RepoPath, Engine.source)+' ; git reset --hard '+param
-    print cmd
+    print(cmd)
     return os.system(cmd)
 
 
@@ -98,9 +98,9 @@ def remote_test(case_name, shell, env=os.environ.copy()):
     if args:
         cmd += ' '.join(args)
     cmd += ' "'
-    print cmd
+    print(cmd)
     ret = os.popen(cmd).read().splitlines()
-    print 'ret: ', ret
+    print('ret: ', ret)
     ret = map(lambda x: x.split(), ret)
     data = list()
     for x in ret:
@@ -120,12 +120,13 @@ def binary_search(begin, end, prev=None):
     current = (begin+end)//2
     # exit.
     if begin <= end + 1:
-        # print (current, prev)
+        # print(current, prev)
         return
     if reset_src(DATA_DICT[current]):
         raise Exception('reset chromium src error!', current, DATA_DICT[current])
 
-    print "Now build master:%d, commit id:%s" % (current, DATA_DICT[current])
+    print('\n'+'*'*60)
+    print("Now build master:%d, commit id:%s" % (current, DATA_DICT[current]))
     if build(**build_config):
         raise Exception("build error, break!")
 
@@ -134,7 +135,7 @@ def binary_search(begin, end, prev=None):
         slave.prepare([Engine])
 
     score = remote_test(case_name, rshell)
-    print "'" + case_name + "' of benchmark: '" + benchmark + "' in master number: '" + str(current) + "' is: " + str(score)
+    print("'" + case_name + "' of benchmark: '" + benchmark + "' in master number: '" + str(current) + "' is: " + str(score))
     global base_number, first_variance_number
     if standard > 0:
         if score > average:
@@ -169,7 +170,7 @@ def get_commit_dict(run_clean=False):
         os.system("git reset --hard ; git pull")
         cmd1 = "git log > %s/log.txt" % utils.DriverPath
         if os.system(cmd1):
-            print "get chrome git log error!"
+            print("get chrome git log error!")
 
     os.chdir(utils.DriverPath)
     with open('log.txt') as f:
@@ -183,12 +184,12 @@ def get_commit_dict(run_clean=False):
             f.write(data.group())
 
     if not os.path.exists('c-m.txt'):
-        print 'no c-m.txt!'
+        print('no c-m.txt!')
         return
     with open('c-m.txt') as f:
         data = f.read()
     if not data:
-        print 'no data!'
+        print('no data!')
         return
 
     ret = re.findall(r'\ncommit (\w+)[\w\W]*?\n *Cr-Commit-Position: refs/heads/(master|main)@{#(\d+)}', data)
@@ -196,17 +197,17 @@ def get_commit_dict(run_clean=False):
         global DATA_DICT
         for t in ret:
             DATA_DICT[int(t[2])] = t[0]
-    print DATA_DICT
-    print "Length of commit ids found | Length of master numbers given"
-    print str(len(DATA_DICT)).center(26, ' '), '|', str(compared_master_number-base_master_number+1).center(29, ' ')
+    print(DATA_DICT)
+    print("Length of commit ids found | Length of master numbers given")
+    print(str(len(DATA_DICT)).center(26, ' '), '|', str(compared_master_number-base_master_number+1).center(29, ' '))
 
 
 def prepare(remote_rsync, target_os, driver_path):
-    print "Prepare build environment."
+    print("Prepare build environment.")
     # 1.Rsync to build server if remote build.
     if remote_rsync:
         build_driver = utils.config_get_default('build', 'driver', utils.DriverPath)
-        print build_driver
+        print(build_driver)
         # for windows translate path format
         if target_os in ['win64']:
             reger = re.match(r"^(\w):(.*)$", build_driver)
@@ -214,7 +215,7 @@ def prepare(remote_rsync, target_os, driver_path):
                 tmp = reger.groups()
                 build_driver = "/cygdrive/" + tmp[0] + tmp[1]
                 build_driver = build_driver.replace('\\', '/')
-                print build_driver
+                print(build_driver)
         rsync_flags = "-aP"
         try:
             ssh_port = int(utils.config_get_default('build', 'ssh_port', 22))
@@ -250,7 +251,7 @@ def prepare(remote_rsync, target_os, driver_path):
             cmd2 = "python build_server.py %s > /logs/mixture/build_server_log.txt 2>&1 &" % port
         print(cmd2)
         if os.system(cmd2):
-            print "Start build chrome arm server failed!"
+            print("Start build chrome arm server failed!")
 
 
 def main():

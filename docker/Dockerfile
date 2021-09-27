@@ -13,7 +13,7 @@ ENV WORKHOME /home/user/work/awfy/driver
 RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb python-tornado git curl \
     mysql-client-5.7 expect wget tzdata software-properties-common && python -m pip install subprocess32 && \
     LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/apache2 && \
-    apt-get update && apt-get install -y apache2 php5.6 php5.6-mysql
+    apt-get update && apt-get install -y apache2 libapache2-mod-php5.6 php5.6 php5.6-gd php5.6-mysql php5.6-xsl
 
 # install locale en_US.utf8
 RUN apt-get clean && apt-get update && apt-get install -y locales && locale-gen en_US.utf8 && update-locale
