@@ -203,26 +203,26 @@ def get_config_to_dict(device_type, config):
 
 if __name__ == '__main__':
     config1 = get_config_to_dict(options.device_type, options.config_name)
-    build(options.device_type, options.config_name)
+    build(options.device_type, mode_name=options.config_name)
     dostuff(options.device_type, options.config_name, config1['engine'])
 
     if options.config2_name:
         config2 = get_config_to_dict(options.device_type, options.config2_name)
         if not config2['chrome-related']:
-            build(options.device_type, options.config2_name)
+            build(options.device_type, mode_name=options.config2_name)
         else:
             # if build the same chrome, skip build step.
             if config2['cpu'] != config1['cpu'] or \
                     config2['RepoPath'] != config1['RepoPath'] or \
                     config2['engine'].__class__ != config1['engine'].__class__ or \
                     config2['source'] != config1['source']:
-                build(options.device_type, options.config2_name)
+                build(options.device_type, mode_name=options.config2_name)
         dostuff(options.device_type, options.config2_name, config2['engine'])
 
     if options.config3_name:
         config3 = get_config_to_dict(options.device_type, options.config3_name)
         if not config3['chrome-related']:
-            build(options.device_type, options.config3_name)
+            build(options.device_type, mode_name=options.config3_name)
         else:
             # if build the same chrome, skip build step.
             if config3['cpu'] != config1['cpu'] or \
@@ -234,7 +234,7 @@ if __name__ == '__main__':
                             config3['RepoPath'] != config2['RepoPath'] or \
                             config3['engine'].__class__ != config2['engine'].__class__ or \
                             config3['source'] != config2['source']:
-                        build(options.device_type, options.config3_name)
+                        build(options.device_type, mode_name=options.config3_name)
                 else:
-                    build(options.device_type, options.config3_name)
+                    build(options.device_type, mode_name=options.config3_name)
         dostuff(options.device_type, options.config3_name, config3['engine'])
