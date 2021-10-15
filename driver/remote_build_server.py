@@ -20,9 +20,12 @@ parser.add_option("-c", "--config", dest="debug_config_path", type="string", def
 print (options, progargs)
 
 
-def kill_processes():
-    utils.InitConfig(device_type=options.device_type, mode_name=options.mode_name, is_debug=options.is_debug,
-                     debug_config_path=options.debug_config_path)
+def kill_processes(device_type=options.device_type,
+                   mode_name=options.mode_name,
+                   is_debug=options.is_debug,
+                   debug_config_path=options.debug_config_path):
+    utils.InitConfig(device_type=device_type, mode_name=mode_name, is_debug=is_debug,
+                     debug_config_path=debug_config_path)
     port = utils.config_get_default('main', 'port', 8799)
     build_host = utils.config_get_default('build', 'hostname')
     target_os = utils.config_get_default('main', 'target_os', 'linux')
