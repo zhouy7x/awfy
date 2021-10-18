@@ -193,7 +193,7 @@ def check_all(param):
     param = param.lower()
     if param in ['jsc', 'win64']:
         str_list = [
-            "python remote_build_server.py -d " % param,
+            "python remote_build_server.py -d %s" % param,
             "bash schedule-run-%s.sh" % param,
             "python dostuff_%s.py" % param
         ]
