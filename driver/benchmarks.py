@@ -154,7 +154,7 @@ class Octane(Benchmark):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search(r"(.+): (\d+)", x)
+            m = re.search(r"(\w[\w -]+):  ?(\d+)", x)
             if not m:
                 continue
             name = m.group(1)
@@ -179,7 +179,7 @@ class Octane(Benchmark):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search(r"(.+): (\d+)", x)
+            m = re.search(r"(\w[\w -]+):  ?(\d+)", x)
             if not m:
                 continue
             name = m.group(1)
@@ -1018,7 +1018,7 @@ class Speedometer2(Benchmark):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search(r"(.+): (\d+\.?\d?)", x)
+            m = re.search(r"(\w[\w -]+):  ?(\d+\.?\d+)", x)
             if not m:
                 continue
             name = m.group(1)
@@ -1050,7 +1050,7 @@ class Speedometer2(Benchmark):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search(r"(.+): (\d+\.?\d?)", x)
+            m = re.search(r"(\w[\w -]+):  ?(\d+\.?\d+)", x)
             if not m:
                 continue
             name = m.group(1)
@@ -1086,7 +1086,7 @@ class JetStream2(Benchmark):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search("(.+): (\d+\.?\d?)", x)
+            m = re.search(r"(\w[\w -]+):  ?(\d+\.?\d+)", x)
             if not m:
                 continue
             name = m.group(1)
@@ -1118,7 +1118,7 @@ class JetStream2(Benchmark):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search(r"(.+): (\d+\.?\d?)", x)
+            m = re.search(r"(\w[\w -]+):  ?(\d+\.?\d+)", x)
             if not m:
                 continue
             name = m.group(1)
@@ -1154,7 +1154,7 @@ class WebXPRT3(Benchmark):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search(r"(.+): (\d+\.?\d?)", x)
+            m = re.search(r"(\w[\w -]+):  ?(\d+\.?\d+)", x)
             if not m:
                 continue
             name = m.group(1).split(' (ms')[0].replace(' ', '_')
@@ -1185,7 +1185,7 @@ class WebXPRT3(Benchmark):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search(r"(.+): (\d+\.?\d?)", x)
+            m = re.search(r"(\w[\w -]+):  ?(\d+\.?\d+)", x)
             if not m:
                 continue
             name = m.group(1).split(' (ms')[0].replace(' ', '_')
@@ -1221,7 +1221,7 @@ class WebTooling(Benchmark):
         lines = output.splitlines()
         print('lines=', lines)
         for x in lines:
-            m = re.search("(.+):  ?(\d+\.?\d+)", x)
+            m = re.search(r"(\w[\w -]+):  ?(\d+\.?\d+)", x)
             if not m:
                 # print(x, 'is wrong!')
                 continue
@@ -1250,7 +1250,7 @@ class WebTooling(Benchmark):
         lines = output.splitlines()
         print('lines=', lines)
         for x in lines:
-            m = re.search("(.+):  ?(\d+\.?\d+)", x)
+            m = re.search(r"(\w[\w -]+):  ?(\d+\.?\d+)", x)
             if not m:
                 # print(x, 'is wrong!')
                 continue
@@ -1285,7 +1285,7 @@ class Unity3D(Benchmark):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search(r"(.+): (\d+)", x)
+            m = re.search(r"(\w[\w -]+):  ?(\d+)", x)
             if not m:
                 continue
             name = m.group(1)
@@ -1312,7 +1312,7 @@ class Unity3D(Benchmark):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search(r"(.+): (\d+)", x)
+            m = re.search(r"(\w[\w -]+):  ?(\d+)", x)
             if not m:
                 continue
             name = m.group(1)
@@ -1345,7 +1345,7 @@ class Unity3D2018(Unity3D):
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search(r"(.+): (\d+)", x)
+            m = re.search(r"(\w[\w -]+):  ?(\d+)", x)
             if not m:
                 continue
             name = m.group(1)
@@ -1386,7 +1386,7 @@ class ARES6(Benchmark):
 
             lines = scoreStr.splitlines()
             for x in lines:
-                m = re.search(r"(.+):(\s+)(\d+(.\d+))", x)
+                m = re.search(r"(\w[\w -]+):(\s+)(\d+(.\d+))", x)
                 if not m:
                     continue
                 name = ""

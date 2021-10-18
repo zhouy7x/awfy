@@ -2,8 +2,8 @@ FROM ubuntu:20.04
 LABEL maintainer="yangx.a.zhou@intel.com"
 
 # environment variables
-ENV http_proxy http://10.239.4.100:913
-ENV https_proxy http://10.239.4.100:913
+ENV http_proxy http://10.239.4.80:913
+ENV https_proxy http://10.239.4.80:913
 ENV DEBIAN_FRONTEND noninteractive
 ENV WORKHOME /awfy/driver
 

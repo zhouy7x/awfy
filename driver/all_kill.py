@@ -2,7 +2,6 @@
 from sys import argv
 import os
 import utils
-# from devices_config import *
 
 KILL_ERROR_MSG = "ERROR: You can choose any of these params from %s, " \
                  "or 'all' means run them all." % ','.join(utils.ALL_PROCESSES)
@@ -65,9 +64,9 @@ def kill_all(repos):
                 "python dostuff_chrome_%s.py" % param,
                 "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/%s" % param,
             ]
-        if param in ['jsc']:
+        if param in ['jsc', 'win64']:
             from remote_build_server import kill_processes
-            kill_processes("jsc")
+            kill_processes(param)
         for tmp in str_list:
             command = 'ps ax | grep -E "%s" | grep -v grep' % tmp
             # command = 'ps aux | grep -E "chrome.py|chrome.sh"'

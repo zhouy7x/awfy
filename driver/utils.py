@@ -5,7 +5,6 @@
 import json
 import os
 import re
-import sys
 import commands
 import subprocess
 import signal
@@ -27,8 +26,8 @@ Includes = None
 Excludes = None
 MODES = None
 # start/stop related
-ALL_DEVICES = ['v8', 'x64', 'arm', 'glm', '2500u', '1800x', 'cyan', 'bigcore', '3800x', 'jsc']
-ALL_AVAILABLE_DEVICES = ['v8', 'arm', 'x64', 'jsc']
+ALL_DEVICES = ['v8', 'x64', 'arm', 'glm', '2500u', '1800x', 'cyan', 'bigcore', '3800x', 'jsc', 'win64']
+ALL_AVAILABLE_DEVICES = ['v8', 'arm', 'x64', 'jsc', 'win64']
 ALL_PROCESSES = ALL_DEVICES + ['apache2', 'query']
 REVIEW_DEVICES = ['v8', 'x64']
 WORK_DIR = "/home/user/work"

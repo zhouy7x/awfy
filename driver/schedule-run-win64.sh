@@ -43,6 +43,7 @@ lockfile=/tmp/awfy-daemon-win64
 v8countfile=tmp/win64-v8-count
 v8_longtime_bench_freq=70
 build_server=awfy@win-server.sh.intel.com
+password=123
 #[ -z $1 ] && fast_forward=1 || fast_forward=$1
 fast_forward=1
 
@@ -72,14 +73,13 @@ do
         count=0
         echo "start remote check win64 v8 update>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 #        sleep 2m
-        ssh $build_server "cd d:/awfy/v8/v8/ ; git fetch"
+        sshpass -p $password ssh $build_server "cd d:/awfy/v8/v8/ ; git fetch"
         echo 'stop remote check win64 v8 update<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
-        list=`ssh $build_server "cd d:/awfy/v8/v8/ ; git rev-list origin/master...master" | tac | python /home/user/work/awfy/driver/v8-filter-win64.py`
+        list=`sshpass -p $password ssh $build_server "cd d:/awfy/v8/v8/ ; git rev-list origin/master...master" | tac | python /home/user/work/awfy/driver/v8-filter-win64.py`
 
         if [ -z "$list" ]; then
             echo "v8: no update"
         else
-
             hasUpdate="true"
             ignoreCount=0
             # Get every commit of v8
@@ -92,8 +92,8 @@ do
                 else
                     continue
                 fi
-                ssh $build_server "cd d:/awfy/v8/v8/ ; git reset --hard -q $id ; gclient sync -D -f -j10"
-                ssh $build_server "cd d:/awfy/v8/v8/ ; git log -1 --pretty=short"
+                sshpass -p $password ssh $build_server "cd d:/awfy/v8/v8/ ; git reset --hard -q $id ; gclient sync -D -f -j10"
+                sshpass -p $password ssh $build_server "cd d:/awfy/v8/v8/ ; git log -1 --pretty=short"
 
                 pushd /home/user/work/awfy/driver
 
@@ -166,20 +166,20 @@ do
         count=0
         echo "start remote check win64 chromium update>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 #        sleep 2m
-        ssh $build_server "cd d:/awfy/chromium/src/ ; git fetch"
+        sshpass -p $password ssh $build_server "cd d:/awfy/chromium/src/ ; git fetch"
         echo 'stop remote check win64 chromium update<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
-        list=`ssh $build_server "cd d:/awfy/chromium/src/ ; git rev-list origin/master...master" | tac`
+        list=`sshpass -p $password ssh $build_server "cd d:/awfy/chromium/src/ ; git rev-list origin/master...master" | tac`
         if [ -z "$list" ]; then
             echo "chromium: no update"
         else
             for i in $list
             do
                 # Only check v8 changed chromium
-                v8find=`ssh $build_server "cd d:/awfy/chromium/src/ ; git show $i "| grep -P "^\+\s+.v8_revision."`
+                v8find=`sshpass -p $password ssh $build_server "cd d:/awfy/chromium/src/ ; git show $i "| grep -P "^\+\s+.v8_revision."`
                 if [[ -n $v8find ]]; then
                     hasUpdate="true"
                     echo $i
-                    ssh $build_server "cd d:/awfy/chromium/src/ ; git reset --hard $i"
+                    sshpass -p $password ssh $build_server "cd d:/awfy/chromium/src/ ; git reset --hard $i"
 
                     pushd /home/user/work/awfy/driver
 

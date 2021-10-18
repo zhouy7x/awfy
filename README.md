@@ -122,6 +122,7 @@ Run jsc docker container
             -p 2222:22/tcp \
             -p 8912:8912/tcp \
             awfy/jsc-build:20.04
+            /bin/bash
 ```
 
 Download submodule and repos, install dependence
