@@ -1,10 +1,7 @@
 # _*_coding=utf-8_*_
 import json
 
-try:
-    from server import awfy
-except:
-    import awfy
+import awfy
 
 
 def get_no_score_run_id_list(run_id_list):

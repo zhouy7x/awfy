@@ -50,12 +50,12 @@ def kill_all(repos):
                 "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/v8/%s" % param,
                 "/home/user/depot_tools/ninja-linux64 -C /home/user/work/repos/chrome/%s" % param,
             ]
-        elif param in ['jsc']:
+        elif param in ['jsc', 'win64']:
             str_list = [
-                'python remote_build_server.py jsc',
+                'python remote_build_server.py %s' % param,
                 "bash schedule-run-%s.sh" % param,
                 "python dostuff_%s.py" % param,
-                "Tools/Scripts/build-webkit --jsc-only",
+                # "Tools/Scripts/build-webkit --jsc-only",
             ]
         else:
             str_list = [
