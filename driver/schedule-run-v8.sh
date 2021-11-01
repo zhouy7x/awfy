@@ -70,7 +70,7 @@ do
         count=0
         pushd /home/user/work/repos/v8/base/v8
         git fetch
-        list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
+        list=`git rev-list origin/main...main | tac | python /home/user/work/awfy/driver/v8-filter.py`
         if [ -z "$list" ]; then
             echo "v8: no update"
         else
@@ -156,7 +156,7 @@ do
 #        count=0
 #        pushd /home/user/work/repos/chrome/x64/chromium/src
 #        git fetch
-#        list=`git rev-list origin/master ^master | tac`
+#        list=`git rev-list origin/main...main | tac`
 #        if [ -z "$list" ]; then
 #            echo "chromium: no update"
 #        else
@@ -199,7 +199,7 @@ do
 #        pushd /home/user/work/repos/jsc/base/webkit
 #        git fetch
 #        list=`git rev-list origin/main ^main | tac | python /home/user/work/awfy/driver/jsc-filter.py`
-#        # list=`git rev-list origin/master ^master | tac`
+#        # list=`git rev-list origin/main...main | tac`
 #        if [ -z "$list" ]; then
 #            echo "jsc: no update"
 #        else

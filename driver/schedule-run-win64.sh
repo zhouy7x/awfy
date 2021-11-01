@@ -75,7 +75,7 @@ do
 #        sleep 2m
         sshpass -p $password ssh $build_server "cd d:/awfy/v8/v8/ ; git fetch"
         echo 'stop remote check win64 v8 update<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
-        list=`sshpass -p $password ssh $build_server "cd d:/awfy/v8/v8/ ; git rev-list origin/master...master" | tac | python /home/user/work/awfy/driver/v8-filter-win64.py`
+        list=`sshpass -p $password ssh $build_server "cd d:/awfy/v8/v8/ ; git rev-list origin/main...main" | tac | python /home/user/work/awfy/driver/v8-filter-win64.py`
 
         if [ -z "$list" ]; then
             echo "v8: no update"
@@ -168,7 +168,7 @@ do
 #        sleep 2m
         sshpass -p $password ssh $build_server "cd d:/awfy/chromium/src/ ; git fetch"
         echo 'stop remote check win64 chromium update<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
-        list=`sshpass -p $password ssh $build_server "cd d:/awfy/chromium/src/ ; git rev-list origin/master...master" | tac`
+        list=`sshpass -p $password ssh $build_server "cd d:/awfy/chromium/src/ ; git rev-list origin/main...main" | tac`
         if [ -z "$list" ]; then
             echo "chromium: no update"
         else

@@ -1,4 +1,4 @@
-#list=`ssh ssgs3@10.239.61.100 powershell "cd d:/src/chromium/src/ ; git rev-list origin/master...master" | tac`
+#list=`ssh ssgs3@10.239.61.100 powershell "cd d:/src/chromium/src/ ; git rev-list origin/main...main" | tac`
 ##echo $list
 #
 #if [ -z "$list" ]; then

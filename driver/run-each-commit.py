@@ -35,7 +35,7 @@ do
         else
                 pushd /home/user/work/repos/v8
                   git fetch
-                  list=`git rev-list origin/master ^master | tac`
+                  list=`git rev-list origin/main...main | tac`
                   if [ -z "$list" ]; then
                     echo "no source updated, sleep 2m"
                     sleep 120

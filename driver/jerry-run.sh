@@ -39,7 +39,7 @@ do
     # First, check jerry update
     pushd /home/user/work/repos/jerryscript
         git fetch
-        list=`git rev-list origin/master ^master | tac`
+        list=`git rev-list origin/main...main | tac`
         if [ -z "$list" ]; then
           echo "jerry: no update"
         else
@@ -60,7 +60,7 @@ do
     # Second, check iotjs update
     pushd /home/user/work/repos/iotjs
         git fetch
-        list=`git rev-list origin/master ^master | tac`
+        list=`git rev-list origin/main...main | tac`
         if [ -z "$list" ]; then
           echo "iotjs: no update"
         else

@@ -42,7 +42,7 @@ do
 #        # First, check v8 update
 #        pushd /home/user/work/repos/v8
 #        git fetch
-#        list=`git rev-list origin/master ^master | tac | python /home/user/work/awfy/driver/v8-filter.py`
+#        list=`git rev-list origin/main...main | tac | python /home/user/work/awfy/driver/v8-filter.py`
 #        if [ -z "$list" ]; then
 #            echo "v8: no update"
 #        else
@@ -108,7 +108,7 @@ do
         # Second, check chromium update
         pushd /home/user/work/repos/chrome/glm/chromium/src
         git fetch
-        list=`git rev-list origin/master ^master | tac`
+        list=`git rev-list origin/main...main | tac`
         if [ -z "$list" ]; then
             echo "chromium: no update"
         else

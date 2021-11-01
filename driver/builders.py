@@ -11,7 +11,6 @@ import puller
 import platform
 import subprocess
 import traceback
-from devices_config import WORK_DIR, WIN_WORK_DIR
 from utils import Run, winRun
 
 import synctroubles
@@ -248,7 +247,7 @@ class V8Win64(Engine):
         winRun(['git', 'log', '-1', '--pretty=short'], env)
 
         in_argns_name = "v8-" + self.cpu + ".gn"
-        in_argns = os.path.join(WIN_WORK_DIR, 'awfy', 'gn_file', in_argns_name)
+        in_argns = os.path.join(utils.WORK_DIR, 'awfy', 'gn_file', in_argns_name)
         out_argns = os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu+".release", 'args.gn')
         if not os.path.isdir(os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu+".release")):
             winRun(["mkdir", "-p", os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu+".release")])
@@ -568,7 +567,7 @@ class Headless(Engine):
             sourcePath = os.path.join(utils.RepoPath, self.source)
             in_argns_name = self.cpu + ".gn"
             # in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
-            in_argns = os.path.join(WORK_DIR, 'awfy', 'gn_file', in_argns_name)
+            in_argns = os.path.join(utils.WORK_DIR, 'awfy', 'gn_file', in_argns_name)
             out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu, 'args.gn')
             if not os.path.isdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu)):
                 os.mkdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu))
@@ -612,7 +611,7 @@ class Headless(Engine):
                 sourcePath = os.path.join(utils.RepoPath, self.source)
                 in_argns_name = self.cpu + ".gn"
                 # in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
-                in_argns = os.path.join(WORK_DIR, 'awfy', 'gn_file', in_argns_name)
+                in_argns = os.path.join(utils.WORK_DIR, 'awfy', 'gn_file', in_argns_name)
                 out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu, 'args.gn')
                 while (syncAgain):
                     syncAgain = False
@@ -697,9 +696,9 @@ class ChromiumWin64(Engine):
     def _update(self, rev):
         with utils.FolderChanger(self.sourcePath):
             env = os.environ.copy()
-            # reset to master branch
+            # reset to main branch
             winRun(['git', 'reset', '--hard'], env)
-            winRun(['git', 'checkout', 'master'], env)
+            winRun(['git', 'checkout', 'main'], env)
             winRun(['git', 'fetch'], env)
             winRun(['git', 'reset', '--hard', rev])
             winRun(['gclient', 'sync', '-D', '-j8', '-f'], env)
@@ -714,7 +713,7 @@ class ChromiumWin64(Engine):
                     winRun(['rm', '-r', '-fo', os.path.join(self.sourcePath, 'out', self.cpu, 'Chrome-bin')],
                         env)
                 in_argns_name = self.target_os + "-" + self.cpu + ".gn"
-                in_argns = os.path.join(WIN_WORK_DIR, 'awfy', 'gn_file', in_argns_name)
+                in_argns = os.path.join(utils.WORK_DIR, 'awfy', 'gn_file', in_argns_name)
                 out_argns = os.path.join(self.sourcePath, 'out', self.cpu, 'args.gn')
                 if not os.path.isdir(os.path.join(self.sourcePath, 'out', self.cpu)):
                     os.mkdir(os.path.join(self.sourcePath, 'out', self.cpu))
@@ -732,7 +731,7 @@ class ChromiumWin64(Engine):
                         winRun(['rm', '-r', '-fo', os.path.join(self.sourcePath, 'out', self.cpu, 'Chrome-bin')],
                             env)
                     in_argns_name = self.target_os + "-" + self.cpu + ".gn"
-                    in_argns = os.path.join(WIN_WORK_DIR, 'awfy', 'gn_file', in_argns_name)
+                    in_argns = os.path.join(utils.WORK_DIR, 'awfy', 'gn_file', in_argns_name)
                     out_argns = os.path.join(self.sourcePath, 'out', self.cpu, 'args.gn')
                     winRun(['rm', '-r', '-fo', os.path.join(self.sourcePath, 'out', self.cpu)])
                     winRun(['mkdir', os.path.join(self.sourcePath, 'out', self.cpu)])
@@ -800,7 +799,7 @@ class Headless_patch(Engine):
             sourcePath = os.path.join(utils.RepoPath, self.source)
             in_argns_name = self.cpu + '-patch' + ".gn"
             # in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
-            in_argns = os.path.join(WORK_DIR, 'awfy', 'gn_file', in_argns_name)
+            in_argns = os.path.join(utils.WORK_DIR, 'awfy', 'gn_file', in_argns_name)
             out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu + '-patch', 'args.gn')
             if not os.path.isdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu + '-patch')):
                 os.mkdir(os.path.join(utils.RepoPath, self.source, 'out', self.cpu + '-patch'))
@@ -847,7 +846,7 @@ class Headless_patch(Engine):
                 sourcePath = os.path.join(utils.RepoPath, self.source)
                 in_argns_name = self.cpu + '-patch' + ".gn"
                 # in_argns = os.path.join(utils.RepoPath, 'gn_file', in_argns_name)
-                in_argns = os.path.join(WORK_DIR, 'awfy', 'gn_file', in_argns_name)
+                in_argns = os.path.join(utils.WORK_DIR, 'awfy', 'gn_file', in_argns_name)
                 out_argns = os.path.join(utils.RepoPath, self.source, 'out', self.cpu + '-patch', 'args.gn')
                 while (syncAgain):
                     syncAgain = False

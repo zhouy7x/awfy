@@ -9,6 +9,7 @@ import commands
 import subprocess
 import signal
 # import ConfigParser
+import sys
 
 config = None
 TargetOS = None
@@ -30,8 +31,7 @@ ALL_DEVICES = ['v8', 'x64', 'arm', 'glm', '2500u', '1800x', 'cyan', 'bigcore', '
 ALL_AVAILABLE_DEVICES = ['v8', 'arm', 'x64', 'jsc', 'win64']
 ALL_PROCESSES = ALL_DEVICES + ['apache2', 'query']
 REVIEW_DEVICES = ['v8', 'x64']
-WORK_DIR = "/home/user/work"
-WIN_WORK_DIR = "c:\work"
+WORK_DIR = os.path.join(sys.path[0], '../..')
 LOG_PATH = "%s/logs" % WORK_DIR
 REPO_PATH = "%s/repos" % WORK_DIR
 

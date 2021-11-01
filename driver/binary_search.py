@@ -94,7 +94,7 @@ def get_commit_dict():
     with open('log.txt') as f:
         data = f.read()
 
-    data = re.search(r'\ncommit %s[\w\W]*Cr-Commit-Position: refs/heads/master@{#%d}' % (begin_id, end_master), data)
+    data = re.search(r'\ncommit %s[\w\W]*Cr-Commit-Position: refs/heads/(master|main)@{#%d}' % (begin_id, end_master), data)
     if data:
         with open('c-m.txt', 'w') as f:
             f.write(data.group())
@@ -106,12 +106,12 @@ def get_commit_dict():
         print 'not data!'
         return
 
-    ret = re.findall(r'\ncommit (\w+)[\w\W]*?\n *Cr-Commit-Position: refs/heads/master@{#(\d+)}', data)
+    ret = re.findall(r'\ncommit (\w+)[\w\W]*?\n *Cr-Commit-Position: refs/heads/(master|main)@{#(\d+)}', data)
     if ret:
         global DATA_LIST, DATA_DICT
         for t in ret:
-            DATA_DICT[int(t[1])] = t[0]
-            DATA_LIST.append((int(t[1]), t[0]))
+            DATA_DICT[int(t[2])] = t[0]
+            DATA_LIST.append((int(t[2]), t[0]))
     print DATA_LIST
     print len(DATA_LIST), begin_master - end_master + 1
 

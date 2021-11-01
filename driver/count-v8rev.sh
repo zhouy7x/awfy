@@ -1,7 +1,7 @@
 count=0
 pushd /home/user/work/repos/chrome/x64/chromium/src
 git fetch
-list=`git rev-list origin/master ^master | tac`
+list=`git rev-list origin/main...main | tac`
 if [ -z "$list" ]; then
   echo "chromium: no update"
 else

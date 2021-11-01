@@ -89,7 +89,7 @@ if __name__ == '__main__':
             if ssh_port != 22:
                 cmd.append('-p')
                 cmd.append(str(ssh_port))
-            cmd += ['--', 'cd', build_driver, ';', 'python', 'build_server.py', str(port)]
+            cmd += ['--', 'cd', build_driver, ';', 'python2', 'build_server.py', str(port)]
             print ' '.join(cmd)
             # os.system(cmd)
             delayed = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
