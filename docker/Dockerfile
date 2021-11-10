@@ -2,8 +2,8 @@ FROM ubuntu:18.04
 LABEL maintainer="yangx.a.zhou@intel.com"
 
 # environment variables
-ENV http_proxy http://10.239.4.80:913
-ENV https_proxy http://10.239.4.80:913
+ENV http_proxy http://10.239.120.56:913
+ENV https_proxy http://10.239.120.56:913
 ENV DEBIAN_FRONTEND noninteractive
 ENV PATH $PATH:/depot_tools
 ENV NO_AUTH_BOTO_CONFIG /home/user/work/awfy/docker/.boto

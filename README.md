@@ -124,6 +124,12 @@ Run jsc docker container
             awfy/jsc-build:20.04
             /bin/bash
 ```
+* start jsc sshd server
+```text
+docker exec -it awfy-jsc /bin/bash
+/usr/sbin/sshd
+exit
+```
 
 Download submodule and repos, install dependence
 -----------------------------------------------
