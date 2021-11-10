@@ -38,7 +38,7 @@
         "machine": "0",
         "slaves": "elm",
         "cpu": "arm64",
-        "modes": "headless,headless-future,headless-sp",
+        "modes": "headless,headless-future",
         "source": "chromium-linux"
       },
       "chromium-linux": {
@@ -203,7 +203,7 @@
         "port": "8781",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "target_os": "win64",
-        "modes": "headless,headless-future,headless-sp",
+        "modes": "headless,headless-future",
         "source": "chromium-win64"
       },
       "3900x": {
@@ -267,7 +267,7 @@
         "port": "8781",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "target_os": "win64",
-        "modes": "headless,headless-future,headless-sp",
+        "modes": "headless,headless-future",
         "source": "chromium-win64"
       },
       "native": {
@@ -318,7 +318,7 @@
         "port": "8781",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "target_os": "win64",
-        "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp",
+        "modes": "v8-turbofan-x64,v8-turbofan-x64-future",
         "source": "v8-win64"
       },
       "v8-turbofan-x64-sp": {
@@ -372,7 +372,7 @@
         "port": "8781",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "target_os": "win64",
-        "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp",
+        "modes": "v8-turbofan-x64,v8-turbofan-x64-future",
         "source": "v8-win64"
       },
       "v8-turbofan-x64-sp": {
@@ -424,7 +424,7 @@
         "machine": "0",
         "slaves": "3800x",
         "cpu": "x64",
-        "modes": "headless,headless-future,headless-sp",
+        "modes": "headless,headless-future",
         "source": "chromium-linux"
       },
       "chromium-linux": {
@@ -468,7 +468,7 @@
         "machine": "0",
         "slaves": "8700k",
         "cpu": "x64",
-        "modes": "headless,headless-future,headless-sp",
+        "modes": "headless,headless-future",
         "source": "chromium-linux"
       },
       "chromium-linux": {
@@ -506,7 +506,7 @@
         "machine": "0",
         "slaves": "8700k",
         "cpu": "x64",
-        "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp",
+        "modes": "v8-turbofan-x64,v8-turbofan-x64-future",
         "source": "v8"
       },
       "v8-turbofan-x64-sp": {
@@ -547,7 +547,7 @@
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "cpu": "x64",
         "machine": "0",
-        "modes": "v8-turbofan-x64,v8-turbofan-x64-future,v8-turbofan-x64-sp",
+        "modes": "v8-turbofan-x64,v8-turbofan-x64-future",
         "repos": "/home/user/work/repos/v8/x64",
         "slaves": "3800x",
         "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php",
