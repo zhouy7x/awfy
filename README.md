@@ -61,7 +61,7 @@ Run docker container
             -e MYSQL_ROOT_HOST="%" \
             -e MYSQL_ROOT_PASSWORD="mkk" \
             -p 3306:3306/tcp \
-            awfy-mysql:5.7
+            awfy/mysql:5.7
 ```
 
 Auto start docker container and run default devices after system start (IF NEEDED!)
