@@ -125,7 +125,6 @@ def binary_search(begin, end, prev=None):
     if reset_src(DATA_DICT[current]):
         raise Exception('reset chromium src error!', current, DATA_DICT[current])
 
-    print('\n'+'*'*60)
     print("Now build master:%d, commit id:%s" % (current, DATA_DICT[current]))
     if build(**build_config):
         raise Exception("build error, break!")
@@ -135,7 +134,8 @@ def binary_search(begin, end, prev=None):
         slave.prepare([Engine])
 
     score = remote_test(case_name, rshell)
-    print("'" + case_name + "' of benchmark: '" + benchmark + "' in master number: '" + str(current) + "' is: " + str(score))
+    print("'" + case_name + "' of benchmark: '" + benchmark + "' in master number: '" + str(current) +
+          "' is: " + str(score))
     global base_number, first_variance_number
     if standard > 0:
         if score > average:
@@ -155,6 +155,8 @@ def binary_search(begin, end, prev=None):
             # down, current test score smaller than average, so the variance happened between base and current
             begin = current
             first_variance_number = current
+
+    print('\n'+'*'*60)
     print("Now binary search between %d and %d!" % (base_number, first_variance_number))
     binary_search(begin, end, current)
 
@@ -328,12 +330,19 @@ if __name__ == '__main__':
     for slave in KnownSlaves:
         slave.prepare([Engine])
     base_score = remote_test(case_name, rshell)
+    print('base_score:', base_score)
+    print("*" * 60)
 
     reset_src(DATA_DICT[compared_master_number])
     build(**build_config)
     for slave in KnownSlaves:
         slave.prepare([Engine])
     compared_score = remote_test(case_name, rshell)
+    print('compared_score:', compared_score)
+    print("*" * 60)
+
+    print('base_master_number: %d, compared_master_number: %d' % (base_master_number, compared_master_number))
+    print('base_score: %f, compared_score: %f' % (base_score, compared_score))
 
     average = (base_score + compared_score) / 2
     variance = compared_score / base_score - 1

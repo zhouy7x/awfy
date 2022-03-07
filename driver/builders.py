@@ -663,7 +663,7 @@ class Headless(Engine):
 
     def libpaths(self):
         p = os.path.join(utils.RepoPath, self.source, 'out', self.cpu)
-        return [{'path': p, 'exclude': ['obj', 'gen', 'clang_x64', 'clang_x86_v8_arm', 'pyproto', 'resources']}]
+        return [{'path': p, 'exclude': ['obj', 'gen', 'clang_x64', 'clang_x86_v8_arm', 'pyproto', 'resources', 'thinlto-cache']}]
 
 
 class ChromiumWin64(Engine):
