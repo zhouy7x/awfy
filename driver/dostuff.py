@@ -58,14 +58,15 @@ def build(device_type, **kwargs):
                 build_driver = build_driver.replace('\\', '/')
                 print build_driver
         rsync_flags = "-aP"
+        sync_cmd = ["rsync", rsync_flags]
         try:
             ssh_port = int(utils.config_get_default('build', 'ssh_port', 22))
         except:
             raise Exception("could not get ssh port!")
         else:
             if ssh_port != 22:
-                rsync_flags += " -e 'ssh -p "+str(ssh_port)+"'"
-            sync_cmd = ["rsync", rsync_flags]
+                sync_cmd.append("-e")
+                sync_cmd.append("'ssh -p "+str(ssh_port)+"'")
             sync_cmd += [DriverPath, build_host+':'+os.path.dirname(build_driver)]
             utils.Run(sync_cmd)
 

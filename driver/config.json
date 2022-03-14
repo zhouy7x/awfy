@@ -100,7 +100,7 @@
         "repos": "/home/user/work/repos/v8/base",
         "hostname": "user@apl-nuc.sh.intel.com",
         "driver": "/home/user/work/awfy/driver",
-        "includes": "octane,WebTooling,Jetstream2D8",
+        "includes": "octane,WebTooling,Jetstream2D8,d8Size,binSize",
         "machine": "8",
         "benchmarks": "/home/user/work/awfy/benchmarks"
       },

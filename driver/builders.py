@@ -943,7 +943,7 @@ class JavaScriptCore(Engine):
             print "Dirty build failed!"
             # remove output dir
             if os.path.exists(os.path.join(utils.RepoPath, self.source, self.output_dir)):
-                Run('rm', '-rf', os.path.join(utils.RepoPath, self.source, self.output_dir))
+                Run(['rm', '-rf', os.path.join(utils.RepoPath, self.source, self.output_dir)])
             try:
                 with utils.FolderChanger(os.path.join(os.path.join(utils.RepoPath, self.source))):
                     Run(['Tools/Scripts/build-webkit', '--jsc-only', '-j40'], env)
