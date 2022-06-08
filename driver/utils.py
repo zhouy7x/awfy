@@ -375,7 +375,14 @@ def WinRunTimedCheckOutput(args, env=os.environ.copy(), timeout=None, **popenarg
         except subprocess32.TimeoutExpired:
             # make sure it is no longer running
             # p.kill()
-            os.killpg(p.pid, signal.SIGINT)
+            try:
+                os.killpg(p.pid, signal.SIGINT)
+            except Exception as e:
+                print (e)
+                print (p.pid)
+                subprocess.check_output("Taskkill /PID %d /F" % p.pid)
+                #os.kill(p.pid, -1)
+                p.kill()
             # in case someone looks at the logs...
             print ("WARNING: Timed Out 1st.")
             # try to get any partial output
@@ -393,7 +400,11 @@ def WinRunTimedCheckOutput(args, env=os.environ.copy(), timeout=None, **popenarg
             except subprocess32.TimeoutExpired:
                 # make sure it is no longer running
                 # p.kill()
-                os.killpg(p.pid, signal.SIGINT)
+                try:
+                    os.killpg(p.pid, signal.SIGINT)
+                except:
+                    subprocess.check_output("Taskkill /PID %d /F" % p.pid)
+                    p.kill()
                 # in case someone looks at the logs...
                 print ("WARNING: Timed Out 2nd.")
                 # try to get any partial output

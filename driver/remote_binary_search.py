@@ -20,14 +20,14 @@ from dostuff import build
 4. 得到下一轮的master号，递归运行；
 5. 退出条件下一轮mater号与本轮相同或相差1.
 """
-base_master_number = 914450
-compared_master_number = 914451
+base_master_number = 991437
+compared_master_number = 991488
 
 # 1.bisect special config
-mode = "headless-future"
-benchmark = "webxprt3"  # in {"speedometer2", "jetstream2", "webxprt3"}
-case_name = "Encrypt_Notes_and_OCR_Scan"  # "__total__" for total score, or the name of subcase for subcase score
-file_name = "client/tmp/intel-9900k-canary.config"
+mode = "headless"
+benchmark = "jetstream2"  # in {"speedometer2", "jetstream2", "webxprt3"}
+case_name = "__total__"  # "__total__" for total score, or the name of subcase for subcase score
+file_name = "client/tmp/amd-5900x.config"
 
 # 2.save config to debug json file.
 # 2.1 device name

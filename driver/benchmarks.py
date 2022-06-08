@@ -1148,13 +1148,13 @@ class WebXPRT3(Benchmark):
         if args:
             cmd += ' '+' '.join(args)
         print(cmd)
-        output = utils.RunTimedCheckOutput(cmd, env=env, timeout=25 * 60)
+        output = utils.RunTimedCheckOutput(cmd, env=env, timeout=20 * 60)
         tests = []
         test_names = []
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search(r"(\w.+):  ?(\d+\.?\d+)", x)
+            m = re.search(r"(\w.+):  ?(\d+\.?\d*)", x)
             if not m:
                 continue
             name = m.group(1).split(' (ms')[0].replace(' ', '_')
@@ -1179,16 +1179,86 @@ class WebXPRT3(Benchmark):
         if args:
             cmd += ' '+' '.join(args)
         print(cmd)
-        output = utils.WinRunTimedCheckOutput(cmd, env=env, timeout=25 * 60)
+        output = utils.WinRunTimedCheckOutput(cmd, env=env, timeout=20 * 60)
         tests = []
         test_names = []
         lines = output.splitlines()
 
         for x in lines:
-            m = re.search(r"(\w.+):  ?(\d+\.?\d+)", x)
+            m = re.search(r"(\w.+):  ?(\d+\.?\d*)", x)
             if not m:
                 continue
             name = m.group(1).split(' (ms')[0].replace(' ', '_')
+            if name in ['  port', ' port', '__port', '_port', 'port', 'Unknown type']:
+                continue
+            score = m.group(2)
+            if name == "Score":
+                name = "__total__"
+            if name not in test_names:
+                test_names.append(name)
+                tests.append({'name': name, 'time': score})
+                print(score + '   - ' + name)
+        # print(cmd)
+        return tests
+
+
+class WebXPRT4(Benchmark):
+    def __init__(self):
+        super(WebXPRT4, self).__init__('webxprt4', '', 'webxprt4')
+
+    def benchmark(self, shell, env, args):
+        kill_port = "for p in $(lsof -t -i:9225);do kill -9 $p; done ;"
+        run_shell = "/home/user/.nvm/versions/node/v8.1.2/bin/node run.js "
+        #url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/webxprt4/ "
+        url = "http://user-awfy.sh.intel.com:8080/awfy/ARCworkloads/webxprt/webxprt4/ "
+
+        cmd = kill_port + run_shell + url + shell
+        if args:
+            cmd += ' '+' '.join(args)
+        print(cmd)
+        output = utils.RunTimedCheckOutput(cmd, env=env, timeout=20 * 60)
+        tests = []
+        test_names = []
+        lines = output.splitlines()
+
+        for x in lines:
+            m = re.search(r"(\w.+):  ?(\d+\.?\d*)", x)
+            if not m:
+                continue
+            name = m.group(1).replace(' ', '_')
+            if name in ['  port', ' port', '__port', '_port', 'port', 'Unknown type']:
+                continue
+            score = m.group(2)
+            if name == "Score":
+                name = "__total__"
+            if name not in test_names:
+                test_names.append(name)
+                tests.append({'name': name, 'time': score})
+                print(score + '   - ' + name)
+        # print(cmd)
+        return tests
+
+    def win_benchmark(self, shell, env, args):
+        """FOR /F "usebackq tokens=2 skip=0" %i IN (`"tasklist | findstr chrome.exe"`) DO echo %i"""
+        kill_port = ""
+        run_shell = "node run.js "
+        #url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/webxprt4/ "
+        url = "http://user-awfy.sh.intel.com:8080/awfy/ARCworkloads/webxprt/webxprt4/ "
+
+        cmd = kill_port + run_shell + url + shell
+        if args:
+            cmd += ' '+' '.join(args)
+        print(cmd)
+        output = utils.WinRunTimedCheckOutput(cmd, env=env, timeout=20 * 60)
+        tests = []
+        test_names = []
+        lines = output.splitlines()
+
+        for x in lines:
+            m = re.search(r"(\w.+):  ?(\d+\.?\d*)", x)
+            if not m:
+                continue
+            name = m.group(1).replace(' ', '_')
             if name in ['  port', ' port', '__port', '_port', 'port', 'Unknown type']:
                 continue
             score = m.group(2)
@@ -1680,6 +1750,7 @@ Benchmarks = [
     Speedometer2(),
     JetStream2(),
     WebXPRT3(),
+    WebXPRT4(),
     WebTooling(),
     ARES6(),
     JetStream2D8(),
