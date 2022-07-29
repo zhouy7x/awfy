@@ -245,17 +245,21 @@ class V8Win64(Engine):
             env['AR'] = self.ar
 
         winRun(['git', 'log', '-1', '--pretty=short'], env)
+        self._build(env)
+        if not os.path.exists(self.shell()):
+            winRun(['rmdir', '/s', '/q', os.path.dirname(self.shell())], env)
+            self._build(env)
 
+    def _build(self, env):
         in_argns_name = "v8-" + self.cpu + ".gn"
         in_argns = os.path.join(utils.WORK_DIR, 'awfy', 'gn_file', in_argns_name)
         out_argns = os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu+".release", 'args.gn')
         if not os.path.isdir(os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu+".release")):
             winRun(["mkdir", "-p", os.path.join(self.sourcePath, 'out.gn', self.slaveMachine, self.cpu+".release")])
         winRun(['cp', in_argns, out_argns], env)
-
         out_dir = os.path.join(self.sourcePath, "out.gn", self.slaveMachine, self.cpu+".release")
         winRun(['gn', 'gen', out_dir], env)
-        winRun(['ninja', '-C', out_dir, 'd8', '-j40'])
+        winRun(['ninja', '-C', out_dir, 'd8', '-j40'], env)
 
     def shell(self):
         return os.path.join('out.gn', self.slaveMachine, self.cpu + ".release", 'd8.exe')

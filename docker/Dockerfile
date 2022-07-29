@@ -10,8 +10,8 @@ ENV NO_AUTH_BOTO_CONFIG /home/user/work/awfy/docker/.boto
 ENV WORKHOME /home/user/work/awfy/driver
 
 # install related packages
-RUN apt-get update && apt-get install -y vim rsync python python-pip python-mysqldb python-tornado git curl \
-    mysql-client-5.7 expect wget tzdata software-properties-common && python -m pip install subprocess32 && \
+RUN apt-get update && apt-get install -y vim rsync python python-pip python3-pip python-mysqldb python-tornado git curl \
+    mysql-client-5.7 expect wget tzdata software-properties-common sshpass && python -m pip install subprocess32 && \
     LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/apache2 && \
     apt-get update && apt-get install -y apache2 libapache2-mod-php5.6 php5.6 php5.6-gd php5.6-mysql php5.6-xsl
 

@@ -1683,6 +1683,64 @@ class Spec2k6(Benchmark):
         return tests
 
 
+# add WebXPRT4-D8 benchmark
+class WebXPRT4D8(Benchmark):
+    def __init__(self):
+        super(WebXPRT4D8, self).__init__('WebXPRT4D8', '', 'Webxprt4-cases-d8-port')
+
+    def benchmark(self, shell, env, args):
+        full_args = ['./d8_score.sh', shell]
+        if args:
+            full_args.extend(args)
+        print(os.getcwd())
+        output = utils.RunTimedCheckOutput(full_args, env=env)
+        tests = []
+        lines = output.splitlines()
+        # print('lines=', lines)
+        for x in lines:
+            m = re.search(r"(\w.+):  ?(\d+\.?\d*)", x)
+            if not m:
+                # print(x, 'is wrong!')
+                continue
+            name = m.group(1).lstrip()
+            name = name.replace(' ', '-')
+            if name in ['  port', 'Unknown type']:
+                continue
+            score = m.group(2)
+            if name[0:9] == "score":  # Geometric mean:  2.78 runs/sec
+                name = "__total__"
+                score = str(format(float(score), '.3f'))
+            tests.append({'name': name, 'time': score})
+            print(score + '     - ' + name)
+        return tests
+
+    def win_benchmark(self, shell, env, args):
+        full_args = ['powershell', '/c', './d8_score.ps1', shell]
+        if args:
+            full_args.extend(args)
+        print(os.getcwd())
+        output = utils.WinRunTimedCheckOutput(full_args, env=env)
+        tests = []
+        lines = output.splitlines()
+        # print('lines=', lines)
+        for x in lines:
+            m = re.search(r"(\w.+):  ?(\d+\.?\d*)", x)
+            if not m:
+                # print(x, 'is wrong!')
+                continue
+            name = m.group(1).lstrip()
+            name = name.replace(' ', '-')
+            if name in ['  port', 'Unknown type']:
+                continue
+            score = m.group(2)
+            if name[0:9] == "score":  # Geometric mean:  2.78 runs/sec
+                name = "__total__"
+                score = str(format(float(score), '.3f'))
+            tests.append({'name': name, 'time': score})
+            print(score + '     - ' + name)
+        return tests
+
+
 class D8Size(Benchmark):
     def __init__(self):
         super(D8Size, self).__init__('d8Size', '', '')
@@ -1754,6 +1812,7 @@ Benchmarks = [
     WebTooling(),
     ARES6(),
     JetStream2D8(),
+    WebXPRT4D8(),
     Polybench(),
     Spec2k6(),
     # Unity3D(),

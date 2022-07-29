@@ -100,7 +100,7 @@
         "repos": "/home/user/work/repos/v8/base",
         "hostname": "user@apl-nuc.sh.intel.com",
         "driver": "/home/user/work/awfy/driver",
-        "includes": "octane,WebTooling,Jetstream2D8,d8Size,binSize",
+        "includes": "octane,WebTooling,Jetstream2D8,WebXPRT4D8,d8Size,binSize",
         "machine": "8",
         "benchmarks": "/home/user/work/awfy/benchmarks"
       },
@@ -137,7 +137,7 @@
         "repos": "/usr/local/awfy/repos/v8/base",
         "hostname": "root@awfy-chromebook-turbofan.sh.intel.com",
         "driver": "/usr/local/awfy/driver",
-        "includes": "octane,WebTooling,Jetstream2D8,d8Size,binSize",
+        "includes": "octane,WebTooling,Jetstream2D8,WebXPRT4D8,d8Size,binSize",
         "machine": "6",
         "benchmarks": "/usr/local/awfy/benchmarks"
       },
@@ -291,7 +291,7 @@
         "repos": "c:\\work\\repos\\win64-v8\\x64",
         "hostname": "test@3900x-win64.sh.intel.com",
         "driver": "c:\\work\\awfy\\driver",
-        "includes": "octane,WebTooling,Jetstream2D8",
+        "includes": "octane,WebTooling,Jetstream2D8,WebXPRT4D8",
         "machine": "22",
         "benchmarks": "c:\\work\\awfy\\benchmarks"
       },
@@ -340,7 +340,7 @@
         "repos": "c:\\work\\repos\\win64-v8\\x64",
         "hostname": "test@9900k-win64.sh.intel.com",
         "driver": "c:\\work\\awfy\\driver",
-        "includes": "octane,WebTooling,Jetstream2D8",
+        "includes": "octane,WebTooling,Jetstream2D8,WebXPRT4D8",
         "machine": "21",
         "benchmarks": "c:\\work\\awfy\\benchmarks"
       },
@@ -483,7 +483,7 @@
         "repos": "/home/user/work/repos/v8/x64",
         "hostname": "test@jstc-8700k.sh.intel.com",
         "driver": "/home/user/work/awfy/driver",
-        "includes": "octane,WebTooling,Jetstream2D8",
+        "includes": "octane,WebTooling,Jetstream2D8,WebXPRT4D8",
         "machine": "18",
         "benchmarks": "/home/user/work/awfy/benchmarks"
       },
@@ -526,7 +526,7 @@
         "repos": "/home/user/work/repos/v8/x64",
         "hostname": "test@jstc-3800x.sh.intel.com",
         "driver": "/home/user/work/awfy/driver",
-        "includes": "octane,WebTooling,Jetstream2D8",
+        "includes": "octane,WebTooling,Jetstream2D8,WebXPRT4D8",
         "machine": "17",
         "benchmarks": "/home/user/work/awfy/benchmarks"
       },
