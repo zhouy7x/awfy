@@ -184,8 +184,8 @@
       },
       "headless": {},
       "build": {
-        "repos": "d:\\awfy",
-        "hostname": "awfy@win-server.sh.intel.com",
+        "repos": "E:\\workspace\\zy",
+        "hostname": "test@shwde6680.ccr.corp.intel.com",
         "driver": "c:\\work\\awfy\\driver",
         "name": "win-server"
       },
@@ -199,7 +199,7 @@
         "cpu": "x64",
         "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php/",
         "machine": "0",
-        "host": "win-server.sh.intel.com",
+        "host": "shwde6680.ccr.corp.intel.com",
         "port": "8781",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "target_os": "win64",
@@ -248,8 +248,8 @@
       },
       "headless": {},
       "build": {
-        "repos": "d:\\awfy",
-        "hostname": "awfy@win-server.sh.intel.com",
+        "repos": "E:\\workspace\\zy",
+        "hostname": "test@shwde6680.ccr.corp.intel.com",
         "driver": "c:\\work\\awfy\\driver",
         "name": "win-server"
       },
@@ -263,7 +263,7 @@
         "cpu": "x64",
         "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php/",
         "machine": "0",
-        "host": "win-server.sh.intel.com",
+        "host": "shwde6680.ccr.corp.intel.com",
         "port": "8781",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "target_os": "win64",
@@ -296,8 +296,8 @@
         "benchmarks": "c:\\work\\awfy\\benchmarks"
       },
       "build": {
-        "repos": "d:\\awfy\\v8",
-        "hostname": "awfy@win-server.sh.intel.com",
+        "repos": "E:\\workspace\\zy\\v8",
+        "hostname": "test@shwde6680.ccr.corp.intel.com",
         "driver": "c:\\work\\awfy\\driver",
         "name": "win-server"
       },
@@ -314,7 +314,7 @@
         "cpu": "x64",
         "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php",
         "machine": "0",
-        "host": "win-server.sh.intel.com",
+        "host": "shwde6680.ccr.corp.intel.com",
         "port": "8781",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "target_os": "win64",
@@ -350,8 +350,8 @@
       },
       "name": "v8-intel-9900k-x64",
       "build": {
-        "repos": "d:\\awfy\\v8",
-        "hostname": "awfy@win-server.sh.intel.com",
+        "repos": "E:\\workspace\\zy\\v8",
+        "hostname": "test@shwde6680.ccr.corp.intel.com",
         "driver": "c:\\work\\awfy\\driver",
         "name": "win-server"
       },
@@ -368,7 +368,7 @@
         "cpu": "x64",
         "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php",
         "machine": "0",
-        "host": "win-server.sh.intel.com",
+        "host": "shwde6680.ccr.corp.intel.com",
         "port": "8781",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "target_os": "win64",
