@@ -3,18 +3,28 @@
 	url = https://github.com/bmeurer/ARES-6.git
 [submodule "benchmarks/jetstream2-d8"]
 	path = benchmarks/jetstream2-d8
-	url = https://gitlab.devtools.intel.com/web-technology-optimization/jetstream2-jstc
-[submodule "benchmarks/polybench"]
-	path = benchmarks/polybench
-	url = http://gitlab.devtools.intel.com/jingbao/polybench
-[submodule "benchmarks/speck2k6-jstc-runtime"]
-	path = benchmarks/speck2k6-jstc-runtime
-	url = http://gitlab.devtools.intel.com/zhiguozh/speck2k6-jstc-runtime
+	url = https://github.com/intel-sandbox/jetstream2-d8.git
 [submodule "webxprt3"]
 	path = website/ARCworkloads/webxprt3
-	url = https://gitlab.devtools.intel.com/web-technology-optimization/webxprt3-wro
+	url = https://github.com/intel-sandbox/webxprt3-wot.git
 	branch = jstc
-[submodule "webxprt3-headless"]
+[submodule "headless-jetstream2"]
+	path = benchmarks/jetstream2
+	url = https://github.com/intel-sandbox/jetstream2-wot.git
+	branch = headless
+[submodule "headless-webxprt4"]
+	path = benchmarks/webxprt4
+	url = https://github.com/intel-sandbox/webxprt4.git
+	branch = headless
+[submodule "webxprt4-d8"]
+	path = benchmarks/Webxprt4-cases-d8-port
+	url = https://github.com/intel-sandbox/Webxprt4-cases-d8-port.git
+	branch = awfy
+[submodule "headless-webxprt3"]
 	path = benchmarks/webxprt3
-	url = https://gitlab.devtools.intel.com/web-technology-optimization/webxprt3-wro
+	url = https://github.com/intel-sandbox/webxprt3-wot.git
 	branch = jstc-headless
+[submodule "headless-speedometer2"]
+	path = benchmarks/speedometer
+	url = https://github.com/intel-sandbox/speedometer2-wot.git
+	branch = headless
