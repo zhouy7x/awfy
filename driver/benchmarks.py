@@ -1001,14 +1001,14 @@ class Speedometer1(Benchmark):
 class Speedometer2(Benchmark):
     def __init__(self):
         super(Speedometer2, self).__init__('speedometer2', '', 'speedometer')
+        self.url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/Speedometer2-226694-jstc/ "
 
     def benchmark(self, shell, env, args):
         kill_port = "for p in $(lsof -t -i:9222);do kill -9 $p; done ;"
         run_shell = "/home/user/.nvm/versions/node/v8.1.2/bin/node run.js "
-        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/Speedometer2-226694-jstc/ "
         print(os.getcwd())
 
-        cmd = kill_port + run_shell + url + shell
+        cmd = kill_port + run_shell + self.url + shell
         if args:
             cmd += ' '+' '.join(args)
         print(cmd)
@@ -1037,10 +1037,9 @@ class Speedometer2(Benchmark):
     def win_benchmark(self, shell, env, args):
         kill_port = ""
         run_shell = "node run.js "
-        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/Speedometer2-226694-jstc/ "
         print(os.getcwd())
 
-        cmd = kill_port + run_shell + url + shell
+        cmd = kill_port + run_shell + self.url + shell
         if args:
             cmd += ' '+' '.join(args)
         print(cmd)
@@ -1067,16 +1066,23 @@ class Speedometer2(Benchmark):
         return tests
 
 
+# Upgrade speedometer2 to speedometer2.1
+class Speedometer21(Speedometer2):
+    def __init__(self):
+        Benchmark.__init__(self, 'speedometer21', '', 'speedometer')
+        self.url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/Speedometer2.1/ "
+
+
 class JetStream2(Benchmark):
     def __init__(self):
         super(JetStream2, self).__init__('jetstream2', '', 'jetstream2')
+        self.url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/JetStream2-JSTC/ "
 
     def benchmark(self, shell, env, args):
         kill_port = "for p in $(lsof -t -i:9223);do kill -9 $p; done ;"
         run_shell = "/home/user/.nvm/versions/node/v8.1.2/bin/node run.js "
-        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/JetStream2-JSTC/ "
 
-        cmd = kill_port + run_shell + url + shell
+        cmd = kill_port + run_shell + self.url + shell
         if args:
             cmd += ' '+' '.join(args)
         print(cmd)
@@ -1106,9 +1112,8 @@ class JetStream2(Benchmark):
         # TODO: kill_port command
         kill_port = ""
         run_shell = "node run.js "
-        url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/JetStream2-JSTC/ "
 
-        cmd = kill_port + run_shell + url + shell
+        cmd = kill_port + run_shell + self.url + shell
         if args:
             cmd += ' '+' '.join(args)
         print(cmd)
@@ -1133,6 +1138,13 @@ class JetStream2(Benchmark):
                 print(score + '   - ' + name)
         # print(cmd)
         return tests
+
+
+# Upgrade jetstream2 to jetstream2.1
+class JetStream21(JetStream2):
+    def __init__(self):
+        Benchmark.__init__(self, 'jetstream21', '', 'jetstream2')
+        self.url = "http://ssgs5-test.sh.intel.com:8000/ARCworkloads/JetStream2.1/ "
 
 
 class WebXPRT3(Benchmark):
@@ -1806,7 +1818,9 @@ Benchmarks = [
     # Speedometer1(),
     Octane(),
     Speedometer2(),
+    Speedometer21(),
     JetStream2(),
+    JetStream21(),
     WebXPRT3(),
     WebXPRT4(),
     WebTooling(),

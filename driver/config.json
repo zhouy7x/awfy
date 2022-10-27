@@ -12,7 +12,7 @@
         "repos": "/home/user/work/repos/chrome/arm",
         "hostname": "user@elm-arm-a53.sh.intel.com",
         "driver": "/home/user/work/awfy/driver",
-        "includes": "speedometer2,jetstream2,webxprt4",
+        "includes": "speedometer2,jetstream2,speedometer21,jetstream21,webxprt4",
         "machine": "23",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "cpu": "arm64"
@@ -212,7 +212,7 @@
         "repos": "c:\\work\\repos\\win64-chrome\\x64",
         "hostname": "test@3900x-win64.sh.intel.com",
         "driver": "c:\\work\\awfy\\driver",
-        "includes": "speedometer2,jetstream2,webxprt4",
+        "includes": "speedometer2,jetstream2,speedometer21,jetstream21,webxprt4",
         "machine": "22",
         "benchmarks": "c:\\work\\awfy\\benchmarks",
         "cpu": "x64"
@@ -237,7 +237,7 @@
         "repos": "c:\\work\\repos\\win64-chrome\\x64",
         "hostname": "test@9900k-win64.sh.intel.com",
         "driver": "c:\\work\\awfy\\driver",
-        "includes": "speedometer2,jetstream2,webxprt4",
+        "includes": "speedometer2,jetstream2,speedometer21,jetstream21,webxprt4",
         "machine": "21",
         "benchmarks": "c:\\work\\awfy\\benchmarks",
         "cpu": "x64"
@@ -399,7 +399,7 @@
         "repos": "/home/user/work/repos/chrome/x64",
         "hostname": "test@jstc-3800x.sh.intel.com",
         "driver": "/home/user/work/awfy/driver",
-        "includes": "speedometer2,jetstream2,webxprt4,Unity3D-2018",
+        "includes": "speedometer2,jetstream2,speedometer21,jetstream21,webxprt4,Unity3D-2018",
         "machine": "17",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "cpu": "x64"
@@ -443,7 +443,7 @@
         "repos": "/home/user/work/repos/chrome/x64",
         "hostname": "test@jstc-8700k.sh.intel.com",
         "driver": "/home/user/work/awfy/driver",
-        "includes": "speedometer2,jetstream2,webxprt4,Unity3D-2018",
+        "includes": "speedometer2,jetstream2,speedometer21,jetstream21,webxprt4,Unity3D-2018",
         "machine": "18",
         "benchmarks": "/home/user/work/awfy/benchmarks",
         "cpu": "x64"
