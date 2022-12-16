@@ -11,9 +11,11 @@ import utils
 
 Benchmarks = {
     'speedometer2': benchmarks.Speedometer2(),
+    'speedometer21': benchmarks.Speedometer21(),
     'webxprt3': benchmarks.WebXPRT3(),
     'webxprt4': benchmarks.WebXPRT4(),
     'jetstream2': benchmarks.JetStream2(),
+    'jetstream21': benchmarks.JetStream21(),
 }
 
 
