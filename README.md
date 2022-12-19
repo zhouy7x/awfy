@@ -133,8 +133,9 @@ exit
 
 Download submodule and repos, install dependence
 -----------------------------------------------
-* exit to awfy docker
+* step in awfy docker
 ```text
+    docker exec -it awfy /bin/bash
     cd /home/user/work/awfy
     git pull
     git submodule update --init --recursive
@@ -152,6 +153,10 @@ Download submodule and repos, install dependence
 
 Format of config.json
 -----------
+```
+cd /home/user/work/awfy/driver/
+```
+Edit ./config.json
 ```json
 {
   "DEVICE_TYPE1": [
