@@ -119,7 +119,7 @@ do
 
                 # python dostuff_v8.py --config=client/v8/hsw-nuc-x64$string.config --config2=client/v8/hsw-nuc-x86.config --config3=client/v8/hsw-nuc-x64-patch.config $id &
                 # python dostuff_v8.py --config=client/v8/hsw-nuc-x64$string.config --config2=client/v8/hsw-nuc-x86.config $id &
-                python dostuff_v8.py --config=v8-chromeos-arm$string $id &
+                # python dostuff_v8.py --config=v8-chromeos-arm$string $id &
                 # python dostuff_v8.py --config=client/v8/apl-nuc-x64$string.config --config2=client/v8/apl-nuc-x64-patch.config $id &
                 python dostuff_v8.py --config=v8-apl-nuc-x64$string $id &
 

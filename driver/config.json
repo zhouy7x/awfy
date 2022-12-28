@@ -129,45 +129,6 @@
         "options": "-O2",
         "mode": "gcc"
       }
-    },
-    {
-      "name": "v8-chromeos-arm",
-      "arm-chromeos": {
-        "python": "python",
-        "repos": "/usr/local/awfy/repos/v8/base",
-        "hostname": "root@awfy-chromebook-turbofan.sh.intel.com",
-        "driver": "/usr/local/awfy/driver",
-        "includes": "octane,WebTooling,Jetstream2D8,WebXPRT4D8,d8Size,binSize",
-        "machine": "6",
-        "benchmarks": "/usr/local/awfy/benchmarks"
-      },
-      "v8-turbofan-arm-future": {
-        "arg1": "--future"
-      },
-      "v8-turbofan-arm": {},
-      "v8": {
-        "source": "v8"
-      },
-      "v8-default-arm": {
-        "arg1": "--no-turbo"
-      },
-      "main": {
-        "slaves": "arm-chromeos",
-        "repos": "/home/user/work/repos/v8/base",
-        "updateURL": "http://ssgs5-test.sh.intel.com:8000/UPDATE.php",
-        "machine": "0",
-        "flags": "hardfp",
-        "benchmarks": "/home/user/work/awfy/benchmarks",
-        "cpu": "arm",
-        "modes": "v8-turbofan-arm,v8-turbofan-arm-future",
-        "source": "v8"
-      },
-      "native": {
-        "cc": "gcc",
-        "cxx": "g++",
-        "options": "-O2",
-        "mode": "gcc"
-      }
     }
   ],
   "win64": [
